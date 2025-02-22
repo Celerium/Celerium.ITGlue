@@ -1,6 +1,6 @@
 <h1 align="center">
   <br>
-  <a href="https://ITGlue.com"><img src="https://github.com/Celerium/Celerium.ITGlue/blob/master/.github/images/PoSHGallery_Celerium.ITGlue.png" alt="Celerium.ITGlue" width="200"></a>
+  <a href="https://ITGlue.com"><img src="https://raw.githubusercontent.com/Celerium/Celerium.ITGlue/refs/heads/main/.github/images/PoSHGallery_Celerium.ITGlue.png" alt="Celerium.ITGlue" width="200"></a>
   <br>
   Celerium.ITGlue
   <br>
@@ -27,7 +27,7 @@
 <br />
 <div align="center">
   <a href="https://itglue.com">
-    <img src="https://github.com/Celerium/Celerium.ITGlue/blob/master/.github/images/PoSHGitHub_Celerium.ITGlue.png" alt="Logo">
+    <img src="https://raw.githubusercontent.com/Celerium/Celerium.ITGlue/refs/heads/main/.github/images/PoSHGitHub_Celerium.ITGlue.png" alt="Logo">
   </a>
 
   <p align="center">
@@ -187,8 +187,8 @@ Distributed under the Apache-2.0 license. See [LICENSE](https://github.com/Celer
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
 
-[Az_Pipeline-shield]:               https://img.shields.io/azure-devops/build/AzCelerium/Celerium.ITGlue/10?style=for-the-badge&label=DevOps_Build
-[Az_Pipeline-url]:                  https://dev.azure.com/AzCelerium/Celerium.ITGlue/_build?definitionId=10
+[Az_Pipeline-shield]:               https://img.shields.io/azure-devops/build/AzCelerium/Celerium.ITGlue/12?style=for-the-badge&label=DevOps_Build
+[Az_Pipeline-url]:                  https://dev.azure.com/AzCelerium/Celerium.ITGlue/_build?definitionId=12
 
 [GitHub_Pages-shield]:              https://img.shields.io/github/actions/workflow/status/celerium/Celerium.ITGlue/pages%2Fpages-build-deployment?style=for-the-badge&label=GitHub%20Pages
 [GitHub_Pages-url]:                 https://github.com/Celerium/Celerium.ITGlue/actions/workflows/pages/pages-build-deployment
