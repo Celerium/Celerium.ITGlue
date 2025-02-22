@@ -1,0 +1,40 @@
+name: 📝 Documentation Request
+description: Suggest extra documentation for this project
+title: "[Documentation Request]: "
+labels: ["type: documentation"]
+assignees:
+  - Celerium
+body:
+  - type: checkboxes
+    id: ReadME
+    attributes:
+      label: Project README
+      description: "[Project README](https://github.com/Celerium/Celerium.ITGlue/blob/master/README.md)"
+      options:
+        - label: "Have you read the projects README?"
+  - type: checkboxes
+    id: WebDocumentation
+    attributes:
+      label: Online Documentation
+      description: "[Online Documentation](https://Celerium.github.io/Celerium.ITGlue/)"
+      options:
+        - label: "Have you read the online documentation"
+  - type: checkboxes
+    id: PowerShellHelp
+    attributes:
+      label: PowerShell Help
+      description: "Get-Help Get-ITGlue<RESOURCES-NAME> -Full"
+      options:
+        - label: "Have you read the help output?"
+  - type: textarea
+    id: DocumentationRequest
+    attributes:
+      label: Documentation Request
+      description: What would you like to see more documentation around?
+      render: Text
+  - type: textarea
+    id: ExistingIssue
+    attributes:
+      label: Existing Issue?
+      description: Is this related to an existing issue? If so please describe or link.
+      value: "Issue: #12345"

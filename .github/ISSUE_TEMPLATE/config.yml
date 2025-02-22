@@ -1,0 +1,8 @@
+blank_issues_enabled: true
+contact_links:
+  - name: Project Documentation
+    url: https://celerium.github.io/Celerium.ITGlue/
+    about: Read through the generated documentation
+  - name: Vendor Documentation
+    url: https://api.itglue.com/developer
+    about: Read through the vendors documentation
