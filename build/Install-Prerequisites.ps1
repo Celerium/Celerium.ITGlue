@@ -121,7 +121,14 @@ if ($valid_Modules) {
         if ( [bool](Get-InstalledModule -Name $module.Name -ErrorAction SilentlyContinue) -eq $false ) {
 
             Write-Verbose " -       - $(Get-Date -Format MM-dd-HH:mm) - Installing [ $($module.Name) | $($module.Version) ]"
-            Install-Module -Name $module.Name -Force
+
+            #Temp fix for ModuleBuilder
+            if ($module.Name -eq 'ModuleBuilder') {
+                Install-Module -Name $module.Name -RequiredVersion 3.1.0
+            }
+            else{
+                Install-Module -Name $module.Name -Force
+            }
 
         }
         else{

@@ -10,7 +10,7 @@ nav_order: 1
 ---
 <h1 align="center">
   <br>
-  <a href="https://ITGlue.com"><img src="https://github.com/Celerium/Celerium.ITGlue/blob/master/.github/images/PoSHGallery_Celerium.ITGlue.png" alt="Celerium.ITGlue" width="200"></a>
+  <a href="https://ITGlue.com"><img src="https://raw.githubusercontent.com/Celerium/Celerium.ITGlue/refs/heads/main/.github/images/PoSHGallery_Celerium.ITGlue.png" alt="Celerium.ITGlue" width="200"></a>
   <br>
   Celerium.ITGlue
   <br>
@@ -31,38 +31,13 @@ nav_order: 1
 
 [![GitHub_License][GitHub_License-shield]][GitHub_License-url]
 
----
-
-## :warning: Version 3.0 Refactor &  Breaking Changes :warning:
-
-The Celerium.ITGlue module is being updated to version 3.0, which has been extensively overhauled and may contain various breaking changes. Backwards compatibility was incorporated into as many of the previous commands and their associated parameters in the form of alias.
-
-For example, one might access the /passwords/ API endpoint by running the following PowerShell command with the appropriate parameters:
-
-- `Get-ITGluePasswords` is now an **alias** of the `Get-ITGluePassword` command
-- `organization_id` is now an **alias** of the `OrganizationID` command
-
-```posh
-Get-ITGlueUsers `Alias`
-is now
-Get-ITGlueUser
-```
-
-```posh
-Get-ITGluePasswords -organization_id 8675309 `Alias`
-is now
-Get-ITGluePassword -OrganizationID 8675309
-```
-
----
-
 <a name="readme-top"></a>
 
 <!-- PROJECT LOGO -->
 <br />
 <div align="center">
   <a href="https://itglue.com">
-    <img src="https://github.com/Celerium/Celerium.ITGlue/blob/master/.github/images/PoSHGitHub_Celerium.ITGlue.png" alt="Logo">
+    <img src="https://raw.githubusercontent.com/Celerium/Celerium.ITGlue/refs/heads/main/.github/images/PoSHGitHub_Celerium.ITGlue.png" alt="Logo">
   </a>
 
   <p align="center">
@@ -75,33 +50,6 @@ Get-ITGluePassword -OrganizationID 8675309
 </div>
 
 ---
-
-<!-- TABLE OF CONTENTS
-<details>
-  <summary>Table of Contents</summary>
-  <ol>
-    <li>
-      <a href="#about-the-project">About The Project</a>
-      <ul>
-        <li><a href="#built-with">Built With</a></li>
-      </ul>
-    </li>
-    <li>
-      <a href="#getting-started">Getting Started</a>
-      <ul>
-        <li><a href="#prerequisites">Prerequisites</a></li>
-        <li><a href="#installation">Installation</a></li>
-      </ul>
-    </li>
-    <li><a href="#usage">Usage</a></li>
-    <li><a href="#roadmap">Roadmap</a></li>
-    <li><a href="#contributing">Contributing</a></li>
-    <li><a href="#license">License</a></li>
-    <li><a href="#contact">Contact</a></li>
-    <li><a href="#acknowledgments">Acknowledgments</a></li>
-  </ol>
-</details>
--->
 
 ## About The Project
 
@@ -240,7 +188,7 @@ See the [CONTRIBUTING](https://github.com/Celerium/Celerium.ITGlue/blob/master/.
 
 ## License
 
-Distributed under the Apache-2.0 license. See [`LICENSE`](https://github.com/Celerium/Celerium.ITGlue/blob/master/LICENSE) for more information.
+Distributed under the Apache-2.0 license. See [LICENSE](https://github.com/Celerium/Celerium.ITGlue/blob/master/LICENSE) for more information.
 
 [![GitHub_License][GitHub_License-shield]][GitHub_License-url]
 
@@ -249,8 +197,8 @@ Distributed under the Apache-2.0 license. See [`LICENSE`](https://github.com/Cel
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
 
-[Az_Pipeline-shield]:               https://img.shields.io/azure-devops/build/AzCelerium/Celerium.ITGlue/10?style=for-the-badge&label=DevOps_Build
-[Az_Pipeline-url]:                  https://dev.azure.com/AzCelerium/Celerium.ITGlue/_build?definitionId=10
+[Az_Pipeline-shield]:               https://img.shields.io/azure-devops/build/AzCelerium/Celerium.ITGlue/12?style=for-the-badge&label=DevOps_Build
+[Az_Pipeline-url]:                  https://dev.azure.com/AzCelerium/Celerium.ITGlue/_build?definitionId=12
 
 [GitHub_Pages-shield]:              https://img.shields.io/github/actions/workflow/status/celerium/Celerium.ITGlue/pages%2Fpages-build-deployment?style=for-the-badge&label=GitHub%20Pages
 [GitHub_Pages-url]:                 https://github.com/Celerium/Celerium.ITGlue/actions/workflows/pages/pages-build-deployment
