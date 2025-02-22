@@ -124,7 +124,7 @@ if ($valid_Modules) {
 
             #Temp fix for ModuleBuilder
             if ($module.Name -eq 'ModuleBuilder') {
-                Install-Module -Name $module.Name -RequiredVersion 3.1.0
+                Install-Module -Name $module.Name -RequiredVersion 3.1.0 -Force
             }
             else{
                 Install-Module -Name $module.Name -Force
