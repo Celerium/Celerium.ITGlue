@@ -152,9 +152,7 @@ $TemplatePages = 'DELETE.md', 'GET.md', 'index.md', 'PATCH.md', 'POST.md', 'PUT.
 
 Try{
 
-    Write-Verbose "TEST - Getting platyPS module"
     if (Get-InstalledModule -Name platyPS -ErrorAction SilentlyContinue -Verbose:$false 4>$null) {
-        Write-Verbose "TEST - Importing platyPS module after Get-InstalledModule"
         Import-Module -Name platyPS -Verbose:$false
     }
     else{
@@ -172,8 +170,10 @@ Try{
     $modulePath = Join-Path -Path $rootPath -ChildPath $moduleName
     $modulePsd1 = Join-Path -Path $modulePath -ChildPath "$moduleName.psd1"
 
+    Write-Verbose "TEST - Module is located at [ $modulePsd1 ]"
+
         if (Test-Path -Path $modulePsd1 ) {
-            Import-Module -Name $modulePsd1 -Force -Verbose:$false
+            Import-Module -Name $modulePsd1 -Force #-Verbose:$false
             $Commands = Get-Command -Module $moduleName -ErrorAction Stop | Where-Object {$_.CommandType -eq 'Function'} | Sort-Object Name
         }
         else{
