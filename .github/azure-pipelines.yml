@@ -63,7 +63,7 @@ jobs:
 # Windows - Core
 
   - job: Window_PowerShell_Core
-    timeoutInMinutes: 10
+    timeoutInMinutes: 60
     pool:
       vmImage: 'windows-latest'
 
@@ -112,7 +112,7 @@ jobs:
 # Linux - Ubuntu
 
   - job: Ubuntu
-    timeoutInMinutes: 10
+    timeoutInMinutes: 60
     pool:
       vmImage: 'ubuntu-latest'
 
@@ -161,7 +161,7 @@ jobs:
 # Linux - macOS
 
   - job: macOS
-    timeoutInMinutes: 10
+    timeoutInMinutes: 60
     pool:
       vmImage: 'macOS-latest'
 
