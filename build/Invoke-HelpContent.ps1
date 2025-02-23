@@ -2,7 +2,7 @@
 .NOTES
     Copyright 1990-2024 Celerium
 
-    NAME: Invoke-helpContent.ps1
+    NAME: Invoke-HelpContent.ps1
     Type: PowerShell
 
         AUTHOR:  David Schulte
@@ -13,10 +13,10 @@
     TODO:
 
 .SYNOPSIS
-    Calls the Update-helpContent function to update module markdown help files
+    Calls the Update-HelpContent function to update module markdown help files
 
 .DESCRIPTION
-    The Invoke-helpContent script calls the Update-helpContent function to
+    The Invoke-HelpContent script calls the Update-HelpContent function to
     update module markdown help files
 
 .PARAMETER moduleName
@@ -26,7 +26,7 @@
     The github project url to inject into help docs
 
 .EXAMPLE
-    .\Invoke-helpContent.ps1
+    .\Invoke-HelpContent.ps1
         -moduleName Celerium.ITGlue
         -helpDocsPath "C:\Celerium\Projects\Celerium.ITGlue\docs"
         -csvFilePath "C:\Celerium\Projects\Celerium.ITGlue\docs\Endpoints.csv"
@@ -99,7 +99,7 @@ try {
         verbose         = $true
     }
 
-    Update-helpContent @parameters
+    Update-HelpContent @parameters
 
 }
 catch {

@@ -1,9 +1,9 @@
-function Update-helpContent {
+function Update-HelpContent {
 <#
 .NOTES
     Copyright 1990-2024 Celerium
 
-    NAME: Update-helpContent.ps1
+    NAME: Update-HelpContent.ps1
     Type: PowerShell
 
         AUTHOR:  David Schulte
@@ -20,7 +20,7 @@ function Update-helpContent {
     Updates or creates markdown help files
 
 .DESCRIPTION
-    The Update-helpContent script updates or creates markdown help files which are
+    The Update-HelpContent script updates or creates markdown help files which are
     used by both Github pages and as external help.
 
     The markdown documents created contain metadata that GitHub pages directly use
@@ -63,7 +63,7 @@ function Update-helpContent {
     Opens the directory with the HelpDocs when completed
 
 .EXAMPLE
-    .\Update-helpContent.ps1
+    .\Update-HelpContent.ps1
         -moduleName Celerium.ITGlue
         -helpDocsPath "C:\Celerium\Projects\Celerium.ITGlue\docs"
         -csvFilePath "C:\Celerium\Projects\Celerium.ITGlue\docs\Endpoints.csv"
@@ -74,7 +74,7 @@ function Update-helpContent {
     No progress information is sent to the console while the script is running.
 
 .EXAMPLE
-    .\Update-helpContent.ps1
+    .\Update-HelpContent.ps1
         -moduleName Celerium.ITGlue
         -helpDocsPath "C:\Celerium\Projects\Celerium.ITGlue\docs"
         -csvFilePath "C:\Celerium\Projects\Celerium.ITGlue\docs\Endpoints.csv"
