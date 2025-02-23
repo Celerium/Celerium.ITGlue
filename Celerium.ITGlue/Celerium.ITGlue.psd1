@@ -73,7 +73,7 @@
                     'Private/ApiCalls/Invoke-ITGlueRequest.ps1',
                     'Private/ApiKeys/Add-ITGlueAPIKey.ps1',
                     'Private/ApiKeys/Get-ITGlueAPIKey.ps1',
-                    'Private/ApiKeys/New-ITGlueAesSecret.ps1',
+                    'Private/ApiKeys/New-ITGlueAESSecret.ps1',
                     'Private/ApiKeys/Remove-ITGlueAPIKey.ps1',
                     'Private/ApiKeys/Test-ITGlueAPIKey.ps1',
                     'Private/BaseUri/Add-ITGlueBaseURI.ps1',
