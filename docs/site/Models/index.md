@@ -12,6 +12,7 @@ Some functions will handle more than one endpoint and the numbers below show the
 |------------|---------------------|
 | DELETE     | 0       |
 | GET        | 4          |
+| PATCH      | 3        |
 | POST       | 2         |
 | PUT        | 0          |
 

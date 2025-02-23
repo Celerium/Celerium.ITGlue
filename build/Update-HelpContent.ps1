@@ -148,7 +148,7 @@ $externalHelpCab    = Join-Path -Path $helpDocsPath -ChildPath "cab"
 
 $docFolders = $helpDocsPath,$tempFolder,$siteStructureFolder,$externalHelp,$externalHelpCab
 
-$TemplatePages = 'DELETE.md', 'GET.md', 'index.md', 'POST.md', 'PUT.md'
+$TemplatePages = 'DELETE.md', 'GET.md', 'index.md', 'PATCH.md', 'POST.md', 'PUT.md'
 
 Try{
 
@@ -321,6 +321,7 @@ Some functions will handle more than one endpoint and the numbers below show the
 |------------|---------------------|
 | DELETE     | xdeleteCountx       |
 | GET        | xgetCountx          |
+| PATCH      | xpatchCountx        |
 | POST       | xpostCountx         |
 | PUT        | xputCountx          |
 
@@ -342,7 +343,7 @@ Have a look around and if you would like to contribute please read over the [Con
 
         if( $Template -eq 'index.md' ) {
 
-            $Counts = 'xdeleteCountx', 'xgetCountx', 'xpostCountx', 'xputCountx'
+            $Counts = 'xdeleteCountx', 'xgetCountx', 'xpatchCountx', 'xpostCountx', 'xputCountx'
             ForEach ($Count in $Counts) {
 
                 $content = Get-Content -Path $template_Path
@@ -350,6 +351,7 @@ Have a look around and if you would like to contribute please read over the [Con
                 Switch($Count) {
                     'xdeleteCountx' { $countValue = ($CSV | Where-Object {$_.Method -eq 'Delete' -and $_.Category -eq $Category} | Measure-Object).count }
                     'xgetCountx'    { $countValue = ($CSV | Where-Object {$_.Method -eq 'Get' -and $_.Category -eq $Category} | Measure-Object).count }
+                    'xpatchCountx'  { $countValue = ($CSV | Where-Object {$_.Method -eq 'Patch' -and $_.Category -eq $Category} | Measure-Object).count }
                     'xpostCountx'   { $countValue = ($CSV | Where-Object {$_.Method -eq 'Post' -and $_.Category -eq $Category} | Measure-Object).count }
                     'xputCountx'    { $countValue = ($CSV | Where-Object {$_.Method -eq 'Put' -and $_.Category -eq $Category} | Measure-Object).count }
                 }

@@ -128,7 +128,7 @@ if ($valid_Modules) {
                 Install-Module -Name $module.Name -RequiredVersion 3.1.0 -Force -Verbose
             }
             else{
-                Install-Module -Name $module.Name -Force -Verbose
+                Install-Module -Name $module.Name -Force
             }
 
         }

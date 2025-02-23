@@ -89,7 +89,7 @@ try {
         $rootPath = "$( $PSCommandPath.Substring(0, $PSCommandPath.IndexOf('/build', [System.StringComparison]::OrdinalIgnoreCase)) )"
     }
 
-    Import-Module $( Join-Path -Path $rootPath -ChildPath 'build\Update-helpContent.ps1' ) -Force -Verbose:$false
+    Import-Module $( Join-Path -Path $rootPath -ChildPath 'build\Update-HelpContent.ps1' ) -Force -Verbose:$false
 
     $parameters = @{
         moduleName      = $moduleName
