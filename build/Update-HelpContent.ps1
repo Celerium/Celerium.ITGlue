@@ -152,8 +152,9 @@ $TemplatePages = 'DELETE.md', 'GET.md', 'index.md', 'PATCH.md', 'POST.md', 'PUT.
 
 Try{
 
-    Write-Verbose "Getting platyPS module"
+    Write-Verbose "TEST - Getting platyPS module"
     if (Get-InstalledModule -Name platyPS -ErrorAction SilentlyContinue -Verbose:$false 4>$null) {
+        Write-Verbose "TEST - Importing platyPS module after Get-InstalledModule"
         Import-Module -Name platyPS -Verbose:$false
     }
     else{
@@ -167,6 +168,7 @@ Try{
         $rootPath = "$( $PSCommandPath.Substring(0, $PSCommandPath.IndexOf('/build', [System.StringComparison]::OrdinalIgnoreCase)) )"
     }
 
+    Write-Verbose "TEST - Importing [ $moduleName ]"
     $modulePath = Join-Path -Path $rootPath -ChildPath $moduleName
     $modulePsd1 = Join-Path -Path $modulePath -ChildPath "$moduleName.psd1"
 
