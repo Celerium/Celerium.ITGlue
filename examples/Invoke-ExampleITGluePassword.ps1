@@ -166,7 +166,7 @@ $StepNumber++
 
     #Example values
     $ExampleNumber      = 1
-    $PasswordCategories = Get-ITGluePasswordCategories
+    $PasswordCategories = Get-ITGluePasswordCategory
 
     #Stage array lists to store example data
     $ExampleReturnData      = [System.Collections.Generic.List[object]]::new()
@@ -234,7 +234,7 @@ $StepNumber++
                 if ($UpdatePasswordHashTable) {
 
                     Write-Host "Updating example password [ $ExamplePasswordName ]" -ForegroundColor Yellow
-                    $ITGluePasswordReturn = Set-ITGluePasswords -OrganizationID $OrganizationID -ID $ExistingPassword.id -Data $UpdatePasswordHashTable
+                    $ITGluePasswordReturn = Set-ITGluePassword -OrganizationID $OrganizationID -ID $ExistingPassword.id -Data $UpdatePasswordHashTable
 
                 }
 
@@ -247,7 +247,7 @@ $StepNumber++
                         Write-Host "Creating example password          [ $ExamplePasswordName ]" -ForegroundColor Green
                     }
 
-                    $ITGluePasswordReturn = New-ITGluePasswords -OrganizationID $OrganizationID -Data $NewPasswordHashTable
+                    $ITGluePasswordReturn = New-ITGluePassword -OrganizationID $OrganizationID -Data $NewPasswordHashTable
 
                 }
 
@@ -273,12 +273,12 @@ $StepNumber++
 
         if ($ExampleUpdatedData) {
             Write-Verbose " -       - $(Get-Date -Format MM-dd-HH:mm) - Bulk updating [ $( ($ExampleUpdatedData | Measure-Object).Count) ] passwords"
-            $ExampleReturnData = Set-ITGluePasswords -Data $ExampleUpdatedData
+            $ExampleReturnData = Set-ITGluePassword -Data $ExampleUpdatedData
         }
 
         if ($ExampleNewData) {
             Write-Verbose " -       - $(Get-Date -Format MM-dd-HH:mm) - Bulk creating [ $( ($ExampleNewData | Measure-Object).Count) ] passwords"
-            $ExampleReturnData = New-ITGluePasswords -OrganizationID $OrganizationID -Data $ExampleNewData
+            $ExampleReturnData = New-ITGluePassword -OrganizationID $OrganizationID -Data $ExampleNewData
         }
 
     }

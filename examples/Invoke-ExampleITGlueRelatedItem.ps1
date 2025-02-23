@@ -152,7 +152,7 @@ $StepNumber++
 
     #Example values
     $ExampleNumber      = 1
-    $PasswordCategories = Get-ITGluePasswordCategories
+    $PasswordCategories = Get-ITGluePasswordCategory
 
     #Stage array lists to store example data
     $ExampleNewPasswords    = [System.Collections.Generic.List[object]]::new()
@@ -198,7 +198,7 @@ $StepNumber++
 
     if ($ExampleNewPasswords) {
         Write-Verbose " -       - $(Get-Date -Format MM-dd-HH:mm) - Bulk creating [ $( ($ExampleNewPasswords | Measure-Object).Count) ] passwords"
-        $ExamplePasswordReturn = New-ITGluePasswords -OrganizationID $OrganizationID -Data $ExampleNewPasswords
+        $ExamplePasswordReturn = New-ITGluePassword -OrganizationID $OrganizationID -Data $ExampleNewPasswords
     }
 
 #EndRegion  [ Example Passwords ]

@@ -156,7 +156,7 @@ $StepNumber++
 
     #Example values
     $ExampleNumber      = 1
-    $PasswordCategories = Get-ITGluePasswordCategories
+    $PasswordCategories = Get-ITGluePasswordCategory
 
     #Stage array lists to store example data
     $ExampleReturnParentData    = [System.Collections.Generic.List[object]]::new()
@@ -219,13 +219,13 @@ $StepNumber++
 
     if ($ExampleUpdatedParentData) {
         Write-Verbose " -       - $(Get-Date -Format MM-dd-HH:mm) - Bulk updating [ $( ($ExampleUpdatedParentData | Measure-Object).Count) ] passwords"
-        $ParentDataUpdate = Set-ITGluePasswords -Data $ExampleUpdatedParentData
+        $ParentDataUpdate = Set-ITGluePassword -Data $ExampleUpdatedParentData
         $ExampleReturnParentData.Add($ParentDataUpdate) > $null
     }
 
     if ($ExampleNewParentData) {
         Write-Verbose " -       - $(Get-Date -Format MM-dd-HH:mm) - Bulk creating [ $( ($ExampleNewParentData | Measure-Object).Count) ] passwords"
-        $ParentDataNew = New-ITGluePasswords -OrganizationID $OrganizationID -Data $ExampleNewParentData
+        $ParentDataNew = New-ITGluePassword -OrganizationID $OrganizationID -Data $ExampleNewParentData
         $ExampleReturnParentData.Add($ParentDataNew) > $null
     }
 
