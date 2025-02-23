@@ -16,7 +16,7 @@ Gets the ITGlue API key
 ## SYNTAX
 
 ```powershell
-Get-ITGlueAPIKey [-PlainText] [<CommonParameters>]
+Get-ITGlueAPIKey [-AsPlainText] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -35,7 +35,7 @@ with the secret key as a SecureString
 
 ### EXAMPLE 2
 ```powershell
-Get-ITGlueAPIKey -PlainText
+Get-ITGlueAPIKey -AsPlainText
 ```
 
 Gets the ITGlue API secret key global variable and returns an object
@@ -43,7 +43,7 @@ with the secret key as plain text
 
 ## PARAMETERS
 
-### -PlainText
+### -AsPlainText
 Decrypt and return the API key in plain text
 
 ```yaml

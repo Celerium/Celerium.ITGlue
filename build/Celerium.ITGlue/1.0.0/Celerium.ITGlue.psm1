@@ -151,6 +151,7 @@ function Invoke-ITGlueRequest {
 
         # Load Web assembly when needed as PowerShell Core has the assembly preloaded
         if ( !("System.Web.HttpUtility" -as [Type]) ) {
+            Write-Verbose 'TEST -- Loading System.Web assembly'
             Add-Type -Assembly System.Web
         }
 
@@ -173,7 +174,7 @@ function Invoke-ITGlueRequest {
 
         try {
 
-            $headers = @{ 'x-api-key' = Get-ITGlueAPIKey -PlainText }
+            $headers = @{ 'x-api-key' = Get-ITGlueAPIKey -AsPlainText }
 
             $page = 0
 
@@ -251,7 +252,7 @@ function Invoke-ITGlueRequest {
     end {}
 
 }
-#EndRegion '.\Private\ApiCalls\Invoke-ITGlueRequest.ps1' 183
+#EndRegion '.\Private\ApiCalls\Invoke-ITGlueRequest.ps1' 184
 #Region '.\Private\ApiKeys\Add-ITGlueAPIKey.ps1' -1
 
 function Add-ITGlueAPIKey {
@@ -275,12 +276,6 @@ function Add-ITGlueAPIKey {
     .PARAMETER ApiKeySecureString
         Input a SecureString object containing the API key
 
-    .PARAMETER EncryptedStandardAPIKey
-        AES standard encrypted API key
-
-    .PARAMETER EncryptedStandardAESKey
-        AES key object
-
     .PARAMETER EncryptedStandardAPIKeyPath
         Path to the AES standard encrypted API key file
 
@@ -301,11 +296,6 @@ function Add-ITGlueAPIKey {
         '12345' | Add-ITGlueAPIKey
 
         Converts the string to a SecureString and stores it in the global variable
-
-    .EXAMPLE
-        Add-ITGlueAPIKey -EncryptedStandardAPIKey '123abc==..etc' -EncryptedStandardAESKey '195 44 55...etc'
-
-        Decrypts the AES API key and stores it in the global variable
 
     .EXAMPLE
         Add-ITGlueAPIKey -EncryptedStandardAPIKeyFilePath 'C:\path\to\encrypted\key.txt' -EncryptedStandardAESKeyPath 'C:\path\to\decipher\key.txt'
@@ -333,14 +323,6 @@ function Add-ITGlueAPIKey {
         [Parameter(Mandatory = $false, ValueFromPipeline = $true, ParameterSetName = 'SecureString')]
         [ValidateNotNullOrEmpty()]
         [securestring]$ApiKeySecureString,
-
-        [Parameter(Mandatory = $false, ValueFromPipeline = $true, ParameterSetName = 'Encrypted')]
-        [ValidateNotNullOrEmpty()]
-        [string]$EncryptedStandardAPIKey,
-
-        [Parameter(Mandatory = $false, ValueFromPipeline = $true, ParameterSetName = 'Encrypted')]
-        [ValidateNotNullOrEmpty()]
-        [string]$EncryptedStandardAESKey,
 
         [Parameter(Mandatory = $false, ParameterSetName = 'EncryptedByFile')]
         [ValidateScript({
@@ -383,19 +365,12 @@ function Add-ITGlueAPIKey {
 
             'Encrypted' {
 
-                $SecureString = $EncryptedStandardAPIKey | ConvertTo-SecureString -Key $EncryptedStandardAESKey
-
-                Set-Variable -Name "ITGlueModuleAPIKey" -Value $SecureString -Option ReadOnly -Scope global -Force
-
-            }
-
-            'EncryptedByFile' {
-
                 $SecureString =  Get-Content $EncryptedStandardAPIKeyPath | ConvertTo-SecureString -Key $(Get-Content $EncryptedStandardAESKeyPath )
 
                 Set-Variable -Name "ITGlueModuleAPIKey" -Value $SecureString -Option ReadOnly -Scope global -Force
 
             }
+
         }
 
     }
@@ -403,7 +378,7 @@ function Add-ITGlueAPIKey {
     end {}
 
 }
-#EndRegion '.\Private\ApiKeys\Add-ITGlueAPIKey.ps1' 150
+#EndRegion '.\Private\ApiKeys\Add-ITGlueAPIKey.ps1' 124
 #Region '.\Private\ApiKeys\Get-ITGlueAPIKey.ps1' -1
 
 function Get-ITGlueAPIKey {
@@ -415,7 +390,7 @@ function Get-ITGlueAPIKey {
         The Get-ITGlueAPIKey cmdlet gets the ITGlue API key from
         the global variable and returns it as a SecureString
 
-    .PARAMETER PlainText
+    .PARAMETER AsPlainText
         Decrypt and return the API key in plain text
 
     .EXAMPLE
@@ -425,7 +400,7 @@ function Get-ITGlueAPIKey {
         with the secret key as a SecureString
 
     .EXAMPLE
-        Get-ITGlueAPIKey -PlainText
+        Get-ITGlueAPIKey -AsPlainText
 
         Gets the ITGlue API secret key global variable and returns an object
         with the secret key as plain text
@@ -444,7 +419,7 @@ function Get-ITGlueAPIKey {
     [CmdletBinding()]
     Param (
         [Parameter(Mandatory = $false)]
-        [switch]$PlainText
+        [switch]$AsPlainText
     )
 
     begin {}
@@ -455,7 +430,7 @@ function Get-ITGlueAPIKey {
 
             if ($ITGlueModuleAPIKey) {
 
-                if ($PlainText) {
+                if ($AsPlainText) {
                     $Api_Key = [System.Runtime.InteropServices.Marshal]::SecureStringToBSTR($ITGlueModuleAPIKey)
 
                     ([System.Runtime.InteropServices.Marshal]::PtrToStringAuto($Api_Key)).ToString()
@@ -537,7 +512,7 @@ function New-ITGlueAESSecret {
         [int]$KeyLength = 32,
 
         [Parameter(Mandatory = $false)]
-        [string]$Path
+        [string]$Path = $(Get-Location).Path
     )
 
     begin {}
@@ -691,7 +666,7 @@ function Test-ITGlueAPIKey {
         try {
 
             $ITGlue_Headers = @{}
-            $ITGlue_Headers.Add('x-api-key', $(Get-ITGlueAPIKey -PlainText) )
+            $ITGlue_Headers.Add('x-api-key', $(Get-ITGlueAPIKey -AsPlainText) )
 
             $rest_output = Invoke-WebRequest -Method Get -Uri ($BaseUri + $ResourceUri) -Headers $ITGlue_Headers -ErrorAction Stop
         }
@@ -790,21 +765,20 @@ function Add-ITGlueBaseURI {
         [parameter(ValueFromPipeline)]
         [string]$BaseUri = 'https://api.itglue.com',
 
-        [ValidateSet( 'US', 'EU', 'AU')]
+        [ValidateSet( 'AU', 'EU', 'US')]
         [string]$DataCenter
     )
 
     process{
 
-        # Trim superfluous forward slash from address (if applicable)
         if($BaseUri[$BaseUri.Length-1] -eq "/") {
             $BaseUri = $BaseUri.Substring(0,$BaseUri.Length-1)
         }
 
         switch ($DataCenter) {
-            'US' {$BaseUri = 'https://api.itglue.com'}
-            'EU' {$BaseUri = 'https://api.eu.itglue.com'}
             'AU' {$BaseUri = 'https://api.au.itglue.com'}
+            'EU' {$BaseUri = 'https://api.eu.itglue.com'}
+            'US' {$BaseUri = 'https://api.itglue.com'}
             Default {}
         }
 
@@ -813,7 +787,7 @@ function Add-ITGlueBaseURI {
     }
 
 }
-#EndRegion '.\Private\BaseUri\Add-ITGlueBaseURI.ps1' 86
+#EndRegion '.\Private\BaseUri\Add-ITGlueBaseURI.ps1' 85
 #Region '.\Private\BaseUri\Get-ITGlueBaseURI.ps1' -1
 
 function Get-ITGlueBaseURI {

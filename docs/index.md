@@ -8,6 +8,7 @@ has_children: true
 layout: default
 nav_order: 1
 ---
+
 <h1 align="center">
   <br>
   <a href="https://ITGlue.com"><img src="https://raw.githubusercontent.com/Celerium/Celerium.ITGlue/refs/heads/main/.github/images/PoSHGallery_Celerium.ITGlue.png" alt="Celerium.ITGlue" width="200"></a>
@@ -53,17 +54,17 @@ nav_order: 1
 
 ## About The Project
 
-The [Celerium.ITGlue](https://www.itglue.com/) offers the ability to read, create, and update much of the data within IT Glue's documentation platform. That includes organizations, contacts, configuration items, and more. This module serves to abstract away the details of interacting with IT Glue's API endpoints in such a way that is consistent with PowerShell nomenclature. This gives system administrators and PowerShell developers a convenient and familiar way of using IT Glue's API to create documentation scripts, automation, and integrations. Full documentation for IT Glue's RESTful API can be found [here](https://api.itglue.com/developer/).
+The [Celerium.ITGlue](https://www.itglue.com/) PowerShell wrapper offers the ability to read, create, and update much of the data within IT Glue's documentation platform. That includes organizations, contacts, configuration items, and more. This module serves to abstract away the details of interacting with IT Glue's API endpoints in such a way that is consistent with PowerShell nomenclature. This gives system administrators and PowerShell developers a convenient and familiar way of using IT Glue's API to create documentation scripts, automation, and integrations.
 
-- :book: Project documentation can be found on [Github Pages](https://celerium.github.io/Celerium.ITGlue/)
-- :book: ITGlue's REST API documentation on their management portal [here](https://api.itglue.com/developer/)
+- :book: **Celerium.ITGlue** project documentation can be found on [Github Pages](https://celerium.github.io/Celerium.ITGlue/)
+- :book: ITGlue's REST API documentation can be found [here](https://api.itglue.com/developer/)
 
 ITGlue features a REST API that makes use of common HTTP request methods. In order to maintain PowerShell best practices, only approved verbs are used.
 
-- GET -> `Get-`
-- POST -> `New`-
-- PATCH -> `Set-`
 - DELETE -> `Remove-`
+- GET -> `Get-`
+- PATCH -> `Set-`
+- POST -> `New`-
 
 Additionally, PowerShell's `verb-noun` nomenclature is respected. Each noun is prefixed with `ITGlue` in an attempt to prevent naming problems.
 
@@ -86,9 +87,9 @@ Install-Module -Name Celerium.ITGlue
 ```
 
 - :information_source: This module supports PowerShell 5.0+ and *should* work in PowerShell Core.
-- :information_source: If you are running an older version of PowerShell, or if PowerShellGet is unavailable, you can manually download the *main* branch and place the *Celerium.ITGlue* folder into the (default) `C:\Program Files\WindowsPowerShell\Modules` folder.
+- :information_source: If you are running an older version of PowerShell, or if PowerShellGet is unavailable, you can manually download the *main* branch and place the latest version of *Celerium.ITGlue* from the build folder into the *(default)* `C:\Program Files\WindowsPowerShell\Modules` folder.
 
-Project documentation can be found on [Github Pages](https://celerium.github.io/Celerium.ITGlue/)
+**Celerium.ITGlue** project documentation can be found on [Github Pages](https://celerium.github.io/Celerium.ITGlue/)
 
 - A full list of functions can be retrieved by running `Get-Command -Module Celerium.ITGlue`.
 - Help info and a list of parameters can be found by running `Get-Help <command name>`, such as:
@@ -107,7 +108,7 @@ After installing this module, you will need to configure both the *base URI* & *
 1. Run `Add-ITGlueBaseURI`
    - By default, ITGlue's `https://api.itglue.com` URI is used.
    - If you have your own API gateway or proxy, you may put in your own custom URI by specifying the `-BaseUri` parameter:
-      - `Add-ITGlueBaseURI -BaseUri http://myapi.gateway.example.org`
+      - `Add-ITGlueBaseURI -BaseUri http://myapi.gateway.celerium.org`
       <br>
 
 2. Run `Add-ITGlueAPIKey -ApiKey 8675309`
@@ -129,40 +130,41 @@ Calling an API resource is as simple as running `Get-ITGlue<resourceName>`
 
 - The following is a table of supported functions and their corresponding API resources:
 - Table entries with [ `-` ] indicate that the functionality is **NOT** supported by the ITGlue API at this time.
+- Example scripts can be found in the [examples](https://github.com/Celerium/Celerium.ITGlue/tree/main/examples) folder of this repository.
 
-| API Resource             | Create                              | Read                                | Update                              | Delete                               |
-| ------------------------ | ----------------------------------- | ----------------------------------- | ----------------------------------- | ------------------------------------ |
-| Attachments              | `New-ITGlueAttachment`              | -                                   | `Set-ITGlueAttachment`              | `Remove-ITGlueAttachment`            |
-| Configuration Interfaces | `New-ITGlueConfigurationInterface`  | `Get-ITGlueConfigurationInterface`  | `Set-ITGlueConfigurationInterface`  | -                                    |
-| Configuration Statuses   | `New-ITGlueConfigurationStatus`     | `Get-ITGlueConfigurationStatus`     | `Set-ITGlueConfigurationStatus`     | -                                    |
-| Configuration Types      | `New-ITGlueConfigurationType`       | `Get-ITGlueConfigurationType`       | `Set-ITGlueConfigurationType`       | -                                    |
-| Configurations           | `New-ITGlueConfiguration`           | `Get-ITGlueConfiguration`           | `Set-ITGlueConfiguration`           | `Remove-ITGlueConfiguration`         |
-| Contact Types            | `New-ITGlueContactType`             | `Get-ITGlueContactType`             | `Set-ITGlueContactType`             | -                                    |
-| Contacts                 | `New-ITGlueContact`                 | `Get-ITGlueContact`                 | `Set-ITGlueContact`                 | `Remove-ITGlueContact`               |
-| Countries                | -                                   | `Get-ITGlueCountries`               | -                                   | -                                    |
-| Documents                | -                                   | -                                   | `Set-ITGlueDocument`                | -                                    |
-| Domains                  | -                                   | `Get-ITGlueDomains`                 | -                                   | -                                    |
-| Expirations              | -                                   | `Get-ITGlueExpiration`              | -                                   | -                                    |
-| Exports                  | `New-ITGlueExport`                  | `Get-ITGlueExport`                  | -                                   | `Remove-ITGlueExport`                |
-| Flexible Asset Fields    | `New-ITGlueFlexibleAssetField`      | `Get-ITGlueFlexibleAssetField`      | `Set-ITGlueFlexibleAssetField`      | `Remove-ITGlueFlexibleAssetField`    |
-| Flexible Asset Types     | `New-ITGlueFlexibleAssetType`       | `Get-ITGlueFlexibleAssetType`       | `Set-ITGlueFlexibleAssetType`       | -                                    |
-| Flexible Assets          | `New-ITGlueFlexibleAsset`           | `Get-ITGlueFlexibleAsset`           | `Set-ITGlueFlexibleAsset`           | `Remove-ITGlueFlexibleAsset`         |
-| Groups                   | -                                   | `Get-ITGlueGroups`                  | -                                   | -                                    |
-| Locations                | `New-ITGlueLocation`                | `Get-ITGlueLocation`                | `Set-ITGlueLocation`                | `Remove-ITGlueLocation`              |
-| Logs                     | -                                   | `Get-ITGlueLog`                     | -                                   | -                                    |
-| Manufacturers            | `New-ITGlueManufacturer`            | `Get-ITGlueManufacturer`            | `Set-ITGlueManufacturer`            | -                                    |
-| Models                   | `New-ITGlueModel`                   | `Get-ITGlueModel`                   | `Set-ITGlueModel`                   | -                                    |
-| Operating Systems        | -                                   | `Get-ITGlueOperatingSystems`        | -                                   | -                                    |
-| Organization Statuses    | `New-ITGlueOrganizationStatus`      | `Get-ITGlueOrganizationStatus`      | `Set-ITGlueOrganizationStatus`      | -                                    |
-| Organization Types       | `New-ITGlueOrganizationType`        | `Get-ITGlueOrganizationType`        | `Set-ITGlueOrganizationType`        | -                                    |
-| Organizations            | `New-ITGlueOrganization`            | `Get-ITGlueOrganization`            | `Set-ITGlueOrganization`            | `Remove-ITGlueOrganization`          |
-| Password Categories      | `New-ITGluePasswordCategory`        | `Get-ITGluePasswordCategory`        | `Set-ITGluePasswordCategory`        | -                                    |
-| Passwords                | `New-ITGluePassword`                | `Get-ITGluePassword`                | `Set-ITGluePassword`                | `Remove-ITGluePassword`              |
-| Platforms                | -                                   | `Get-ITGluePlatform`                | -                                   | -                                    |
-| Regions                  | -                                   | `Get-ITGlueRegion`                  | -                                   | -                                    |
-| Related Items            | `New-ITGlueRelatedItem`             | -                                   | `Set-ITGlueRelatedItem`             | `Remove-ITGlueRelatedItem`           |
-| User Metrics             | -                                   | `Get-ITGlueUserMetric`              | -                                   | -                                    |
-| Users                    | -                                   | `Get-ITGlueUser`                    | `Set-ITGlueUser`                    | -                                    |
+| API Resource             | Create                             | Read                               | Update                             | Delete                            |
+|--------------------------|------------------------------------|------------------------------------|------------------------------------|-----------------------------------|
+| Attachments              | `New-ITGlueAttachment`             | -                                  | `Set-ITGlueAttachment`             | `Remove-ITGlueAttachment`         |
+| Configuration Interfaces | `New-ITGlueConfigurationInterface` | `Get-ITGlueConfigurationInterface` | `Set-ITGlueConfigurationInterface` | -                                 |
+| Configuration Statuses   | `New-ITGlueConfigurationStatus`    | `Get-ITGlueConfigurationStatus`    | `Set-ITGlueConfigurationStatus`    | -                                 |
+| Configuration Types      | `New-ITGlueConfigurationType`      | `Get-ITGlueConfigurationType`      | `Set-ITGlueConfigurationType`      | -                                 |
+| Configurations           | `New-ITGlueConfiguration`          | `Get-ITGlueConfiguration`          | `Set-ITGlueConfiguration`          | `Remove-ITGlueConfiguration`      |
+| Contact Types            | `New-ITGlueContactType`            | `Get-ITGlueContactType`            | `Set-ITGlueContactType`            | -                                 |
+| Contacts                 | `New-ITGlueContact`                | `Get-ITGlueContact`                | `Set-ITGlueContact`                | `Remove-ITGlueContact`            |
+| Countries                | -                                  | `Get-ITGlueCountries`              | -                                  | -                                 |
+| Documents                | -                                  | -                                  | `Set-ITGlueDocument`               | -                                 |
+| Domains                  | -                                  | `Get-ITGlueDomains`                | -                                  | -                                 |
+| Expirations              | -                                  | `Get-ITGlueExpiration`             | -                                  | -                                 |
+| Exports                  | `New-ITGlueExport`                 | `Get-ITGlueExport`                 | -                                  | `Remove-ITGlueExport`             |
+| Flexible Asset Fields    | `New-ITGlueFlexibleAssetField`     | `Get-ITGlueFlexibleAssetField`     | `Set-ITGlueFlexibleAssetField`     | `Remove-ITGlueFlexibleAssetField` |
+| Flexible Asset Types     | `New-ITGlueFlexibleAssetType`      | `Get-ITGlueFlexibleAssetType`      | `Set-ITGlueFlexibleAssetType`      | -                                 |
+| Flexible Assets          | `New-ITGlueFlexibleAsset`          | `Get-ITGlueFlexibleAsset`          | `Set-ITGlueFlexibleAsset`          | `Remove-ITGlueFlexibleAsset`      |
+| Groups                   | -                                  | `Get-ITGlueGroup`                  | -                                  | -                                 |
+| Locations                | `New-ITGlueLocation`               | `Get-ITGlueLocation`               | `Set-ITGlueLocation`               | `Remove-ITGlueLocation`           |
+| Logs                     | -                                  | `Get-ITGlueLog`                    | -                                  | -                                 |
+| Manufacturers            | `New-ITGlueManufacturer`           | `Get-ITGlueManufacturer`           | `Set-ITGlueManufacturer`           | -                                 |
+| Models                   | `New-ITGlueModel`                  | `Get-ITGlueModel`                  | `Set-ITGlueModel`                  | -                                 |
+| Operating Systems        | -                                  | `Get-ITGlueOperatingSystem`        | -                                  | -                                 |
+| Organization Statuses    | `New-ITGlueOrganizationStatus`     | `Get-ITGlueOrganizationStatus`     | `Set-ITGlueOrganizationStatus`     | -                                 |
+| Organization Types       | `New-ITGlueOrganizationType`       | `Get-ITGlueOrganizationType`       | `Set-ITGlueOrganizationType`       | -                                 |
+| Organizations            | `New-ITGlueOrganization`           | `Get-ITGlueOrganization`           | `Set-ITGlueOrganization`           | `Remove-ITGlueOrganization`       |
+| Password Categories      | `New-ITGluePasswordCategory`       | `Get-ITGluePasswordCategory`       | `Set-ITGluePasswordCategory`       | -                                 |
+| Passwords                | `New-ITGluePassword`               | `Get-ITGluePassword`               | `Set-ITGluePassword`               | `Remove-ITGluePassword`           |
+| Platforms                | -                                  | `Get-ITGluePlatform`               | -                                  | -                                 |
+| Regions                  | -                                  | `Get-ITGlueRegion`                 | -                                  | -                                 |
+| Related Items            | `New-ITGlueRelatedItem`            | -                                  | `Set-ITGlueRelatedItem`            | `Remove-ITGlueRelatedItem`        |
+| User Metrics             | -                                  | `Get-ITGlueUserMetric`             | -                                  | -                                 |
+| Users                    | -                                  | `Get-ITGlueUser`                   | `Set-ITGlueUser`                   | -                                 |
 
 Each `Get-ITGlue*` function will respond with the raw data that ITGlue's API provides.
 

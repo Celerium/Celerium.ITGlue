@@ -60,21 +60,20 @@ function Add-ITGlueBaseURI {
         [parameter(ValueFromPipeline)]
         [string]$BaseUri = 'https://api.itglue.com',
 
-        [ValidateSet( 'US', 'EU', 'AU')]
+        [ValidateSet( 'AU', 'EU', 'US')]
         [string]$DataCenter
     )
 
     process{
 
-        # Trim superfluous forward slash from address (if applicable)
         if($BaseUri[$BaseUri.Length-1] -eq "/") {
             $BaseUri = $BaseUri.Substring(0,$BaseUri.Length-1)
         }
 
         switch ($DataCenter) {
-            'US' {$BaseUri = 'https://api.itglue.com'}
-            'EU' {$BaseUri = 'https://api.eu.itglue.com'}
             'AU' {$BaseUri = 'https://api.au.itglue.com'}
+            'EU' {$BaseUri = 'https://api.eu.itglue.com'}
+            'US' {$BaseUri = 'https://api.itglue.com'}
             Default {}
         }
 

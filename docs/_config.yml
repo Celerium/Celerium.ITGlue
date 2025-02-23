@@ -24,7 +24,7 @@ aux_links:
     - "https://celerium.org/"
   "GitHub":
     - "https://github.com/Celerium/Celerium.ITGlue"
-  "Support":
+  "Buy me a coffee":
     - "https://www.buymeacoffee.com/Celerium"
 
 
@@ -69,7 +69,7 @@ back_to_top: true
 back_to_top_text: "Back to top"
 
 # Copyright
-footer_content: "Copyright &copy; 2020-2023 David Schulte (Celerium). Distributed by an <a href=\"https://github.com/Celerium/Celerium.ITGlue/blob/master/LICENSE\">MIT license.</a>"
+footer_content: "Copyright &copy; 2020-2025 David Schulte (Celerium). Distributed by an <a href=\"https://github.com/Celerium/Celerium.ITGlue/blob/master/LICENSE\">MIT license.</a>"
 
 # Footer "Edit this page on GitHub" link text
 gh_edit_link: true

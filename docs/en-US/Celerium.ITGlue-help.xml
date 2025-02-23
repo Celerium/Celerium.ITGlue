@@ -12207,33 +12207,6 @@
       </command:syntaxItem>
       <command:syntaxItem>
         <maml:name>Add-ITGlueAPIKey</maml:name>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByValue)" position="named" aliases="none">
-          <maml:name>EncryptedStandardAPIKey</maml:name>
-          <maml:description>
-            <maml:para>AES standard encrypted API key</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
-          <dev:type>
-            <maml:name>String</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>None</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByValue)" position="named" aliases="none">
-          <maml:name>EncryptedStandardAESKey</maml:name>
-          <maml:description>
-            <maml:para>AES key object</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
-          <dev:type>
-            <maml:name>String</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>None</dev:defaultValue>
-        </command:parameter>
-      </command:syntaxItem>
-      <command:syntaxItem>
-        <maml:name>Add-ITGlueAPIKey</maml:name>
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
           <maml:name>EncryptedStandardAPIKeyPath</maml:name>
           <maml:description>
@@ -12282,30 +12255,6 @@
         <command:parameterValue required="true" variableLength="false">SecureString</command:parameterValue>
         <dev:type>
           <maml:name>SecureString</maml:name>
-          <maml:uri />
-        </dev:type>
-        <dev:defaultValue>None</dev:defaultValue>
-      </command:parameter>
-      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByValue)" position="named" aliases="none">
-        <maml:name>EncryptedStandardAPIKey</maml:name>
-        <maml:description>
-          <maml:para>AES standard encrypted API key</maml:para>
-        </maml:description>
-        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
-        <dev:type>
-          <maml:name>String</maml:name>
-          <maml:uri />
-        </dev:type>
-        <dev:defaultValue>None</dev:defaultValue>
-      </command:parameter>
-      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByValue)" position="named" aliases="none">
-        <maml:name>EncryptedStandardAESKey</maml:name>
-        <maml:description>
-          <maml:para>AES key object</maml:para>
-        </maml:description>
-        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
-        <dev:type>
-          <maml:name>String</maml:name>
           <maml:uri />
         </dev:type>
         <dev:defaultValue>None</dev:defaultValue>
@@ -12366,13 +12315,6 @@
       </command:example>
       <command:example>
         <maml:title>-------------------------- EXAMPLE 4 --------------------------</maml:title>
-        <dev:code>Add-ITGlueAPIKey -EncryptedStandardAPIKey '123abc==..etc' -EncryptedStandardAESKey '195 44 55...etc'</dev:code>
-        <dev:remarks>
-          <maml:para>Decrypts the AES API key and stores it in the global variable</maml:para>
-        </dev:remarks>
-      </command:example>
-      <command:example>
-        <maml:title>-------------------------- EXAMPLE 5 --------------------------</maml:title>
         <dev:code>Add-ITGlueAPIKey -EncryptedStandardAPIKeyFilePath 'C:\path\to\encrypted\key.txt' -EncryptedStandardAESKeyPath 'C:\path\to\decipher\key.txt'</dev:code>
         <dev:remarks>
           <maml:para>Decrypts the AES API key and stores it in the global variable</maml:para>
@@ -12706,7 +12648,7 @@
       <command:syntaxItem>
         <maml:name>Get-ITGlueAPIKey</maml:name>
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
-          <maml:name>PlainText</maml:name>
+          <maml:name>AsPlainText</maml:name>
           <maml:description>
             <maml:para>Decrypt and return the API key in plain text</maml:para>
           </maml:description>
@@ -12720,7 +12662,7 @@
     </command:syntax>
     <command:parameters>
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
-        <maml:name>PlainText</maml:name>
+        <maml:name>AsPlainText</maml:name>
         <maml:description>
           <maml:para>Decrypt and return the API key in plain text</maml:para>
         </maml:description>
@@ -12749,7 +12691,7 @@
       </command:example>
       <command:example>
         <maml:title>-------------------------- EXAMPLE 2 --------------------------</maml:title>
-        <dev:code>Get-ITGlueAPIKey -PlainText</dev:code>
+        <dev:code>Get-ITGlueAPIKey -AsPlainText</dev:code>
         <dev:remarks>
           <maml:para>Gets the ITGlue API secret key global variable and returns an object with the secret key as plain text</maml:para>
         </dev:remarks>
@@ -13313,7 +13255,7 @@
             <maml:name>String</maml:name>
             <maml:uri />
           </dev:type>
-          <dev:defaultValue>None</dev:defaultValue>
+          <dev:defaultValue>$(Get-Location).Path</dev:defaultValue>
         </command:parameter>
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="wi">
           <maml:name>WhatIf</maml:name>
@@ -13365,7 +13307,7 @@
           <maml:name>String</maml:name>
           <maml:uri />
         </dev:type>
-        <dev:defaultValue>None</dev:defaultValue>
+        <dev:defaultValue>$(Get-Location).Path</dev:defaultValue>
       </command:parameter>
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="wi">
         <maml:name>WhatIf</maml:name>

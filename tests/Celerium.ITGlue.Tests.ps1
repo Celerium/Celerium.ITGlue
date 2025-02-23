@@ -215,7 +215,7 @@ Describe "Testing the [ $buildTarget ] version of [ $moduleName ] with [ $pester
         }
 
         It "Manifest [ IconUri ] has valid data" {
-            $Module.IconUri  | Should -Be 'https://github.com/Celerium/Celerium.ITGlue/blob/master/.github/images/PoSHGallery_Celerium.ITGlue.png'
+            $Module.IconUri  | Should -Be 'https://raw.githubusercontent.com/Celerium/Celerium.ITGlue/refs/heads/main/.github/images/PoSHGallery_Celerium.ITGlue.png'
         }
 
         It "Manifest [ ReleaseNotes ] has valid data" {

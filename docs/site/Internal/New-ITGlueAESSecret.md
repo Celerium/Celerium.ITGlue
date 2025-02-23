@@ -71,7 +71,7 @@ Aliases:
 
 Required: False
 Position: 2
-Default value: None
+Default value: $(Get-Location).Path
 Accept pipeline input: False
 Accept wildcard characters: False
 ```

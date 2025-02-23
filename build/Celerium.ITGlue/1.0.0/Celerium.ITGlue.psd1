@@ -30,7 +30,7 @@
     CompanyName = 'Celerium'
 
     # Description of the functionality provided by this module
-    Description = 'This module provides a PowerShell wrapper for the IT Glue API.'
+    Description = 'This module provides a PowerShell wrapper for the ITGlue API. The IT Glue API is a powerful tool for automation and getting data from external sources into your IT Glue account. It provides a direct, machine-friendly way of accessing your data, so that you can pull it into your own applications or integrate with third-party tools that we dont currently integrate with.'
 
     # Copyright information of this module
     Copyright = 'https://github.com/Celerium/Celerium.ITGlue/blob/master/LICENSE'
@@ -103,7 +103,7 @@
             ProjectUri = 'https://github.com/Celerium/Celerium.ITGlue'
 
             # A URL to an icon representing this module.
-            IconUri = 'https://github.com/Celerium/Celerium.ITGlue/blob/master/.github/images/PoSHGallery_Celerium.ITGlue.png'
+            IconUri = 'https://raw.githubusercontent.com/Celerium/Celerium.ITGlue/refs/heads/main/.github/images/PoSHGallery_Celerium.ITGlue.png'
 
             # ReleaseNotes of this module
             ReleaseNotes = 'https://github.com/Celerium/Celerium.ITGlue/blob/master/README.md'

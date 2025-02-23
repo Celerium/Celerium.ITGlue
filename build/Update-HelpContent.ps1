@@ -123,7 +123,7 @@ param(
 #EndRegion  [ Parameters ]
 
 Write-Verbose ''
-Write-Verbose "START - $(Get-Date -Format yyyy-MM-dd-HH:mm)"
+Write-Verbose "START - $(Get-Date -Format yyyy-MM-dd-HH:mm) - [ $($PSCmdlet.ParameterSetName) ]"
 Write-Verbose ''
 
 Write-Verbose " - (1/4) - $(Get-Date -Format MM-dd-HH:mm) - Configuring prerequisites"
@@ -166,11 +166,8 @@ Try{
         $rootPath = "$( $PSCommandPath.Substring(0, $PSCommandPath.IndexOf('/build', [System.StringComparison]::OrdinalIgnoreCase)) )"
     }
 
-    Write-Verbose "TEST - Importing [ $moduleName ]"
     $modulePath = Join-Path -Path $rootPath -ChildPath $moduleName
     $modulePsd1 = Join-Path -Path $modulePath -ChildPath "$moduleName.psd1"
-
-    Write-Verbose "TEST - Module is located at [ $modulePsd1 ]"
 
         if (Test-Path -Path $modulePsd1 ) {
             Import-Module -Name $modulePsd1 -Force #-Verbose:$false

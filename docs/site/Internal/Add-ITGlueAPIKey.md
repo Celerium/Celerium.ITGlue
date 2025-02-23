@@ -25,11 +25,6 @@ Add-ITGlueAPIKey [-ApiKey <String>] [<CommonParameters>]
 Add-ITGlueAPIKey [-ApiKeySecureString <SecureString>] [<CommonParameters>]
 ```
 
-### Encrypted
-```powershell
-Add-ITGlueAPIKey [-EncryptedStandardAPIKey <String>] [-EncryptedStandardAESKey <String>] [<CommonParameters>]
-```
-
 ### EncryptedByFile
 ```powershell
 Add-ITGlueAPIKey [-EncryptedStandardAPIKeyPath <String>] -EncryptedStandardAESKeyPath <String>
@@ -68,13 +63,6 @@ Converts the string to a SecureString and stores it in the global variable
 
 ### EXAMPLE 4
 ```powershell
-Add-ITGlueAPIKey -EncryptedStandardAPIKey '123abc==..etc' -EncryptedStandardAESKey '195 44 55...etc'
-```
-
-Decrypts the AES API key and stores it in the global variable
-
-### EXAMPLE 5
-```powershell
 Add-ITGlueAPIKey -EncryptedStandardAPIKeyFilePath 'C:\path\to\encrypted\key.txt' -EncryptedStandardAESKeyPath 'C:\path\to\decipher\key.txt'
 ```
 
@@ -106,36 +94,6 @@ Input a SecureString object containing the API key
 ```yaml
 Type: SecureString
 Parameter Sets: SecureString
-Aliases:
-
-Required: False
-Position: Named
-Default value: None
-Accept pipeline input: True (ByValue)
-Accept wildcard characters: False
-```
-
-### -EncryptedStandardAPIKey
-AES standard encrypted API key
-
-```yaml
-Type: String
-Parameter Sets: Encrypted
-Aliases:
-
-Required: False
-Position: Named
-Default value: None
-Accept pipeline input: True (ByValue)
-Accept wildcard characters: False
-```
-
-### -EncryptedStandardAESKey
-AES key object
-
-```yaml
-Type: String
-Parameter Sets: Encrypted
 Aliases:
 
 Required: False
