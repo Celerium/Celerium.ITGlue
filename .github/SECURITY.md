@@ -8,9 +8,9 @@
 
 The "Celerium.ITGlue" team and community take all security bugs in "Celerium.ITGlue" seriously. Thank you for improving the security of "Celerium.ITGlue". We appreciate your efforts and responsible disclosure and will make every effort to acknowledge your contributions.
 
-Report security bugs by emailing the lead maintainer at [placeholder@example.com](placeholder@example.com) and include the word "SECURITY" in the subject line..
+Report security bugs by emailing the lead maintainer at [issues@celerium.org](issues@celerium.org) and include the word "SECURITY" in the subject line..
 
-The lead maintainer will acknowledge your email within a week, and will send a more detailed response 48 hours after that indicating the next steps in handling your report. After the initial reply to your report, the security team will endeavor to keep you informed of the progress towards a fix and full announcement, and may ask for additional information or guidance.
+The lead maintainer will acknowledge your email within a reasonable amount of time indicating the next steps in handling your report. After the initial reply to your report, the security team will endeavor to keep you informed of the progress towards a fix and full announcement, and may ask for additional information or guidance.
 
 - "Celerium.ITGlue" will confirm the problem and determine the affected versions.
 - "Celerium.ITGlue" will audit code to find any potential similar problems.
@@ -24,7 +24,7 @@ Report security bugs in third-party modules to the person or team maintaining th
 
 Discuss how someone should disclose a vulnerability to "Celerium.ITGlue", in tl;dr ( or ELI5 ) language. Then expand on this with "How To Disclose a vulnerability in detail". Please give detailed steps on how to disclose the vulnerability. Keep these OWASP guidelines in mind ( <https://www.owasp.org/index.php/Vulnerability_Disclosure_Cheat_Sheet> ) when creating your disclosure policy. Below are some recommendations for security disclosures:
 
-- "Celerium.ITGlue" security contact { [placeholder@example.com](placeholder@example.com) }
+- "Celerium.ITGlue" security contact { [issues@celerium.org](issues@celerium.org) }
 - Disclosure format: When disclosing vulnerabilities please
   1. Your name and affiliation (if any).
   2. include scope of vulnerability. Let us know who could use this exploit.

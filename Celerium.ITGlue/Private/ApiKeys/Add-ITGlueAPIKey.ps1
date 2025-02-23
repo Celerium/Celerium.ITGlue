@@ -19,12 +19,6 @@ function Add-ITGlueAPIKey {
     .PARAMETER ApiKeySecureString
         Input a SecureString object containing the API key
 
-    .PARAMETER EncryptedStandardAPIKey
-        AES standard encrypted API key
-
-    .PARAMETER EncryptedStandardAESKey
-        AES key object
-
     .PARAMETER EncryptedStandardAPIKeyPath
         Path to the AES standard encrypted API key file
 
@@ -45,11 +39,6 @@ function Add-ITGlueAPIKey {
         '12345' | Add-ITGlueAPIKey
 
         Converts the string to a SecureString and stores it in the global variable
-
-    .EXAMPLE
-        Add-ITGlueAPIKey -EncryptedStandardAPIKey '123abc==..etc' -EncryptedStandardAESKey '195 44 55...etc'
-
-        Decrypts the AES API key and stores it in the global variable
 
     .EXAMPLE
         Add-ITGlueAPIKey -EncryptedStandardAPIKeyFilePath 'C:\path\to\encrypted\key.txt' -EncryptedStandardAESKeyPath 'C:\path\to\decipher\key.txt'
@@ -77,14 +66,6 @@ function Add-ITGlueAPIKey {
         [Parameter(Mandatory = $false, ValueFromPipeline = $true, ParameterSetName = 'SecureString')]
         [ValidateNotNullOrEmpty()]
         [securestring]$ApiKeySecureString,
-
-        [Parameter(Mandatory = $false, ValueFromPipeline = $true, ParameterSetName = 'Encrypted')]
-        [ValidateNotNullOrEmpty()]
-        [string]$EncryptedStandardAPIKey,
-
-        [Parameter(Mandatory = $false, ValueFromPipeline = $true, ParameterSetName = 'Encrypted')]
-        [ValidateNotNullOrEmpty()]
-        [string]$EncryptedStandardAESKey,
 
         [Parameter(Mandatory = $false, ParameterSetName = 'EncryptedByFile')]
         [ValidateScript({
@@ -127,19 +108,12 @@ function Add-ITGlueAPIKey {
 
             'Encrypted' {
 
-                $SecureString = $EncryptedStandardAPIKey | ConvertTo-SecureString -Key $EncryptedStandardAESKey
-
-                Set-Variable -Name "ITGlueModuleAPIKey" -Value $SecureString -Option ReadOnly -Scope global -Force
-
-            }
-
-            'EncryptedByFile' {
-
                 $SecureString =  Get-Content $EncryptedStandardAPIKeyPath | ConvertTo-SecureString -Key $(Get-Content $EncryptedStandardAESKeyPath )
 
                 Set-Variable -Name "ITGlueModuleAPIKey" -Value $SecureString -Option ReadOnly -Scope global -Force
 
             }
+
         }
 
     }

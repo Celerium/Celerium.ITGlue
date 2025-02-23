@@ -7,7 +7,7 @@ function Get-ITGlueAPIKey {
         The Get-ITGlueAPIKey cmdlet gets the ITGlue API key from
         the global variable and returns it as a SecureString
 
-    .PARAMETER PlainText
+    .PARAMETER AsPlainText
         Decrypt and return the API key in plain text
 
     .EXAMPLE
@@ -17,7 +17,7 @@ function Get-ITGlueAPIKey {
         with the secret key as a SecureString
 
     .EXAMPLE
-        Get-ITGlueAPIKey -PlainText
+        Get-ITGlueAPIKey -AsPlainText
 
         Gets the ITGlue API secret key global variable and returns an object
         with the secret key as plain text
@@ -36,7 +36,7 @@ function Get-ITGlueAPIKey {
     [CmdletBinding()]
     Param (
         [Parameter(Mandatory = $false)]
-        [switch]$PlainText
+        [switch]$AsPlainText
     )
 
     begin {}
@@ -47,7 +47,7 @@ function Get-ITGlueAPIKey {
 
             if ($ITGlueModuleAPIKey) {
 
-                if ($PlainText) {
+                if ($AsPlainText) {
                     $Api_Key = [System.Runtime.InteropServices.Marshal]::SecureStringToBSTR($ITGlueModuleAPIKey)
 
                     ([System.Runtime.InteropServices.Marshal]::PtrToStringAuto($Api_Key)).ToString()

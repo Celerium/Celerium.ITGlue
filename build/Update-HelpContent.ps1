@@ -152,6 +152,7 @@ $TemplatePages = 'DELETE.md', 'GET.md', 'index.md', 'PATCH.md', 'POST.md', 'PUT.
 
 Try{
 
+    Write-Verbose "Getting platyPS module"
     if (Get-InstalledModule -Name platyPS -ErrorAction SilentlyContinue -Verbose:$false 4>$null) {
         Import-Module -Name platyPS -Verbose:$false
     }

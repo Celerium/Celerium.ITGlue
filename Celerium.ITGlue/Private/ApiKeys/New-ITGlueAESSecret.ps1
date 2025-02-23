@@ -50,7 +50,7 @@ function New-ITGlueAESSecret {
         [int]$KeyLength = 32,
 
         [Parameter(Mandatory = $false)]
-        [string]$Path
+        [string]$Path = $(Get-Location).Path
     )
 
     begin {}

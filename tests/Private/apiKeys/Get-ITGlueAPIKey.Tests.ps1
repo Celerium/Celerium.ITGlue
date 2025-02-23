@@ -139,9 +139,9 @@ Describe "Testing [ $commandName ] function with [ $pester_TestName ]" -Tag @('a
             Get-ITGlueAPIKey | Should -BeOfType SecureString
         }
 
-        It "Using [ -PlainText ] should return [ -ApiKey ] as a string" {
+        It "Using [ -AsPlainText ] should return [ -ApiKey ] as a string" {
             Add-ITGlueAPIKey -ApiKey '12345'
-            Get-ITGlueAPIKey -PlainText | Should -BeOfType String
+            Get-ITGlueAPIKey -AsPlainText | Should -BeOfType String
         }
 
         It "If [ -ApiKey ] is empty it should throw a warning" {

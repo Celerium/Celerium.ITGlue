@@ -102,7 +102,7 @@ function Invoke-ITGlueRequest {
 
         try {
 
-            $headers = @{ 'x-api-key' = Get-ITGlueAPIKey -PlainText }
+            $headers = @{ 'x-api-key' = Get-ITGlueAPIKey -AsPlainText }
 
             $page = 0
 
