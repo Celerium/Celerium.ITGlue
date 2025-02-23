@@ -25,7 +25,7 @@ Add-ITGlueAPIKey [-ApiKey <String>] [<CommonParameters>]
 Add-ITGlueAPIKey [-ApiKeySecureString <SecureString>] [<CommonParameters>]
 ```
 
-### EncryptedByFile
+### AESEncrypted
 ```powershell
 Add-ITGlueAPIKey [-EncryptedStandardAPIKeyPath <String>] -EncryptedStandardAESKeyPath <String>
  [<CommonParameters>]
@@ -108,7 +108,7 @@ Path to the AES standard encrypted API key file
 
 ```yaml
 Type: String
-Parameter Sets: EncryptedByFile
+Parameter Sets: AESEncrypted
 Aliases:
 
 Required: False
@@ -123,7 +123,7 @@ Path to the AES key file
 
 ```yaml
 Type: String
-Parameter Sets: EncryptedByFile
+Parameter Sets: AESEncrypted
 Aliases:
 
 Required: True

@@ -67,17 +67,17 @@ function Add-ITGlueAPIKey {
         [ValidateNotNullOrEmpty()]
         [securestring]$ApiKeySecureString,
 
-        [Parameter(Mandatory = $false, ParameterSetName = 'EncryptedByFile')]
+        [Parameter(Mandatory = $false, ParameterSetName = 'AESEncrypted')]
         [ValidateScript({
             if (Test-Path $_) { $true }
-            else { throw "The file path provided does not exist - [  $_  ]" }
+            else { throw "The file provided does not exist - [  $_  ]" }
         })]
         [string]$EncryptedStandardAPIKeyPath,
 
-        [Parameter(Mandatory = $true, ParameterSetName = 'EncryptedByFile')]
+        [Parameter(Mandatory = $true, ParameterSetName = 'AESEncrypted')]
         [ValidateScript({
             if (Test-Path $_) { $true }
-            else { throw "The file path provided does not exist - [  $_  ]" }
+            else { throw "The file provided does not exist - [  $_  ]" }
         })]
         [string]$EncryptedStandardAESKeyPath
     )
@@ -106,7 +106,7 @@ function Add-ITGlueAPIKey {
 
             'SecureString' { Set-Variable -Name "ITGlueModuleAPIKey" -Value $ApiKeySecureString -Option ReadOnly -Scope global -Force }
 
-            'Encrypted' {
+            'AESEncrypted' {
 
                 $SecureString =  Get-Content $EncryptedStandardAPIKeyPath | ConvertTo-SecureString -Key $(Get-Content $EncryptedStandardAESKeyPath )
 
