@@ -79,6 +79,12 @@ function Invoke-ITGlueRequest {
     begin {
 
         # Load Web assembly when needed as PowerShell Core has the assembly preloaded
+
+        $WebAssembly = [System.Reflection.Assembly]::GetAssembly([System.Web.HttpUtility])
+        Write-Verbose "TEST -- Checking for System.Web assembly [ $($WebAssembly.FullName) ]"
+
+        Write-Verbose "TEST -- All loadedAssemblies loaded [ $($loadedAssemblies = [System.AppDomain]::CurrentDomain.GetAssemblies() | Select-Object -ExpandProperty FullName) ]"
+
         if ( !("System.Web.HttpUtility" -as [Type]) ) {
             Write-Verbose 'TEST -- Loading System.Web assembly'
             Add-Type -Assembly System.Web
