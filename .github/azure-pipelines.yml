@@ -13,7 +13,7 @@ jobs:
 # Windows - nonCore
 
   - job: Window_PowerShell
-    timeoutInMinutes: 10
+    timeoutInMinutes: 60
     pool:
       vmImage: 'windows-latest'
 
