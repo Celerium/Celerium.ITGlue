@@ -78,11 +78,10 @@ function Invoke-ITGlueRequest {
 
     begin {
 
-        if ($IsWindows -or $PSEdition -eq 'Desktop') {
-            # Load Web assembly when needed as PowerShell Core has the assembly preloaded
-            if ( !("System.Web.HttpUtility" -as [Type]) ) {
-                Add-Type -Assembly System.Web
-            }
+        # Load Web assembly when needed as PowerShell Core has the assembly preloaded
+        if ( !("System.Web.HttpUtility" -as [Type]) ) {
+            Write-Verbose 'TEST -- Loading System.Web assembly'
+            Add-Type -Assembly System.Web
         }
 
         $FunctionName       = $MyInvocation.InvocationName
