@@ -22,7 +22,7 @@ function New-ITGlueConfigurationInterface {
         by the Invoke-ITGlueRequest function
 
     .EXAMPLE
-        New-ITGlueConfigurationInterface -ConfigurationID 8765309 -Data $JsonObject
+        New-ITGlueConfigurationInterface -ConfigurationID 8765309 -Data $JsonBody
 
         Creates a configuration interface for the defined configuration using the structured JSON object
 

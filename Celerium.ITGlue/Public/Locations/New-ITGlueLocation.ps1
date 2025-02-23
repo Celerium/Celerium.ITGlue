@@ -20,7 +20,7 @@ function New-ITGlueLocation {
         by the Invoke-ITGlueRequest function
 
     .EXAMPLE
-        New-ITGlueLocation -$OrganizationID 8675309 -Data $JsonObject
+        New-ITGlueLocation -$OrganizationID 8675309 -Data $JsonBody
 
         Creates a new location under the defined organization with the structured
         JSON object

@@ -30,10 +30,10 @@ Examples of JSON objects can be found under ITGlues developer documentation
 
 ### EXAMPLE 1
 ```powershell
-New-ITGluePasswordCategory -Data $JsonObject
+New-ITGluePasswordCategory -Data $JsonBody
 ```
 
-Creates a new password category with the specified JSON object
+Creates a new password category with the specified JSON body
 
 ## PARAMETERS
 

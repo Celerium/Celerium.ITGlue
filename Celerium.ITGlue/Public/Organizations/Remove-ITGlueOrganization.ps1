@@ -71,9 +71,9 @@ function Remove-ITGlueOrganization {
         by the Invoke-ITGlueRequest function
 
     .EXAMPLE
-        Remove-ITGlueOrganization -Data $JsonObject
+        Remove-ITGlueOrganization -Data $JsonBody
 
-        Deletes all defined organization with the specified JSON object
+        Deletes all defined organization with the specified JSON body
 
     .NOTES
         N/A

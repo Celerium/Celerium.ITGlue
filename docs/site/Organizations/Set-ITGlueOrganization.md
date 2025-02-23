@@ -56,17 +56,17 @@ Examples of JSON objects can be found under ITGlues developer documentation
 
 ### EXAMPLE 1
 ```powershell
-Set-ITGlueOrganization -id 8765309 -Data $JsonObject
+Set-ITGlueOrganization -id 8765309 -Data $JsonBody
 ```
 
-Updates an organization with the specified JSON object
+Updates an organization with the specified JSON body
 
 ### EXAMPLE 2
 ```powershell
-Set-ITGlueOrganization -FilterOrganizationStatusID 12345 -Data $JsonObject
+Set-ITGlueOrganization -FilterOrganizationStatusID 12345 -Data $JsonBody
 ```
 
-Updates all defined organization with the specified JSON object
+Updates all defined organization with the specified JSON body
 
 ## PARAMETERS
 

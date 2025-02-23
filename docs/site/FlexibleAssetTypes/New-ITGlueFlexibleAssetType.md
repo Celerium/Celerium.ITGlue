@@ -30,10 +30,10 @@ Examples of JSON objects can be found under ITGlues developer documentation
 
 ### EXAMPLE 1
 ```powershell
-New-ITGlueFlexibleAssetType -Data $JsonObject
+New-ITGlueFlexibleAssetType -Data $JsonBody
 ```
 
-Creates a new flexible asset type with the specified JSON object
+Creates a new flexible asset type with the specified JSON body
 
 ## PARAMETERS
 

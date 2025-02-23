@@ -22,7 +22,7 @@ function Remove-ITGlueFlexibleAsset {
         Deletes the defined flexible asset
 
     .EXAMPLE
-        Remove-ITGlueFlexibleAsset -Data $JsonObject
+        Remove-ITGlueFlexibleAsset -Data $JsonBody
 
         Deletes flexible asset defined in the structured JSON object
 

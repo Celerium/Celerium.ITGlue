@@ -20,10 +20,10 @@ function New-ITGlueConfiguration {
         by the Invoke-ITGlueRequest function
 
     .EXAMPLE
-        New-ITGlueConfiguration -OrganizationID 8675309 -Data $JsonObject
+        New-ITGlueConfiguration -OrganizationID 8675309 -Data $JsonBody
 
         Creates a configuration in the defined organization with the
-        with the specified JSON object
+        with the specified JSON body
 
     .NOTES
         N/A

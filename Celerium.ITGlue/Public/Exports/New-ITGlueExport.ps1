@@ -34,9 +34,9 @@ function New-ITGlueExport {
         by the Invoke-ITGlueRequest function
 
     .EXAMPLE
-        New-ITGlueExport -Data $JsonObject
+        New-ITGlueExport -Data $JsonBody
 
-        Creates a new export with the specified JSON object
+        Creates a new export with the specified JSON body
 
     .NOTES
         N/A

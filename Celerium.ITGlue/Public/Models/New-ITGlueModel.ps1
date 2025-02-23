@@ -20,12 +20,12 @@ function New-ITGlueModel {
         by the Invoke-ITGlueRequest function
 
     .EXAMPLE
-        New-ITGlueModel -Data $JsonObject
+        New-ITGlueModel -Data $JsonBody
 
-        Creates a new model with the specified JSON object
+        Creates a new model with the specified JSON body
 
     .EXAMPLE
-        New-ITGlueModel -ManufacturerID 8675309 -Data $JsonObject
+        New-ITGlueModel -ManufacturerID 8675309 -Data $JsonBody
 
         Creates a new model associated to the defined model with the
         structured JSON object

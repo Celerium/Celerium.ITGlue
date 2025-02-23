@@ -30,10 +30,10 @@ Examples of JSON objects can be found under ITGlues developer documentation
 
 ### EXAMPLE 1
 ```powershell
-Set-ITGlueUser -id 8675309 -Data $JsonObject
+Set-ITGlueUser -id 8675309 -Data $JsonBody
 ```
 
-Updates the defined user with the specified JSON object
+Updates the defined user with the specified JSON body
 
 ## PARAMETERS
 

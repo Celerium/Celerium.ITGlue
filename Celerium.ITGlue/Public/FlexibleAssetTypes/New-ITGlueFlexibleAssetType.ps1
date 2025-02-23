@@ -17,9 +17,9 @@ function New-ITGlueFlexibleAssetType {
         by the Invoke-ITGlueRequest function
 
     .EXAMPLE
-        New-ITGlueFlexibleAssetType -Data $JsonObject
+        New-ITGlueFlexibleAssetType -Data $JsonBody
 
-        Creates a new flexible asset type with the specified JSON object
+        Creates a new flexible asset type with the specified JSON body
 
     .NOTES
         N/A

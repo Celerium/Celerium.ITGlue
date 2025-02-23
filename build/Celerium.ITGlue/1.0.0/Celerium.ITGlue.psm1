@@ -1311,7 +1311,7 @@ function New-ITGlueAttachment {
         by the Invoke-ITGlueRequest function
 
     .EXAMPLE
-        New-ITGlueAttachment -ResourceType passwords -ResourceID 8675309 -Data $JsonObject
+        New-ITGlueAttachment -ResourceType passwords -ResourceID 8675309 -Data $JsonBody
 
         Creates an attachment to a password with the defined id using the structured JSON object
 
@@ -1397,7 +1397,7 @@ function Remove-ITGlueAttachment {
         by the Invoke-ITGlueRequest function
 
     .EXAMPLE
-        Remove-ITGlueAttachment -ResourceType passwords -ResourceID 8675309 -Data $JsonObject
+        Remove-ITGlueAttachment -ResourceType passwords -ResourceID 8675309 -Data $JsonBody
 
         Using the defined JSON object this deletes an attachment from a
         password with the defined id
@@ -1492,7 +1492,7 @@ function Set-ITGlueAttachment {
         by the Invoke-ITGlueRequest function
 
     .EXAMPLE
-        Set-ITGlueAttachment -ResourceType passwords -ResourceID 8675309 -id 8675309 -Data $JsonObject
+        Set-ITGlueAttachment -ResourceType passwords -ResourceID 8675309 -id 8675309 -Data $JsonBody
 
         Updates an attachment to a password with the defined id using the structured JSON object
 
@@ -1741,7 +1741,7 @@ function New-ITGlueConfigurationInterface {
         by the Invoke-ITGlueRequest function
 
     .EXAMPLE
-        New-ITGlueConfigurationInterface -ConfigurationID 8765309 -Data $JsonObject
+        New-ITGlueConfigurationInterface -ConfigurationID 8765309 -Data $JsonBody
 
         Creates a configuration interface for the defined configuration using the structured JSON object
 
@@ -1840,16 +1840,16 @@ function Set-ITGlueConfigurationInterface {
         by the Invoke-ITGlueRequest function
 
     .EXAMPLE
-        Set-ITGlueConfigurationInterface -ID 8765309 -Data $JsonObject
+        Set-ITGlueConfigurationInterface -ID 8765309 -Data $JsonBody
 
         Updates an interface for the defined configuration with the structured
         JSON object
 
     .EXAMPLE
-        Set-ITGlueConfigurationInterface -FilterID 8765309 -Data $JsonObject
+        Set-ITGlueConfigurationInterface -FilterID 8765309 -Data $JsonBody
 
         Bulk updates interfaces associated to the defined configuration filter
-        with the specified JSON object
+        with the specified JSON body
 
     .NOTES
         N/A
@@ -2312,10 +2312,10 @@ function New-ITGlueConfiguration {
         by the Invoke-ITGlueRequest function
 
     .EXAMPLE
-        New-ITGlueConfiguration -OrganizationID 8675309 -Data $JsonObject
+        New-ITGlueConfiguration -OrganizationID 8675309 -Data $JsonBody
 
         Creates a configuration in the defined organization with the
-        with the specified JSON object
+        with the specified JSON body
 
     .NOTES
         N/A
@@ -2445,9 +2445,9 @@ function Remove-ITGlueConfiguration {
         by the Invoke-ITGlueRequest function
 
     .EXAMPLE
-        Remove-ITGlueConfiguration -ID 8765309 -Data $JsonObject
+        Remove-ITGlueConfiguration -ID 8765309 -Data $JsonBody
 
-        Deletes a defined configuration with the specified JSON object
+        Deletes a defined configuration with the specified JSON body
 
     .NOTES
         N/A
@@ -2704,7 +2704,7 @@ function Set-ITGlueConfiguration {
         by the Invoke-ITGlueRequest function
 
     .EXAMPLE
-        Set-ITGlueConfiguration -ID 8765309 -OrganizationID 8765309 -Data $JsonObject
+        Set-ITGlueConfiguration -ID 8765309 -OrganizationID 8765309 -Data $JsonBody
 
         Updates a defined configuration in the defined organization with
         the structured JSON object
@@ -3033,9 +3033,9 @@ function New-ITGlueConfigurationStatus {
         by the Invoke-ITGlueRequest function
 
     .EXAMPLE
-        New-ITGlueConfigurationStatus -Data $JsonObject
+        New-ITGlueConfigurationStatus -Data $JsonBody
 
-        Creates a new configuration status with the specified JSON object
+        Creates a new configuration status with the specified JSON body
 
     .NOTES
         N/A
@@ -3104,9 +3104,9 @@ function Set-ITGlueConfigurationStatus {
         by the Invoke-ITGlueRequest function
 
     .EXAMPLE
-        Set-ITGlueConfigurationStatus -id 8675309 -Data $JsonObject
+        Set-ITGlueConfigurationStatus -id 8675309 -Data $JsonBody
 
-        Updates the defined configuration status with the specified JSON object
+        Updates the defined configuration status with the specified JSON body
 
     .NOTES
         N/A
@@ -3307,9 +3307,9 @@ function New-ITGlueConfigurationType {
         by the Invoke-ITGlueRequest function
 
     .EXAMPLE
-        New-ITGlueConfigurationType -Data $JsonObject
+        New-ITGlueConfigurationType -Data $JsonBody
 
-        Creates a new configuration type with the specified JSON object
+        Creates a new configuration type with the specified JSON body
 
     .NOTES
         N/A
@@ -3378,7 +3378,7 @@ function Set-ITGlueConfigurationType {
         by the Invoke-ITGlueRequest function
 
     .EXAMPLE
-        Set-ITGlueConfigurationType -id 8675309 -Data $JsonObject
+        Set-ITGlueConfigurationType -id 8675309 -Data $JsonBody
 
         Update the defined configuration type with the structured
         JSON object
@@ -3725,7 +3725,7 @@ function New-ITGlueContact {
         by the Invoke-ITGlueRequest function
 
     .EXAMPLE
-        New-ITGlueContact -OrganizationID 8675309 -Data $JsonObject
+        New-ITGlueContact -OrganizationID 8675309 -Data $JsonBody
 
         Create a new contact in the defined organization with the structured
         JSON object
@@ -3837,7 +3837,7 @@ function Remove-ITGlueContact {
         by the Invoke-ITGlueRequest function
 
     .EXAMPLE
-        Remove-ITGlueContact -Data $JsonObject
+        Remove-ITGlueContact -Data $JsonBody
 
         Deletes contacts with the defined in structured
         JSON object
@@ -4035,9 +4035,9 @@ function Set-ITGlueContact {
         by the Invoke-ITGlueRequest function
 
     .EXAMPLE
-        Set-ITGlueContact -id 8675309 -Data $JsonObject
+        Set-ITGlueContact -id 8675309 -Data $JsonBody
 
-        Updates the defined contact with the specified JSON object
+        Updates the defined contact with the specified JSON body
 
     .NOTES
         N/A
@@ -4323,9 +4323,9 @@ function New-ITGlueContactType {
         by the Invoke-ITGlueRequest function
 
     .EXAMPLE
-        New-ITGlueContactType -Data $JsonObject
+        New-ITGlueContactType -Data $JsonBody
 
-        Creates a new contact type with the specified JSON object
+        Creates a new contact type with the specified JSON body
 
     .NOTES
         N/A
@@ -4394,9 +4394,9 @@ function Set-ITGlueContactType {
         by the Invoke-ITGlueRequest function
 
     .EXAMPLE
-        Set-ITGlueContactType -id 8675309 -Data $JsonObject
+        Set-ITGlueContactType -id 8675309 -Data $JsonBody
 
-        Update the defined contact type with the specified JSON object
+        Update the defined contact type with the specified JSON body
 
     .NOTES
         N/A
@@ -4617,9 +4617,9 @@ function Set-ITGlueDocument {
         by the Invoke-ITGlueRequest function
 
     .EXAMPLE
-        Set-ITGlueDocument -id 8675309 -Data $JsonObject
+        Set-ITGlueDocument -id 8675309 -Data $JsonBody
 
-        Updates the defined document with the specified JSON object
+        Updates the defined document with the specified JSON body
 
     .NOTES
         N/A
@@ -5244,9 +5244,9 @@ function New-ITGlueExport {
         by the Invoke-ITGlueRequest function
 
     .EXAMPLE
-        New-ITGlueExport -Data $JsonObject
+        New-ITGlueExport -Data $JsonBody
 
-        Creates a new export with the specified JSON object
+        Creates a new export with the specified JSON body
 
     .NOTES
         N/A
@@ -5561,7 +5561,7 @@ function New-ITGlueFlexibleAssetField {
         by the Invoke-ITGlueRequest function
 
     .EXAMPLE
-        New-ITGlueFlexibleAssetField -FlexibleAssetTypeID 8675309 -Data $JsonObject
+        New-ITGlueFlexibleAssetField -FlexibleAssetTypeID 8675309 -Data $JsonBody
 
         Creates a new flexible asset field for the defined id with the structured
         JSON object
@@ -5725,7 +5725,7 @@ function Set-ITGlueFlexibleAssetField {
         by the Invoke-ITGlueRequest function
 
     .EXAMPLE
-        Set-ITGlueFlexibleAssetField -id 8675309 -Data $JsonObject
+        Set-ITGlueFlexibleAssetField -id 8675309 -Data $JsonBody
 
         Updates a defined flexible asset field with the structured
         JSON object
@@ -6002,7 +6002,7 @@ function New-ITGlueFlexibleAsset {
         by the Invoke-ITGlueRequest function
 
     .EXAMPLE
-        New-ITGlueFlexibleAsset -OrganizationID 8675309 -Data $JsonObject
+        New-ITGlueFlexibleAsset -OrganizationID 8675309 -Data $JsonBody
 
         Creates a new flexible asset in the defined organization with the structured
         JSON object
@@ -6081,7 +6081,7 @@ function Remove-ITGlueFlexibleAsset {
         Deletes the defined flexible asset
 
     .EXAMPLE
-        Remove-ITGlueFlexibleAsset -Data $JsonObject
+        Remove-ITGlueFlexibleAsset -Data $JsonBody
 
         Deletes flexible asset defined in the structured JSON object
 
@@ -6158,9 +6158,9 @@ function Set-ITGlueFlexibleAsset {
         by the Invoke-ITGlueRequest function
 
     .EXAMPLE
-        Set-ITGlueFlexibleAsset -id 8675309 -Data $JsonObject
+        Set-ITGlueFlexibleAsset -id 8675309 -Data $JsonBody
 
-        Updates a defined flexible asset with the specified JSON object
+        Updates a defined flexible asset with the specified JSON body
 
     .NOTES
         N/A
@@ -6400,9 +6400,9 @@ function New-ITGlueFlexibleAssetType {
         by the Invoke-ITGlueRequest function
 
     .EXAMPLE
-        New-ITGlueFlexibleAssetType -Data $JsonObject
+        New-ITGlueFlexibleAssetType -Data $JsonBody
 
-        Creates a new flexible asset type with the specified JSON object
+        Creates a new flexible asset type with the specified JSON body
 
     .NOTES
         N/A
@@ -6471,9 +6471,9 @@ function Set-ITGlueFlexibleAssetType {
         by the Invoke-ITGlueRequest function
 
     .EXAMPLE
-        Set-ITGlueFlexibleAssetType -id 8765309 -Data $JsonObject
+        Set-ITGlueFlexibleAssetType -id 8765309 -Data $JsonBody
 
-        Update a flexible asset type with the specified JSON object
+        Update a flexible asset type with the specified JSON body
 
     .NOTES
         N/A
@@ -6944,7 +6944,7 @@ function New-ITGlueLocation {
         by the Invoke-ITGlueRequest function
 
     .EXAMPLE
-        New-ITGlueLocation -$OrganizationID 8675309 -Data $JsonObject
+        New-ITGlueLocation -$OrganizationID 8675309 -Data $JsonBody
 
         Creates a new location under the defined organization with the structured
         JSON object
@@ -7050,14 +7050,14 @@ function Remove-ITGlueLocation {
         by the Invoke-ITGlueRequest function
 
     .EXAMPLE
-        Remove-ITGlueLocation -OrganizationID 123456 -ID 8765309 -Data $JsonObject
+        Remove-ITGlueLocation -OrganizationID 123456 -ID 8765309 -Data $JsonBody
 
-        Removes the defined location from the defined organization with the specified JSON object
+        Removes the defined location from the defined organization with the specified JSON body
 
     .EXAMPLE
-        Remove-ITGlueLocation -Data $JsonObject
+        Remove-ITGlueLocation -Data $JsonBody
 
-        Removes location(s) with the specified JSON object
+        Removes location(s) with the specified JSON body
 
     .NOTES
         N/A
@@ -7222,9 +7222,9 @@ function Set-ITGlueLocation {
         by the Invoke-ITGlueRequest function
 
     .EXAMPLE
-        Set-ITGlueLocation -id 8765309 -Data $JsonObject
+        Set-ITGlueLocation -id 8765309 -Data $JsonBody
 
-        Updates the defined location with the specified JSON object
+        Updates the defined location with the specified JSON body
 
     .NOTES
         N/A
@@ -7635,9 +7635,9 @@ function New-ITGlueManufacturer {
         by the Invoke-ITGlueRequest function
 
     .EXAMPLE
-        New-ITGlueManufacturer -Data $JsonObject
+        New-ITGlueManufacturer -Data $JsonBody
 
-        Creates a new manufacturers with the specified JSON object
+        Creates a new manufacturers with the specified JSON body
 
     .NOTES
         N/A
@@ -7704,9 +7704,9 @@ function Set-ITGlueManufacturer {
         by the Invoke-ITGlueRequest function
 
     .EXAMPLE
-        New-ITGlueManufacturer -id 8765309 -Data $JsonObject
+        New-ITGlueManufacturer -id 8765309 -Data $JsonBody
 
-        Updates the defined manufacturer with the specified JSON object
+        Updates the defined manufacturer with the specified JSON body
 
     .NOTES
         N/A
@@ -7932,12 +7932,12 @@ function New-ITGlueModel {
         by the Invoke-ITGlueRequest function
 
     .EXAMPLE
-        New-ITGlueModel -Data $JsonObject
+        New-ITGlueModel -Data $JsonBody
 
-        Creates a new model with the specified JSON object
+        Creates a new model with the specified JSON body
 
     .EXAMPLE
-        New-ITGlueModel -ManufacturerID 8675309 -Data $JsonObject
+        New-ITGlueModel -ManufacturerID 8675309 -Data $JsonBody
 
         Creates a new model associated to the defined model with the
         structured JSON object
@@ -8023,9 +8023,9 @@ function Set-ITGlueModel {
         by the Invoke-ITGlueRequest function
 
     .EXAMPLE
-        Set-ITGlueModel -id 8675309 -Data $JsonObject
+        Set-ITGlueModel -id 8675309 -Data $JsonBody
 
-        Updates the defined model with the specified JSON object
+        Updates the defined model with the specified JSON body
 
     .NOTES
         N/A
@@ -8557,9 +8557,9 @@ function New-ITGlueOrganization {
         by the Invoke-ITGlueRequest function
 
     .EXAMPLE
-        New-ITGlueOrganization -Data $JsonObject
+        New-ITGlueOrganization -Data $JsonBody
 
-        Creates a new organization with the specified JSON object
+        Creates a new organization with the specified JSON body
 
     .NOTES
         N/A
@@ -8677,9 +8677,9 @@ function Remove-ITGlueOrganization {
         by the Invoke-ITGlueRequest function
 
     .EXAMPLE
-        Remove-ITGlueOrganization -Data $JsonObject
+        Remove-ITGlueOrganization -Data $JsonBody
 
-        Deletes all defined organization with the specified JSON object
+        Deletes all defined organization with the specified JSON body
 
     .NOTES
         N/A
@@ -8894,14 +8894,14 @@ function Set-ITGlueOrganization {
         by the Invoke-ITGlueRequest function
 
     .EXAMPLE
-        Set-ITGlueOrganization -id 8765309 -Data $JsonObject
+        Set-ITGlueOrganization -id 8765309 -Data $JsonBody
 
-        Updates an organization with the specified JSON object
+        Updates an organization with the specified JSON body
 
     .EXAMPLE
-        Set-ITGlueOrganization -FilterOrganizationStatusID 12345 -Data $JsonObject
+        Set-ITGlueOrganization -FilterOrganizationStatusID 12345 -Data $JsonBody
 
-        Updates all defined organization with the specified JSON object
+        Updates all defined organization with the specified JSON body
 
     .NOTES
         N/A
@@ -9199,9 +9199,9 @@ function New-ITGlueOrganizationStatus {
         by the Invoke-ITGlueRequest function
 
     .EXAMPLE
-        New-ITGlueOrganizationStatus -Data $JsonObject
+        New-ITGlueOrganizationStatus -Data $JsonBody
 
-        Creates a new organization status with the specified JSON object
+        Creates a new organization status with the specified JSON body
 
     .NOTES
         N/A
@@ -9270,7 +9270,7 @@ function Set-ITGlueOrganizationStatus {
         by the Invoke-ITGlueRequest function
 
     .EXAMPLE
-        Set-ITGlueOrganizationStatus -id 8675309 -Data $JsonObject
+        Set-ITGlueOrganizationStatus -id 8675309 -Data $JsonBody
 
         Using the defined body this creates an attachment to a password with the structured
         JSON object
@@ -9475,9 +9475,9 @@ function New-ITGlueOrganizationType {
         by the Invoke-ITGlueRequest function
 
     .EXAMPLE
-        New-ITGlueOrganizationType -Data $JsonObject
+        New-ITGlueOrganizationType -Data $JsonBody
 
-        Creates a new organization type with the specified JSON object
+        Creates a new organization type with the specified JSON body
 
     .NOTES
         N/A
@@ -9546,9 +9546,9 @@ function Set-ITGlueOrganizationType {
         by the Invoke-ITGlueRequest function
 
     .EXAMPLE
-        Set-ITGlueOrganizationType -id 8675309 -Data $JsonObject
+        Set-ITGlueOrganizationType -id 8675309 -Data $JsonBody
 
-        Update the defined organization type with the specified JSON object
+        Update the defined organization type with the specified JSON body
 
     .NOTES
         N/A
@@ -9749,9 +9749,9 @@ function New-ITGluePasswordCategory {
         by the Invoke-ITGlueRequest function
 
     .EXAMPLE
-        New-ITGluePasswordCategory -Data $JsonObject
+        New-ITGluePasswordCategory -Data $JsonBody
 
-        Creates a new password category with the specified JSON object
+        Creates a new password category with the specified JSON body
 
     .NOTES
         N/A
@@ -9818,9 +9818,9 @@ function Set-ITGluePasswordCategory {
         by the Invoke-ITGlueRequest function
 
     .EXAMPLE
-        Set-ITGluePasswordCategory -id 8675309 -Data $JsonObject
+        Set-ITGluePasswordCategory -id 8675309 -Data $JsonBody
 
-        Updates the defined password category with the specified JSON object
+        Updates the defined password category with the specified JSON body
 
     .NOTES
         N/A
@@ -10160,16 +10160,16 @@ function New-ITGluePassword {
         by the Invoke-ITGlueRequest function
 
     .EXAMPLE
-        New-ITGluePassword -OrganizationID 8675309 -Data $JsonObject
+        New-ITGluePassword -OrganizationID 8675309 -Data $JsonBody
 
-        Creates a new password in the defined organization with the specified JSON object
+        Creates a new password in the defined organization with the specified JSON body
 
         The password IS returned in the results
 
     .EXAMPLE
-        New-ITGluePassword -OrganizationID 8675309 -ShowPassword $false -Data $JsonObject
+        New-ITGluePassword -OrganizationID 8675309 -ShowPassword $false -Data $JsonBody
 
-        Creates a new password in the defined organization with the specified JSON object
+        Creates a new password in the defined organization with the specified JSON body
 
         The password is NOT returned in the results
 
@@ -10422,16 +10422,16 @@ function Set-ITGluePassword {
         by the Invoke-ITGlueRequest function
 
     .EXAMPLE
-        Set-ITGluePassword -id 8675309 -Data $JsonObject
+        Set-ITGluePassword -id 8675309 -Data $JsonBody
 
-        Updates the password in the defined organization with the specified JSON object
+        Updates the password in the defined organization with the specified JSON body
 
         The password is NOT returned in the results
 
     .EXAMPLE
-        Set-ITGluePassword -id 8675309 -ShowPassword $true -Data $JsonObject
+        Set-ITGluePassword -id 8675309 -ShowPassword $true -Data $JsonBody
 
-        Updates the password in the defined organization with the specified JSON object
+        Updates the password in the defined organization with the specified JSON body
 
         The password IS returned in the results
 
@@ -10840,7 +10840,7 @@ function New-ITGlueRelatedItem {
         by the Invoke-ITGlueRequest function
 
     .EXAMPLE
-        New-ITGlueRelatedItem -ResourceType passwords -ResourceID 8675309 -Data $JsonObject
+        New-ITGlueRelatedItem -ResourceType passwords -ResourceID 8675309 -Data $JsonBody
 
         Creates a new related password to the defined resource id with the structured
         JSON object
@@ -10927,7 +10927,7 @@ function Remove-ITGlueRelatedItem {
         by the Invoke-ITGlueRequest function
 
     .EXAMPLE
-        Remove-ITGlueRelatedItem -ResourceType passwords -ResourceID 8675309 -Data $JsonObject
+        Remove-ITGlueRelatedItem -ResourceType passwords -ResourceID 8675309 -Data $JsonBody
 
         Deletes the defined related item on the defined resource with the structured
         JSON object
@@ -11020,7 +11020,7 @@ function Set-ITGlueRelatedItem {
         by the Invoke-ITGlueRequest function
 
     .EXAMPLE
-        Set-ITGlueRelatedItem -ResourceType passwords -ResourceID 8675309 -ID 8765309 -Data $JsonObject
+        Set-ITGlueRelatedItem -ResourceType passwords -ResourceID 8675309 -ID 8765309 -Data $JsonBody
 
         Updates the defined related item on the defined resource with the structured
         JSON object
@@ -11422,9 +11422,9 @@ function Set-ITGlueUser {
         by the Invoke-ITGlueRequest function
 
     .EXAMPLE
-        Set-ITGlueUser -id 8675309 -Data $JsonObject
+        Set-ITGlueUser -id 8675309 -Data $JsonBody
 
-        Updates the defined user with the specified JSON object
+        Updates the defined user with the specified JSON body
 
     .NOTES
         N/A

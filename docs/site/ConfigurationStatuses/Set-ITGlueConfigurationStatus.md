@@ -32,10 +32,10 @@ Examples of JSON objects can be found under ITGlues developer documentation
 
 ### EXAMPLE 1
 ```powershell
-Set-ITGlueConfigurationStatus -id 8675309 -Data $JsonObject
+Set-ITGlueConfigurationStatus -id 8675309 -Data $JsonBody
 ```
 
-Updates the defined configuration status with the specified JSON object
+Updates the defined configuration status with the specified JSON body
 
 ## PARAMETERS
 

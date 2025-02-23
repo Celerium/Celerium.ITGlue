@@ -31,7 +31,7 @@ Examples of JSON objects can be found under ITGlues developer documentation
 
 ### EXAMPLE 1
 ```powershell
-New-ITGlueConfigurationInterface -ConfigurationID 8765309 -Data $JsonObject
+New-ITGlueConfigurationInterface -ConfigurationID 8765309 -Data $JsonBody
 ```
 
 Creates a configuration interface for the defined configuration using the structured JSON object

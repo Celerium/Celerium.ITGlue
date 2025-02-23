@@ -18,7 +18,7 @@
     # -- MINOR version when you add functionality in a backwards-compatible manner, and
     # -- PATCH version when you make backwards-compatible bug fixes.
 
-    ModuleVersion = '1.0.0'
+    ModuleVersion = '1.1.0'
 
     # ID used to uniquely identify this module
     GUID = 'ce707f0f-1969-4192-a08b-80f62be28f2f'
@@ -107,6 +107,9 @@
                     'Public/Contacts/New-ITGlueContact.ps1',
                     'Public/Contacts/Remove-ITGlueContact.ps1',
                     'Public/Contacts/Set-ITGlueContact.ps1',
+                    'Public/CopilotSmartAssist/Get-ITGlueCopilotSmartAssistDocument.ps1',
+                    'Public/CopilotSmartAssist/Remove-ITGlueCopilotSmartAssistDocument.ps1',
+                    'Public/CopilotSmartAssist/Set-ITGlueCopilotSmartAssistDocument.ps1',
                     'Public/Countries/Get-ITGlueCountry.ps1',
                     'Public/Documents/Set-ITGlueDocument.ps1',
                     'Public/Domains/Get-ITGlueDomain.ps1',

@@ -20,7 +20,7 @@ function New-ITGlueFlexibleAssetField {
         by the Invoke-ITGlueRequest function
 
     .EXAMPLE
-        New-ITGlueFlexibleAssetField -FlexibleAssetTypeID 8675309 -Data $JsonObject
+        New-ITGlueFlexibleAssetField -FlexibleAssetTypeID 8675309 -Data $JsonBody
 
         Creates a new flexible asset field for the defined id with the structured
         JSON object

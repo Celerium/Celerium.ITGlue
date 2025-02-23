@@ -43,10 +43,10 @@ Examples of JSON objects can be found under ITGlues developer documentation
 
 ### EXAMPLE 1
 ```powershell
-New-ITGlueExport -Data $JsonObject
+New-ITGlueExport -Data $JsonBody
 ```
 
-Creates a new export with the specified JSON object
+Creates a new export with the specified JSON body
 
 ## PARAMETERS
 

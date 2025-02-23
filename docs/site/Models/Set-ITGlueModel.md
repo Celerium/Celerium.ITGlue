@@ -40,10 +40,10 @@ Examples of JSON objects can be found under ITGlues developer documentation
 
 ### EXAMPLE 1
 ```powershell
-Set-ITGlueModel -id 8675309 -Data $JsonObject
+Set-ITGlueModel -id 8675309 -Data $JsonBody
 ```
 
-Updates the defined model with the specified JSON object
+Updates the defined model with the specified JSON body
 
 ## PARAMETERS
 

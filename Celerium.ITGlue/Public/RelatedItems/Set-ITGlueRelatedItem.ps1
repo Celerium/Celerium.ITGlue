@@ -34,7 +34,7 @@ function Set-ITGlueRelatedItem {
         by the Invoke-ITGlueRequest function
 
     .EXAMPLE
-        Set-ITGlueRelatedItem -ResourceType passwords -ResourceID 8675309 -ID 8765309 -Data $JsonObject
+        Set-ITGlueRelatedItem -ResourceType passwords -ResourceID 8675309 -ID 8765309 -Data $JsonBody
 
         Updates the defined related item on the defined resource with the structured
         JSON object

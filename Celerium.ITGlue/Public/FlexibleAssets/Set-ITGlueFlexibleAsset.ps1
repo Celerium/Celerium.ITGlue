@@ -22,9 +22,9 @@ function Set-ITGlueFlexibleAsset {
         by the Invoke-ITGlueRequest function
 
     .EXAMPLE
-        Set-ITGlueFlexibleAsset -id 8675309 -Data $JsonObject
+        Set-ITGlueFlexibleAsset -id 8675309 -Data $JsonBody
 
-        Updates a defined flexible asset with the specified JSON object
+        Updates a defined flexible asset with the specified JSON body
 
     .NOTES
         N/A

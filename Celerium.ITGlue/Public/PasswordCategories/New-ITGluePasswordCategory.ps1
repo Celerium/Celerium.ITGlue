@@ -17,9 +17,9 @@ function New-ITGluePasswordCategory {
         by the Invoke-ITGlueRequest function
 
     .EXAMPLE
-        New-ITGluePasswordCategory -Data $JsonObject
+        New-ITGluePasswordCategory -Data $JsonBody
 
-        Creates a new password category with the specified JSON object
+        Creates a new password category with the specified JSON body
 
     .NOTES
         N/A

@@ -34,7 +34,7 @@ function New-ITGlueRelatedItem {
         by the Invoke-ITGlueRequest function
 
     .EXAMPLE
-        New-ITGlueRelatedItem -ResourceType passwords -ResourceID 8675309 -Data $JsonObject
+        New-ITGlueRelatedItem -ResourceType passwords -ResourceID 8675309 -Data $JsonBody
 
         Creates a new related password to the defined resource id with the structured
         JSON object

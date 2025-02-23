@@ -17,9 +17,9 @@ function New-ITGlueOrganizationStatus {
         by the Invoke-ITGlueRequest function
 
     .EXAMPLE
-        New-ITGlueOrganizationStatus -Data $JsonObject
+        New-ITGlueOrganizationStatus -Data $JsonBody
 
-        Creates a new organization status with the specified JSON object
+        Creates a new organization status with the specified JSON body
 
     .NOTES
         N/A

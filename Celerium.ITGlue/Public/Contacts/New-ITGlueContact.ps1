@@ -22,7 +22,7 @@ function New-ITGlueContact {
         by the Invoke-ITGlueRequest function
 
     .EXAMPLE
-        New-ITGlueContact -OrganizationID 8675309 -Data $JsonObject
+        New-ITGlueContact -OrganizationID 8675309 -Data $JsonBody
 
         Create a new contact in the defined organization with the structured
         JSON object

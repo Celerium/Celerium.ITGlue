@@ -63,10 +63,10 @@ Examples of JSON objects can be found under ITGlues developer documentation
 
 ### EXAMPLE 1
 ```powershell
-Remove-ITGlueConfiguration -ID 8765309 -Data $JsonObject
+Remove-ITGlueConfiguration -ID 8765309 -Data $JsonBody
 ```
 
-Deletes a defined configuration with the specified JSON object
+Deletes a defined configuration with the specified JSON body
 
 ## PARAMETERS
 

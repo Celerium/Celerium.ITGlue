@@ -38,10 +38,10 @@ Examples of JSON objects can be found under ITGlues developer documentation
 
 ### EXAMPLE 1
 ```powershell
-Set-ITGlueFlexibleAsset -id 8675309 -Data $JsonObject
+Set-ITGlueFlexibleAsset -id 8675309 -Data $JsonBody
 ```
 
-Updates a defined flexible asset with the specified JSON object
+Updates a defined flexible asset with the specified JSON body
 
 ## PARAMETERS
 

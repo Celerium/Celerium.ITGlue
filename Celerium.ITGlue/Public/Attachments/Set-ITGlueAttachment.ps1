@@ -35,7 +35,7 @@ function Set-ITGlueAttachment {
         by the Invoke-ITGlueRequest function
 
     .EXAMPLE
-        Set-ITGlueAttachment -ResourceType passwords -ResourceID 8675309 -id 8675309 -Data $JsonObject
+        Set-ITGlueAttachment -ResourceType passwords -ResourceID 8675309 -id 8675309 -Data $JsonBody
 
         Updates an attachment to a password with the defined id using the structured JSON object
 

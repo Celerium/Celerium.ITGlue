@@ -33,7 +33,7 @@ function Set-ITGlueFlexibleAssetField {
         by the Invoke-ITGlueRequest function
 
     .EXAMPLE
-        Set-ITGlueFlexibleAssetField -id 8675309 -Data $JsonObject
+        Set-ITGlueFlexibleAssetField -id 8675309 -Data $JsonBody
 
         Updates a defined flexible asset field with the structured
         JSON object

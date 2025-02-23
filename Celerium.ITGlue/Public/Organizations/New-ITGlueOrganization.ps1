@@ -16,9 +16,9 @@ function New-ITGlueOrganization {
         by the Invoke-ITGlueRequest function
 
     .EXAMPLE
-        New-ITGlueOrganization -Data $JsonObject
+        New-ITGlueOrganization -Data $JsonBody
 
-        Creates a new organization with the specified JSON object
+        Creates a new organization with the specified JSON body
 
     .NOTES
         N/A

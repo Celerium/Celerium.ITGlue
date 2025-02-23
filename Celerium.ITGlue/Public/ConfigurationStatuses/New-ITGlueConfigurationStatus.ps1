@@ -17,9 +17,9 @@ function New-ITGlueConfigurationStatus {
         by the Invoke-ITGlueRequest function
 
     .EXAMPLE
-        New-ITGlueConfigurationStatus -Data $JsonObject
+        New-ITGlueConfigurationStatus -Data $JsonBody
 
-        Creates a new configuration status with the specified JSON object
+        Creates a new configuration status with the specified JSON body
 
     .NOTES
         N/A

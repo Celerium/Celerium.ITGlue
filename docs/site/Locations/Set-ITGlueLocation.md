@@ -48,10 +48,10 @@ Examples of JSON objects can be found under ITGlues developer documentation
 
 ### EXAMPLE 1
 ```powershell
-Set-ITGlueLocation -id 8765309 -Data $JsonObject
+Set-ITGlueLocation -id 8765309 -Data $JsonBody
 ```
 
-Updates the defined location with the specified JSON object
+Updates the defined location with the specified JSON body
 
 ## PARAMETERS
 

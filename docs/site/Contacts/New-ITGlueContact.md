@@ -32,7 +32,7 @@ Examples of JSON objects can be found under ITGlues developer documentation
 
 ### EXAMPLE 1
 ```powershell
-New-ITGlueContact -OrganizationID 8675309 -Data $JsonObject
+New-ITGlueContact -OrganizationID 8675309 -Data $JsonBody
 ```
 
 Create a new contact in the defined organization with the structured

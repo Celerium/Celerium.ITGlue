@@ -41,19 +41,19 @@ Examples of JSON objects can be found under ITGlues developer documentation
 
 ### EXAMPLE 1
 ```powershell
-Set-ITGluePassword -id 8675309 -Data $JsonObject
+Set-ITGluePassword -id 8675309 -Data $JsonBody
 ```
 
-Updates the password in the defined organization with the specified JSON object
+Updates the password in the defined organization with the specified JSON body
 
 The password is NOT returned in the results
 
 ### EXAMPLE 2
 ```powershell
-Set-ITGluePassword -id 8675309 -ShowPassword $true -Data $JsonObject
+Set-ITGluePassword -id 8675309 -ShowPassword $true -Data $JsonBody
 ```
 
-Updates the password in the defined organization with the specified JSON object
+Updates the password in the defined organization with the specified JSON body
 
 The password IS returned in the results
 

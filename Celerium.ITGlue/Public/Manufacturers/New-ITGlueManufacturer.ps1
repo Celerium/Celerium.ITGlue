@@ -16,9 +16,9 @@ function New-ITGlueManufacturer {
         by the Invoke-ITGlueRequest function
 
     .EXAMPLE
-        New-ITGlueManufacturer -Data $JsonObject
+        New-ITGlueManufacturer -Data $JsonBody
 
-        Creates a new manufacturers with the specified JSON object
+        Creates a new manufacturers with the specified JSON body
 
     .NOTES
         N/A

@@ -30,10 +30,10 @@ Examples of JSON objects can be found under ITGlues developer documentation
 
 ### EXAMPLE 1
 ```powershell
-New-ITGlueConfigurationStatus -Data $JsonObject
+New-ITGlueConfigurationStatus -Data $JsonBody
 ```
 
-Creates a new configuration status with the specified JSON object
+Creates a new configuration status with the specified JSON body
 
 ## PARAMETERS
 

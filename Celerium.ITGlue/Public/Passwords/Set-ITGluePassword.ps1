@@ -35,16 +35,16 @@ function Set-ITGluePassword {
         by the Invoke-ITGlueRequest function
 
     .EXAMPLE
-        Set-ITGluePassword -id 8675309 -Data $JsonObject
+        Set-ITGluePassword -id 8675309 -Data $JsonBody
 
-        Updates the password in the defined organization with the specified JSON object
+        Updates the password in the defined organization with the specified JSON body
 
         The password is NOT returned in the results
 
     .EXAMPLE
-        Set-ITGluePassword -id 8675309 -ShowPassword $true -Data $JsonObject
+        Set-ITGluePassword -id 8675309 -ShowPassword $true -Data $JsonBody
 
-        Updates the password in the defined organization with the specified JSON object
+        Updates the password in the defined organization with the specified JSON body
 
         The password IS returned in the results
 

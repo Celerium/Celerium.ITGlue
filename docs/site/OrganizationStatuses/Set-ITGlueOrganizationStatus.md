@@ -32,7 +32,7 @@ Examples of JSON objects can be found under ITGlues developer documentation
 
 ### EXAMPLE 1
 ```powershell
-Set-ITGlueOrganizationStatus -id 8675309 -Data $JsonObject
+Set-ITGlueOrganizationStatus -id 8675309 -Data $JsonBody
 ```
 
 Using the defined body this creates an attachment to a password with the structured

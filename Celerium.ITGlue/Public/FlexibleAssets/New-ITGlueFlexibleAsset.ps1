@@ -23,7 +23,7 @@ function New-ITGlueFlexibleAsset {
         by the Invoke-ITGlueRequest function
 
     .EXAMPLE
-        New-ITGlueFlexibleAsset -OrganizationID 8675309 -Data $JsonObject
+        New-ITGlueFlexibleAsset -OrganizationID 8675309 -Data $JsonBody
 
         Creates a new flexible asset in the defined organization with the structured
         JSON object

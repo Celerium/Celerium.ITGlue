@@ -76,14 +76,14 @@ function Set-ITGlueOrganization {
         by the Invoke-ITGlueRequest function
 
     .EXAMPLE
-        Set-ITGlueOrganization -id 8765309 -Data $JsonObject
+        Set-ITGlueOrganization -id 8765309 -Data $JsonBody
 
-        Updates an organization with the specified JSON object
+        Updates an organization with the specified JSON body
 
     .EXAMPLE
-        Set-ITGlueOrganization -FilterOrganizationStatusID 12345 -Data $JsonObject
+        Set-ITGlueOrganization -FilterOrganizationStatusID 12345 -Data $JsonBody
 
-        Updates all defined organization with the specified JSON object
+        Updates all defined organization with the specified JSON body
 
     .NOTES
         N/A

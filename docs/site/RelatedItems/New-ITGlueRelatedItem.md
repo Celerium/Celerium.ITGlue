@@ -37,7 +37,7 @@ Examples of JSON objects can be found under ITGlues developer documentation
 
 ### EXAMPLE 1
 ```powershell
-New-ITGlueRelatedItem -ResourceType passwords -ResourceID 8675309 -Data $JsonObject
+New-ITGlueRelatedItem -ResourceType passwords -ResourceID 8675309 -Data $JsonBody
 ```
 
 Creates a new related password to the defined resource id with the structured

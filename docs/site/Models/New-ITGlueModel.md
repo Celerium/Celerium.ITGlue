@@ -30,14 +30,14 @@ Examples of JSON objects can be found under ITGlues developer documentation
 
 ### EXAMPLE 1
 ```powershell
-New-ITGlueModel -Data $JsonObject
+New-ITGlueModel -Data $JsonBody
 ```
 
-Creates a new model with the specified JSON object
+Creates a new model with the specified JSON body
 
 ### EXAMPLE 2
 ```powershell
-New-ITGlueModel -ManufacturerID 8675309 -Data $JsonObject
+New-ITGlueModel -ManufacturerID 8675309 -Data $JsonBody
 ```
 
 Creates a new model associated to the defined model with the

@@ -46,7 +46,7 @@ Examples of JSON objects can be found under ITGlues developer documentation
 
 ### EXAMPLE 1
 ```powershell
-Remove-ITGlueContact -Data $JsonObject
+Remove-ITGlueContact -Data $JsonBody
 ```
 
 Deletes contacts with the defined in structured

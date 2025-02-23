@@ -22,9 +22,9 @@ function Set-ITGlueOrganizationType {
         by the Invoke-ITGlueRequest function
 
     .EXAMPLE
-        Set-ITGlueOrganizationType -id 8675309 -Data $JsonObject
+        Set-ITGlueOrganizationType -id 8675309 -Data $JsonBody
 
-        Update the defined organization type with the specified JSON object
+        Update the defined organization type with the specified JSON body
 
     .NOTES
         N/A

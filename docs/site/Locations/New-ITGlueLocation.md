@@ -30,7 +30,7 @@ Examples of JSON objects can be found under ITGlues developer documentation
 
 ### EXAMPLE 1
 ```powershell
-New-ITGlueLocation -$OrganizationID 8675309 -Data $JsonObject
+New-ITGlueLocation -$OrganizationID 8675309 -Data $JsonBody
 ```
 
 Creates a new location under the defined organization with the structured

@@ -41,17 +41,17 @@ Examples of JSON objects can be found under ITGlues developer documentation
 
 ### EXAMPLE 1
 ```powershell
-Remove-ITGlueLocation -OrganizationID 123456 -ID 8765309 -Data $JsonObject
+Remove-ITGlueLocation -OrganizationID 123456 -ID 8765309 -Data $JsonBody
 ```
 
-Removes the defined location from the defined organization with the specified JSON object
+Removes the defined location from the defined organization with the specified JSON body
 
 ### EXAMPLE 2
 ```powershell
-Remove-ITGlueLocation -Data $JsonObject
+Remove-ITGlueLocation -Data $JsonBody
 ```
 
-Removes location(s) with the specified JSON object
+Removes location(s) with the specified JSON body
 
 ## PARAMETERS
 

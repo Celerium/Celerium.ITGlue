@@ -27,7 +27,7 @@ function Remove-ITGlueAttachment {
         by the Invoke-ITGlueRequest function
 
     .EXAMPLE
-        Remove-ITGlueAttachment -ResourceType passwords -ResourceID 8675309 -Data $JsonObject
+        Remove-ITGlueAttachment -ResourceType passwords -ResourceID 8675309 -Data $JsonBody
 
         Using the defined JSON object this deletes an attachment from a
         password with the defined id

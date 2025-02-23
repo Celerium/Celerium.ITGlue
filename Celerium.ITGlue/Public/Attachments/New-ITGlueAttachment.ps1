@@ -34,7 +34,7 @@ function New-ITGlueAttachment {
         by the Invoke-ITGlueRequest function
 
     .EXAMPLE
-        New-ITGlueAttachment -ResourceType passwords -ResourceID 8675309 -Data $JsonObject
+        New-ITGlueAttachment -ResourceType passwords -ResourceID 8675309 -Data $JsonBody
 
         Creates an attachment to a password with the defined id using the structured JSON object
 

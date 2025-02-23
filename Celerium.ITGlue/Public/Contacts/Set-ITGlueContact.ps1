@@ -68,9 +68,9 @@ function Set-ITGlueContact {
         by the Invoke-ITGlueRequest function
 
     .EXAMPLE
-        Set-ITGlueContact -id 8675309 -Data $JsonObject
+        Set-ITGlueContact -id 8675309 -Data $JsonBody
 
-        Updates the defined contact with the specified JSON object
+        Updates the defined contact with the specified JSON body
 
     .NOTES
         N/A

@@ -178,12 +178,12 @@ Describe "Testing the [ $buildTarget ] version of [ $moduleName ] with [ $pester
         It "Manifest [ NestedModules ] has valid data" {
             switch ($buildTarget) {
                 'built'     { ($Module.NestedModules.Name).Count | Should -Be 0 }
-                'notBuilt'  { ($Module.NestedModules.Name).Count | Should -Be 94 }
+                'notBuilt'  { ($Module.NestedModules.Name).Count | Should -Be 97 }
             }
         }
 
         It "Manifest [ FunctionsToExport ] has valid data" {
-            ($Module.ExportedCommands).Count | Should -Be 95
+            ($Module.ExportedCommands).Count | Should -Be 98
         }
 
         It "Manifest [ CmdletsToExport ] is empty" {

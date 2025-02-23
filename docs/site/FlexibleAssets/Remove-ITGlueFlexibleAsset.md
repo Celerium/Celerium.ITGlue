@@ -40,7 +40,7 @@ Deletes the defined flexible asset
 
 ### EXAMPLE 2
 ```powershell
-Remove-ITGlueFlexibleAsset -Data $JsonObject
+Remove-ITGlueFlexibleAsset -Data $JsonBody
 ```
 
 Deletes flexible asset defined in the structured JSON object

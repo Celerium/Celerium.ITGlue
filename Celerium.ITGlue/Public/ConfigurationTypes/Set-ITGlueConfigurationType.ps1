@@ -22,7 +22,7 @@ function Set-ITGlueConfigurationType {
         by the Invoke-ITGlueRequest function
 
     .EXAMPLE
-        Set-ITGlueConfigurationType -id 8675309 -Data $JsonObject
+        Set-ITGlueConfigurationType -id 8675309 -Data $JsonBody
 
         Update the defined configuration type with the structured
         JSON object

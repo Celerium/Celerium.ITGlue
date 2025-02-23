@@ -44,16 +44,16 @@ function Set-ITGlueConfigurationInterface {
         by the Invoke-ITGlueRequest function
 
     .EXAMPLE
-        Set-ITGlueConfigurationInterface -ID 8765309 -Data $JsonObject
+        Set-ITGlueConfigurationInterface -ID 8765309 -Data $JsonBody
 
         Updates an interface for the defined configuration with the structured
         JSON object
 
     .EXAMPLE
-        Set-ITGlueConfigurationInterface -FilterID 8765309 -Data $JsonObject
+        Set-ITGlueConfigurationInterface -FilterID 8765309 -Data $JsonBody
 
         Bulk updates interfaces associated to the defined configuration filter
-        with the specified JSON object
+        with the specified JSON body
 
     .NOTES
         N/A

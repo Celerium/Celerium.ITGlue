@@ -44,7 +44,7 @@ Examples of JSON objects can be found under ITGlues developer documentation
 
 ### EXAMPLE 1
 ```powershell
-Set-ITGlueFlexibleAssetField -id 8675309 -Data $JsonObject
+Set-ITGlueFlexibleAssetField -id 8675309 -Data $JsonBody
 ```
 
 Updates a defined flexible asset field with the structured

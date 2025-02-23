@@ -44,6 +44,12 @@ ContactTypes,/contact_types,GET,Index,Get-ITGlueContactType,Invoke-ExampleITGlue
 ContactTypes,/contact_types/:id,GET,Index,Get-ITGlueContactType,Invoke-ExampleITGlueContactType,YES,
 ContactTypes,/contact_types,POST,Create,New-ITGlueContactType,Invoke-ExampleITGlueContactType,YES,
 ContactTypes,/contact_types/:id,PATCH,Update,Set-ITGlueContactType,Invoke-ExampleITGlueContactType,YES,
+CopilotSmartAssist,/copilot_smart_assist/documents,GET,Index,Get-ITGlueCopilotSmartAssistDocument,Get-ITGlueCopilotSmartAssistDocument,No,"As of 2025-02-23, this endpoint returns a 500 error"
+CopilotSmartAssist,/organizations/:organization_id/copilot_smart_assist/documents,GET,Index,Get-ITGlueCopilotSmartAssistDocument,Get-ITGlueCopilotSmartAssistDocument,No,"As of 2025-02-23, this endpoint returns a 500 error, this endpoint is a guess as you can filter by a orgid like update/delete but it is not listed in the API docs"
+CopilotSmartAssist,/copilot_smart_assist/documents,PATCH,Update,Set-ITGlueCopilotSmartAssistDocument,Set-ITGlueCopilotSmartAssistDocument,No,"As of 2025-02-23, this endpoint returns a 500 error"
+CopilotSmartAssist,/organizations/:organization_id/copilot_smart_assist/documents,PATCH,Bulk_update,Set-ITGlueCopilotSmartAssistDocument,Set-ITGlueCopilotSmartAssistDocument,No,"As of 2025-02-23, this endpoint returns a 500 error"
+CopilotSmartAssist,/copilot_smart_assist/documents,DELETE,Bulk_destroy,Remove-ITGlueCopilotSmartAssistDocument,Remove-ITGlueCopilotSmartAssistDocument,No,"As of 2025-02-23, this endpoint returns a 500 error"
+CopilotSmartAssist,/organizations/:organization_id/copilot_smart_assist/documents,DELETE,Bulk_destroy,Remove-ITGlueCopilotSmartAssistDocument,Remove-ITGlueCopilotSmartAssistDocument,No,"As of 2025-02-23, this endpoint returns a 500 error"
 Countries,/countries,GET,Index,Get-ITGlueCountry,Invoke-ExampleITGlueCountry,YES,
 Countries,/countries/:id,GET,Show,Get-ITGlueCountry,Invoke-ExampleITGlueCountry,YES,
 Documents,/documents/:id,PATCH,Update,Set-ITGlueDocument,Invoke-ExampleITGlueDocument,YES,

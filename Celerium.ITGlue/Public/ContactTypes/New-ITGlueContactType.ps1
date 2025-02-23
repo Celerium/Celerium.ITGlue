@@ -17,9 +17,9 @@ function New-ITGlueContactType {
         by the Invoke-ITGlueRequest function
 
     .EXAMPLE
-        New-ITGlueContactType -Data $JsonObject
+        New-ITGlueContactType -Data $JsonBody
 
-        Creates a new contact type with the specified JSON object
+        Creates a new contact type with the specified JSON body
 
     .NOTES
         N/A

@@ -39,7 +39,7 @@ Examples of JSON objects can be found under ITGlues developer documentation
 
 ### EXAMPLE 1
 ```powershell
-New-ITGlueAttachment -ResourceType passwords -ResourceID 8675309 -Data $JsonObject
+New-ITGlueAttachment -ResourceType passwords -ResourceID 8675309 -Data $JsonBody
 ```
 
 Creates an attachment to a password with the defined id using the structured JSON object

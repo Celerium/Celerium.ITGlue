@@ -85,7 +85,7 @@ function Set-ITGlueConfiguration {
         by the Invoke-ITGlueRequest function
 
     .EXAMPLE
-        Set-ITGlueConfiguration -ID 8765309 -OrganizationID 8765309 -Data $JsonObject
+        Set-ITGlueConfiguration -ID 8765309 -OrganizationID 8765309 -Data $JsonBody
 
         Updates a defined configuration in the defined organization with
         the structured JSON object

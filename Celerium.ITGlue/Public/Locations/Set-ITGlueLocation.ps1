@@ -52,9 +52,9 @@ function Set-ITGlueLocation {
         by the Invoke-ITGlueRequest function
 
     .EXAMPLE
-        Set-ITGlueLocation -id 8765309 -Data $JsonObject
+        Set-ITGlueLocation -id 8765309 -Data $JsonBody
 
-        Updates the defined location with the specified JSON object
+        Updates the defined location with the specified JSON body
 
     .NOTES
         N/A

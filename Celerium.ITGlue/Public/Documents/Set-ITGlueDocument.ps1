@@ -30,9 +30,9 @@ function Set-ITGlueDocument {
         by the Invoke-ITGlueRequest function
 
     .EXAMPLE
-        Set-ITGlueDocument -id 8675309 -Data $JsonObject
+        Set-ITGlueDocument -id 8675309 -Data $JsonBody
 
-        Updates the defined document with the specified JSON object
+        Updates the defined document with the specified JSON body
 
     .NOTES
         N/A

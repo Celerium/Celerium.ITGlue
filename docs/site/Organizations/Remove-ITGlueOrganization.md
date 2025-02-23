@@ -49,10 +49,10 @@ Examples of JSON objects can be found under ITGlues developer documentation
 
 ### EXAMPLE 1
 ```powershell
-Remove-ITGlueOrganization -Data $JsonObject
+Remove-ITGlueOrganization -Data $JsonBody
 ```
 
-Deletes all defined organization with the specified JSON object
+Deletes all defined organization with the specified JSON body
 
 ## PARAMETERS
 

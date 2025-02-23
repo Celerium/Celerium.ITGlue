@@ -16,9 +16,9 @@ function New-ITGlueConfigurationType {
         by the Invoke-ITGlueRequest function
 
     .EXAMPLE
-        New-ITGlueConfigurationType -Data $JsonObject
+        New-ITGlueConfigurationType -Data $JsonBody
 
-        Creates a new configuration type with the specified JSON object
+        Creates a new configuration type with the specified JSON body
 
     .NOTES
         N/A

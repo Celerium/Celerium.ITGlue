@@ -154,7 +154,7 @@
     <command:examples>
       <command:example>
         <maml:title>-------------------------- EXAMPLE 1 --------------------------</maml:title>
-        <dev:code>New-ITGlueAttachment -ResourceType passwords -ResourceID 8675309 -Data $JsonObject</dev:code>
+        <dev:code>New-ITGlueAttachment -ResourceType passwords -ResourceID 8675309 -Data $JsonBody</dev:code>
         <dev:remarks>
           <maml:para>Creates an attachment to a password with the defined id using the structured JSON object</maml:para>
         </dev:remarks>
@@ -323,7 +323,7 @@
     <command:examples>
       <command:example>
         <maml:title>-------------------------- EXAMPLE 1 --------------------------</maml:title>
-        <dev:code>Remove-ITGlueAttachment -ResourceType passwords -ResourceID 8675309 -Data $JsonObject</dev:code>
+        <dev:code>Remove-ITGlueAttachment -ResourceType passwords -ResourceID 8675309 -Data $JsonBody</dev:code>
         <dev:remarks>
           <maml:para>Using the defined JSON object this deletes an attachment from a password with the defined id</maml:para>
         </dev:remarks>
@@ -518,7 +518,7 @@
     <command:examples>
       <command:example>
         <maml:title>-------------------------- EXAMPLE 1 --------------------------</maml:title>
-        <dev:code>Set-ITGlueAttachment -ResourceType passwords -ResourceID 8675309 -id 8675309 -Data $JsonObject</dev:code>
+        <dev:code>Set-ITGlueAttachment -ResourceType passwords -ResourceID 8675309 -id 8675309 -Data $JsonBody</dev:code>
         <dev:remarks>
           <maml:para>Updates an attachment to a password with the defined id using the structured JSON object</maml:para>
         </dev:remarks>
@@ -942,7 +942,7 @@
     <command:examples>
       <command:example>
         <maml:title>-------------------------- EXAMPLE 1 --------------------------</maml:title>
-        <dev:code>New-ITGlueConfigurationInterface -ConfigurationID 8765309 -Data $JsonObject</dev:code>
+        <dev:code>New-ITGlueConfigurationInterface -ConfigurationID 8765309 -Data $JsonBody</dev:code>
         <dev:remarks>
           <maml:para>Creates a configuration interface for the defined configuration using the structured JSON object</maml:para>
         </dev:remarks>
@@ -1200,16 +1200,16 @@
     <command:examples>
       <command:example>
         <maml:title>-------------------------- EXAMPLE 1 --------------------------</maml:title>
-        <dev:code>Set-ITGlueConfigurationInterface -ID 8765309 -Data $JsonObject</dev:code>
+        <dev:code>Set-ITGlueConfigurationInterface -ID 8765309 -Data $JsonBody</dev:code>
         <dev:remarks>
           <maml:para>Updates an interface for the defined configuration with the structured JSON object</maml:para>
         </dev:remarks>
       </command:example>
       <command:example>
         <maml:title>-------------------------- EXAMPLE 2 --------------------------</maml:title>
-        <dev:code>Set-ITGlueConfigurationInterface -FilterID 8765309 -Data $JsonObject</dev:code>
+        <dev:code>Set-ITGlueConfigurationInterface -FilterID 8765309 -Data $JsonBody</dev:code>
         <dev:remarks>
-          <maml:para>Bulk updates interfaces associated to the defined configuration filter with the specified JSON object</maml:para>
+          <maml:para>Bulk updates interfaces associated to the defined configuration filter with the specified JSON body</maml:para>
         </dev:remarks>
       </command:example>
     </command:examples>
@@ -2674,9 +2674,9 @@
     <command:examples>
       <command:example>
         <maml:title>-------------------------- EXAMPLE 1 --------------------------</maml:title>
-        <dev:code>New-ITGlueConfiguration -OrganizationID 8675309 -Data $JsonObject</dev:code>
+        <dev:code>New-ITGlueConfiguration -OrganizationID 8675309 -Data $JsonBody</dev:code>
         <dev:remarks>
-          <maml:para>Creates a configuration in the defined organization with the with the specified JSON object</maml:para>
+          <maml:para>Creates a configuration in the defined organization with the with the specified JSON body</maml:para>
         </dev:remarks>
       </command:example>
     </command:examples>
@@ -3616,9 +3616,9 @@
     <command:examples>
       <command:example>
         <maml:title>-------------------------- EXAMPLE 1 --------------------------</maml:title>
-        <dev:code>Remove-ITGlueConfiguration -ID 8765309 -Data $JsonObject</dev:code>
+        <dev:code>Remove-ITGlueConfiguration -ID 8765309 -Data $JsonBody</dev:code>
         <dev:remarks>
-          <maml:para>Deletes a defined configuration with the specified JSON object</maml:para>
+          <maml:para>Deletes a defined configuration with the specified JSON body</maml:para>
         </dev:remarks>
       </command:example>
     </command:examples>
@@ -4598,7 +4598,7 @@
     <command:examples>
       <command:example>
         <maml:title>-------------------------- EXAMPLE 1 --------------------------</maml:title>
-        <dev:code>Set-ITGlueConfiguration -ID 8765309 -OrganizationID 8765309 -Data $JsonObject</dev:code>
+        <dev:code>Set-ITGlueConfiguration -ID 8765309 -OrganizationID 8765309 -Data $JsonBody</dev:code>
         <dev:remarks>
           <maml:para>Updates a defined configuration in the defined organization with the structured JSON object</maml:para>
         </dev:remarks>
@@ -4931,9 +4931,9 @@
     <command:examples>
       <command:example>
         <maml:title>-------------------------- EXAMPLE 1 --------------------------</maml:title>
-        <dev:code>New-ITGlueConfigurationStatus -Data $JsonObject</dev:code>
+        <dev:code>New-ITGlueConfigurationStatus -Data $JsonBody</dev:code>
         <dev:remarks>
-          <maml:para>Creates a new configuration status with the specified JSON object</maml:para>
+          <maml:para>Creates a new configuration status with the specified JSON body</maml:para>
         </dev:remarks>
       </command:example>
     </command:examples>
@@ -5075,9 +5075,9 @@
     <command:examples>
       <command:example>
         <maml:title>-------------------------- EXAMPLE 1 --------------------------</maml:title>
-        <dev:code>Set-ITGlueConfigurationStatus -id 8675309 -Data $JsonObject</dev:code>
+        <dev:code>Set-ITGlueConfigurationStatus -id 8675309 -Data $JsonBody</dev:code>
         <dev:remarks>
-          <maml:para>Updates the defined configuration status with the specified JSON object</maml:para>
+          <maml:para>Updates the defined configuration status with the specified JSON body</maml:para>
         </dev:remarks>
       </command:example>
     </command:examples>
@@ -5408,9 +5408,9 @@
     <command:examples>
       <command:example>
         <maml:title>-------------------------- EXAMPLE 1 --------------------------</maml:title>
-        <dev:code>New-ITGlueConfigurationType -Data $JsonObject</dev:code>
+        <dev:code>New-ITGlueConfigurationType -Data $JsonBody</dev:code>
         <dev:remarks>
-          <maml:para>Creates a new configuration type with the specified JSON object</maml:para>
+          <maml:para>Creates a new configuration type with the specified JSON body</maml:para>
         </dev:remarks>
       </command:example>
     </command:examples>
@@ -5552,7 +5552,7 @@
     <command:examples>
       <command:example>
         <maml:title>-------------------------- EXAMPLE 1 --------------------------</maml:title>
-        <dev:code>Set-ITGlueConfigurationType -id 8675309 -Data $JsonObject</dev:code>
+        <dev:code>Set-ITGlueConfigurationType -id 8675309 -Data $JsonBody</dev:code>
         <dev:remarks>
           <maml:para>Update the defined configuration type with the structured JSON object</maml:para>
         </dev:remarks>
@@ -6415,7 +6415,7 @@
     <command:examples>
       <command:example>
         <maml:title>-------------------------- EXAMPLE 1 --------------------------</maml:title>
-        <dev:code>New-ITGlueContact -OrganizationID 8675309 -Data $JsonObject</dev:code>
+        <dev:code>New-ITGlueContact -OrganizationID 8675309 -Data $JsonBody</dev:code>
         <dev:remarks>
           <maml:para>Create a new contact in the defined organization with the structured JSON object</maml:para>
         </dev:remarks>
@@ -6983,7 +6983,7 @@
     <command:examples>
       <command:example>
         <maml:title>-------------------------- EXAMPLE 1 --------------------------</maml:title>
-        <dev:code>Remove-ITGlueContact -Data $JsonObject</dev:code>
+        <dev:code>Remove-ITGlueContact -Data $JsonBody</dev:code>
         <dev:remarks>
           <maml:para>Deletes contacts with the defined in structured JSON object</maml:para>
         </dev:remarks>
@@ -7588,9 +7588,9 @@
     <command:examples>
       <command:example>
         <maml:title>-------------------------- EXAMPLE 1 --------------------------</maml:title>
-        <dev:code>Set-ITGlueContact -id 8675309 -Data $JsonObject</dev:code>
+        <dev:code>Set-ITGlueContact -id 8675309 -Data $JsonBody</dev:code>
         <dev:remarks>
-          <maml:para>Updates the defined contact with the specified JSON object</maml:para>
+          <maml:para>Updates the defined contact with the specified JSON body</maml:para>
         </dev:remarks>
       </command:example>
     </command:examples>
@@ -7921,9 +7921,9 @@
     <command:examples>
       <command:example>
         <maml:title>-------------------------- EXAMPLE 1 --------------------------</maml:title>
-        <dev:code>New-ITGlueContactType -Data $JsonObject</dev:code>
+        <dev:code>New-ITGlueContactType -Data $JsonBody</dev:code>
         <dev:remarks>
-          <maml:para>Creates a new contact type with the specified JSON object</maml:para>
+          <maml:para>Creates a new contact type with the specified JSON body</maml:para>
         </dev:remarks>
       </command:example>
     </command:examples>
@@ -8065,9 +8065,9 @@
     <command:examples>
       <command:example>
         <maml:title>-------------------------- EXAMPLE 1 --------------------------</maml:title>
-        <dev:code>Set-ITGlueContactType -id 8675309 -Data $JsonObject</dev:code>
+        <dev:code>Set-ITGlueContactType -id 8675309 -Data $JsonBody</dev:code>
         <dev:remarks>
-          <maml:para>Update the defined contact type with the specified JSON object</maml:para>
+          <maml:para>Update the defined contact type with the specified JSON body</maml:para>
         </dev:remarks>
       </command:example>
     </command:examples>
@@ -8079,6 +8079,535 @@
       <maml:navigationLink>
         <maml:linkText>https://api.itglue.com/developer/#contact-types-update</maml:linkText>
         <maml:uri>https://api.itglue.com/developer/#contact-types-update</maml:uri>
+      </maml:navigationLink>
+    </command:relatedLinks>
+  </command:command>
+  <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10" xmlns:MSHelp="http://msdn.microsoft.com/mshelp">
+    <command:details>
+      <command:name>Get-ITGlueCopilotSmartAssistDocument</command:name>
+      <command:verb>Get</command:verb>
+      <command:noun>ITGlueCopilotSmartAssistDocument</command:noun>
+      <maml:description>
+        <maml:para>Gets one or more documents found in the ITGlue Copilot Smart Assist</maml:para>
+      </maml:description>
+    </command:details>
+    <maml:description>
+      <maml:para>The Get-ITGlueCopilotSmartAssistDocument cmdlet gets one or more documents found in the ITGlue Copilot Smart Assist such as 'Documents not viewed in X amount of time', 'Documents that were never viewed', 'Documents that are expired', and 'Duplicate documents'</maml:para>
+      <maml:para>Present a list of 'Most Used' documents to facilitate best practices across organizations (when filter by type is not provided)</maml:para>
+      <maml:para>This function can call the following endpoints:     Index = /copilot_smart_assist/documents</maml:para>
+    </maml:description>
+    <command:syntax>
+      <command:syntaxItem>
+        <maml:name>Get-ITGlueCopilotSmartAssistDocument</maml:name>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+          <maml:name>FilterType</maml:name>
+          <maml:description>
+            <maml:para>Filter by type</maml:para>
+            <maml:para>Allowed values: 'stale', 'not_viewed', 'expired'</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+          <maml:name>FilterOrganizationID</maml:name>
+          <maml:description>
+            <maml:para>Filter by an organization ID</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">Int64</command:parameterValue>
+          <dev:type>
+            <maml:name>Int64</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>0</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+          <maml:name>PageNumber</maml:name>
+          <maml:description>
+            <maml:para>Return results starting from the defined number</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">Int64</command:parameterValue>
+          <dev:type>
+            <maml:name>Int64</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>0</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+          <maml:name>PageSize</maml:name>
+          <maml:description>
+            <maml:para>Number of results to return per page</maml:para>
+            <maml:para>The maximum number of page results that can be requested is 1000</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">Int32</command:parameterValue>
+          <dev:type>
+            <maml:name>Int32</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>0</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+          <maml:name>AllResults</maml:name>
+          <maml:description>
+            <maml:para>Returns all items from an endpoint</maml:para>
+            <maml:para>This can be used in unison with -PageSize to limit the number of sequential requests to the API</maml:para>
+          </maml:description>
+          <dev:type>
+            <maml:name>SwitchParameter</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>False</dev:defaultValue>
+        </command:parameter>
+      </command:syntaxItem>
+    </command:syntax>
+    <command:parameters>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+        <maml:name>FilterType</maml:name>
+        <maml:description>
+          <maml:para>Filter by type</maml:para>
+          <maml:para>Allowed values: 'stale', 'not_viewed', 'expired'</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        <dev:type>
+          <maml:name>String</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+        <maml:name>FilterOrganizationID</maml:name>
+        <maml:description>
+          <maml:para>Filter by an organization ID</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">Int64</command:parameterValue>
+        <dev:type>
+          <maml:name>Int64</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>0</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+        <maml:name>PageNumber</maml:name>
+        <maml:description>
+          <maml:para>Return results starting from the defined number</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">Int64</command:parameterValue>
+        <dev:type>
+          <maml:name>Int64</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>0</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+        <maml:name>PageSize</maml:name>
+        <maml:description>
+          <maml:para>Number of results to return per page</maml:para>
+          <maml:para>The maximum number of page results that can be requested is 1000</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">Int32</command:parameterValue>
+        <dev:type>
+          <maml:name>Int32</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>0</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+        <maml:name>AllResults</maml:name>
+        <maml:description>
+          <maml:para>Returns all items from an endpoint</maml:para>
+          <maml:para>This can be used in unison with -PageSize to limit the number of sequential requests to the API</maml:para>
+        </maml:description>
+        <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
+        <dev:type>
+          <maml:name>SwitchParameter</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>False</dev:defaultValue>
+      </command:parameter>
+    </command:parameters>
+    <command:inputTypes />
+    <command:returnValues />
+    <maml:alertSet>
+      <maml:alert>
+        <maml:para>N/A</maml:para>
+      </maml:alert>
+    </maml:alertSet>
+    <command:examples>
+      <command:example>
+        <maml:title>-------------------------- EXAMPLE 1 --------------------------</maml:title>
+        <dev:code>Get-ITGlueCopilotSmartAssistDocument</dev:code>
+        <dev:remarks>
+          <maml:para>Returns the first 50 documents from your ITGlue account</maml:para>
+        </dev:remarks>
+      </command:example>
+      <command:example>
+        <maml:title>-------------------------- EXAMPLE 2 --------------------------</maml:title>
+        <dev:code>Get-ITGlueCopilotSmartAssistDocument -OrganizationID 8765309</dev:code>
+        <dev:remarks>
+          <maml:para>Returns the first 50 documents from the defined organization</maml:para>
+        </dev:remarks>
+      </command:example>
+      <command:example>
+        <maml:title>-------------------------- EXAMPLE 3 --------------------------</maml:title>
+        <dev:code>Get-ITGlueCopilotSmartAssistDocument -PageNumber 2 -PageSize 10</dev:code>
+        <dev:remarks>
+          <maml:para>Returns the first 10 results from the second page for documents in your ITGlue account</maml:para>
+        </dev:remarks>
+      </command:example>
+    </command:examples>
+    <command:relatedLinks>
+      <maml:navigationLink>
+        <maml:linkText>https://celerium.github.io/Celerium.ITGlue/site/CopilotSmartAssist/Get-ITGlueCopilotSmartAssistDocument.html</maml:linkText>
+        <maml:uri>https://celerium.github.io/Celerium.ITGlue/site/CopilotSmartAssist/Get-ITGlueCopilotSmartAssistDocument.html</maml:uri>
+      </maml:navigationLink>
+      <maml:navigationLink>
+        <maml:linkText>https://api.itglue.com/developer#copilot-smart-assist-documents</maml:linkText>
+        <maml:uri>https://api.itglue.com/developer#copilot-smart-assist-documents</maml:uri>
+      </maml:navigationLink>
+    </command:relatedLinks>
+  </command:command>
+  <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10" xmlns:MSHelp="http://msdn.microsoft.com/mshelp">
+    <command:details>
+      <command:name>Remove-ITGlueCopilotSmartAssistDocument</command:name>
+      <command:verb>Remove</command:verb>
+      <command:noun>ITGlueCopilotSmartAssistDocument</command:noun>
+      <maml:description>
+        <maml:para>Deletes one or more documents found in the ITGlue Copilot Smart Assist</maml:para>
+      </maml:description>
+    </command:details>
+    <maml:description>
+      <maml:para>The Remove-ITGlueCopilotSmartAssistDocument cmdlet deletes one or more documents found in the ITGlue Copilot Smart Assist</maml:para>
+      <maml:para>Any attributes you don't specify will remain unchanged</maml:para>
+      <maml:para>This function can call the following endpoints:     Bulk_Destroy =  /copilot_smart_assist/documents                     /organizations/:organization_id/copilot_smart_assist/documents</maml:para>
+      <maml:para>Examples of JSON objects can be found under ITGlues developer documentation     https://api.itglue.com/developer</maml:para>
+    </maml:description>
+    <command:syntax>
+      <command:syntaxItem>
+        <maml:name>Remove-ITGlueCopilotSmartAssistDocument</maml:name>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+          <maml:name>FilterType</maml:name>
+          <maml:description>
+            <maml:para>Filter by type</maml:para>
+            <maml:para>Allowed values: 'stale', 'not_viewed', 'expired'</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+          <maml:name>FilterOrganizationID</maml:name>
+          <maml:description>
+            <maml:para>Filter by an organization ID</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">Int64</command:parameterValue>
+          <dev:type>
+            <maml:name>Int64</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>0</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+          <maml:name>Data</maml:name>
+          <maml:description>
+            <maml:para>JSON body depending on bulk changes or not</maml:para>
+            <maml:para>Do NOT include the "Data" property in the JSON object as this is handled by the Invoke-ITGlueRequest function</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">Object</command:parameterValue>
+          <dev:type>
+            <maml:name>Object</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="wi">
+          <maml:name>WhatIf</maml:name>
+          <maml:description>
+            <maml:para>Shows what would happen if the cmdlet runs. The cmdlet is not run.</maml:para>
+          </maml:description>
+          <dev:type>
+            <maml:name>SwitchParameter</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>False</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="cf">
+          <maml:name>Confirm</maml:name>
+          <maml:description>
+            <maml:para>Prompts you for confirmation before running the cmdlet.</maml:para>
+          </maml:description>
+          <dev:type>
+            <maml:name>SwitchParameter</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>False</dev:defaultValue>
+        </command:parameter>
+      </command:syntaxItem>
+    </command:syntax>
+    <command:parameters>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+        <maml:name>FilterType</maml:name>
+        <maml:description>
+          <maml:para>Filter by type</maml:para>
+          <maml:para>Allowed values: 'stale', 'not_viewed', 'expired'</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        <dev:type>
+          <maml:name>String</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+        <maml:name>FilterOrganizationID</maml:name>
+        <maml:description>
+          <maml:para>Filter by an organization ID</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">Int64</command:parameterValue>
+        <dev:type>
+          <maml:name>Int64</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>0</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+        <maml:name>Data</maml:name>
+        <maml:description>
+          <maml:para>JSON body depending on bulk changes or not</maml:para>
+          <maml:para>Do NOT include the "Data" property in the JSON object as this is handled by the Invoke-ITGlueRequest function</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">Object</command:parameterValue>
+        <dev:type>
+          <maml:name>Object</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="wi">
+        <maml:name>WhatIf</maml:name>
+        <maml:description>
+          <maml:para>Shows what would happen if the cmdlet runs. The cmdlet is not run.</maml:para>
+        </maml:description>
+        <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
+        <dev:type>
+          <maml:name>SwitchParameter</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>False</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="cf">
+        <maml:name>Confirm</maml:name>
+        <maml:description>
+          <maml:para>Prompts you for confirmation before running the cmdlet.</maml:para>
+        </maml:description>
+        <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
+        <dev:type>
+          <maml:name>SwitchParameter</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>False</dev:defaultValue>
+      </command:parameter>
+    </command:parameters>
+    <command:inputTypes />
+    <command:returnValues />
+    <maml:alertSet>
+      <maml:alert>
+        <maml:para>N/A</maml:para>
+      </maml:alert>
+    </maml:alertSet>
+    <command:examples>
+      <command:example>
+        <maml:title>-------------------------- EXAMPLE 1 --------------------------</maml:title>
+        <dev:code>Remove-ITGlueCopilotSmartAssistDocument -Data $JsonBody</dev:code>
+        <dev:remarks>
+          <maml:para>Deletes the defined document with the specified JSON body</maml:para>
+        </dev:remarks>
+      </command:example>
+    </command:examples>
+    <command:relatedLinks>
+      <maml:navigationLink>
+        <maml:linkText>https://celerium.github.io/Celerium.ITGlue/site/CopilotSmartAssist/Remove-ITGlueCopilotSmartAssistDocument.html</maml:linkText>
+        <maml:uri>https://celerium.github.io/Celerium.ITGlue/site/CopilotSmartAssist/Remove-ITGlueCopilotSmartAssistDocument.html</maml:uri>
+      </maml:navigationLink>
+      <maml:navigationLink>
+        <maml:linkText>https://api.itglue.com/developer#copilot-smart-assist-bulk-destroy</maml:linkText>
+        <maml:uri>https://api.itglue.com/developer#copilot-smart-assist-bulk-destroy</maml:uri>
+      </maml:navigationLink>
+    </command:relatedLinks>
+  </command:command>
+  <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10" xmlns:MSHelp="http://msdn.microsoft.com/mshelp">
+    <command:details>
+      <command:name>Set-ITGlueCopilotSmartAssistDocument</command:name>
+      <command:verb>Set</command:verb>
+      <command:noun>ITGlueCopilotSmartAssistDocument</command:noun>
+      <maml:description>
+        <maml:para>Updates one or more documents found in the ITGlue Copilot Smart Assist</maml:para>
+      </maml:description>
+    </command:details>
+    <maml:description>
+      <maml:para>The Set-ITGlueCopilotSmartAssistDocument cmdlet updates (archives) one or more documents found in the ITGlue Copilot Smart Assist</maml:para>
+      <maml:para>Any attributes you don't specify will remain unchanged</maml:para>
+      <maml:para>This function can call the following endpoints:     Bulk_Update =   /copilot_smart_assist/documents                     /organizations/:organization_id/copilot_smart_assist/documents</maml:para>
+      <maml:para>Examples of JSON objects can be found under ITGlues developer documentation     https://api.itglue.com/developer</maml:para>
+    </maml:description>
+    <command:syntax>
+      <command:syntaxItem>
+        <maml:name>Set-ITGlueCopilotSmartAssistDocument</maml:name>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+          <maml:name>FilterType</maml:name>
+          <maml:description>
+            <maml:para>Filter by type</maml:para>
+            <maml:para>Allowed values: 'stale', 'not_viewed', 'expired'</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+          <maml:name>FilterOrganizationID</maml:name>
+          <maml:description>
+            <maml:para>Filter by an organization ID</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">Int64</command:parameterValue>
+          <dev:type>
+            <maml:name>Int64</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>0</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+          <maml:name>Data</maml:name>
+          <maml:description>
+            <maml:para>JSON body depending on bulk changes or not</maml:para>
+            <maml:para>Do NOT include the "Data" property in the JSON object as this is handled by the Invoke-ITGlueRequest function</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">Object</command:parameterValue>
+          <dev:type>
+            <maml:name>Object</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="wi">
+          <maml:name>WhatIf</maml:name>
+          <maml:description>
+            <maml:para>Shows what would happen if the cmdlet runs. The cmdlet is not run.</maml:para>
+          </maml:description>
+          <dev:type>
+            <maml:name>SwitchParameter</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>False</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="cf">
+          <maml:name>Confirm</maml:name>
+          <maml:description>
+            <maml:para>Prompts you for confirmation before running the cmdlet.</maml:para>
+          </maml:description>
+          <dev:type>
+            <maml:name>SwitchParameter</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>False</dev:defaultValue>
+        </command:parameter>
+      </command:syntaxItem>
+    </command:syntax>
+    <command:parameters>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+        <maml:name>FilterType</maml:name>
+        <maml:description>
+          <maml:para>Filter by type</maml:para>
+          <maml:para>Allowed values: 'stale', 'not_viewed', 'expired'</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        <dev:type>
+          <maml:name>String</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+        <maml:name>FilterOrganizationID</maml:name>
+        <maml:description>
+          <maml:para>Filter by an organization ID</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">Int64</command:parameterValue>
+        <dev:type>
+          <maml:name>Int64</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>0</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+        <maml:name>Data</maml:name>
+        <maml:description>
+          <maml:para>JSON body depending on bulk changes or not</maml:para>
+          <maml:para>Do NOT include the "Data" property in the JSON object as this is handled by the Invoke-ITGlueRequest function</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">Object</command:parameterValue>
+        <dev:type>
+          <maml:name>Object</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="wi">
+        <maml:name>WhatIf</maml:name>
+        <maml:description>
+          <maml:para>Shows what would happen if the cmdlet runs. The cmdlet is not run.</maml:para>
+        </maml:description>
+        <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
+        <dev:type>
+          <maml:name>SwitchParameter</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>False</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="cf">
+        <maml:name>Confirm</maml:name>
+        <maml:description>
+          <maml:para>Prompts you for confirmation before running the cmdlet.</maml:para>
+        </maml:description>
+        <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
+        <dev:type>
+          <maml:name>SwitchParameter</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>False</dev:defaultValue>
+      </command:parameter>
+    </command:parameters>
+    <command:inputTypes />
+    <command:returnValues />
+    <maml:alertSet>
+      <maml:alert>
+        <maml:para>N/A</maml:para>
+      </maml:alert>
+    </maml:alertSet>
+    <command:examples>
+      <command:example>
+        <maml:title>-------------------------- EXAMPLE 1 --------------------------</maml:title>
+        <dev:code>Set-ITGlueCopilotSmartAssistDocument -Data $JsonBody</dev:code>
+        <dev:remarks>
+          <maml:para>Updates the defined document with the specified JSON body</maml:para>
+        </dev:remarks>
+      </command:example>
+    </command:examples>
+    <command:relatedLinks>
+      <maml:navigationLink>
+        <maml:linkText>https://celerium.github.io/Celerium.ITGlue/site/CopilotSmartAssist/Set-ITGlueCopilotSmartAssistDocument.html</maml:linkText>
+        <maml:uri>https://celerium.github.io/Celerium.ITGlue/site/CopilotSmartAssist/Set-ITGlueCopilotSmartAssistDocument.html</maml:uri>
+      </maml:navigationLink>
+      <maml:navigationLink>
+        <maml:linkText>https://api.itglue.com/developer#copilot-smart-assist-bulk-update</maml:linkText>
+        <maml:uri>https://api.itglue.com/developer#copilot-smart-assist-bulk-update</maml:uri>
       </maml:navigationLink>
     </command:relatedLinks>
   </command:command>
@@ -8477,9 +9006,9 @@
     <command:examples>
       <command:example>
         <maml:title>-------------------------- EXAMPLE 1 --------------------------</maml:title>
-        <dev:code>Set-ITGlueDocument -id 8675309 -Data $JsonObject</dev:code>
+        <dev:code>Set-ITGlueDocument -id 8675309 -Data $JsonBody</dev:code>
         <dev:remarks>
-          <maml:para>Updates the defined document with the specified JSON object</maml:para>
+          <maml:para>Updates the defined document with the specified JSON body</maml:para>
         </dev:remarks>
       </command:example>
     </command:examples>
@@ -9642,9 +10171,9 @@
     <command:examples>
       <command:example>
         <maml:title>-------------------------- EXAMPLE 1 --------------------------</maml:title>
-        <dev:code>New-ITGlueExport -Data $JsonObject</dev:code>
+        <dev:code>New-ITGlueExport -Data $JsonBody</dev:code>
         <dev:remarks>
-          <maml:para>Creates a new export with the specified JSON object</maml:para>
+          <maml:para>Creates a new export with the specified JSON body</maml:para>
         </dev:remarks>
       </command:example>
     </command:examples>
@@ -10177,7 +10706,7 @@
     <command:examples>
       <command:example>
         <maml:title>-------------------------- EXAMPLE 1 --------------------------</maml:title>
-        <dev:code>New-ITGlueFlexibleAssetField -FlexibleAssetTypeID 8675309 -Data $JsonObject</dev:code>
+        <dev:code>New-ITGlueFlexibleAssetField -FlexibleAssetTypeID 8675309 -Data $JsonBody</dev:code>
         <dev:remarks>
           <maml:para>Creates a new flexible asset field for the defined id with the structured JSON object</maml:para>
         </dev:remarks>
@@ -10551,7 +11080,7 @@
     <command:examples>
       <command:example>
         <maml:title>-------------------------- EXAMPLE 1 --------------------------</maml:title>
-        <dev:code>Set-ITGlueFlexibleAssetField -id 8675309 -Data $JsonObject</dev:code>
+        <dev:code>Set-ITGlueFlexibleAssetField -id 8675309 -Data $JsonBody</dev:code>
         <dev:remarks>
           <maml:para>Updates a defined flexible asset field with the structured JSON object</maml:para>
         </dev:remarks>
@@ -10997,7 +11526,7 @@
     <command:examples>
       <command:example>
         <maml:title>-------------------------- EXAMPLE 1 --------------------------</maml:title>
-        <dev:code>New-ITGlueFlexibleAsset -OrganizationID 8675309 -Data $JsonObject</dev:code>
+        <dev:code>New-ITGlueFlexibleAsset -OrganizationID 8675309 -Data $JsonBody</dev:code>
         <dev:remarks>
           <maml:para>Creates a new flexible asset in the defined organization with the structured JSON object</maml:para>
         </dev:remarks>
@@ -11171,7 +11700,7 @@
       </command:example>
       <command:example>
         <maml:title>-------------------------- EXAMPLE 2 --------------------------</maml:title>
-        <dev:code>Remove-ITGlueFlexibleAsset -Data $JsonObject</dev:code>
+        <dev:code>Remove-ITGlueFlexibleAsset -Data $JsonBody</dev:code>
         <dev:remarks>
           <maml:para>Deletes flexible asset defined in the structured JSON object</maml:para>
         </dev:remarks>
@@ -11315,9 +11844,9 @@
     <command:examples>
       <command:example>
         <maml:title>-------------------------- EXAMPLE 1 --------------------------</maml:title>
-        <dev:code>Set-ITGlueFlexibleAsset -id 8675309 -Data $JsonObject</dev:code>
+        <dev:code>Set-ITGlueFlexibleAsset -id 8675309 -Data $JsonBody</dev:code>
         <dev:remarks>
-          <maml:para>Updates a defined flexible asset with the specified JSON object</maml:para>
+          <maml:para>Updates a defined flexible asset with the specified JSON body</maml:para>
         </dev:remarks>
       </command:example>
     </command:examples>
@@ -11746,9 +12275,9 @@
     <command:examples>
       <command:example>
         <maml:title>-------------------------- EXAMPLE 1 --------------------------</maml:title>
-        <dev:code>New-ITGlueFlexibleAssetType -Data $JsonObject</dev:code>
+        <dev:code>New-ITGlueFlexibleAssetType -Data $JsonBody</dev:code>
         <dev:remarks>
-          <maml:para>Creates a new flexible asset type with the specified JSON object</maml:para>
+          <maml:para>Creates a new flexible asset type with the specified JSON body</maml:para>
         </dev:remarks>
       </command:example>
     </command:examples>
@@ -11890,9 +12419,9 @@
     <command:examples>
       <command:example>
         <maml:title>-------------------------- EXAMPLE 1 --------------------------</maml:title>
-        <dev:code>Set-ITGlueFlexibleAssetType -id 8765309 -Data $JsonObject</dev:code>
+        <dev:code>Set-ITGlueFlexibleAssetType -id 8765309 -Data $JsonBody</dev:code>
         <dev:remarks>
-          <maml:para>Update a flexible asset type with the specified JSON object</maml:para>
+          <maml:para>Update a flexible asset type with the specified JSON body</maml:para>
         </dev:remarks>
       </command:example>
     </command:examples>
@@ -14548,7 +15077,7 @@
     <command:examples>
       <command:example>
         <maml:title>-------------------------- EXAMPLE 1 --------------------------</maml:title>
-        <dev:code>New-ITGlueLocation -$OrganizationID 8675309 -Data $JsonObject</dev:code>
+        <dev:code>New-ITGlueLocation -$OrganizationID 8675309 -Data $JsonBody</dev:code>
         <dev:remarks>
           <maml:para>Creates a new location under the defined organization with the structured JSON object</maml:para>
         </dev:remarks>
@@ -15056,16 +15585,16 @@
     <command:examples>
       <command:example>
         <maml:title>-------------------------- EXAMPLE 1 --------------------------</maml:title>
-        <dev:code>Remove-ITGlueLocation -OrganizationID 123456 -ID 8765309 -Data $JsonObject</dev:code>
+        <dev:code>Remove-ITGlueLocation -OrganizationID 123456 -ID 8765309 -Data $JsonBody</dev:code>
         <dev:remarks>
-          <maml:para>Removes the defined location from the defined organization with the specified JSON object</maml:para>
+          <maml:para>Removes the defined location from the defined organization with the specified JSON body</maml:para>
         </dev:remarks>
       </command:example>
       <command:example>
         <maml:title>-------------------------- EXAMPLE 2 --------------------------</maml:title>
-        <dev:code>Remove-ITGlueLocation -Data $JsonObject</dev:code>
+        <dev:code>Remove-ITGlueLocation -Data $JsonBody</dev:code>
         <dev:remarks>
-          <maml:para>Removes location(s) with the specified JSON object</maml:para>
+          <maml:para>Removes location(s) with the specified JSON body</maml:para>
         </dev:remarks>
       </command:example>
     </command:examples>
@@ -15573,9 +16102,9 @@
     <command:examples>
       <command:example>
         <maml:title>-------------------------- EXAMPLE 1 --------------------------</maml:title>
-        <dev:code>Set-ITGlueLocation -id 8765309 -Data $JsonObject</dev:code>
+        <dev:code>Set-ITGlueLocation -id 8765309 -Data $JsonBody</dev:code>
         <dev:remarks>
-          <maml:para>Updates the defined location with the specified JSON object</maml:para>
+          <maml:para>Updates the defined location with the specified JSON body</maml:para>
         </dev:remarks>
       </command:example>
     </command:examples>
@@ -16104,9 +16633,9 @@
     <command:examples>
       <command:example>
         <maml:title>-------------------------- EXAMPLE 1 --------------------------</maml:title>
-        <dev:code>New-ITGlueManufacturer -Data $JsonObject</dev:code>
+        <dev:code>New-ITGlueManufacturer -Data $JsonBody</dev:code>
         <dev:remarks>
-          <maml:para>Creates a new manufacturers with the specified JSON object</maml:para>
+          <maml:para>Creates a new manufacturers with the specified JSON body</maml:para>
         </dev:remarks>
       </command:example>
     </command:examples>
@@ -16248,9 +16777,9 @@
     <command:examples>
       <command:example>
         <maml:title>-------------------------- EXAMPLE 1 --------------------------</maml:title>
-        <dev:code>New-ITGlueManufacturer -id 8765309 -Data $JsonObject</dev:code>
+        <dev:code>New-ITGlueManufacturer -id 8765309 -Data $JsonBody</dev:code>
         <dev:remarks>
-          <maml:para>Updates the defined manufacturer with the specified JSON object</maml:para>
+          <maml:para>Updates the defined manufacturer with the specified JSON body</maml:para>
         </dev:remarks>
       </command:example>
     </command:examples>
@@ -16641,14 +17170,14 @@
     <command:examples>
       <command:example>
         <maml:title>-------------------------- EXAMPLE 1 --------------------------</maml:title>
-        <dev:code>New-ITGlueModel -Data $JsonObject</dev:code>
+        <dev:code>New-ITGlueModel -Data $JsonBody</dev:code>
         <dev:remarks>
-          <maml:para>Creates a new model with the specified JSON object</maml:para>
+          <maml:para>Creates a new model with the specified JSON body</maml:para>
         </dev:remarks>
       </command:example>
       <command:example>
         <maml:title>-------------------------- EXAMPLE 2 --------------------------</maml:title>
-        <dev:code>New-ITGlueModel -ManufacturerID 8675309 -Data $JsonObject</dev:code>
+        <dev:code>New-ITGlueModel -ManufacturerID 8675309 -Data $JsonBody</dev:code>
         <dev:remarks>
           <maml:para>Creates a new model associated to the defined model with the structured JSON object</maml:para>
         </dev:remarks>
@@ -16883,9 +17412,9 @@
     <command:examples>
       <command:example>
         <maml:title>-------------------------- EXAMPLE 1 --------------------------</maml:title>
-        <dev:code>Set-ITGlueModel -id 8675309 -Data $JsonObject</dev:code>
+        <dev:code>Set-ITGlueModel -id 8675309 -Data $JsonBody</dev:code>
         <dev:remarks>
-          <maml:para>Updates the defined model with the specified JSON object</maml:para>
+          <maml:para>Updates the defined model with the specified JSON body</maml:para>
         </dev:remarks>
       </command:example>
     </command:examples>
@@ -18129,9 +18658,9 @@
     <command:examples>
       <command:example>
         <maml:title>-------------------------- EXAMPLE 1 --------------------------</maml:title>
-        <dev:code>New-ITGlueOrganization -Data $JsonObject</dev:code>
+        <dev:code>New-ITGlueOrganization -Data $JsonBody</dev:code>
         <dev:remarks>
-          <maml:para>Creates a new organization with the specified JSON object</maml:para>
+          <maml:para>Creates a new organization with the specified JSON body</maml:para>
         </dev:remarks>
       </command:example>
     </command:examples>
@@ -18821,9 +19350,9 @@
     <command:examples>
       <command:example>
         <maml:title>-------------------------- EXAMPLE 1 --------------------------</maml:title>
-        <dev:code>Remove-ITGlueOrganization -Data $JsonObject</dev:code>
+        <dev:code>Remove-ITGlueOrganization -Data $JsonBody</dev:code>
         <dev:remarks>
-          <maml:para>Deletes all defined organization with the specified JSON object</maml:para>
+          <maml:para>Deletes all defined organization with the specified JSON body</maml:para>
         </dev:remarks>
       </command:example>
     </command:examples>
@@ -19576,16 +20105,16 @@
     <command:examples>
       <command:example>
         <maml:title>-------------------------- EXAMPLE 1 --------------------------</maml:title>
-        <dev:code>Set-ITGlueOrganization -id 8765309 -Data $JsonObject</dev:code>
+        <dev:code>Set-ITGlueOrganization -id 8765309 -Data $JsonBody</dev:code>
         <dev:remarks>
-          <maml:para>Updates an organization with the specified JSON object</maml:para>
+          <maml:para>Updates an organization with the specified JSON body</maml:para>
         </dev:remarks>
       </command:example>
       <command:example>
         <maml:title>-------------------------- EXAMPLE 2 --------------------------</maml:title>
-        <dev:code>Set-ITGlueOrganization -FilterOrganizationStatusID 12345 -Data $JsonObject</dev:code>
+        <dev:code>Set-ITGlueOrganization -FilterOrganizationStatusID 12345 -Data $JsonBody</dev:code>
         <dev:remarks>
-          <maml:para>Updates all defined organization with the specified JSON object</maml:para>
+          <maml:para>Updates all defined organization with the specified JSON body</maml:para>
         </dev:remarks>
       </command:example>
     </command:examples>
@@ -19916,9 +20445,9 @@
     <command:examples>
       <command:example>
         <maml:title>-------------------------- EXAMPLE 1 --------------------------</maml:title>
-        <dev:code>New-ITGlueOrganizationStatus -Data $JsonObject</dev:code>
+        <dev:code>New-ITGlueOrganizationStatus -Data $JsonBody</dev:code>
         <dev:remarks>
-          <maml:para>Creates a new organization status with the specified JSON object</maml:para>
+          <maml:para>Creates a new organization status with the specified JSON body</maml:para>
         </dev:remarks>
       </command:example>
     </command:examples>
@@ -20060,7 +20589,7 @@
     <command:examples>
       <command:example>
         <maml:title>-------------------------- EXAMPLE 1 --------------------------</maml:title>
-        <dev:code>Set-ITGlueOrganizationStatus -id 8675309 -Data $JsonObject</dev:code>
+        <dev:code>Set-ITGlueOrganizationStatus -id 8675309 -Data $JsonBody</dev:code>
         <dev:remarks>
           <maml:para>Using the defined body this creates an attachment to a password with the structured JSON object</maml:para>
         </dev:remarks>
@@ -20393,9 +20922,9 @@
     <command:examples>
       <command:example>
         <maml:title>-------------------------- EXAMPLE 1 --------------------------</maml:title>
-        <dev:code>New-ITGlueOrganizationType -Data $JsonObject</dev:code>
+        <dev:code>New-ITGlueOrganizationType -Data $JsonBody</dev:code>
         <dev:remarks>
-          <maml:para>Creates a new organization type with the specified JSON object</maml:para>
+          <maml:para>Creates a new organization type with the specified JSON body</maml:para>
         </dev:remarks>
       </command:example>
     </command:examples>
@@ -20537,9 +21066,9 @@
     <command:examples>
       <command:example>
         <maml:title>-------------------------- EXAMPLE 1 --------------------------</maml:title>
-        <dev:code>Set-ITGlueOrganizationType -id 8675309 -Data $JsonObject</dev:code>
+        <dev:code>Set-ITGlueOrganizationType -id 8675309 -Data $JsonBody</dev:code>
         <dev:remarks>
-          <maml:para>Update the defined organization type with the specified JSON object</maml:para>
+          <maml:para>Update the defined organization type with the specified JSON body</maml:para>
         </dev:remarks>
       </command:example>
     </command:examples>
@@ -20870,9 +21399,9 @@
     <command:examples>
       <command:example>
         <maml:title>-------------------------- EXAMPLE 1 --------------------------</maml:title>
-        <dev:code>New-ITGluePasswordCategory -Data $JsonObject</dev:code>
+        <dev:code>New-ITGluePasswordCategory -Data $JsonBody</dev:code>
         <dev:remarks>
-          <maml:para>Creates a new password category with the specified JSON object</maml:para>
+          <maml:para>Creates a new password category with the specified JSON body</maml:para>
         </dev:remarks>
       </command:example>
     </command:examples>
@@ -21013,9 +21542,9 @@
     <command:examples>
       <command:example>
         <maml:title>-------------------------- EXAMPLE 1 --------------------------</maml:title>
-        <dev:code>Set-ITGluePasswordCategory -id 8675309 -Data $JsonObject</dev:code>
+        <dev:code>Set-ITGluePasswordCategory -id 8675309 -Data $JsonBody</dev:code>
         <dev:remarks>
-          <maml:para>Updates the defined password category with the specified JSON object</maml:para>
+          <maml:para>Updates the defined password category with the specified JSON body</maml:para>
         </dev:remarks>
       </command:example>
     </command:examples>
@@ -21682,17 +22211,17 @@
     <command:examples>
       <command:example>
         <maml:title>-------------------------- EXAMPLE 1 --------------------------</maml:title>
-        <dev:code>New-ITGluePassword -OrganizationID 8675309 -Data $JsonObject</dev:code>
+        <dev:code>New-ITGluePassword -OrganizationID 8675309 -Data $JsonBody</dev:code>
         <dev:remarks>
-          <maml:para>Creates a new password in the defined organization with the specified JSON object</maml:para>
+          <maml:para>Creates a new password in the defined organization with the specified JSON body</maml:para>
           <maml:para>The password IS returned in the results</maml:para>
         </dev:remarks>
       </command:example>
       <command:example>
         <maml:title>-------------------------- EXAMPLE 2 --------------------------</maml:title>
-        <dev:code>New-ITGluePassword -OrganizationID 8675309 -ShowPassword $false -Data $JsonObject</dev:code>
+        <dev:code>New-ITGluePassword -OrganizationID 8675309 -ShowPassword $false -Data $JsonBody</dev:code>
         <dev:remarks>
-          <maml:para>Creates a new password in the defined organization with the specified JSON object</maml:para>
+          <maml:para>Creates a new password in the defined organization with the specified JSON body</maml:para>
           <maml:para>The password is NOT returned in the results</maml:para>
         </dev:remarks>
       </command:example>
@@ -22262,17 +22791,17 @@
     <command:examples>
       <command:example>
         <maml:title>-------------------------- EXAMPLE 1 --------------------------</maml:title>
-        <dev:code>Set-ITGluePassword -id 8675309 -Data $JsonObject</dev:code>
+        <dev:code>Set-ITGluePassword -id 8675309 -Data $JsonBody</dev:code>
         <dev:remarks>
-          <maml:para>Updates the password in the defined organization with the specified JSON object</maml:para>
+          <maml:para>Updates the password in the defined organization with the specified JSON body</maml:para>
           <maml:para>The password is NOT returned in the results</maml:para>
         </dev:remarks>
       </command:example>
       <command:example>
         <maml:title>-------------------------- EXAMPLE 2 --------------------------</maml:title>
-        <dev:code>Set-ITGluePassword -id 8675309 -ShowPassword $true -Data $JsonObject</dev:code>
+        <dev:code>Set-ITGluePassword -id 8675309 -ShowPassword $true -Data $JsonBody</dev:code>
         <dev:remarks>
-          <maml:para>Updates the password in the defined organization with the specified JSON object</maml:para>
+          <maml:para>Updates the password in the defined organization with the specified JSON body</maml:para>
           <maml:para>The password IS returned in the results</maml:para>
         </dev:remarks>
       </command:example>
@@ -22955,7 +23484,7 @@
     <command:examples>
       <command:example>
         <maml:title>-------------------------- EXAMPLE 1 --------------------------</maml:title>
-        <dev:code>New-ITGlueRelatedItem -ResourceType passwords -ResourceID 8675309 -Data $JsonObject</dev:code>
+        <dev:code>New-ITGlueRelatedItem -ResourceType passwords -ResourceID 8675309 -Data $JsonBody</dev:code>
         <dev:remarks>
           <maml:para>Creates a new related password to the defined resource id with the structured JSON object</maml:para>
         </dev:remarks>
@@ -23124,7 +23653,7 @@
     <command:examples>
       <command:example>
         <maml:title>-------------------------- EXAMPLE 1 --------------------------</maml:title>
-        <dev:code>Remove-ITGlueRelatedItem -ResourceType passwords -ResourceID 8675309 -Data $JsonObject</dev:code>
+        <dev:code>Remove-ITGlueRelatedItem -ResourceType passwords -ResourceID 8675309 -Data $JsonBody</dev:code>
         <dev:remarks>
           <maml:para>Deletes the defined related item on the defined resource with the structured JSON object</maml:para>
         </dev:remarks>
@@ -23318,7 +23847,7 @@
     <command:examples>
       <command:example>
         <maml:title>-------------------------- EXAMPLE 1 --------------------------</maml:title>
-        <dev:code>Set-ITGlueRelatedItem -ResourceType passwords -ResourceID 8675309 -ID 8765309 -Data $JsonObject</dev:code>
+        <dev:code>Set-ITGlueRelatedItem -ResourceType passwords -ResourceID 8675309 -ID 8765309 -Data $JsonBody</dev:code>
         <dev:remarks>
           <maml:para>Updates the defined related item on the defined resource with the structured JSON object</maml:para>
         </dev:remarks>
@@ -24040,9 +24569,9 @@
     <command:examples>
       <command:example>
         <maml:title>-------------------------- EXAMPLE 1 --------------------------</maml:title>
-        <dev:code>Set-ITGlueUser -id 8675309 -Data $JsonObject</dev:code>
+        <dev:code>Set-ITGlueUser -id 8675309 -Data $JsonBody</dev:code>
         <dev:remarks>
-          <maml:para>Updates the defined user with the specified JSON object</maml:para>
+          <maml:para>Updates the defined user with the specified JSON body</maml:para>
         </dev:remarks>
       </command:example>
     </command:examples>

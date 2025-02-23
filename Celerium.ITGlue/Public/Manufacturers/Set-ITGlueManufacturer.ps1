@@ -21,9 +21,9 @@ function Set-ITGlueManufacturer {
         by the Invoke-ITGlueRequest function
 
     .EXAMPLE
-        New-ITGlueManufacturer -id 8765309 -Data $JsonObject
+        New-ITGlueManufacturer -id 8765309 -Data $JsonBody
 
-        Updates the defined manufacturer with the specified JSON object
+        Updates the defined manufacturer with the specified JSON body
 
     .NOTES
         N/A

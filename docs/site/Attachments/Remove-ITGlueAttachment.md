@@ -31,7 +31,7 @@ Examples of JSON objects can be found under ITGlues developer documentation
 
 ### EXAMPLE 1
 ```powershell
-Remove-ITGlueAttachment -ResourceType passwords -ResourceID 8675309 -Data $JsonObject
+Remove-ITGlueAttachment -ResourceType passwords -ResourceID 8675309 -Data $JsonBody
 ```
 
 Using the defined JSON object this deletes an attachment from a

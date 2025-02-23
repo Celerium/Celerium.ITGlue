@@ -28,7 +28,7 @@ function Remove-ITGlueRelatedItem {
         by the Invoke-ITGlueRequest function
 
     .EXAMPLE
-        Remove-ITGlueRelatedItem -ResourceType passwords -ResourceID 8675309 -Data $JsonObject
+        Remove-ITGlueRelatedItem -ResourceType passwords -ResourceID 8675309 -Data $JsonBody
 
         Deletes the defined related item on the defined resource with the structured
         JSON object

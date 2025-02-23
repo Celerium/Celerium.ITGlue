@@ -54,7 +54,7 @@ function Remove-ITGlueContact {
         by the Invoke-ITGlueRequest function
 
     .EXAMPLE
-        Remove-ITGlueContact -Data $JsonObject
+        Remove-ITGlueContact -Data $JsonBody
 
         Deletes contacts with the defined in structured
         JSON object

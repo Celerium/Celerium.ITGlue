@@ -22,9 +22,9 @@ function Set-ITGlueConfigurationStatus {
         by the Invoke-ITGlueRequest function
 
     .EXAMPLE
-        Set-ITGlueConfigurationStatus -id 8675309 -Data $JsonObject
+        Set-ITGlueConfigurationStatus -id 8675309 -Data $JsonBody
 
-        Updates the defined configuration status with the specified JSON object
+        Updates the defined configuration status with the specified JSON body
 
     .NOTES
         N/A

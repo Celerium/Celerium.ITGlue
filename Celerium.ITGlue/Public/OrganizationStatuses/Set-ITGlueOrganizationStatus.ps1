@@ -22,7 +22,7 @@ function Set-ITGlueOrganizationStatus {
         by the Invoke-ITGlueRequest function
 
     .EXAMPLE
-        Set-ITGlueOrganizationStatus -id 8675309 -Data $JsonObject
+        Set-ITGlueOrganizationStatus -id 8675309 -Data $JsonBody
 
         Using the defined body this creates an attachment to a password with the structured
         JSON object

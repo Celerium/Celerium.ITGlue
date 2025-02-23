@@ -50,14 +50,14 @@ function Remove-ITGlueLocation {
         by the Invoke-ITGlueRequest function
 
     .EXAMPLE
-        Remove-ITGlueLocation -OrganizationID 123456 -ID 8765309 -Data $JsonObject
+        Remove-ITGlueLocation -OrganizationID 123456 -ID 8765309 -Data $JsonBody
 
-        Removes the defined location from the defined organization with the specified JSON object
+        Removes the defined location from the defined organization with the specified JSON body
 
     .EXAMPLE
-        Remove-ITGlueLocation -Data $JsonObject
+        Remove-ITGlueLocation -Data $JsonBody
 
-        Removes location(s) with the specified JSON object
+        Removes location(s) with the specified JSON body
 
     .NOTES
         N/A

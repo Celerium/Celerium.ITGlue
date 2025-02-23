@@ -20,9 +20,9 @@ function Set-ITGluePasswordCategory {
         by the Invoke-ITGlueRequest function
 
     .EXAMPLE
-        Set-ITGluePasswordCategory -id 8675309 -Data $JsonObject
+        Set-ITGluePasswordCategory -id 8675309 -Data $JsonBody
 
-        Updates the defined password category with the specified JSON object
+        Updates the defined password category with the specified JSON body
 
     .NOTES
         N/A

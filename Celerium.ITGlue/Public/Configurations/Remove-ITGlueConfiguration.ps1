@@ -77,9 +77,9 @@ function Remove-ITGlueConfiguration {
         by the Invoke-ITGlueRequest function
 
     .EXAMPLE
-        Remove-ITGlueConfiguration -ID 8765309 -Data $JsonObject
+        Remove-ITGlueConfiguration -ID 8765309 -Data $JsonBody
 
-        Deletes a defined configuration with the specified JSON object
+        Deletes a defined configuration with the specified JSON body
 
     .NOTES
         N/A

@@ -38,16 +38,16 @@ function New-ITGluePassword {
         by the Invoke-ITGlueRequest function
 
     .EXAMPLE
-        New-ITGluePassword -OrganizationID 8675309 -Data $JsonObject
+        New-ITGluePassword -OrganizationID 8675309 -Data $JsonBody
 
-        Creates a new password in the defined organization with the specified JSON object
+        Creates a new password in the defined organization with the specified JSON body
 
         The password IS returned in the results
 
     .EXAMPLE
-        New-ITGluePassword -OrganizationID 8675309 -ShowPassword $false -Data $JsonObject
+        New-ITGluePassword -OrganizationID 8675309 -ShowPassword $false -Data $JsonBody
 
-        Creates a new password in the defined organization with the specified JSON object
+        Creates a new password in the defined organization with the specified JSON body
 
         The password is NOT returned in the results
 
