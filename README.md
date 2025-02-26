@@ -179,7 +179,7 @@ See the [CONTRIBUTING](https://github.com/Celerium/Celerium.ITGlue/blob/master/.
 
 ## License
 
-Distributed under the Apache-2.0 license. See [LICENSE](https://github.com/Celerium/Celerium.ITGlue/blob/master/LICENSE) for more information.
+Distributed under the MIT license. See [LICENSE](https://github.com/Celerium/Celerium.ITGlue/blob/master/LICENSE) for more information.
 
 [![GitHub_License][GitHub_License-shield]][GitHub_License-url]
 
