@@ -43,7 +43,7 @@
 
 ## About The Project
 
-The [Celerium.ITGlue](https://www.itglue.com/) PowerShell wrapper offers the ability to read, create, and update much of the data within IT Glue's documentation platform. That includes organizations, contacts, configuration items, and more. This module serves to abstract away the details of interacting with IT Glue's API endpoints in such a way that is consistent with PowerShell nomenclature. This gives system administrators and PowerShell developers a convenient and familiar way of using IT Glue's API to create documentation scripts, automation, and integrations.
+The [Celerium.ITGlue](https://www.powershellgallery.com/packages/Celerium.ITGlue) PowerShell wrapper offers the ability to read, create, and update much of the data within IT Glue's documentation platform. That includes organizations, contacts, configuration items, and more. This module serves to abstract away the details of interacting with IT Glue's API endpoints in such a way that is consistent with PowerShell nomenclature. This gives system administrators and PowerShell developers a convenient and familiar way of using IT Glue's API to create documentation scripts, automation, and integrations.
 
 - :book: **Celerium.ITGlue** project documentation can be found on [Github Pages](https://celerium.github.io/Celerium.ITGlue/)
 - :book: ITGlue's REST API documentation can be found [here](https://api.itglue.com/developer/)

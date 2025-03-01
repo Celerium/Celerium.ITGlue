@@ -49,14 +49,14 @@ Prompts to enter in the API key which will be stored as a SecureString
 
 ### EXAMPLE 2
 ```powershell
-Add-ITGlueAPIKey -ApiKey 'some_api_key'
+Add-ITGlueAPIKey -ApiKey '12345'
 ```
 
 Converts the string to a SecureString and stores it in the global variable
 
 ### EXAMPLE 3
 ```
-'12345' | Add-ITGlueAPIKey
+'Celerium@Celerium.org' | Add-ITGlueAPIKey
 ```
 
 Converts the string to a SecureString and stores it in the global variable

@@ -12830,14 +12830,14 @@
       </command:example>
       <command:example>
         <maml:title>-------------------------- EXAMPLE 2 --------------------------</maml:title>
-        <dev:code>Add-ITGlueAPIKey -ApiKey 'some_api_key'</dev:code>
+        <dev:code>Add-ITGlueAPIKey -ApiKey '12345'</dev:code>
         <dev:remarks>
           <maml:para>Converts the string to a SecureString and stores it in the global variable</maml:para>
         </dev:remarks>
       </command:example>
       <command:example>
         <maml:title>-------------------------- EXAMPLE 3 --------------------------</maml:title>
-        <dev:code>'12345' | Add-ITGlueAPIKey</dev:code>
+        <dev:code>'Celerium@Celerium.org' | Add-ITGlueAPIKey</dev:code>
         <dev:remarks>
           <maml:para>Converts the string to a SecureString and stores it in the global variable</maml:para>
         </dev:remarks>
@@ -12993,7 +12993,7 @@
     </command:details>
     <maml:description>
       <maml:para>The ConvertTo-ITGlueQueryString cmdlet converts &amp; formats uri query parameters from a function which are later used to make the full resource uri for an API call</maml:para>
-      <maml:para>This is an internal helper function the ties in directly with the Invoke-ITGlueRequest &amp; any public functions that define parameters</maml:para>
+      <maml:para>This is an internal helper function the ties in directly with the ConvertTo-ITGlueQueryString &amp; any public functions that define parameters</maml:para>
     </maml:description>
     <command:syntax>
       <command:syntaxItem>

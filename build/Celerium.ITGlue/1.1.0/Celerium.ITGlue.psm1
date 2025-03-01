@@ -1,4 +1,4 @@
-﻿#Region '.\Private\ApiCalls\ConvertTo-ITGlueQueryString.ps1' -1
+﻿#Region '.\Private\APICalls\ConvertTo-ITGlueQueryString.ps1' -1
 
 function ConvertTo-ITGlueQueryString {
 <#
@@ -11,7 +11,7 @@ function ConvertTo-ITGlueQueryString {
         an API call
 
         This is an internal helper function the ties in directly with the
-        Invoke-ITGlueRequest & any public functions that define parameters
+        ConvertTo-ITGlueQueryString & any public functions that define parameters
 
     .PARAMETER QueryParams
         Hashtable of values to combine a functions parameters with
@@ -66,8 +66,8 @@ function ConvertTo-ITGlueQueryString {
     end{}
 
 }
-#EndRegion '.\Private\ApiCalls\ConvertTo-ITGlueQueryString.ps1' 67
-#Region '.\Private\ApiCalls\Invoke-ITGlueRequest.ps1' -1
+#EndRegion '.\Private\APICalls\ConvertTo-ITGlueQueryString.ps1' 67
+#Region '.\Private\APICalls\Invoke-ITGlueRequest.ps1' -1
 
 function Invoke-ITGlueRequest {
 <#
@@ -151,7 +151,6 @@ function Invoke-ITGlueRequest {
 
         # Load Web assembly when needed as PowerShell Core has the assembly preloaded
         if ( !("System.Web.HttpUtility" -as [Type]) ) {
-            Write-Verbose 'TEST -- Loading System.Web assembly'
             Add-Type -Assembly System.Web
         }
 
@@ -252,8 +251,8 @@ function Invoke-ITGlueRequest {
     end {}
 
 }
-#EndRegion '.\Private\ApiCalls\Invoke-ITGlueRequest.ps1' 184
-#Region '.\Private\ApiKeys\Add-ITGlueAPIKey.ps1' -1
+#EndRegion '.\Private\APICalls\Invoke-ITGlueRequest.ps1' 183
+#Region '.\Private\APIKeys\Add-ITGlueAPIKey.ps1' -1
 
 function Add-ITGlueAPIKey {
 <#
@@ -288,12 +287,12 @@ function Add-ITGlueAPIKey {
         Prompts to enter in the API key which will be stored as a SecureString
 
     .EXAMPLE
-        Add-ITGlueAPIKey -ApiKey 'some_api_key'
+        Add-ITGlueAPIKey -ApiKey '12345'
 
         Converts the string to a SecureString and stores it in the global variable
 
     .EXAMPLE
-        '12345' | Add-ITGlueAPIKey
+        'Celerium@Celerium.org' | Add-ITGlueAPIKey
 
         Converts the string to a SecureString and stores it in the global variable
 
@@ -378,8 +377,8 @@ function Add-ITGlueAPIKey {
     end {}
 
 }
-#EndRegion '.\Private\ApiKeys\Add-ITGlueAPIKey.ps1' 124
-#Region '.\Private\ApiKeys\Get-ITGlueAPIKey.ps1' -1
+#EndRegion '.\Private\APIKeys\Add-ITGlueAPIKey.ps1' 124
+#Region '.\Private\APIKeys\Get-ITGlueAPIKey.ps1' -1
 
 function Get-ITGlueAPIKey {
 <#
@@ -457,8 +456,8 @@ function Get-ITGlueAPIKey {
     end {}
 
 }
-#EndRegion '.\Private\ApiKeys\Get-ITGlueAPIKey.ps1' 77
-#Region '.\Private\ApiKeys\New-ITGlueAESSecret.ps1' -1
+#EndRegion '.\Private\APIKeys\Get-ITGlueAPIKey.ps1' 77
+#Region '.\Private\APIKeys\New-ITGlueAESSecret.ps1' -1
 
 function New-ITGlueAESSecret {
 <#
@@ -549,8 +548,8 @@ function New-ITGlueAESSecret {
     end {}
 
 }
-#EndRegion '.\Private\ApiKeys\New-ITGlueAESSecret.ps1' 90
-#Region '.\Private\ApiKeys\Remove-ITGlueAPIKey.ps1' -1
+#EndRegion '.\Private\APIKeys\New-ITGlueAESSecret.ps1' 90
+#Region '.\Private\APIKeys\Remove-ITGlueAPIKey.ps1' -1
 
 function Remove-ITGlueAPIKey {
 <#
@@ -588,7 +587,8 @@ function Remove-ITGlueAPIKey {
 
             $true   {
                 if ($PSCmdlet.ShouldProcess('ITGlueModuleAPIKey')) {
-                Remove-Variable -Name "ITGlueModuleAPIKey" -Scope global -Force }
+                    Remove-Variable -Name "ITGlueModuleAPIKey" -Scope global -Force
+                }
             }
 
             $false  { Write-Warning "The ITGlue API [ secret ] key is not set. Nothing to remove" }
@@ -600,8 +600,8 @@ function Remove-ITGlueAPIKey {
     end {}
 
 }
-#EndRegion '.\Private\ApiKeys\Remove-ITGlueAPIKey.ps1' 49
-#Region '.\Private\ApiKeys\Test-ITGlueAPIKey.ps1' -1
+#EndRegion '.\Private\APIKeys\Remove-ITGlueAPIKey.ps1' 50
+#Region '.\Private\APIKeys\Test-ITGlueAPIKey.ps1' -1
 
 function Test-ITGlueAPIKey {
 <#
@@ -700,7 +700,7 @@ function Test-ITGlueAPIKey {
     end {}
 
 }
-#EndRegion '.\Private\ApiKeys\Test-ITGlueAPIKey.ps1' 98
+#EndRegion '.\Private\APIKeys\Test-ITGlueAPIKey.ps1' 98
 #Region '.\Private\BaseUri\Add-ITGlueBaseURI.ps1' -1
 
 function Add-ITGlueBaseURI {

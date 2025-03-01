@@ -25,7 +25,7 @@ from a function which are later used to make the full resource uri for
 an API call
 
 This is an internal helper function the ties in directly with the
-Invoke-ITGlueRequest & any public functions that define parameters
+ConvertTo-ITGlueQueryString & any public functions that define parameters
 
 ## EXAMPLES
 
