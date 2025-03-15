@@ -136,27 +136,27 @@ function Get-ITGlueUser {
         }
 
 
-        $query_params = @{}
+        $UriParameters = @{}
 
         #Region     [ Parameter Translation ]
 
         if ($PSCmdlet.ParameterSetName -eq 'Index') {
-            if ($FilterID)              { $query_params['filter[id]']               = $FilterID }
-            if ($FilterName)            { $query_params['filter[name]']             = $FilterName }
-            if ($FilterEmail)           { $query_params['filter[email]']            = $FilterEmail }
-            if ($FilterRoleName)        { $query_params['filter[role_name]']        = $FilterRoleName }
-            if ($FilterSalesForceID)    { $query_params['filter[salesforce_id]']    = $FilterSalesForceID }
-            if ($Sort)                  { $query_params['sort']                     = $Sort }
-            if ($PageNumber)            { $query_params['page[number]']             = $PageNumber }
-            if ($PageSize)              { $query_params['page[size]']               = $PageSize }
+            if ($FilterID)              { $UriParameters['filter[id]']               = $FilterID }
+            if ($FilterName)            { $UriParameters['filter[name]']             = $FilterName }
+            if ($FilterEmail)           { $UriParameters['filter[email]']            = $FilterEmail }
+            if ($FilterRoleName)        { $UriParameters['filter[role_name]']        = $FilterRoleName }
+            if ($FilterSalesForceID)    { $UriParameters['filter[salesforce_id]']    = $FilterSalesForceID }
+            if ($Sort)                  { $UriParameters['sort']                     = $Sort }
+            if ($PageNumber)            { $UriParameters['page[number]']             = $PageNumber }
+            if ($PageSize)              { $UriParameters['page[size]']               = $PageSize }
         }
 
         #EndRegion  [ Parameter Translation ]
 
         Set-Variable -Name $ParameterName -Value $PSBoundParameters -Scope Global -Force -Confirm:$false
-        Set-Variable -Name $QueryParameterName -Value $query_params -Scope Global -Force -Confirm:$false
+        Set-Variable -Name $QueryParameterName -Value $UriParameters -Scope Global -Force -Confirm:$false
 
-        return Invoke-ITGlueRequest -Method GET -ResourceURI $ResourceUri -QueryParams $query_params -AllResults:$AllResults
+        return Invoke-ITGlueRequest -Method GET -ResourceURI $ResourceUri -UriFilter $UriParameters -AllResults:$AllResults
 
     }
 

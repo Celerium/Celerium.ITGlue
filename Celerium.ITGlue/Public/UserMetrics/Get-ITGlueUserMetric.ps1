@@ -121,26 +121,26 @@ function Get-ITGlueUserMetric {
 
         $ResourceUri = '/user_metrics'
 
-        $query_params = @{}
+        $UriParameters = @{}
 
         #Region     [ Parameter Translation ]
 
         if ($PSCmdlet.ParameterSetName -eq 'Index') {
-            if ($FilterUserID)          { $query_params['filter[user_id]']          = $FilterUserID }
-            if ($FilterOrganizationID)  { $query_params['filter[organization_id]']  = $FilterOrganizationID }
-            if ($FilterResourceType)    { $query_params['filter[resource_type]']    = $FilterResourceType }
-            if ($FilterDate)            { $query_params['filter[date]']             = $FilterDate }
-            if ($Sort)                  { $query_params['sort']                     = $Sort }
-            if ($PageNumber)            { $query_params['page[number]']             = $PageNumber }
-            if ($PageSize)              { $query_params['page[size]']               = $PageSize }
+            if ($FilterUserID)          { $UriParameters['filter[user_id]']          = $FilterUserID }
+            if ($FilterOrganizationID)  { $UriParameters['filter[organization_id]']  = $FilterOrganizationID }
+            if ($FilterResourceType)    { $UriParameters['filter[resource_type]']    = $FilterResourceType }
+            if ($FilterDate)            { $UriParameters['filter[date]']             = $FilterDate }
+            if ($Sort)                  { $UriParameters['sort']                     = $Sort }
+            if ($PageNumber)            { $UriParameters['page[number]']             = $PageNumber }
+            if ($PageSize)              { $UriParameters['page[size]']               = $PageSize }
         }
 
         #EndRegion  [ Parameter Translation ]
 
         Set-Variable -Name $ParameterName -Value $PSBoundParameters -Scope Global -Force -Confirm:$false
-        Set-Variable -Name $QueryParameterName -Value $query_params -Scope Global -Force -Confirm:$false
+        Set-Variable -Name $QueryParameterName -Value $UriParameters -Scope Global -Force -Confirm:$false
 
-        return Invoke-ITGlueRequest -Method GET -ResourceURI $ResourceUri -QueryParams $query_params -AllResults:$AllResults
+        return Invoke-ITGlueRequest -Method GET -ResourceURI $ResourceUri -UriFilter $UriParameters -AllResults:$AllResults
 
     }
 

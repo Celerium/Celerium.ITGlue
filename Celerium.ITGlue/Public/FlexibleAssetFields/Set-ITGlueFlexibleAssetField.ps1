@@ -48,7 +48,7 @@ function Set-ITGlueFlexibleAssetField {
         https://api.itglue.com/developer/#flexible-asset-fields-update
 #>
 
-    [CmdletBinding(DefaultParameterSetName = 'Bulk_Update', SupportsShouldProcess, ConfirmImpact = 'Medium')]
+    [CmdletBinding(DefaultParameterSetName = 'BulkUpdate', SupportsShouldProcess, ConfirmImpact = 'Medium')]
     Param (
         [Parameter(ParameterSetName = 'Update')]
         [int64]$FlexibleAssetTypeID,
@@ -56,11 +56,11 @@ function Set-ITGlueFlexibleAssetField {
         [Parameter(ParameterSetName = 'Update', Mandatory = $true)]
         [int64]$ID,
 
-        [Parameter(ParameterSetName = 'Bulk_Update')]
+        [Parameter(ParameterSetName = 'BulkUpdate')]
         [int64]$FilterID,
 
         [Parameter(ParameterSetName = 'Update', Mandatory = $true)]
-        [Parameter(ParameterSetName = 'Bulk_Update', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'BulkUpdate', Mandatory = $true)]
         $Data
     )
 
@@ -77,7 +77,7 @@ function Set-ITGlueFlexibleAssetField {
         Write-Verbose "[ $FunctionName ] - Running the [ $($PSCmdlet.ParameterSetName) ] parameterSet"
 
         switch ($PSCmdlet.ParameterSetName) {
-            'Bulk_Update'   { $ResourceUri = "/flexible_asset_fields" }
+            'BulkUpdate'   { $ResourceUri = "/flexible_asset_fields" }
             'Update'        {
 
                 switch ([bool]$FlexibleAssetTypeID) {
@@ -89,21 +89,21 @@ function Set-ITGlueFlexibleAssetField {
 
         }
 
-        $query_params = @{}
+        $UriParameters = @{}
 
         #Region     [ Parameter Translation ]
 
-        if ($PSCmdlet.ParameterSetName -eq 'Bulk_Update') {
-            if ($FilterID) { $query_params['filter[id]'] = $FilterID }
+        if ($PSCmdlet.ParameterSetName -eq 'BulkUpdate') {
+            if ($FilterID) { $UriParameters['filter[id]'] = $FilterID }
         }
 
         #EndRegion  [ Parameter Translation ]
 
         Set-Variable -Name $ParameterName -Value $PSBoundParameters -Scope Global -Force -Confirm:$false
-        Set-Variable -Name $QueryParameterName -Value $query_params -Scope Global -Force -Confirm:$false
+        Set-Variable -Name $QueryParameterName -Value $UriParameters -Scope Global -Force -Confirm:$false
 
         if ($PSCmdlet.ShouldProcess($ResourceUri)) {
-            return Invoke-ITGlueRequest -Method PATCH -ResourceURI $ResourceUri -QueryParams $query_params -Data $Data
+            return Invoke-ITGlueRequest -Method PATCH -ResourceURI $ResourceUri -UriFilter $UriParameters -Data $Data
         }
 
     }

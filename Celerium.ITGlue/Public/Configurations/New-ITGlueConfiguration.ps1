@@ -29,7 +29,7 @@ function New-ITGlueConfiguration {
         N/A
 
     .LINK
-        https://celerium.github.io/Celerium.ITGlue/site/Configurations/new-ITGlueConfiguration.html
+        https://celerium.github.io/Celerium.ITGlue/site/Configurations/New-ITGlueConfiguration.html
 
     .LINK
         https://api.itglue.com/developer/#configurations-create

@@ -15,7 +15,7 @@ Updates one or more flexible assets
 
 ## SYNTAX
 
-### Bulk_Update (Default)
+### BulkUpdate (Default)
 ```powershell
 Set-ITGlueFlexibleAsset -Data <Object> [-WhatIf] [-Confirm] [<CommonParameters>]
 ```

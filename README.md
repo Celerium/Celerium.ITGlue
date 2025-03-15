@@ -105,7 +105,7 @@ After installing this module, you will need to configure both the *base URI* & *
    - ITGlue API access token are generated via the ITGlue portal at *Admin > Settings > API Keys*
    <br>
 
-3. [**optional**] Run `Export-ITGlueModuleSetting`
+3. [**optional**] Run `Export-ITGlueModuleSettings`
    - This will create a config file at `%UserProfile%\Celerium.ITGlue` that holds the *base uri* & *API access token* information.
    - Next time you run `Import-Module -Name Celerium.ITGlue`, this configuration file will automatically be loaded.
    - :warning: Exporting module settings encrypts your API access token in a format that can **only be unencrypted by the user principal** that encrypted the secret. It makes use of .NET DPAPI, which for Windows uses reversible encrypted tied to your user principal. This means that you **cannot copy** your configuration file to another computer or user account and expect it to work.

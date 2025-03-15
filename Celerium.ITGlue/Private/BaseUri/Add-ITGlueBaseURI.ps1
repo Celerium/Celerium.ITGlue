@@ -30,14 +30,14 @@ function Add-ITGlueBaseURI {
         The base URI will use https://api.itglue.com
 
     .EXAMPLE
-        Add-ITGlueBaseURI -BaseUri 'https://my.gateway.com'
+        Add-ITGlueBaseURI -BaseUri 'https://gateway.celerium.org'
 
-        The base URI will use https://my.gateway.com
+        The base URI will use https://gateway.celerium.org
 
     .EXAMPLE
-        'https://my.gateway.com' | Add-ITGlueBaseURI
+        'https://gateway.celerium.org' | Add-ITGlueBaseURI
 
-        The base URI will use https://my.gateway.com
+        The base URI will use https://gateway.celerium.org
 
     .EXAMPLE
         Add-ITGlueBaseURI -DataCenter EU
@@ -49,12 +49,9 @@ function Add-ITGlueBaseURI {
 
     .LINK
         https://celerium.github.io/Celerium.ITGlue/site/Internal/Add-ITGlueBaseURI.html
-
-    .LINK
-        https://github.com/Celerium/Celerium.ITGlue
 #>
 
-    [CmdletBinding()]
+    [CmdletBinding(DefaultParameterSetName = 'Set')]
     [Alias('Set-ITGlueBaseURI')]
     Param (
         [parameter(ValueFromPipeline)]

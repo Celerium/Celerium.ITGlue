@@ -2,52 +2,48 @@
 external help file: Celerium.ITGlue-help.xml
 grand_parent: Internal
 Module Name: Celerium.ITGlue
-online version: https://celerium.github.io/Celerium.ITGlue/site/Internal/Get-ITGlueModuleSetting.html
-parent: GET
+online version: https://celerium.github.io/Celerium.ITGlue/site/Internal/Export-ITGlueModuleSettings.html
+parent: PATCH
 schema: 2.0.0
-title: Get-ITGlueModuleSetting
+title: Export-ITGlueModuleSettings
 ---
 
-# Get-ITGlueModuleSetting
+# Export-ITGlueModuleSettings
 
 ## SYNOPSIS
-Gets the saved ITGlue configuration settings
+Exports the ITGlue BaseURI, API, & JSON configuration information to file
 
 ## SYNTAX
 
 ```powershell
-Get-ITGlueModuleSetting [[-ITGlueConfigPath] <String>] [[-ITGlueConfigFile] <String>] [-OpenConfigFile]
- [<CommonParameters>]
+Export-ITGlueModuleSettings [[-ITGlueConfigPath] <String>] [[-ITGlueConfigFile] <String>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
-The Get-ITGlueModuleSetting cmdlet gets the saved ITGlue configuration settings
-from the local system
+The Export-ITGlueModuleSettings cmdlet exports the ITGlue BaseURI, API, & JSON configuration information to file
 
-By default the configuration file is stored in the following location:
-    $env:USERPROFILE\Celerium.ITGlue
+Making use of PowerShell's System.Security.SecureString type, exporting module settings encrypts your API key in a format
+that can only be unencrypted with the your Windows account as this encryption is tied to your user principal
+This means that you cannot copy your configuration file to another computer or user account and expect it to work
 
 ## EXAMPLES
 
 ### EXAMPLE 1
 ```powershell
-Get-ITGlueModuleSetting
+Export-ITGlueModuleSettings
 ```
 
-Gets the contents of the configuration file that was created with the
-Export-ITGlueModuleSetting
-
-The default location of the ITGlue configuration file is:
+Validates that the BaseURI, API, and JSON depth are set then exports their values
+to the current user's ITGlue configuration file located at:
     $env:USERPROFILE\Celerium.ITGlue\config.psd1
 
 ### EXAMPLE 2
 ```powershell
-Get-ITGlueModuleSetting -ITGlueConfigPath C:\Celerium.ITGlue -ITGlueConfigFile MyConfig.psd1 -openConfFile
+Export-ITGlueModuleSettings -ITGlueConfigPath C:\Celerium.ITGlue -ITGlueConfigFile MyConfig.psd1
 ```
 
-Opens the configuration file from the defined location in the default editor
-
-The location of the ITGlue configuration file in this example is:
+Validates that the BaseURI, API, and JSON depth are set then exports their values
+to the current user's ITGlue configuration file located at:
     C:\Celerium.ITGlue\MyConfig.psd1
 
 ## PARAMETERS
@@ -88,21 +84,6 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -OpenConfigFile
-Opens the ITGlue configuration file
-
-```yaml
-Type: SwitchParameter
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: Named
-Default value: False
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
 ### CommonParameters
 This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable. For more information, see [about_CommonParameters](http://go.microsoft.com/fwlink/?LinkID=113216).
 
@@ -115,7 +96,5 @@ N/A
 
 ## RELATED LINKS
 
-[https://celerium.github.io/Celerium.ITGlue/site/Internal/Get-ITGlueModuleSetting.html](https://celerium.github.io/Celerium.ITGlue/site/Internal/Get-ITGlueModuleSetting.html)
-
-[https://github.com/Celerium/Celerium.ITGlue](https://github.com/Celerium/Celerium.ITGlue)
+[https://celerium.github.io/Celerium.ITGlue/site/Internal/Export-ITGlueModuleSettings.html](https://celerium.github.io/Celerium.ITGlue/site/Internal/Export-ITGlueModuleSettings.html)
 

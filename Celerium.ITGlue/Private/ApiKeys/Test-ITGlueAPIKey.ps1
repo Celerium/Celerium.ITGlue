@@ -39,13 +39,9 @@ function Test-ITGlueAPIKey {
 
     .LINK
         https://celerium.github.io/Celerium.ITGlue/site/Internal/Test-ITGlueAPIKey.html
-
-    .LINK
-        https://github.com/Celerium/Celerium.ITGlue
-
 #>
 
-    [CmdletBinding()]
+    [CmdletBinding(DefaultParameterSetName = 'Test')]
     Param (
         [parameter(Mandatory = $false)]
         [ValidateNotNullOrEmpty()]
@@ -60,10 +56,10 @@ function Test-ITGlueAPIKey {
 
         try {
 
-            $ITGlue_Headers = @{}
-            $ITGlue_Headers.Add('x-api-key', $(Get-ITGlueAPIKey -AsPlainText) )
+            $Headers = @{}
+            $Headers.Add('x-api-key', $(Get-ITGlueAPIKey -AsPlainText) )
 
-            $rest_output = Invoke-WebRequest -Method Get -Uri ($BaseUri + $ResourceUri) -Headers $ITGlue_Headers -ErrorAction Stop
+            $rest_output = Invoke-WebRequest -Method Get -Uri ($BaseUri + $ResourceUri) -Headers $Headers -ErrorAction Stop
         }
         catch {
 
@@ -76,7 +72,7 @@ function Test-ITGlueAPIKey {
             }
 
         } finally {
-            [void] ($ITGlue_Headers.Remove('x-api-key'))
+            [void] ($Headers.Remove('x-api-key'))
         }
 
         if ($rest_output) {

@@ -41,7 +41,7 @@ function Remove-ITGlueFlexibleAsset {
         [Parameter(ParameterSetName = 'Destroy', Mandatory = $true)]
         [int64]$ID,
 
-        [Parameter(ParameterSetName = 'Bulk_Destroy', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'BulkDestroy', Mandatory = $true)]
         $Data
     )
 
@@ -57,7 +57,7 @@ function Remove-ITGlueFlexibleAsset {
         Write-Verbose "[ $FunctionName ] - Running the [ $($PSCmdlet.ParameterSetName) ] parameterSet"
 
         switch ($PSCmdlet.ParameterSetName) {
-            'Bulk_Destroy'  { $ResourceUri = "/flexible_assets" }
+            'BulkDestroy'  { $ResourceUri = "/flexible_assets" }
             'Destroy'       { $ResourceUri = "/flexible_assets/$ID" }
         }
 

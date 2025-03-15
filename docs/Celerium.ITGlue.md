@@ -21,7 +21,7 @@ Sets the base URI for the ITGlue API connection
 ### [ConvertTo-ITGlueQueryString](site/Internal/ConvertTo-ITGlueQueryString.md)
 Converts uri filter parameters
 
-### [Export-ITGlueModuleSetting](site/Internal/Export-ITGlueModuleSetting.md)
+### [Export-ITGlueModuleSettings](site/Internal/Export-ITGlueModuleSettings.md)
 Exports the ITGlue BaseURI, API, & JSON configuration information to file
 
 ### [Get-ITGlueAPIKey](site/Internal/Get-ITGlueAPIKey.md)
@@ -87,7 +87,7 @@ List or show all manufacturers
 ### [Get-ITGlueModel](site/Models/Get-ITGlueModel.md)
 List or show all models
 
-### [Get-ITGlueModuleSetting](site/Internal/Get-ITGlueModuleSetting.md)
+### [Get-ITGlueModuleSettings](site/Internal/Get-ITGlueModuleSettings.md)
 Gets the saved ITGlue configuration settings
 
 ### [Get-ITGlueOperatingSystem](site/OperatingSystems/Get-ITGlueOperatingSystem.md)
@@ -120,14 +120,11 @@ List or show all users
 ### [Get-ITGlueUserMetric](site/UserMetrics/Get-ITGlueUserMetric.md)
 Lists all user metrics
 
-### [Import-ITGlueModuleSetting](site/Internal/Import-ITGlueModuleSetting.md)
+### [Import-ITGlueModuleSettings](site/Internal/Import-ITGlueModuleSettings.md)
 Imports the ITGlue BaseURI, API, & JSON configuration information to the current session
 
 ### [Invoke-ITGlueRequest](site/Internal/Invoke-ITGlueRequest.md)
 Makes an API request to ITGlue
-
-### [New-ITGlueAESSecret](site/Internal/New-ITGlueAESSecret.md)
-Creates a AES encrypted API key and decipher key
 
 ### [New-ITGlueAttachment](site/Attachments/New-ITGlueAttachment.md)
 Adds an attachment to one or more assets
@@ -219,7 +216,7 @@ Delete a flexible asset field
 ### [Remove-ITGlueLocation](site/Locations/Remove-ITGlueLocation.md)
 Deletes one or more locations
 
-### [Remove-ITGlueModuleSetting](site/Internal/Remove-ITGlueModuleSetting.md)
+### [Remove-ITGlueModuleSettings](site/Internal/Remove-ITGlueModuleSettings.md)
 Removes the stored ITGlue configuration folder
 
 ### [Remove-ITGlueOrganization](site/Organizations/Remove-ITGlueOrganization.md)

@@ -15,7 +15,7 @@ Updates one or more models
 
 ## SYNTAX
 
-### Bulk_Update (Default)
+### BulkUpdate (Default)
 ```powershell
 Set-ITGlueModel [-FilterID <Int64>] -Data <Object> [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
@@ -82,7 +82,7 @@ Filter models by id
 
 ```yaml
 Type: Int64
-Parameter Sets: Bulk_Update
+Parameter Sets: BulkUpdate
 Aliases:
 
 Required: False

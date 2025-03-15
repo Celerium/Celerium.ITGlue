@@ -138,28 +138,28 @@ function Get-ITGlueFlexibleAsset {
             'Show'  { $ResourceUri = "/flexible_assets/$ID" }
         }
 
-        $query_params = @{}
+        $UriParameters = @{}
 
         #Region     [ Parameter Translation ]
 
         if ($PSCmdlet.ParameterSetName -eq 'Index') {
-            if ($FilterFlexibleAssetTypeID) { $query_params['filter[flexible-asset-type-id]']   = $FilterFlexibleAssetTypeID }
-            if ($FilterName)                { $query_params['filter[name]']                     = $FilterName }
-            if ($FilterOrganizationID)      { $query_params['filter[organization-id]']          = $FilterOrganizationID }
-            if ($Sort)                      { $query_params['sort']                             = $Sort }
-            if ($PageNumber)                { $query_params['page[number]']                     = $PageNumber }
-            if ($PageSize)                  { $query_params['page[size]']                       = $PageSize }
+            if ($FilterFlexibleAssetTypeID) { $UriParameters['filter[flexible-asset-type-id]']   = $FilterFlexibleAssetTypeID }
+            if ($FilterName)                { $UriParameters['filter[name]']                     = $FilterName }
+            if ($FilterOrganizationID)      { $UriParameters['filter[organization-id]']          = $FilterOrganizationID }
+            if ($Sort)                      { $UriParameters['sort']                             = $Sort }
+            if ($PageNumber)                { $UriParameters['page[number]']                     = $PageNumber }
+            if ($PageSize)                  { $UriParameters['page[size]']                       = $PageSize }
         }
 
         #Shared Parameters
-        if($Include) { $query_params['include'] = $Include }
+        if($Include) { $UriParameters['include'] = $Include }
 
         #EndRegion  [ Parameter Translation ]
 
         Set-Variable -Name $ParameterName -Value $PSBoundParameters -Scope Global -Force -Confirm:$false
-        Set-Variable -Name $QueryParameterName -Value $query_params -Scope Global -Force -Confirm:$false
+        Set-Variable -Name $QueryParameterName -Value $UriParameters -Scope Global -Force -Confirm:$false
 
-        return Invoke-ITGlueRequest -Method GET -ResourceURI $ResourceUri -QueryParams $query_params -AllResults:$AllResults
+        return Invoke-ITGlueRequest -Method GET -ResourceURI $ResourceUri -UriFilter $UriParameters -AllResults:$AllResults
 
     }
 

@@ -36,13 +36,13 @@ function Set-ITGlueFlexibleAsset {
         https://api.itglue.com/developer/#flexible-assets-update
 #>
 
-    [CmdletBinding(DefaultParameterSetName = 'Bulk_Update', SupportsShouldProcess, ConfirmImpact = 'Medium')]
+    [CmdletBinding(DefaultParameterSetName = 'BulkUpdate', SupportsShouldProcess, ConfirmImpact = 'Medium')]
     Param (
         [Parameter(ParameterSetName = 'Update', Mandatory = $true)]
         [int64]$ID,
 
         [Parameter(ParameterSetName = 'Update', Mandatory = $true)]
-        [Parameter(ParameterSetName = 'Bulk_Update', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'BulkUpdate', Mandatory = $true)]
         $Data
     )
 
@@ -58,7 +58,7 @@ function Set-ITGlueFlexibleAsset {
         Write-Verbose "[ $FunctionName ] - Running the [ $($PSCmdlet.ParameterSetName) ] parameterSet"
 
         switch ($PSCmdlet.ParameterSetName) {
-            'Bulk_Update'   { $ResourceUri = "/flexible_assets" }
+            'BulkUpdate'   { $ResourceUri = "/flexible_assets" }
             'Update'        { $ResourceUri = "/flexible_assets/$ID" }
         }
 

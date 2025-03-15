@@ -144,8 +144,8 @@ function Get-ITGlueConfiguration {
     Param (
         [Parameter(ParameterSetName = 'Index')]
         [Parameter(ParameterSetName = 'Index_RMM')]
-        [Parameter(ParameterSetName = 'Index_PSA')]
-        [Parameter(ParameterSetName = 'Index_RMM_PSA')]
+        [Parameter(ParameterSetName = 'IndexPSA')]
+        [Parameter(ParameterSetName = 'Index_RMMPSA')]
         [Parameter(ParameterSetName = 'Show')]
         [int64]$OrganizationID,
 
@@ -154,77 +154,77 @@ function Get-ITGlueConfiguration {
 
         [Parameter(ParameterSetName = 'Index')]
         [Parameter(ParameterSetName = 'Index_RMM')]
-        [Parameter(ParameterSetName = 'Index_PSA')]
-        [Parameter(ParameterSetName = 'Index_RMM_PSA')]
+        [Parameter(ParameterSetName = 'IndexPSA')]
+        [Parameter(ParameterSetName = 'Index_RMMPSA')]
         [int64]$FilterID,
 
         [Parameter(ParameterSetName = 'Index')]
         [Parameter(ParameterSetName = 'Index_RMM')]
-        [Parameter(ParameterSetName = 'Index_PSA')]
-        [Parameter(ParameterSetName = 'Index_RMM_PSA')]
+        [Parameter(ParameterSetName = 'IndexPSA')]
+        [Parameter(ParameterSetName = 'Index_RMMPSA')]
         [string]$FilterName,
 
         [Parameter(ParameterSetName = 'Index')]
         [Parameter(ParameterSetName = 'Index_RMM')]
-        [Parameter(ParameterSetName = 'Index_PSA')]
-        [Parameter(ParameterSetName = 'Index_RMM_PSA')]
+        [Parameter(ParameterSetName = 'IndexPSA')]
+        [Parameter(ParameterSetName = 'Index_RMMPSA')]
         [int64]$FilterOrganizationID,
 
         [Parameter(ParameterSetName = 'Index')]
         [Parameter(ParameterSetName = 'Index_RMM')]
-        [Parameter(ParameterSetName = 'Index_PSA')]
-        [Parameter(ParameterSetName = 'Index_RMM_PSA')]
+        [Parameter(ParameterSetName = 'IndexPSA')]
+        [Parameter(ParameterSetName = 'Index_RMMPSA')]
         [int64]$FilterConfigurationTypeID,
 
         [Parameter(ParameterSetName = 'Index')]
         [Parameter(ParameterSetName = 'Index_RMM')]
-        [Parameter(ParameterSetName = 'Index_PSA')]
-        [Parameter(ParameterSetName = 'Index_RMM_PSA')]
+        [Parameter(ParameterSetName = 'IndexPSA')]
+        [Parameter(ParameterSetName = 'Index_RMMPSA')]
         [int64]$FilterConfigurationStatusID,
 
         [Parameter(ParameterSetName = 'Index')]
         [Parameter(ParameterSetName = 'Index_RMM')]
-        [Parameter(ParameterSetName = 'Index_PSA')]
-        [Parameter(ParameterSetName = 'Index_RMM_PSA')]
+        [Parameter(ParameterSetName = 'IndexPSA')]
+        [Parameter(ParameterSetName = 'Index_RMMPSA')]
         [int64]$FilterContactID,
 
         [Parameter(ParameterSetName = 'Index')]
         [Parameter(ParameterSetName = 'Index_RMM')]
-        [Parameter(ParameterSetName = 'Index_PSA')]
-        [Parameter(ParameterSetName = 'Index_RMM_PSA')]
+        [Parameter(ParameterSetName = 'IndexPSA')]
+        [Parameter(ParameterSetName = 'Index_RMMPSA')]
         [string]$FilterSerialNumber,
 
         [Parameter(ParameterSetName = 'Index')]
         [Parameter(ParameterSetName = 'Index_RMM')]
-        [Parameter(ParameterSetName = 'Index_PSA')]
-        [Parameter(ParameterSetName = 'Index_RMM_PSA')]
+        [Parameter(ParameterSetName = 'IndexPSA')]
+        [Parameter(ParameterSetName = 'Index_RMMPSA')]
         [string]$FilterMacAddress,
 
         [Parameter(ParameterSetName = 'Index')]
         [Parameter(ParameterSetName = 'Index_RMM')]
-        [Parameter(ParameterSetName = 'Index_PSA')]
-        [Parameter(ParameterSetName = 'Index_RMM_PSA')]
+        [Parameter(ParameterSetName = 'IndexPSA')]
+        [Parameter(ParameterSetName = 'Index_RMMPSA')]
         [string]$FilterAssetTag,
 
-        [Parameter(ParameterSetName = 'Index_PSA')]
-        [Parameter(ParameterSetName = 'Index_RMM_PSA')]
+        [Parameter(ParameterSetName = 'IndexPSA')]
+        [Parameter(ParameterSetName = 'Index_RMMPSA')]
         [string]$FilterPsaID,
 
         [Parameter(ParameterSetName = 'Index')]
         [Parameter(ParameterSetName = 'Index_RMM')]
-        [Parameter(ParameterSetName = 'Index_PSA', Mandatory = $true)]
-        [Parameter(ParameterSetName = 'Index_RMM_PSA', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'IndexPSA', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'Index_RMMPSA', Mandatory = $true)]
         [ValidateSet('manage', 'autotask', 'tigerpaw', 'kaseya-bms', 'pulseway-psa', 'vorex')]
         [string]$FilterPsaIntegrationType,
 
         [Parameter(ParameterSetName = 'Index_RMM')]
-        [Parameter(ParameterSetName = 'Index_RMM_PSA')]
+        [Parameter(ParameterSetName = 'Index_RMMPSA')]
         [string]$FilterRmmID,
 
         [Parameter(ParameterSetName = 'Index')]
         [Parameter(ParameterSetName = 'Index_RMM', Mandatory = $true)]
-        [Parameter(ParameterSetName = 'Index_PSA')]
-        [Parameter(ParameterSetName = 'Index_RMM_PSA', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'IndexPSA')]
+        [Parameter(ParameterSetName = 'Index_RMMPSA', Mandatory = $true)]
         [ValidateSet(   'addigy', 'aem', 'atera', 'auvik', 'managed-workplace',
                         'continuum', 'jamf-pro', 'kaseya-vsa', 'automate', 'log-me-in',
                         'msp-rmm', 'meraki', 'msp-n-central', 'ninja-rmm', 'panorama9',
@@ -234,35 +234,35 @@ function Get-ITGlueConfiguration {
 
         [Parameter(ParameterSetName = 'Index')]
         [Parameter(ParameterSetName = 'Index_RMM')]
-        [Parameter(ParameterSetName = 'Index_PSA')]
-        [Parameter(ParameterSetName = 'Index_RMM_PSA')]
+        [Parameter(ParameterSetName = 'IndexPSA')]
+        [Parameter(ParameterSetName = 'Index_RMMPSA')]
         [ValidateSet('true','false','0','1', IgnoreCase = $false)]
         [string]$FilterArchived,
 
         [Parameter(ParameterSetName = 'Index')]
         [Parameter(ParameterSetName = 'Index_RMM')]
-        [Parameter(ParameterSetName = 'Index_PSA')]
-        [Parameter(ParameterSetName = 'Index_RMM_PSA')]
+        [Parameter(ParameterSetName = 'IndexPSA')]
+        [Parameter(ParameterSetName = 'Index_RMMPSA')]
         [ValidateSet(   'name', 'id', 'created_at', 'updated-at',
                         '-name', '-id', '-created_at', '-updated-at')]
         [string]$Sort,
 
         [Parameter(ParameterSetName = 'Index')]
         [Parameter(ParameterSetName = 'Index_RMM')]
-        [Parameter(ParameterSetName = 'Index_PSA')]
-        [Parameter(ParameterSetName = 'Index_RMM_PSA')]
+        [Parameter(ParameterSetName = 'IndexPSA')]
+        [Parameter(ParameterSetName = 'Index_RMMPSA')]
         [int64]$PageNumber,
 
         [Parameter(ParameterSetName = 'Index')]
         [Parameter(ParameterSetName = 'Index_RMM')]
-        [Parameter(ParameterSetName = 'Index_PSA')]
-        [Parameter(ParameterSetName = 'Index_RMM_PSA')]
+        [Parameter(ParameterSetName = 'IndexPSA')]
+        [Parameter(ParameterSetName = 'Index_RMMPSA')]
         [int]$PageSize,
 
         [Parameter(ParameterSetName = 'Index')]
         [Parameter(ParameterSetName = 'Index_RMM')]
-        [Parameter(ParameterSetName = 'Index_PSA')]
-        [Parameter(ParameterSetName = 'Index_RMM_PSA')]
+        [Parameter(ParameterSetName = 'IndexPSA')]
+        [Parameter(ParameterSetName = 'Index_RMMPSA')]
         [Parameter(ParameterSetName = 'Show')]
         [ValidateSet(   'active_network_glue_network_devices', 'adapters_resources', 'adapters_resources_errors',
                         'attachments', 'authorized_users', 'configuration_interfaces', 'dnet_fa_remote_assets',
@@ -274,8 +274,8 @@ function Get-ITGlueConfiguration {
 
         [Parameter(ParameterSetName = 'Index')]
         [Parameter(ParameterSetName = 'Index_RMM')]
-        [Parameter(ParameterSetName = 'Index_PSA')]
-        [Parameter(ParameterSetName = 'Index_RMM_PSA')]
+        [Parameter(ParameterSetName = 'IndexPSA')]
+        [Parameter(ParameterSetName = 'Index_RMMPSA')]
         [switch]$AllResults
     )
 
@@ -312,44 +312,44 @@ function Get-ITGlueConfiguration {
 
         }
 
-        $query_params = @{}
+        $UriParameters = @{}
 
         #Region     [ Parameter Translation ]
 
         if ($PSCmdlet.ParameterSetName -like 'Index*') {
-            if ($FilterID)                      { $query_params['filter[id]']                       = $FilterID }
-            if ($FilterName)                    { $query_params['filter[name]']                     = $FilterName }
-            if ($FilterOrganizationID)          { $query_params['filter[organization_id]']          = $FilterOrganizationID }
-            if ($FilterConfigurationTypeID)     { $query_params['filter[configuration_type_id]']    = $FilterConfigurationTypeID }
-            if ($FilterConfigurationStatusID)   { $query_params['filter[configuration_status_id]']  = $FilterConfigurationStatusID }
-            if ($FilterContactID)               { $query_params['filter[contact_id]']               = $FilterContactID }
-            if ($FilterSerialNumber)            { $query_params['filter[serial_number]']            = $FilterSerialNumber }
-            if ($FilterMacAddress)              { $query_params['filter[mac_address]']              = $FilterMacAddress }
-            if ($FilterAssetTag)                { $query_params['filter[asset_tag]']                = $FilterAssetTag }
-            if ($FilterPsaIntegrationType)      { $query_params['filter[psa_integration_type]']     = $FilterPsaIntegrationType }
-            if ($FilterRmmIntegrationType)      { $query_params['filter[rmm_integration_type]']     = $FilterRmmIntegrationType }
-            if ($FilterArchived)                { $query_params['filter[archived]']                 = $FilterArchived }
-            if ($Sort)                          { $query_params['sort']                             = $Sort }
-            if ($PageNumber)                    { $query_params['page[number]']                     = $PageNumber }
-            if ($PageSize)                      { $query_params['page[size]']                       = $PageSize }
+            if ($FilterID)                      { $UriParameters['filter[id]']                       = $FilterID }
+            if ($FilterName)                    { $UriParameters['filter[name]']                     = $FilterName }
+            if ($FilterOrganizationID)          { $UriParameters['filter[organization_id]']          = $FilterOrganizationID }
+            if ($FilterConfigurationTypeID)     { $UriParameters['filter[configuration_type_id]']    = $FilterConfigurationTypeID }
+            if ($FilterConfigurationStatusID)   { $UriParameters['filter[configuration_status_id]']  = $FilterConfigurationStatusID }
+            if ($FilterContactID)               { $UriParameters['filter[contact_id]']               = $FilterContactID }
+            if ($FilterSerialNumber)            { $UriParameters['filter[serial_number]']            = $FilterSerialNumber }
+            if ($FilterMacAddress)              { $UriParameters['filter[mac_address]']              = $FilterMacAddress }
+            if ($FilterAssetTag)                { $UriParameters['filter[asset_tag]']                = $FilterAssetTag }
+            if ($FilterPsaIntegrationType)      { $UriParameters['filter[psa_integration_type]']     = $FilterPsaIntegrationType }
+            if ($FilterRmmIntegrationType)      { $UriParameters['filter[rmm_integration_type]']     = $FilterRmmIntegrationType }
+            if ($FilterArchived)                { $UriParameters['filter[archived]']                 = $FilterArchived }
+            if ($Sort)                          { $UriParameters['sort']                             = $Sort }
+            if ($PageNumber)                    { $UriParameters['page[number]']                     = $PageNumber }
+            if ($PageSize)                      { $UriParameters['page[size]']                       = $PageSize }
         }
 
         if ($PSCmdlet.ParameterSetName -like 'Index_RMM*') {
-                $query_params['filter[rmm_id]'] = $FilterRmmID
+                $UriParameters['filter[rmm_id]'] = $FilterRmmID
         }
-        if ($PSCmdlet.ParameterSetName -like '*_PSA') {
-                $query_params['filter[psa_id]'] = $FilterPsaID
+        if ($PSCmdlet.ParameterSetName -like '*PSA') {
+                $UriParameters['filter[psa_id]'] = $FilterPsaID
         }
 
         #Shared Parameters
-        if($Include) { $query_params['include'] = $Include }
+        if($Include) { $UriParameters['include'] = $Include }
 
         #EndRegion  [ Parameter Translation ]
 
         Set-Variable -Name $ParameterName -Value $PSBoundParameters -Scope Global -Force -Confirm:$false
-        Set-Variable -Name $QueryParameterName -Value $query_params -Scope Global -Force -Confirm:$false
+        Set-Variable -Name $QueryParameterName -Value $UriParameters -Scope Global -Force -Confirm:$false
 
-        return Invoke-ITGlueRequest -Method GET -ResourceURI $ResourceUri -QueryParams $query_params -AllResults:$AllResults
+        return Invoke-ITGlueRequest -Method GET -ResourceURI $ResourceUri -UriFilter $UriParameters -AllResults:$AllResults
 
     }
 

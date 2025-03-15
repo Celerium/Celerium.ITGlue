@@ -15,7 +15,7 @@ Updates one or more flexible asset fields
 
 ## SYNTAX
 
-### Bulk_Update (Default)
+### BulkUpdate (Default)
 ```powershell
 Set-ITGlueFlexibleAssetField [-FilterID <Int64>] -Data <Object> [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
@@ -87,7 +87,7 @@ Filter by a flexible asset field id
 
 ```yaml
 Type: Int64
-Parameter Sets: Bulk_Update
+Parameter Sets: BulkUpdate
 Aliases:
 
 Required: False

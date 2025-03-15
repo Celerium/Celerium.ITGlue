@@ -84,5 +84,3 @@ N/A
 
 [https://celerium.github.io/Celerium.ITGlue/site/Internal/Test-ITGlueAPIKey.html](https://celerium.github.io/Celerium.ITGlue/site/Internal/Test-ITGlueAPIKey.html)
 
-[https://github.com/Celerium/Celerium.ITGlue](https://github.com/Celerium/Celerium.ITGlue)
-

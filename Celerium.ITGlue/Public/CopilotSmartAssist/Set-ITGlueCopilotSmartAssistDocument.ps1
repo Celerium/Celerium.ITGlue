@@ -46,16 +46,16 @@ function Set-ITGlueCopilotSmartAssistDocument {
         https://api.itglue.com/developer#copilot-smart-assist-bulk-update
 #>
 
-    [CmdletBinding(DefaultParameterSetName = 'Bulk_Update', SupportsShouldProcess, ConfirmImpact = 'Medium')]
+    [CmdletBinding(DefaultParameterSetName = 'BulkUpdate', SupportsShouldProcess, ConfirmImpact = 'Medium')]
     Param (
-        [Parameter(ParameterSetName = 'Bulk_Update')]
+        [Parameter(ParameterSetName = 'BulkUpdate')]
         [ValidateSet( 'stale', 'not_viewed', 'expired', 'duplicate' )]
         [string]$FilterType,
 
-        [Parameter(ParameterSetName = 'Bulk_Update')]
+        [Parameter(ParameterSetName = 'BulkUpdate')]
         [int64]$FilterOrganizationID,
 
-        [Parameter(ParameterSetName = 'Bulk_Update', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'BulkUpdate', Mandatory = $true)]
         $Data
 
     )
@@ -77,22 +77,22 @@ function Set-ITGlueCopilotSmartAssistDocument {
             $false  { $ResourceUri = "/copilot_smart_assist/documents" }
         }
 
-        $query_params = @{}
+        $UriParameters = @{}
 
         #Region     [ Parameter Translation ]
 
         if ($PSCmdlet.ParameterSetName -eq "Bulk_Update") {
-            if ($FilterType)            { $query_params['filter[type]']             = $FilterID }
-            if ($FilterOrganizationID)  { $query_params['filter[organization_id]']  = $FilterOrganizationID}
+            if ($FilterType)            { $UriParameters['filter[type]']             = $FilterID }
+            if ($FilterOrganizationID)  { $UriParameters['filter[organization_id]']  = $FilterOrganizationID}
         }
 
         #EndRegion  [ Parameter Translation ]
 
         Set-Variable -Name $ParameterName -Value $PSBoundParameters -Scope Global -Force -Confirm:$false
-        Set-Variable -Name $QueryParameterName -Value $query_params -Scope Global -Force -Confirm:$false
+        Set-Variable -Name $QueryParameterName -Value $UriParameters -Scope Global -Force -Confirm:$false
 
         if ($PSCmdlet.ShouldProcess($ResourceUri)) {
-            return Invoke-ITGlueRequest -Method PATCH -ResourceURI $ResourceUri -QueryParams $query_params -Data $Data
+            return Invoke-ITGlueRequest -Method PATCH -ResourceURI $ResourceUri -UriFilter $UriParameters -Data $Data
         }
 
     }

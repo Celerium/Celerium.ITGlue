@@ -30,7 +30,7 @@ Get-ITGlueContact [-OrganizationID <Int64>] [-FilterOrganizationID <Int64>] -ID 
  [<CommonParameters>]
 ```
 
-### Index_PSA
+### IndexPSA
 ```powershell
 Get-ITGlueContact [-OrganizationID <Int64>] [-FilterID <Int64>] [-FilterFirstName <String>]
  [-FilterLastName <String>] [-FilterTitle <String>] [-FilterContactTypeID <Int64>] [-FilterImportant <String>]
@@ -96,7 +96,7 @@ Filter by contact id
 
 ```yaml
 Type: Int64
-Parameter Sets: Index, Index_PSA
+Parameter Sets: Index, IndexPSA
 Aliases:
 
 Required: False
@@ -111,7 +111,7 @@ Filter by contact first name
 
 ```yaml
 Type: String
-Parameter Sets: Index, Index_PSA
+Parameter Sets: Index, IndexPSA
 Aliases:
 
 Required: False
@@ -126,7 +126,7 @@ Filter by contact last name
 
 ```yaml
 Type: String
-Parameter Sets: Index, Index_PSA
+Parameter Sets: Index, IndexPSA
 Aliases:
 
 Required: False
@@ -141,7 +141,7 @@ Filter by contact title
 
 ```yaml
 Type: String
-Parameter Sets: Index, Index_PSA
+Parameter Sets: Index, IndexPSA
 Aliases:
 
 Required: False
@@ -156,7 +156,7 @@ Filter by contact type id
 
 ```yaml
 Type: Int64
-Parameter Sets: Index, Index_PSA
+Parameter Sets: Index, IndexPSA
 Aliases:
 
 Required: False
@@ -175,7 +175,7 @@ incomplete information
 
 ```yaml
 Type: String
-Parameter Sets: Index, Index_PSA
+Parameter Sets: Index, IndexPSA
 Aliases:
 
 Required: False
@@ -190,7 +190,7 @@ Filter by contact primary email address
 
 ```yaml
 Type: String
-Parameter Sets: Index, Index_PSA
+Parameter Sets: Index, IndexPSA
 Aliases:
 
 Required: False
@@ -222,7 +222,7 @@ This must be accompanied by the filter for FilterPsaIntegrationType
 
 ```yaml
 Type: String
-Parameter Sets: Index_PSA
+Parameter Sets: IndexPSA
 Aliases:
 
 Required: False
@@ -252,7 +252,7 @@ Accept wildcard characters: False
 
 ```yaml
 Type: String
-Parameter Sets: Index_PSA
+Parameter Sets: IndexPSA
 Aliases:
 
 Required: True
@@ -271,7 +271,7 @@ Allowed values:
 
 ```yaml
 Type: String
-Parameter Sets: Index, Index_PSA
+Parameter Sets: Index, IndexPSA
 Aliases:
 
 Required: False
@@ -286,7 +286,7 @@ Return results starting from the defined number
 
 ```yaml
 Type: Int64
-Parameter Sets: Index, Index_PSA
+Parameter Sets: Index, IndexPSA
 Aliases:
 
 Required: False
@@ -304,7 +304,7 @@ requested is 1000
 
 ```yaml
 Type: Int32
-Parameter Sets: Index, Index_PSA
+Parameter Sets: Index, IndexPSA
 Aliases:
 
 Required: False
@@ -362,7 +362,7 @@ sequential requests to the API
 
 ```yaml
 Type: SwitchParameter
-Parameter Sets: Index, Index_PSA
+Parameter Sets: Index, IndexPSA
 Aliases:
 
 Required: False

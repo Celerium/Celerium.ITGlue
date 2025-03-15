@@ -95,75 +95,75 @@ function Set-ITGlueOrganization {
         https://api.itglue.com/developer/#organizations-update
 #>
 
-    [CmdletBinding(DefaultParameterSetName = 'Bulk_Update', SupportsShouldProcess, ConfirmImpact = 'Medium')]
+    [CmdletBinding(DefaultParameterSetName = 'BulkUpdate', SupportsShouldProcess, ConfirmImpact = 'Medium')]
     Param (
         [Parameter(ParameterSetName = 'Update', Mandatory = $true)]
         [int64]$ID,
 
-        [Parameter(ParameterSetName = 'Bulk_Update')]
-        [Parameter(ParameterSetName = 'Bulk_Update_PSA')]
+        [Parameter(ParameterSetName = 'BulkUpdate')]
+        [Parameter(ParameterSetName = 'BulkUpdatePSA')]
         [int64]$FilterID,
 
-        [Parameter(ParameterSetName = 'Bulk_Update')]
-        [Parameter(ParameterSetName = 'Bulk_Update_PSA')]
+        [Parameter(ParameterSetName = 'BulkUpdate')]
+        [Parameter(ParameterSetName = 'BulkUpdatePSA')]
         [string]$FilterName,
 
-        [Parameter(ParameterSetName = 'Bulk_Update')]
-        [Parameter(ParameterSetName = 'Bulk_Update_PSA')]
+        [Parameter(ParameterSetName = 'BulkUpdate')]
+        [Parameter(ParameterSetName = 'BulkUpdatePSA')]
         [int64]$FilterOrganizationTypeID,
 
-        [Parameter(ParameterSetName = 'Bulk_Update')]
-        [Parameter(ParameterSetName = 'Bulk_Update_PSA')]
+        [Parameter(ParameterSetName = 'BulkUpdate')]
+        [Parameter(ParameterSetName = 'BulkUpdatePSA')]
         [int64]$FilterOrganizationStatusID,
 
-        [Parameter(ParameterSetName = 'Bulk_Update')]
-        [Parameter(ParameterSetName = 'Bulk_Update_PSA')]
+        [Parameter(ParameterSetName = 'BulkUpdate')]
+        [Parameter(ParameterSetName = 'BulkUpdatePSA')]
         [string]$FilterCreatedAt,
 
-        [Parameter(ParameterSetName = 'Bulk_Update')]
-        [Parameter(ParameterSetName = 'Bulk_Update_PSA')]
+        [Parameter(ParameterSetName = 'BulkUpdate')]
+        [Parameter(ParameterSetName = 'BulkUpdatePSA')]
         [string]$FilterUpdatedAt,
 
-        [Parameter(ParameterSetName = 'Bulk_Update')]
-        [Parameter(ParameterSetName = 'Bulk_Update_PSA')]
+        [Parameter(ParameterSetName = 'BulkUpdate')]
+        [Parameter(ParameterSetName = 'BulkUpdatePSA')]
         [int64]$FilterMyGlueAccountID,
 
-        [Parameter(ParameterSetName = 'Bulk_Update_PSA')]
+        [Parameter(ParameterSetName = 'BulkUpdatePSA')]
         [string]$FilterPsaID,
 
-        [Parameter(ParameterSetName = 'Bulk_Update')]
-        [Parameter(ParameterSetName = 'Bulk_Update_PSA', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'BulkUpdate')]
+        [Parameter(ParameterSetName = 'BulkUpdatePSA', Mandatory = $true)]
         [ValidateSet( 'manage', 'autotask', 'tigerpaw', 'kaseya-bms', 'pulseway-psa', 'vorex')]
         [string]$FilterPsaIntegrationType,
 
-        [Parameter(ParameterSetName = 'Bulk_Update')]
-        [Parameter(ParameterSetName = 'Bulk_Update_PSA')]
+        [Parameter(ParameterSetName = 'BulkUpdate')]
+        [Parameter(ParameterSetName = 'BulkUpdatePSA')]
         [int64]$FilterGroupID,
 
-        [Parameter(ParameterSetName = 'Bulk_Update')]
-        [Parameter(ParameterSetName = 'Bulk_Update_PSA')]
+        [Parameter(ParameterSetName = 'BulkUpdate')]
+        [Parameter(ParameterSetName = 'BulkUpdatePSA')]
         [ValidateSet( 'true', 'false')]
         [string]$FilterPrimary,
 
-        [Parameter(ParameterSetName = 'Bulk_Update')]
-        [Parameter(ParameterSetName = 'Bulk_Update_PSA')]
+        [Parameter(ParameterSetName = 'BulkUpdate')]
+        [Parameter(ParameterSetName = 'BulkUpdatePSA')]
         [int64]$FilterExcludeID,
 
-        [Parameter(ParameterSetName = 'Bulk_Update')]
-        [Parameter(ParameterSetName = 'Bulk_Update_PSA')]
+        [Parameter(ParameterSetName = 'BulkUpdate')]
+        [Parameter(ParameterSetName = 'BulkUpdatePSA')]
         [string]$FilterExcludeName,
 
-        [Parameter(ParameterSetName = 'Bulk_Update')]
-        [Parameter(ParameterSetName = 'Bulk_Update_PSA')]
+        [Parameter(ParameterSetName = 'BulkUpdate')]
+        [Parameter(ParameterSetName = 'BulkUpdatePSA')]
         [int64]$FilterExcludeOrganizationTypeID,
 
-        [Parameter(ParameterSetName = 'Bulk_Update')]
-        [Parameter(ParameterSetName = 'Bulk_Update_PSA')]
+        [Parameter(ParameterSetName = 'BulkUpdate')]
+        [Parameter(ParameterSetName = 'BulkUpdatePSA')]
         [int64]$FilterExcludeOrganizationStatusID,
 
         [Parameter(ParameterSetName = 'Update', Mandatory = $true)]
-        [Parameter(ParameterSetName = 'Bulk_Update', Mandatory = $true)]
-        [Parameter(ParameterSetName = 'Bulk_Update_PSA', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'BulkUpdate', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'BulkUpdatePSA', Mandatory = $true)]
         $Data
 
     )
@@ -185,38 +185,38 @@ function Set-ITGlueOrganization {
             'Update'    { $ResourceUri = "/organizations/$ID" }
         }
 
-        $query_params = @{}
+        $UriParameters = @{}
 
         #Region     [ Parameter Translation ]
 
-        if ($PSCmdlet.ParameterSetName -like 'Bulk_Update*') {
-            if ($FilterID)                          { $query_params['filter[id]']                                = $FilterID }
-            if ($FilterName)                         { $query_params['filter[name]']                             = $FilterName }
-            if ($FilterOrganizationTypeID)           { $query_params['filter[organization_type_id]']             = $FilterOrganizationTypeID }
-            if ($FilterOrganizationStatusID)         { $query_params['filter[organization_status_id]']           = $FilterOrganizationStatusID }
-            if ($FilterCreatedAt)                    { $query_params['filter[created_at]']                       = $FilterCreatedAt }
-            if ($FilterUpdatedAt)                    { $query_params['filter[updated_at]']                       = $FilterUpdatedAt }
-            if ($FilterMyGlueAccountID)              { $query_params['filter[my_glue_account_id]']               = $FilterMyGlueAccountID }
-            if ($FilterPsaIntegrationType)           { $query_params['filter[psa_integration_type]']             = $FilterPsaIntegrationType }
-            if ($FilterGroupID)                      { $query_params['filter[group_id]']                         = $FilterGroupID }
-            if ($FilterPrimary)                      { $query_params['filter[primary]']                          = $FilterPrimary }
-            if ($FilterExcludeID)                    { $query_params['filter[exclude][id]']                      = $FilterExcludeID }
-            if ($FilterExcludeName)                  { $query_params['filter[exclude][name]']                    = $FilterExcludeName }
-            if ($FilterExcludeOrganizationTypeID)    { $query_params['filter[exclude][organization_type_id]']    = $FilterExcludeOrganizationTypeID }
-            if ($FilterExcludeOrganizationStatusID)  { $query_params['filter[exclude][organization_status_id]']  = $FilterExcludeOrganizationStatusID }
+        if ($PSCmdlet.ParameterSetName -like 'BulkUpdate*') {
+            if ($FilterID)                          { $UriParameters['filter[id]']                                = $FilterID }
+            if ($FilterName)                         { $UriParameters['filter[name]']                             = $FilterName }
+            if ($FilterOrganizationTypeID)           { $UriParameters['filter[organization_type_id]']             = $FilterOrganizationTypeID }
+            if ($FilterOrganizationStatusID)         { $UriParameters['filter[organization_status_id]']           = $FilterOrganizationStatusID }
+            if ($FilterCreatedAt)                    { $UriParameters['filter[created_at]']                       = $FilterCreatedAt }
+            if ($FilterUpdatedAt)                    { $UriParameters['filter[updated_at]']                       = $FilterUpdatedAt }
+            if ($FilterMyGlueAccountID)              { $UriParameters['filter[my_glue_account_id]']               = $FilterMyGlueAccountID }
+            if ($FilterPsaIntegrationType)           { $UriParameters['filter[psa_integration_type]']             = $FilterPsaIntegrationType }
+            if ($FilterGroupID)                      { $UriParameters['filter[group_id]']                         = $FilterGroupID }
+            if ($FilterPrimary)                      { $UriParameters['filter[primary]']                          = $FilterPrimary }
+            if ($FilterExcludeID)                    { $UriParameters['filter[exclude][id]']                      = $FilterExcludeID }
+            if ($FilterExcludeName)                  { $UriParameters['filter[exclude][name]']                    = $FilterExcludeName }
+            if ($FilterExcludeOrganizationTypeID)    { $UriParameters['filter[exclude][organization_type_id]']    = $FilterExcludeOrganizationTypeID }
+            if ($FilterExcludeOrganizationStatusID)  { $UriParameters['filter[exclude][organization_status_id]']  = $FilterExcludeOrganizationStatusID }
         }
 
-        if ($PSCmdlet.ParameterSetName -eq 'Bulk_Update_PSA') {
-            if ($FilterPsaID) { $query_params['filter[psa_id]'] = $FilterPsaID }
+        if ($PSCmdlet.ParameterSetName -eq 'BulkUpdatePSA') {
+            if ($FilterPsaID) { $UriParameters['filter[psa_id]'] = $FilterPsaID }
         }
 
         #EndRegion  [ Parameter Translation ]
 
         Set-Variable -Name $ParameterName -Value $PSBoundParameters -Scope Global -Force -Confirm:$false
-        Set-Variable -Name $QueryParameterName -Value $query_params -Scope Global -Force -Confirm:$false
+        Set-Variable -Name $QueryParameterName -Value $UriParameters -Scope Global -Force -Confirm:$false
 
         if ($PSCmdlet.ShouldProcess($ResourceUri)) {
-            return Invoke-ITGlueRequest -Method PATCH -ResourceURI $ResourceUri -QueryParams $query_params -Data $Data
+            return Invoke-ITGlueRequest -Method PATCH -ResourceURI $ResourceUri -UriFilter $UriParameters -Data $Data
         }
 
     }

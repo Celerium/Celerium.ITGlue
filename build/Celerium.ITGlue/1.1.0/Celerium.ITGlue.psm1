@@ -1,4 +1,4 @@
-﻿#Region '.\Private\APICalls\ConvertTo-ITGlueQueryString.ps1' -1
+﻿#Region '.\Private\ApiCalls\ConvertTo-ITGlueQueryString.ps1' -1
 
 function ConvertTo-ITGlueQueryString {
 <#
@@ -13,17 +13,17 @@ function ConvertTo-ITGlueQueryString {
         This is an internal helper function the ties in directly with the
         ConvertTo-ITGlueQueryString & any public functions that define parameters
 
-    .PARAMETER QueryParams
+    .PARAMETER UriFilter
         Hashtable of values to combine a functions parameters with
         the ResourceUri parameter
 
         This allows for the full uri query to occur
 
     .EXAMPLE
-        ConvertTo-ITGlueQueryString -QueryParams $HashTable
+        ConvertTo-ITGlueQueryString -UriFilter $HashTable
 
         Example HashTable:
-            $query_params = @{
+            $UriParameters = @{
                 'filter[id]']               = 123456789
                 'filter[organization_id]']  = 12345
             }
@@ -33,41 +33,38 @@ function ConvertTo-ITGlueQueryString {
 
     .LINK
         https://celerium.github.io/Celerium.ITGlue/site/Internal/ConvertTo-ITGlueQueryString.html
-
-    .LINK
-        https://github.com/Celerium/Celerium.ITGlue
 #>
 
-    [CmdletBinding()]
+    [CmdletBinding(DefaultParameterSetName = 'Convert')]
     Param (
         [Parameter(Mandatory = $true)]
-        [hashtable]$QueryParams
+        [hashtable]$UriFilter
     )
 
     begin {}
 
     process{
 
-        if (-not $QueryParams) {
+        if (-not $UriFilter) {
             return ""
         }
 
         $params = @()
-        foreach ($key in $QueryParams.Keys) {
-            $value = [System.Net.WebUtility]::UrlEncode($QueryParams[$key])
+        foreach ($key in $UriFilter.Keys) {
+            $value = [System.Net.WebUtility]::UrlEncode($UriFilter[$key])
             $params += "$key=$value"
         }
 
-        $query_string = '?' + ($params -join '&')
-        return $query_string
+        $QueryString = '?' + ($params -join '&')
+        return $QueryString
 
     }
 
     end{}
 
 }
-#EndRegion '.\Private\APICalls\ConvertTo-ITGlueQueryString.ps1' 67
-#Region '.\Private\APICalls\Invoke-ITGlueRequest.ps1' -1
+#EndRegion '.\Private\ApiCalls\ConvertTo-ITGlueQueryString.ps1' 64
+#Region '.\Private\ApiCalls\Invoke-ITGlueRequest.ps1' -1
 
 function Invoke-ITGlueRequest {
 <#
@@ -79,7 +76,7 @@ function Invoke-ITGlueRequest {
 
         This is an internal function that is used by all public functions
 
-    .PARAMETER method
+    .PARAMETER Method
         Defines the type of API method to use
 
         Allowed values:
@@ -88,7 +85,7 @@ function Invoke-ITGlueRequest {
     .PARAMETER ResourceURI
         Defines the resource uri (url) to use when creating the API call
 
-    .PARAMETER QueryParams
+    .PARAMETER UriFilter
         Hashtable of values to combine a functions parameters with
         the ResourceUri parameter
 
@@ -106,12 +103,12 @@ function Invoke-ITGlueRequest {
         Returns all items from an endpoint
 
     .EXAMPLE
-        Invoke-ITGlueRequest -method GET -ResourceURI '/passwords' -QueryParams $QueryParams
+        Invoke-ITGlueRequest -Method GET -ResourceURI '/passwords' -UriFilter $UriFilter
 
         Invoke a rest method against the defined resource using the provided parameters
 
         Example HashTable:
-            $query_params = @{
+            $UriParameters = @{
                 'filter[id]']               = 123456789
                 'filter[organization_id]']  = 12345
             }
@@ -121,13 +118,9 @@ function Invoke-ITGlueRequest {
 
     .LINK
         https://celerium.github.io/Celerium.ITGlue/site/Internal/Invoke-ITGlueRequest.html
-
-    .LINK
-        https://github.com/Celerium/Celerium.ITGlue
-
 #>
 
-    [CmdletBinding(SupportsShouldProcess)]
+    [CmdletBinding(DefaultParameterSetName = 'Invoke', SupportsShouldProcess)]
     param (
         [Parameter()]
         [ValidateSet('GET', 'POST', 'PATCH', 'DELETE')]
@@ -137,7 +130,7 @@ function Invoke-ITGlueRequest {
         [string]$ResourceURI,
 
         [Parameter()]
-        [hashtable]$QueryParams,
+        [hashtable]$UriFilter,
 
         [Parameter()]
         [ValidateNotNullOrEmpty()]
@@ -164,16 +157,16 @@ function Invoke-ITGlueRequest {
 
         Write-Verbose "[ $FunctionName ] - Running the [ $($PSCmdlet.ParameterSetName) ] parameterSet"
 
-        $result = @{}
+        $Result = @{}
 
         switch ([bool]$Data) {
-            $true   { $body = @{'data'=$Data} | ConvertTo-Json -Depth $ITGlueModuleJSONConversionDepth }
-            $false  { $body = $null }
+            $true   { $Body = @{'data'=$Data} | ConvertTo-Json -Depth $ITGlueModuleJSONConversionDepth }
+            $false  { $Body = $null }
         }
 
         try {
 
-            $headers = @{ 'x-api-key' = Get-ITGlueAPIKey -AsPlainText }
+            $Headers = @{ 'x-api-key' = Get-ITGlueAPIKey -AsPlainText }
 
             $page = 0
 
@@ -182,20 +175,20 @@ function Invoke-ITGlueRequest {
                 $page++
 
                 if($AllResults) {
-                    if(-not $QueryParams) { $QueryParams = @{} }
-                    $QueryParams['page[number]'] = $page
+                    if(-not $UriFilter) { $UriFilter = @{} }
+                    $UriFilter['page[number]'] = $page
                 }
 
-                if ($QueryParams) {
-                    $query_string = ConvertTo-ITGlueQueryString -QueryParams $QueryParams
-                    Set-Variable -Name $QueryParameterName -Value $query_string -Scope Global -Force -Confirm:$false
+                if ($UriFilter) {
+                    $QueryString = ConvertTo-ITGlueQueryString -UriFilter $UriFilter
+                    Set-Variable -Name $QueryParameterName -Value $QueryString -Scope Global -Force -Confirm:$false
                 }
 
                 $parameters = @{
                     'Method'    = $Method
-                    'Uri'       = $ITGlueModuleBaseURI + $ResourceURI + $query_string
-                    'Headers'   = $headers
-                    'Body'      = $body
+                    'Uri'       = $ITGlueModuleBaseURI + $ResourceURI + $QueryString
+                    'Headers'   = $Headers
+                    'Body'      = $Body
                 }
 
                 if($Method -ne 'GET') {
@@ -204,33 +197,33 @@ function Invoke-ITGlueRequest {
 
                 Set-Variable -Name $ParameterName -Value $parameters -Scope Global -Force -Confirm:$false
 
-                $api_response = Invoke-RestMethod @parameters -ErrorAction Stop
+                $ApiResponse = Invoke-RestMethod @parameters -ErrorAction Stop
 
-                Write-Verbose "[ $page ] of [ $($api_response.meta.'total-pages') ] pages"
+                Write-Verbose "[ $page ] of [ $($ApiResponse.meta.'total-pages') ] pages"
 
                 switch ($AllResults) {
-                    $true   { $result.data += $api_response.data }
-                    $false  { $result = $api_response }
+                    $true   { $Result.data += $ApiResponse.data }
+                    $false  { $Result = $ApiResponse }
                 }
 
-            } while($AllResults -and $api_response.meta.'total-pages' -and $page -lt ($api_response.meta.'total-pages'))
+            } while($AllResults -and $ApiResponse.meta.'total-pages' -and $page -lt ($ApiResponse.meta.'total-pages'))
 
-            if($AllResults -and $api_response.meta) {
-                $result.meta = $api_response.meta
-                if($result.meta.'current-page') { $result.meta.'current-page'   = 1 }
-                if($result.meta.'next-page')    { $result.meta.'next-page'      = '' }
-                if($result.meta.'prev-page')    { $result.meta.'prev-page'      = '' }
-                if($result.meta.'total-pages')  { $result.meta.'total-pages'    = 1 }
-                if($result.meta.'total-count')  { $result.meta.'total-count'    = $result.data.count }
+            if($AllResults -and $ApiResponse.meta) {
+                $Result.meta = $ApiResponse.meta
+                if($Result.meta.'current-page') { $Result.meta.'current-page'   = 1 }
+                if($Result.meta.'next-page')    { $Result.meta.'next-page'      = '' }
+                if($Result.meta.'prev-page')    { $Result.meta.'prev-page'      = '' }
+                if($Result.meta.'total-pages')  { $Result.meta.'total-pages'    = 1 }
+                if($Result.meta.'total-count')  { $Result.meta.'total-count'    = $Result.data.count }
             }
 
         }
         catch {
 
-            $exceptionError = $_.Exception.Message
+            $ExceptionError = $_.Exception.Message
             Write-Warning 'The [ Invoke_ITGlueRequest_Parameters, Invoke_ITGlueRequest_ParametersQuery, & CmdletName_Parameters ] variables can provide extra details'
 
-            switch -Wildcard ($exceptionError) {
+            switch -Wildcard ($ExceptionError) {
                 '*404*' { Write-Error "Invoke-ITGlueRequest : URI not found - [ $ResourceURI ]" }
                 '*429*' { Write-Error 'Invoke-ITGlueRequest : API rate limited' }
                 '*504*' { Write-Error "Invoke-ITGlueRequest : Gateway Timeout" }
@@ -244,15 +237,15 @@ function Invoke-ITGlueRequest {
 
         }
 
-        return $result
+        return $Result
 
     }
 
     end {}
 
 }
-#EndRegion '.\Private\APICalls\Invoke-ITGlueRequest.ps1' 183
-#Region '.\Private\APIKeys\Add-ITGlueAPIKey.ps1' -1
+#EndRegion '.\Private\ApiCalls\Invoke-ITGlueRequest.ps1' 179
+#Region '.\Private\ApiKeys\Add-ITGlueAPIKey.ps1' -1
 
 function Add-ITGlueAPIKey {
 <#
@@ -306,36 +299,18 @@ function Add-ITGlueAPIKey {
 
     .LINK
         https://celerium.github.io/Celerium.ITGlue/site/Internal/Add-ITGlueAPIKey.html
-
-    .LINK
-        https://github.com/Celerium/Celerium.ITGlue
-
 #>
 
-    [CmdletBinding(DefaultParameterSetName = 'PlainText')]
+    [CmdletBinding(DefaultParameterSetName = 'AsPlainText')]
     [Alias('Set-ITGlueAPIKey')]
     Param (
-        [Parameter(Mandatory = $false, ValueFromPipeline = $true, ParameterSetName = 'PlainText')]
+        [Parameter(Mandatory = $false, ValueFromPipeline = $true, ParameterSetName = 'AsPlainText')]
         [AllowEmptyString()]
         [string]$ApiKey,
 
         [Parameter(Mandatory = $false, ValueFromPipeline = $true, ParameterSetName = 'SecureString')]
         [ValidateNotNullOrEmpty()]
-        [securestring]$ApiKeySecureString,
-
-        [Parameter(Mandatory = $false, ParameterSetName = 'AESEncrypted')]
-        [ValidateScript({
-            if (Test-Path $_) { $true }
-            else { throw "The file provided does not exist - [  $_  ]" }
-        })]
-        [string]$EncryptedStandardAPIKeyPath,
-
-        [Parameter(Mandatory = $true, ParameterSetName = 'AESEncrypted')]
-        [ValidateScript({
-            if (Test-Path $_) { $true }
-            else { throw "The file provided does not exist - [  $_  ]" }
-        })]
-        [string]$EncryptedStandardAESKeyPath
+        [securestring]$ApiKeySecureString
     )
 
     begin {}
@@ -344,31 +319,23 @@ function Add-ITGlueAPIKey {
 
         switch ($PSCmdlet.ParameterSetName) {
 
-            'PlainText' {
+            'AsPlainText' {
 
                 if ($ApiKey) {
                     $SecureString = ConvertTo-SecureString $ApiKey -AsPlainText -Force
 
-                    Set-Variable -Name "ITGlueModuleAPIKey" -Value $SecureString -Option ReadOnly -Scope global -Force
+                    Set-Variable -Name "ITGlueModuleApiKey" -Value $SecureString -Option ReadOnly -Scope global -Force
                 }
                 else {
                     Write-Output "Please enter your API key:"
                     $SecureString = Read-Host -AsSecureString
 
-                    Set-Variable -Name "ITGlueModuleAPIKey" -Value $SecureString -Option ReadOnly -Scope global -Force
+                    Set-Variable -Name "ITGlueModuleApiKey" -Value $SecureString -Option ReadOnly -Scope global -Force
                 }
 
             }
 
-            'SecureString' { Set-Variable -Name "ITGlueModuleAPIKey" -Value $ApiKeySecureString -Option ReadOnly -Scope global -Force }
-
-            'AESEncrypted' {
-
-                $SecureString =  Get-Content $EncryptedStandardAPIKeyPath | ConvertTo-SecureString -Key $(Get-Content $EncryptedStandardAESKeyPath )
-
-                Set-Variable -Name "ITGlueModuleAPIKey" -Value $SecureString -Option ReadOnly -Scope global -Force
-
-            }
+            'SecureString' { Set-Variable -Name "ITGlueModuleApiKey" -Value $ApiKeySecureString -Option ReadOnly -Scope global -Force }
 
         }
 
@@ -377,8 +344,8 @@ function Add-ITGlueAPIKey {
     end {}
 
 }
-#EndRegion '.\Private\APIKeys\Add-ITGlueAPIKey.ps1' 124
-#Region '.\Private\APIKeys\Get-ITGlueAPIKey.ps1' -1
+#EndRegion '.\Private\ApiKeys\Add-ITGlueAPIKey.ps1' 98
+#Region '.\Private\ApiKeys\Get-ITGlueAPIKey.ps1' -1
 
 function Get-ITGlueAPIKey {
 <#
@@ -395,27 +362,22 @@ function Get-ITGlueAPIKey {
     .EXAMPLE
         Get-ITGlueAPIKey
 
-        Gets the ITGlue API secret key global variable and returns an object
-        with the secret key as a SecureString
+        Gets the Api key and returns it as a SecureString
 
     .EXAMPLE
         Get-ITGlueAPIKey -AsPlainText
 
-        Gets the ITGlue API secret key global variable and returns an object
-        with the secret key as plain text
+        Gets and decrypts the API key from the global variable and
+        returns the API key as plain text
 
     .NOTES
         N/A
 
     .LINK
         https://celerium.github.io/Celerium.ITGlue/site/Internal/Get-ITGlueAPIKey.html
-
-    .LINK
-        https://github.com/Celerium/Celerium.ITGlue
-
 #>
 
-    [CmdletBinding()]
+    [CmdletBinding(DefaultParameterSetName = 'Index')]
     Param (
         [Parameter(Mandatory = $false)]
         [switch]$AsPlainText
@@ -427,15 +389,15 @@ function Get-ITGlueAPIKey {
 
         try {
 
-            if ($ITGlueModuleAPIKey) {
+            if ($ITGlueModuleApiKey) {
 
                 if ($AsPlainText) {
-                    $Api_Key = [System.Runtime.InteropServices.Marshal]::SecureStringToBSTR($ITGlueModuleAPIKey)
+                    $ApiKey = [System.Runtime.InteropServices.Marshal]::SecureStringToBSTR($ITGlueModuleApiKey)
 
-                    ([System.Runtime.InteropServices.Marshal]::PtrToStringAuto($Api_Key)).ToString()
+                    ( [System.Runtime.InteropServices.Marshal]::PtrToStringBSTR($ApiKey) ).ToString()
 
                 }
-                else { $ITGlueModuleAPIKey }
+                else { $ITGlueModuleApiKey }
 
             }
             else { Write-Warning "The ITGlue API [ secret ] key is not set. Run Add-ITGlueAPIKey to set the API key." }
@@ -445,8 +407,8 @@ function Get-ITGlueAPIKey {
             Write-Error $_
         }
         finally {
-            if ($Api_Key) {
-                [System.Runtime.InteropServices.Marshal]::ZeroFreeBSTR($Api_Key)
+            if ($ApiKey) {
+                [System.Runtime.InteropServices.Marshal]::ZeroFreeBSTR($ApiKey)
             }
         }
 
@@ -456,100 +418,8 @@ function Get-ITGlueAPIKey {
     end {}
 
 }
-#EndRegion '.\Private\APIKeys\Get-ITGlueAPIKey.ps1' 77
-#Region '.\Private\APIKeys\New-ITGlueAESSecret.ps1' -1
-
-function New-ITGlueAESSecret {
-<#
-    .SYNOPSIS
-        Creates a AES encrypted API key and decipher key
-
-    .DESCRIPTION
-        The New-ITGlueAESSecret cmdlet creates a AES encrypted API key and decipher key
-
-        This allows the key to be exported for use on other systems without
-        relying on Windows DPAPI
-
-        Do NOT share the decipher key with anyone as this will allow them to decrypt
-        the encrypted API key
-
-    .PARAMETER KeyLength
-        The length of the AES key to generate
-
-        By default a 256-bit key (32) is generated
-
-        Allowed values:
-        16, 24, 32
-
-    .PARAMETER Path
-        The path to save the encrypted API key and decipher key
-
-        By default keys are only stored in memory
-
-    .EXAMPLE
-        New-ITGlueAESSecret
-
-        Prompts to enter in the API key which will be encrypted using a randomly generated 256-bit AES key
-
-
-    .NOTES
-        N/A
-
-    .LINK
-        https://celerium.github.io/Celerium.ITGlue/site/Internal/New-ITGlueAESSecret.html
-
-    .LINK
-        https://github.com/Celerium/Celerium.ITGlue
-
-#>
-
-    [CmdletBinding(SupportsShouldProcess, ConfirmImpact = 'Low')]
-    [Alias('Set-ITGlueAPIKey')]
-    Param (
-        [Parameter(Mandatory = $false)]
-        [ValidateSet(16, 24, 32)]
-        [int]$KeyLength = 32,
-
-        [Parameter(Mandatory = $false)]
-        [string]$Path = $(Get-Location).Path
-    )
-
-    begin {}
-
-    process{
-
-        $AESKey = Get-Random -Count $KeyLength -InputObject (0..255)
-
-        Write-Output "Please enter your API key:"
-        $SecureString = Read-Host -AsSecureString
-
-        $EncryptedStandardString    = ConvertFrom-SecureString -SecureString $SecureString -Key $AESKey
-        $AESSecuredKey              = $EncryptedStandardString | ConvertTo-SecureString -Key $AESKey
-
-        if ($Path) {
-            $AESKey                     | Out-File -FilePath $(Join-Path -Path $Path -ChildPath AESKey) -Encoding utf8
-            $EncryptedStandardString    | Out-File -FilePath $(Join-Path -Path $Path -ChildPath EncryptedAPIKey) -Encoding utf8
-
-            Write-Warning "Store the AES key in a secure location that only authorized personnel have access to!"
-
-            Write-Output "Files saved to [ $Path ]"
-
-        }
-        else {
-            [PSCustomObject]@{
-                AESKey              = $AESKey
-                AESStandardString   = $EncryptedStandardString
-                AESSecureString     = $AESSecuredKey
-            }
-        }
-
-    }
-
-    end {}
-
-}
-#EndRegion '.\Private\APIKeys\New-ITGlueAESSecret.ps1' 90
-#Region '.\Private\APIKeys\Remove-ITGlueAPIKey.ps1' -1
+#EndRegion '.\Private\ApiKeys\Get-ITGlueAPIKey.ps1' 72
+#Region '.\Private\ApiKeys\Remove-ITGlueAPIKey.ps1' -1
 
 function Remove-ITGlueAPIKey {
 <#
@@ -570,24 +440,20 @@ function Remove-ITGlueAPIKey {
 
     .LINK
         https://celerium.github.io/Celerium.ITGlue/site/Internal/Remove-ITGlueAPIKey.html
-
-    .LINK
-        https://github.com/Celerium/Celerium.ITGlue
-
 #>
 
-    [CmdletBinding(SupportsShouldProcess, ConfirmImpact = 'None')]
+    [CmdletBinding(DefaultParameterSetName = 'Destroy', SupportsShouldProcess, ConfirmImpact = 'None')]
     Param ()
 
     begin {}
 
     process {
 
-        switch ([bool]$ITGlueModuleAPIKey) {
+        switch ([bool]$ITGlueModuleApiKey) {
 
             $true   {
-                if ($PSCmdlet.ShouldProcess('ITGlueModuleAPIKey')) {
-                    Remove-Variable -Name "ITGlueModuleAPIKey" -Scope global -Force
+                if ($PSCmdlet.ShouldProcess('ITGlueModuleApiKey')) {
+                    Remove-Variable -Name "ITGlueModuleApiKey" -Scope global -Force
                 }
             }
 
@@ -600,8 +466,8 @@ function Remove-ITGlueAPIKey {
     end {}
 
 }
-#EndRegion '.\Private\APIKeys\Remove-ITGlueAPIKey.ps1' 50
-#Region '.\Private\APIKeys\Test-ITGlueAPIKey.ps1' -1
+#EndRegion '.\Private\ApiKeys\Remove-ITGlueAPIKey.ps1' 46
+#Region '.\Private\ApiKeys\Test-ITGlueAPIKey.ps1' -1
 
 function Test-ITGlueAPIKey {
 <#
@@ -644,13 +510,9 @@ function Test-ITGlueAPIKey {
 
     .LINK
         https://celerium.github.io/Celerium.ITGlue/site/Internal/Test-ITGlueAPIKey.html
-
-    .LINK
-        https://github.com/Celerium/Celerium.ITGlue
-
 #>
 
-    [CmdletBinding()]
+    [CmdletBinding(DefaultParameterSetName = 'Test')]
     Param (
         [parameter(Mandatory = $false)]
         [ValidateNotNullOrEmpty()]
@@ -665,10 +527,10 @@ function Test-ITGlueAPIKey {
 
         try {
 
-            $ITGlue_Headers = @{}
-            $ITGlue_Headers.Add('x-api-key', $(Get-ITGlueAPIKey -AsPlainText) )
+            $Headers = @{}
+            $Headers.Add('x-api-key', $(Get-ITGlueAPIKey -AsPlainText) )
 
-            $rest_output = Invoke-WebRequest -Method Get -Uri ($BaseUri + $ResourceUri) -Headers $ITGlue_Headers -ErrorAction Stop
+            $rest_output = Invoke-WebRequest -Method Get -Uri ($BaseUri + $ResourceUri) -Headers $Headers -ErrorAction Stop
         }
         catch {
 
@@ -681,7 +543,7 @@ function Test-ITGlueAPIKey {
             }
 
         } finally {
-            [void] ($ITGlue_Headers.Remove('x-api-key'))
+            [void] ($Headers.Remove('x-api-key'))
         }
 
         if ($rest_output) {
@@ -700,7 +562,7 @@ function Test-ITGlueAPIKey {
     end {}
 
 }
-#EndRegion '.\Private\APIKeys\Test-ITGlueAPIKey.ps1' 98
+#EndRegion '.\Private\ApiKeys\Test-ITGlueAPIKey.ps1' 94
 #Region '.\Private\BaseUri\Add-ITGlueBaseURI.ps1' -1
 
 function Add-ITGlueBaseURI {
@@ -735,14 +597,14 @@ function Add-ITGlueBaseURI {
         The base URI will use https://api.itglue.com
 
     .EXAMPLE
-        Add-ITGlueBaseURI -BaseUri 'https://my.gateway.com'
+        Add-ITGlueBaseURI -BaseUri 'https://gateway.celerium.org'
 
-        The base URI will use https://my.gateway.com
+        The base URI will use https://gateway.celerium.org
 
     .EXAMPLE
-        'https://my.gateway.com' | Add-ITGlueBaseURI
+        'https://gateway.celerium.org' | Add-ITGlueBaseURI
 
-        The base URI will use https://my.gateway.com
+        The base URI will use https://gateway.celerium.org
 
     .EXAMPLE
         Add-ITGlueBaseURI -DataCenter EU
@@ -754,12 +616,9 @@ function Add-ITGlueBaseURI {
 
     .LINK
         https://celerium.github.io/Celerium.ITGlue/site/Internal/Add-ITGlueBaseURI.html
-
-    .LINK
-        https://github.com/Celerium/Celerium.ITGlue
 #>
 
-    [CmdletBinding()]
+    [CmdletBinding(DefaultParameterSetName = 'Set')]
     [Alias('Set-ITGlueBaseURI')]
     Param (
         [parameter(ValueFromPipeline)]
@@ -787,7 +646,7 @@ function Add-ITGlueBaseURI {
     }
 
 }
-#EndRegion '.\Private\BaseUri\Add-ITGlueBaseURI.ps1' 85
+#EndRegion '.\Private\BaseUri\Add-ITGlueBaseURI.ps1' 82
 #Region '.\Private\BaseUri\Get-ITGlueBaseURI.ps1' -1
 
 function Get-ITGlueBaseURI {
@@ -809,12 +668,9 @@ function Get-ITGlueBaseURI {
 
     .LINK
         https://celerium.github.io/Celerium.ITGlue/site/Internal/Get-ITGlueBaseURI.html
-
-    .LINK
-        https://github.com/Celerium/Celerium.ITGlue
 #>
 
-    [CmdletBinding()]
+    [CmdletBinding(DefaultParameterSetName = 'Index')]
     Param ()
 
     begin {}
@@ -831,7 +687,7 @@ function Get-ITGlueBaseURI {
     end {}
 
 }
-#EndRegion '.\Private\BaseUri\Get-ITGlueBaseURI.ps1' 42
+#EndRegion '.\Private\BaseUri\Get-ITGlueBaseURI.ps1' 39
 #Region '.\Private\BaseUri\Remove-ITGlueBaseURI.ps1' -1
 
 function Remove-ITGlueBaseURI {
@@ -853,12 +709,9 @@ function Remove-ITGlueBaseURI {
 
     .LINK
         https://celerium.github.io/Celerium.ITGlue/site/Internal/Remove-ITGlueBaseURI.html
-
-    .LINK
-        https://github.com/Celerium/Celerium.ITGlue
 #>
 
-    [CmdletBinding(SupportsShouldProcess, ConfirmImpact = 'None')]
+    [CmdletBinding(DefaultParameterSetName = 'Destroy', SupportsShouldProcess, ConfirmImpact = 'None')]
     Param ()
 
     begin {}
@@ -872,7 +725,6 @@ function Remove-ITGlueBaseURI {
                     Remove-Variable -Name "ITGlueModuleBaseURI" -Scope global -Force
                 }
             }
-
             $false  { Write-Warning "The ITGlue base URI variable is not set. Nothing to remove" }
 
         }
@@ -882,16 +734,16 @@ function Remove-ITGlueBaseURI {
     end {}
 
 }
-#EndRegion '.\Private\BaseUri\Remove-ITGlueBaseURI.ps1' 49
-#Region '.\Private\ModuleSettings\Export-ITGlueModuleSetting.ps1' -1
+#EndRegion '.\Private\BaseUri\Remove-ITGlueBaseURI.ps1' 45
+#Region '.\Private\ModuleSettings\Export-ITGlueModuleSettings.ps1' -1
 
-function Export-ITGlueModuleSetting {
+function Export-ITGlueModuleSettings {
 <#
     .SYNOPSIS
         Exports the ITGlue BaseURI, API, & JSON configuration information to file
 
     .DESCRIPTION
-        The Export-ITGlueModuleSetting cmdlet exports the ITGlue BaseURI, API, & JSON configuration information to file
+        The Export-ITGlueModuleSettings cmdlet exports the ITGlue BaseURI, API, & JSON configuration information to file
 
         Making use of PowerShell's System.Security.SecureString type, exporting module settings encrypts your API key in a format
         that can only be unencrypted with the your Windows account as this encryption is tied to your user principal
@@ -910,14 +762,14 @@ function Export-ITGlueModuleSetting {
             config.psd1
 
     .EXAMPLE
-        Export-ITGlueModuleSetting
+        Export-ITGlueModuleSettings
 
         Validates that the BaseURI, API, and JSON depth are set then exports their values
         to the current user's ITGlue configuration file located at:
             $env:USERPROFILE\Celerium.ITGlue\config.psd1
 
     .EXAMPLE
-        Export-ITGlueModuleSetting -ITGlueConfigPath C:\Celerium.ITGlue -ITGlueConfigFile MyConfig.psd1
+        Export-ITGlueModuleSettings -ITGlueConfigPath C:\Celerium.ITGlue -ITGlueConfigFile MyConfig.psd1
 
         Validates that the BaseURI, API, and JSON depth are set then exports their values
         to the current user's ITGlue configuration file located at:
@@ -927,10 +779,7 @@ function Export-ITGlueModuleSetting {
         N/A
 
     .LINK
-        https://celerium.github.io/Celerium.ITGlue/site/Internal/Export-ITGlueModuleSetting.html
-
-    .LINK
-        https://github.com/Celerium/Celerium.ITGlue
+        https://celerium.github.io/Celerium.ITGlue/site/Internal/Export-ITGlueModuleSettings.html
 #>
 
     [CmdletBinding(DefaultParameterSetName = 'Set')]
@@ -952,8 +801,8 @@ function Export-ITGlueModuleSetting {
         $ITGlueConfig = Join-Path -Path $ITGlueConfigPath -ChildPath $ITGlueConfigFile
 
         # Confirm variables exist and are not null before exporting
-        if ($ITGlueModuleBaseURI -and $ITGlueModuleAPIKey -and $ITGlueModuleJSONConversionDepth) {
-            $SecureString = $ITGlueModuleAPIKey | ConvertFrom-SecureString
+        if ($ITGlueModuleBaseURI -and $ITGlueModuleApiKey -and $ITGlueModuleJSONConversionDepth) {
+            $SecureString = $ITGlueModuleApiKey | ConvertFrom-SecureString
 
             if ($IsWindows -or $PSEdition -eq 'Desktop') {
                 New-Item -Path $ITGlueConfigPath -ItemType Directory -Force | ForEach-Object { $_.Attributes = $_.Attributes -bor "Hidden" }
@@ -964,7 +813,7 @@ function Export-ITGlueModuleSetting {
 @"
     @{
         ITGlueModuleBaseURI             = '$ITGlueModuleBaseURI'
-        ITGlueModuleAPIKey              = '$SecureString'
+        ITGlueModuleApiKey              = '$SecureString'
         ITGlueModuleJSONConversionDepth = '$ITGlueModuleJSONConversionDepth'
     }
 "@ | Out-File -FilePath $ITGlueConfig -Force
@@ -980,16 +829,16 @@ function Export-ITGlueModuleSetting {
     end {}
 
 }
-#EndRegion '.\Private\ModuleSettings\Export-ITGlueModuleSetting.ps1' 96
-#Region '.\Private\ModuleSettings\Get-ITGlueModuleSetting.ps1' -1
+#EndRegion '.\Private\ModuleSettings\Export-ITGlueModuleSettings.ps1' 93
+#Region '.\Private\ModuleSettings\Get-ITGlueModuleSettings.ps1' -1
 
-function Get-ITGlueModuleSetting {
+function Get-ITGlueModuleSettings {
 <#
     .SYNOPSIS
         Gets the saved ITGlue configuration settings
 
     .DESCRIPTION
-        The Get-ITGlueModuleSetting cmdlet gets the saved ITGlue configuration settings
+        The Get-ITGlueModuleSettings cmdlet gets the saved ITGlue configuration settings
         from the local system
 
         By default the configuration file is stored in the following location:
@@ -1011,16 +860,16 @@ function Get-ITGlueModuleSetting {
         Opens the ITGlue configuration file
 
     .EXAMPLE
-        Get-ITGlueModuleSetting
+        Get-ITGlueModuleSettings
 
         Gets the contents of the configuration file that was created with the
-        Export-ITGlueModuleSetting
+        Export-ITGlueModuleSettings
 
         The default location of the ITGlue configuration file is:
             $env:USERPROFILE\Celerium.ITGlue\config.psd1
 
     .EXAMPLE
-        Get-ITGlueModuleSetting -ITGlueConfigPath C:\Celerium.ITGlue -ITGlueConfigFile MyConfig.psd1 -openConfFile
+        Get-ITGlueModuleSettings -ITGlueConfigPath C:\Celerium.ITGlue -ITGlueConfigFile MyConfig.psd1 -openConfFile
 
         Opens the configuration file from the defined location in the default editor
 
@@ -1031,10 +880,7 @@ function Get-ITGlueModuleSetting {
         N/A
 
     .LINK
-        https://celerium.github.io/Celerium.ITGlue/site/Internal/Get-ITGlueModuleSetting.html
-
-    .LINK
-        https://github.com/Celerium/Celerium.ITGlue
+        https://celerium.github.io/Celerium.ITGlue/site/Internal/Get-ITGlueModuleSettings.html
 #>
 
     [CmdletBinding(DefaultParameterSetName = 'Index')]
@@ -1074,16 +920,16 @@ function Get-ITGlueModuleSetting {
     end {}
 
 }
-#EndRegion '.\Private\ModuleSettings\Get-ITGlueModuleSetting.ps1' 92
-#Region '.\Private\ModuleSettings\Import-ITGlueModuleSetting.ps1' -1
+#EndRegion '.\Private\ModuleSettings\Get-ITGlueModuleSettings.ps1' 89
+#Region '.\Private\ModuleSettings\Import-ITGlueModuleSettings.ps1' -1
 
-function Import-ITGlueModuleSetting {
+function Import-ITGlueModuleSettings {
 <#
     .SYNOPSIS
         Imports the ITGlue BaseURI, API, & JSON configuration information to the current session
 
     .DESCRIPTION
-        The Import-ITGlueModuleSetting cmdlet imports the ITGlue BaseURI, API, & JSON configuration
+        The Import-ITGlueModuleSettings cmdlet imports the ITGlue BaseURI, API, & JSON configuration
         information stored in the ITGlue configuration file to the users current session
 
         By default the configuration file is stored in the following location:
@@ -1102,18 +948,18 @@ function Import-ITGlueModuleSetting {
             config.psd1
 
     .EXAMPLE
-        Import-ITGlueModuleSetting
+        Import-ITGlueModuleSettings
 
-        Validates that the configuration file created with the Export-ITGlueModuleSetting cmdlet exists
+        Validates that the configuration file created with the Export-ITGlueModuleSettings cmdlet exists
         then imports the stored data into the current users session
 
         The default location of the ITGlue configuration file is:
             $env:USERPROFILE\Celerium.ITGlue\config.psd1
 
     .EXAMPLE
-        Import-ITGlueModuleSetting -ITGlueConfigPath C:\Celerium.ITGlue -ITGlueConfigFile MyConfig.psd1
+        Import-ITGlueModuleSettings -ITGlueConfigPath C:\Celerium.ITGlue -ITGlueConfigFile MyConfig.psd1
 
-        Validates that the configuration file created with the Export-ITGlueModuleSetting cmdlet exists
+        Validates that the configuration file created with the Export-ITGlueModuleSettings cmdlet exists
         then imports the stored data into the current users session
 
         The location of the ITGlue configuration file in this example is:
@@ -1123,10 +969,7 @@ function Import-ITGlueModuleSetting {
         N/A
 
     .LINK
-        https://celerium.github.io/Celerium.ITGlue/site/Internal/Import-ITGlueModuleSetting.html
-
-    .LINK
-        https://github.com/Celerium/Celerium.ITGlue
+        https://celerium.github.io/Celerium.ITGlue/site/Internal/Import-ITGlueModuleSettings.html
 #>
 
     [CmdletBinding(DefaultParameterSetName = 'Set')]
@@ -1145,21 +988,21 @@ function Import-ITGlueModuleSetting {
     process {
 
         if (Test-Path $ITGlueConfig) {
-            $tmp_config = Import-LocalizedData -BaseDirectory $ITGlueConfigPath -FileName $ITGlueConfigFile
+            $TempConfig = Import-LocalizedData -BaseDirectory $ITGlueConfigPath -FileName $ITGlueConfigFile
 
             # Send to function to strip potentially superfluous slash (/)
-            Add-ITGlueBaseURI $tmp_config.ITGlueModuleBaseURI
+            Add-ITGlueBaseURI $TempConfig.ITGlueModuleBaseURI
 
-            $tmp_config.ITGlueModuleAPIKey = ConvertTo-SecureString $tmp_config.ITGlueModuleAPIKey
+            $TempConfig.ITGlueModuleApiKey = ConvertTo-SecureString $TempConfig.ITGlueModuleApiKey
 
-            Set-Variable -Name "ITGlueModuleAPIKey" -Value $tmp_config.ITGlueModuleAPIKey -Option ReadOnly -Scope global -Force
+            Set-Variable -Name "ITGlueModuleApiKey" -Value $TempConfig.ITGlueModuleApiKey -Option ReadOnly -Scope global -Force
 
-            Set-Variable -Name "ITGlueModuleJSONConversionDepth" -Value $tmp_config.ITGlueModuleJSONConversionDepth -Scope global -Force
+            Set-Variable -Name "ITGlueModuleJSONConversionDepth" -Value $TempConfig.ITGlueModuleJSONConversionDepth -Scope global -Force
 
             Write-Verbose "Celerium.ITGlue Module configuration loaded successfully from [ $ITGlueConfig ]"
 
             # Clean things up
-            Remove-Variable "tmp_config"
+            Remove-Variable "TempConfig"
         }
         else {
             Write-Verbose "No configuration file found at [ $ITGlueConfig ] run Add-ITGlueAPIKey to get started."
@@ -1175,21 +1018,21 @@ function Import-ITGlueModuleSetting {
     end {}
 
 }
-#EndRegion '.\Private\ModuleSettings\Import-ITGlueModuleSetting.ps1' 99
-#Region '.\Private\ModuleSettings\Initialize-ITGlueModuleSetting.ps1' -1
+#EndRegion '.\Private\ModuleSettings\Import-ITGlueModuleSettings.ps1' 96
+#Region '.\Private\ModuleSettings\Initialize-ITGlueModuleSettings.ps1' -1
 
 #Used to auto load either baseline settings or saved configurations when the module is imported
-Import-ITGlueModuleSetting -Verbose:$false
-#EndRegion '.\Private\ModuleSettings\Initialize-ITGlueModuleSetting.ps1' 3
-#Region '.\Private\ModuleSettings\Remove-ITGlueModuleSetting.ps1' -1
+Import-ITGlueModuleSettings -Verbose:$false
+#EndRegion '.\Private\ModuleSettings\Initialize-ITGlueModuleSettings.ps1' 3
+#Region '.\Private\ModuleSettings\Remove-ITGlueModuleSettings.ps1' -1
 
-function Remove-ITGlueModuleSetting {
+function Remove-ITGlueModuleSettings {
 <#
     .SYNOPSIS
         Removes the stored ITGlue configuration folder
 
     .DESCRIPTION
-        The Remove-ITGlueModuleSetting cmdlet removes the ITGlue folder and its files
+        The Remove-ITGlueModuleSettings cmdlet removes the ITGlue folder and its files
         This cmdlet also has the option to remove sensitive ITGlue variables as well
 
         By default configuration files are stored in the following location and will be removed:
@@ -1201,13 +1044,13 @@ function Remove-ITGlueModuleSetting {
         By default the configuration folder is located at:
             $env:USERPROFILE\Celerium.ITGlue
 
-    .PARAMETER WithVariables
+    .PARAMETER AndVariables
         Define if sensitive ITGlue variables should be removed as well
 
         By default the variables are not removed
 
     .EXAMPLE
-        Remove-ITGlueModuleSetting
+        Remove-ITGlueModuleSettings
 
         Checks to see if the default configuration folder exists and removes it if it does
 
@@ -1215,7 +1058,7 @@ function Remove-ITGlueModuleSetting {
             $env:USERPROFILE\Celerium.ITGlue
 
     .EXAMPLE
-        Remove-ITGlueModuleSetting -ITGlueConfigPath C:\Celerium.ITGlue -WithVariables
+        Remove-ITGlueModuleSettings -ITGlueConfigPath C:\Celerium.ITGlue -AndVariables
 
         Checks to see if the defined configuration folder exists and removes it if it does
         If sensitive ITGlue variables exist then they are removed as well
@@ -1227,39 +1070,40 @@ function Remove-ITGlueModuleSetting {
         N/A
 
     .LINK
-        https://celerium.github.io/Celerium.ITGlue/site/Internal/Remove-ITGlueModuleSetting.html
-
-    .LINK
-        https://github.com/Celerium/Celerium.ITGlue
+        https://celerium.github.io/Celerium.ITGlue/site/Internal/Remove-ITGlueModuleSettings.html
 #>
 
-    [CmdletBinding(DefaultParameterSetName = 'Destroy',SupportsShouldProcess)]
+    [CmdletBinding(DefaultParameterSetName = 'Destroy',SupportsShouldProcess, ConfirmImpact = 'None')]
     Param (
         [Parameter()]
         [string]$ITGlueConfigPath = $(Join-Path -Path $home -ChildPath $(if ($IsWindows -or $PSEdition -eq 'Desktop') {"Celerium.ITGlue"}else{".Celerium.ITGlue"}) ),
 
         [Parameter()]
-        [switch]$WithVariables
+        [switch]$AndVariables
     )
 
     begin {}
 
     process {
 
-        if (Test-Path $ITGlueConfigPath) {
+        if(Test-Path $ITGlueConfigPath)  {
 
             Remove-Item -Path $ITGlueConfigPath -Recurse -Force -WhatIf:$WhatIfPreference
 
-            If ($WithVariables) {
-                Remove-ITGlueAPIKey
-                Remove-ITGlueBaseURI
+            If ($AndVariables) {
+                Remove-ITGlueApiKey
+                Remove-ITGlueBaseUri
             }
 
-            if (!(Test-Path $ITGlueConfigPath)) {
-                Write-Output "The Celerium.ITGlue configuration folder has been removed successfully from [ $ITGlueConfigPath ]"
-            }
-            else {
-                Write-Error "The Celerium.ITGlue configuration folder could not be removed from [ $ITGlueConfigPath ]"
+            if ($WhatIfPreference -eq $false) {
+
+                if (!(Test-Path $ITGlueConfigPath)) {
+                    Write-Output "The Celerium.ITGlue configuration folder has been removed successfully from [ $ITGlueConfigPath ]"
+                }
+                else {
+                    Write-Error "The Celerium.ITGlue configuration folder could not be removed from [ $ITGlueConfigPath ]"
+                }
+
             }
 
         }
@@ -1272,7 +1116,7 @@ function Remove-ITGlueModuleSetting {
     end {}
 
 }
-#EndRegion '.\Private\ModuleSettings\Remove-ITGlueModuleSetting.ps1' 90
+#EndRegion '.\Private\ModuleSettings\Remove-ITGlueModuleSettings.ps1' 91
 #Region '.\Public\Attachments\New-ITGlueAttachment.ps1' -1
 
 function New-ITGlueAttachment {
@@ -1690,24 +1534,24 @@ function Get-ITGlueConfigurationInterface {
             }
         }
 
-        $query_params = @{}
+        $UriParameters = @{}
 
         #Region     [ Parameter Translation ]
 
         if ($PSCmdlet.ParameterSetName -eq 'Index') {
-            if ($FilterID)          { $query_params['filter[id]']           = $FilterID }
-            if ($FilterIPAddress)   { $query_params['filter[ip_address]']   = $FilterIPAddress }
-            if ($Sort)              { $query_params['sort']                 = $Sort }
-            if ($PageNumber)        { $query_params['page[number]']         = $PageNumber}
-            if ($PageSize)          { $query_params['page[size]']           = $PageSize}
+            if ($FilterID)          { $UriParameters['filter[id]']           = $FilterID }
+            if ($FilterIPAddress)   { $UriParameters['filter[ip_address]']   = $FilterIPAddress }
+            if ($Sort)              { $UriParameters['sort']                 = $Sort }
+            if ($PageNumber)        { $UriParameters['page[number]']         = $PageNumber}
+            if ($PageSize)          { $UriParameters['page[size]']           = $PageSize}
         }
 
         #EndRegion  [ Parameter Translation ]
 
         Set-Variable -Name $ParameterName -Value $PSBoundParameters -Scope Global -Force -Confirm:$false
-        Set-Variable -Name $QueryParameterName -Value $query_params -Scope Global -Force -Confirm:$false
+        Set-Variable -Name $QueryParameterName -Value $UriParameters -Scope Global -Force -Confirm:$false
 
-        return Invoke-ITGlueRequest -Method GET -ResourceURI $ResourceUri -QueryParams $query_params -AllResults:$AllResults
+        return Invoke-ITGlueRequest -Method GET -ResourceURI $ResourceUri -UriFilter $UriParameters -AllResults:$AllResults
 
     }
 
@@ -1861,7 +1705,7 @@ function Set-ITGlueConfigurationInterface {
         https://api.itglue.com/developer/#configuration-interfaces-update
 #>
 
-    [CmdletBinding(DefaultParameterSetName = 'Bulk_Update', SupportsShouldProcess, ConfirmImpact = 'Medium')]
+    [CmdletBinding(DefaultParameterSetName = 'BulkUpdate', SupportsShouldProcess, ConfirmImpact = 'Medium')]
     Param (
         [Parameter(ParameterSetName = 'Update')]
         [int64]$ConfigurationID,
@@ -1869,14 +1713,14 @@ function Set-ITGlueConfigurationInterface {
         [Parameter(ParameterSetName = 'Update', Mandatory = $true)]
         [int64]$ID,
 
-        [Parameter(ParameterSetName = 'Bulk_Update')]
+        [Parameter(ParameterSetName = 'BulkUpdate')]
         [int64]$FilterID,
 
-        [Parameter(ParameterSetName = 'Bulk_Update')]
+        [Parameter(ParameterSetName = 'BulkUpdate')]
         [string]$FilterIPAddress,
 
         [Parameter(ParameterSetName = 'Update', Mandatory = $true)]
-        [Parameter(ParameterSetName = 'Bulk_Update', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'BulkUpdate', Mandatory = $true)]
         $Data
     )
 
@@ -1893,7 +1737,7 @@ function Set-ITGlueConfigurationInterface {
         Write-Verbose "[ $FunctionName ] - Running the [ $($PSCmdlet.ParameterSetName) ] parameterSet"
 
         switch ($PsCmdlet.ParameterSetName) {
-            'Bulk_Update'  { $ResourceUri = "/configuration_interfaces" }
+            'BulkUpdate'  { $ResourceUri = "/configuration_interfaces" }
             'Update' {
 
                 switch ([bool]$ConfigurationID) {
@@ -1904,22 +1748,22 @@ function Set-ITGlueConfigurationInterface {
             }
         }
 
-        $query_params = @{}
+        $UriParameters = @{}
 
         #Region     [ Parameter Translation ]
 
-        if ($PSCmdlet.ParameterSetName -eq 'Bulk_Update') {
-            if ($FilterID)          { $query_params['filter[id]']           = $FilterID }
-            if ($FilterIPAddress)   { $query_params['filter[ip_address]']   = $FilterIPAddress }
+        if ($PSCmdlet.ParameterSetName -eq 'BulkUpdate') {
+            if ($FilterID)          { $UriParameters['filter[id]']           = $FilterID }
+            if ($FilterIPAddress)   { $UriParameters['filter[ip_address]']   = $FilterIPAddress }
         }
 
         #EndRegion  [ Parameter Translation ]
 
         Set-Variable -Name $ParameterName -Value $PSBoundParameters -Scope Global -Force -Confirm:$false
-        Set-Variable -Name $QueryParameterName -Value $query_params -Scope Global -Force -Confirm:$false
+        Set-Variable -Name $QueryParameterName -Value $UriParameters -Scope Global -Force -Confirm:$false
 
         if ($PSCmdlet.ShouldProcess($ResourceUri)) {
-            return Invoke-ITGlueRequest -Method PATCH -ResourceURI $ResourceUri -QueryParams $query_params -Data $Data
+            return Invoke-ITGlueRequest -Method PATCH -ResourceURI $ResourceUri -UriFilter $UriParameters -Data $Data
         }
 
     }
@@ -2076,8 +1920,8 @@ function Get-ITGlueConfiguration {
     Param (
         [Parameter(ParameterSetName = 'Index')]
         [Parameter(ParameterSetName = 'Index_RMM')]
-        [Parameter(ParameterSetName = 'Index_PSA')]
-        [Parameter(ParameterSetName = 'Index_RMM_PSA')]
+        [Parameter(ParameterSetName = 'IndexPSA')]
+        [Parameter(ParameterSetName = 'Index_RMMPSA')]
         [Parameter(ParameterSetName = 'Show')]
         [int64]$OrganizationID,
 
@@ -2086,77 +1930,77 @@ function Get-ITGlueConfiguration {
 
         [Parameter(ParameterSetName = 'Index')]
         [Parameter(ParameterSetName = 'Index_RMM')]
-        [Parameter(ParameterSetName = 'Index_PSA')]
-        [Parameter(ParameterSetName = 'Index_RMM_PSA')]
+        [Parameter(ParameterSetName = 'IndexPSA')]
+        [Parameter(ParameterSetName = 'Index_RMMPSA')]
         [int64]$FilterID,
 
         [Parameter(ParameterSetName = 'Index')]
         [Parameter(ParameterSetName = 'Index_RMM')]
-        [Parameter(ParameterSetName = 'Index_PSA')]
-        [Parameter(ParameterSetName = 'Index_RMM_PSA')]
+        [Parameter(ParameterSetName = 'IndexPSA')]
+        [Parameter(ParameterSetName = 'Index_RMMPSA')]
         [string]$FilterName,
 
         [Parameter(ParameterSetName = 'Index')]
         [Parameter(ParameterSetName = 'Index_RMM')]
-        [Parameter(ParameterSetName = 'Index_PSA')]
-        [Parameter(ParameterSetName = 'Index_RMM_PSA')]
+        [Parameter(ParameterSetName = 'IndexPSA')]
+        [Parameter(ParameterSetName = 'Index_RMMPSA')]
         [int64]$FilterOrganizationID,
 
         [Parameter(ParameterSetName = 'Index')]
         [Parameter(ParameterSetName = 'Index_RMM')]
-        [Parameter(ParameterSetName = 'Index_PSA')]
-        [Parameter(ParameterSetName = 'Index_RMM_PSA')]
+        [Parameter(ParameterSetName = 'IndexPSA')]
+        [Parameter(ParameterSetName = 'Index_RMMPSA')]
         [int64]$FilterConfigurationTypeID,
 
         [Parameter(ParameterSetName = 'Index')]
         [Parameter(ParameterSetName = 'Index_RMM')]
-        [Parameter(ParameterSetName = 'Index_PSA')]
-        [Parameter(ParameterSetName = 'Index_RMM_PSA')]
+        [Parameter(ParameterSetName = 'IndexPSA')]
+        [Parameter(ParameterSetName = 'Index_RMMPSA')]
         [int64]$FilterConfigurationStatusID,
 
         [Parameter(ParameterSetName = 'Index')]
         [Parameter(ParameterSetName = 'Index_RMM')]
-        [Parameter(ParameterSetName = 'Index_PSA')]
-        [Parameter(ParameterSetName = 'Index_RMM_PSA')]
+        [Parameter(ParameterSetName = 'IndexPSA')]
+        [Parameter(ParameterSetName = 'Index_RMMPSA')]
         [int64]$FilterContactID,
 
         [Parameter(ParameterSetName = 'Index')]
         [Parameter(ParameterSetName = 'Index_RMM')]
-        [Parameter(ParameterSetName = 'Index_PSA')]
-        [Parameter(ParameterSetName = 'Index_RMM_PSA')]
+        [Parameter(ParameterSetName = 'IndexPSA')]
+        [Parameter(ParameterSetName = 'Index_RMMPSA')]
         [string]$FilterSerialNumber,
 
         [Parameter(ParameterSetName = 'Index')]
         [Parameter(ParameterSetName = 'Index_RMM')]
-        [Parameter(ParameterSetName = 'Index_PSA')]
-        [Parameter(ParameterSetName = 'Index_RMM_PSA')]
+        [Parameter(ParameterSetName = 'IndexPSA')]
+        [Parameter(ParameterSetName = 'Index_RMMPSA')]
         [string]$FilterMacAddress,
 
         [Parameter(ParameterSetName = 'Index')]
         [Parameter(ParameterSetName = 'Index_RMM')]
-        [Parameter(ParameterSetName = 'Index_PSA')]
-        [Parameter(ParameterSetName = 'Index_RMM_PSA')]
+        [Parameter(ParameterSetName = 'IndexPSA')]
+        [Parameter(ParameterSetName = 'Index_RMMPSA')]
         [string]$FilterAssetTag,
 
-        [Parameter(ParameterSetName = 'Index_PSA')]
-        [Parameter(ParameterSetName = 'Index_RMM_PSA')]
+        [Parameter(ParameterSetName = 'IndexPSA')]
+        [Parameter(ParameterSetName = 'Index_RMMPSA')]
         [string]$FilterPsaID,
 
         [Parameter(ParameterSetName = 'Index')]
         [Parameter(ParameterSetName = 'Index_RMM')]
-        [Parameter(ParameterSetName = 'Index_PSA', Mandatory = $true)]
-        [Parameter(ParameterSetName = 'Index_RMM_PSA', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'IndexPSA', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'Index_RMMPSA', Mandatory = $true)]
         [ValidateSet('manage', 'autotask', 'tigerpaw', 'kaseya-bms', 'pulseway-psa', 'vorex')]
         [string]$FilterPsaIntegrationType,
 
         [Parameter(ParameterSetName = 'Index_RMM')]
-        [Parameter(ParameterSetName = 'Index_RMM_PSA')]
+        [Parameter(ParameterSetName = 'Index_RMMPSA')]
         [string]$FilterRmmID,
 
         [Parameter(ParameterSetName = 'Index')]
         [Parameter(ParameterSetName = 'Index_RMM', Mandatory = $true)]
-        [Parameter(ParameterSetName = 'Index_PSA')]
-        [Parameter(ParameterSetName = 'Index_RMM_PSA', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'IndexPSA')]
+        [Parameter(ParameterSetName = 'Index_RMMPSA', Mandatory = $true)]
         [ValidateSet(   'addigy', 'aem', 'atera', 'auvik', 'managed-workplace',
                         'continuum', 'jamf-pro', 'kaseya-vsa', 'automate', 'log-me-in',
                         'msp-rmm', 'meraki', 'msp-n-central', 'ninja-rmm', 'panorama9',
@@ -2166,35 +2010,35 @@ function Get-ITGlueConfiguration {
 
         [Parameter(ParameterSetName = 'Index')]
         [Parameter(ParameterSetName = 'Index_RMM')]
-        [Parameter(ParameterSetName = 'Index_PSA')]
-        [Parameter(ParameterSetName = 'Index_RMM_PSA')]
+        [Parameter(ParameterSetName = 'IndexPSA')]
+        [Parameter(ParameterSetName = 'Index_RMMPSA')]
         [ValidateSet('true','false','0','1', IgnoreCase = $false)]
         [string]$FilterArchived,
 
         [Parameter(ParameterSetName = 'Index')]
         [Parameter(ParameterSetName = 'Index_RMM')]
-        [Parameter(ParameterSetName = 'Index_PSA')]
-        [Parameter(ParameterSetName = 'Index_RMM_PSA')]
+        [Parameter(ParameterSetName = 'IndexPSA')]
+        [Parameter(ParameterSetName = 'Index_RMMPSA')]
         [ValidateSet(   'name', 'id', 'created_at', 'updated-at',
                         '-name', '-id', '-created_at', '-updated-at')]
         [string]$Sort,
 
         [Parameter(ParameterSetName = 'Index')]
         [Parameter(ParameterSetName = 'Index_RMM')]
-        [Parameter(ParameterSetName = 'Index_PSA')]
-        [Parameter(ParameterSetName = 'Index_RMM_PSA')]
+        [Parameter(ParameterSetName = 'IndexPSA')]
+        [Parameter(ParameterSetName = 'Index_RMMPSA')]
         [int64]$PageNumber,
 
         [Parameter(ParameterSetName = 'Index')]
         [Parameter(ParameterSetName = 'Index_RMM')]
-        [Parameter(ParameterSetName = 'Index_PSA')]
-        [Parameter(ParameterSetName = 'Index_RMM_PSA')]
+        [Parameter(ParameterSetName = 'IndexPSA')]
+        [Parameter(ParameterSetName = 'Index_RMMPSA')]
         [int]$PageSize,
 
         [Parameter(ParameterSetName = 'Index')]
         [Parameter(ParameterSetName = 'Index_RMM')]
-        [Parameter(ParameterSetName = 'Index_PSA')]
-        [Parameter(ParameterSetName = 'Index_RMM_PSA')]
+        [Parameter(ParameterSetName = 'IndexPSA')]
+        [Parameter(ParameterSetName = 'Index_RMMPSA')]
         [Parameter(ParameterSetName = 'Show')]
         [ValidateSet(   'active_network_glue_network_devices', 'adapters_resources', 'adapters_resources_errors',
                         'attachments', 'authorized_users', 'configuration_interfaces', 'dnet_fa_remote_assets',
@@ -2206,8 +2050,8 @@ function Get-ITGlueConfiguration {
 
         [Parameter(ParameterSetName = 'Index')]
         [Parameter(ParameterSetName = 'Index_RMM')]
-        [Parameter(ParameterSetName = 'Index_PSA')]
-        [Parameter(ParameterSetName = 'Index_RMM_PSA')]
+        [Parameter(ParameterSetName = 'IndexPSA')]
+        [Parameter(ParameterSetName = 'Index_RMMPSA')]
         [switch]$AllResults
     )
 
@@ -2244,44 +2088,44 @@ function Get-ITGlueConfiguration {
 
         }
 
-        $query_params = @{}
+        $UriParameters = @{}
 
         #Region     [ Parameter Translation ]
 
         if ($PSCmdlet.ParameterSetName -like 'Index*') {
-            if ($FilterID)                      { $query_params['filter[id]']                       = $FilterID }
-            if ($FilterName)                    { $query_params['filter[name]']                     = $FilterName }
-            if ($FilterOrganizationID)          { $query_params['filter[organization_id]']          = $FilterOrganizationID }
-            if ($FilterConfigurationTypeID)     { $query_params['filter[configuration_type_id]']    = $FilterConfigurationTypeID }
-            if ($FilterConfigurationStatusID)   { $query_params['filter[configuration_status_id]']  = $FilterConfigurationStatusID }
-            if ($FilterContactID)               { $query_params['filter[contact_id]']               = $FilterContactID }
-            if ($FilterSerialNumber)            { $query_params['filter[serial_number]']            = $FilterSerialNumber }
-            if ($FilterMacAddress)              { $query_params['filter[mac_address]']              = $FilterMacAddress }
-            if ($FilterAssetTag)                { $query_params['filter[asset_tag]']                = $FilterAssetTag }
-            if ($FilterPsaIntegrationType)      { $query_params['filter[psa_integration_type]']     = $FilterPsaIntegrationType }
-            if ($FilterRmmIntegrationType)      { $query_params['filter[rmm_integration_type]']     = $FilterRmmIntegrationType }
-            if ($FilterArchived)                { $query_params['filter[archived]']                 = $FilterArchived }
-            if ($Sort)                          { $query_params['sort']                             = $Sort }
-            if ($PageNumber)                    { $query_params['page[number]']                     = $PageNumber }
-            if ($PageSize)                      { $query_params['page[size]']                       = $PageSize }
+            if ($FilterID)                      { $UriParameters['filter[id]']                       = $FilterID }
+            if ($FilterName)                    { $UriParameters['filter[name]']                     = $FilterName }
+            if ($FilterOrganizationID)          { $UriParameters['filter[organization_id]']          = $FilterOrganizationID }
+            if ($FilterConfigurationTypeID)     { $UriParameters['filter[configuration_type_id]']    = $FilterConfigurationTypeID }
+            if ($FilterConfigurationStatusID)   { $UriParameters['filter[configuration_status_id]']  = $FilterConfigurationStatusID }
+            if ($FilterContactID)               { $UriParameters['filter[contact_id]']               = $FilterContactID }
+            if ($FilterSerialNumber)            { $UriParameters['filter[serial_number]']            = $FilterSerialNumber }
+            if ($FilterMacAddress)              { $UriParameters['filter[mac_address]']              = $FilterMacAddress }
+            if ($FilterAssetTag)                { $UriParameters['filter[asset_tag]']                = $FilterAssetTag }
+            if ($FilterPsaIntegrationType)      { $UriParameters['filter[psa_integration_type]']     = $FilterPsaIntegrationType }
+            if ($FilterRmmIntegrationType)      { $UriParameters['filter[rmm_integration_type]']     = $FilterRmmIntegrationType }
+            if ($FilterArchived)                { $UriParameters['filter[archived]']                 = $FilterArchived }
+            if ($Sort)                          { $UriParameters['sort']                             = $Sort }
+            if ($PageNumber)                    { $UriParameters['page[number]']                     = $PageNumber }
+            if ($PageSize)                      { $UriParameters['page[size]']                       = $PageSize }
         }
 
         if ($PSCmdlet.ParameterSetName -like 'Index_RMM*') {
-                $query_params['filter[rmm_id]'] = $FilterRmmID
+                $UriParameters['filter[rmm_id]'] = $FilterRmmID
         }
-        if ($PSCmdlet.ParameterSetName -like '*_PSA') {
-                $query_params['filter[psa_id]'] = $FilterPsaID
+        if ($PSCmdlet.ParameterSetName -like '*PSA') {
+                $UriParameters['filter[psa_id]'] = $FilterPsaID
         }
 
         #Shared Parameters
-        if($Include) { $query_params['include'] = $Include }
+        if($Include) { $UriParameters['include'] = $Include }
 
         #EndRegion  [ Parameter Translation ]
 
         Set-Variable -Name $ParameterName -Value $PSBoundParameters -Scope Global -Force -Confirm:$false
-        Set-Variable -Name $QueryParameterName -Value $query_params -Scope Global -Force -Confirm:$false
+        Set-Variable -Name $QueryParameterName -Value $UriParameters -Scope Global -Force -Confirm:$false
 
-        return Invoke-ITGlueRequest -Method GET -ResourceURI $ResourceUri -QueryParams $query_params -AllResults:$AllResults
+        return Invoke-ITGlueRequest -Method GET -ResourceURI $ResourceUri -UriFilter $UriParameters -AllResults:$AllResults
 
     }
 
@@ -2321,7 +2165,7 @@ function New-ITGlueConfiguration {
         N/A
 
     .LINK
-        https://celerium.github.io/Celerium.ITGlue/site/Configurations/new-ITGlueConfiguration.html
+        https://celerium.github.io/Celerium.ITGlue/site/Configurations/New-ITGlueConfiguration.html
 
     .LINK
         https://api.itglue.com/developer/#configurations-create
@@ -2459,73 +2303,73 @@ function Remove-ITGlueConfiguration {
         https://api.itglue.com/developer/#configurations-bulk-destroy
 #>
 
-    [CmdletBinding(DefaultParameterSetName = 'Bulk_Destroy', SupportsShouldProcess, ConfirmImpact = 'High')]
+    [CmdletBinding(DefaultParameterSetName = 'BulkDestroy', SupportsShouldProcess, ConfirmImpact = 'High')]
     Param (
         [Parameter(ParameterSetName = 'Destroy', Mandatory = $true)]
         [int64]$ID,
 
-        [Parameter(ParameterSetName = 'Bulk_Destroy_RMM')]
-        [Parameter(ParameterSetName = 'Bulk_Destroy_PSA')]
-        [Parameter(ParameterSetName = 'Bulk_Destroy_RMM_PSA')]
+        [Parameter(ParameterSetName = 'BulkDestroyRMM')]
+        [Parameter(ParameterSetName = 'BulkDestroyPSA')]
+        [Parameter(ParameterSetName = 'BulkDestroyRMMPSA')]
         [int64]$FilterID,
 
-        [Parameter(ParameterSetName = 'Bulk_Destroy_RMM')]
-        [Parameter(ParameterSetName = 'Bulk_Destroy_PSA')]
-        [Parameter(ParameterSetName = 'Bulk_Destroy_RMM_PSA')]
+        [Parameter(ParameterSetName = 'BulkDestroyRMM')]
+        [Parameter(ParameterSetName = 'BulkDestroyPSA')]
+        [Parameter(ParameterSetName = 'BulkDestroyRMMPSA')]
         [string]$FilterName,
 
-        [Parameter(ParameterSetName = 'Bulk_Destroy_RMM')]
-        [Parameter(ParameterSetName = 'Bulk_Destroy_PSA')]
-        [Parameter(ParameterSetName = 'Bulk_Destroy_RMM_PSA')]
+        [Parameter(ParameterSetName = 'BulkDestroyRMM')]
+        [Parameter(ParameterSetName = 'BulkDestroyPSA')]
+        [Parameter(ParameterSetName = 'BulkDestroyRMMPSA')]
         [int64]$FilterOrganizationID,
 
-        [Parameter(ParameterSetName = 'Bulk_Destroy_RMM')]
-        [Parameter(ParameterSetName = 'Bulk_Destroy_PSA')]
-        [Parameter(ParameterSetName = 'Bulk_Destroy_RMM_PSA')]
+        [Parameter(ParameterSetName = 'BulkDestroyRMM')]
+        [Parameter(ParameterSetName = 'BulkDestroyPSA')]
+        [Parameter(ParameterSetName = 'BulkDestroyRMMPSA')]
         [int64]$FilterConfigurationTypeID,
 
-        [Parameter(ParameterSetName = 'Bulk_Destroy_RMM')]
-        [Parameter(ParameterSetName = 'Bulk_Destroy_PSA')]
-        [Parameter(ParameterSetName = 'Bulk_Destroy_RMM_PSA')]
+        [Parameter(ParameterSetName = 'BulkDestroyRMM')]
+        [Parameter(ParameterSetName = 'BulkDestroyPSA')]
+        [Parameter(ParameterSetName = 'BulkDestroyRMMPSA')]
         [int64]$FilterConfigurationStatusID,
 
-        [Parameter(ParameterSetName = 'Bulk_Destroy_RMM')]
-        [Parameter(ParameterSetName = 'Bulk_Destroy_PSA')]
-        [Parameter(ParameterSetName = 'Bulk_Destroy_RMM_PSA')]
+        [Parameter(ParameterSetName = 'BulkDestroyRMM')]
+        [Parameter(ParameterSetName = 'BulkDestroyPSA')]
+        [Parameter(ParameterSetName = 'BulkDestroyRMMPSA')]
         [int64]$FilterContactID,
 
-        [Parameter(ParameterSetName = 'Bulk_Destroy_RMM')]
-        [Parameter(ParameterSetName = 'Bulk_Destroy_PSA')]
-        [Parameter(ParameterSetName = 'Bulk_Destroy_RMM_PSA')]
+        [Parameter(ParameterSetName = 'BulkDestroyRMM')]
+        [Parameter(ParameterSetName = 'BulkDestroyPSA')]
+        [Parameter(ParameterSetName = 'BulkDestroyRMMPSA')]
         [string]$FilterSerialNumber,
 
-        [Parameter(ParameterSetName = 'Bulk_Destroy_RMM')]
-        [Parameter(ParameterSetName = 'Bulk_Destroy_PSA')]
-        [Parameter(ParameterSetName = 'Bulk_Destroy_RMM_PSA')]
+        [Parameter(ParameterSetName = 'BulkDestroyRMM')]
+        [Parameter(ParameterSetName = 'BulkDestroyPSA')]
+        [Parameter(ParameterSetName = 'BulkDestroyRMMPSA')]
         [string]$FilterMacAddress,
 
-        [Parameter(ParameterSetName = 'Bulk_Destroy_RMM')]
-        [Parameter(ParameterSetName = 'Bulk_Destroy_PSA')]
-        [Parameter(ParameterSetName = 'Bulk_Destroy_RMM_PSA')]
+        [Parameter(ParameterSetName = 'BulkDestroyRMM')]
+        [Parameter(ParameterSetName = 'BulkDestroyPSA')]
+        [Parameter(ParameterSetName = 'BulkDestroyRMMPSA')]
         [string]$FilterAssetTag,
 
-        [Parameter(ParameterSetName = 'Bulk_Destroy_PSA')]
-        [Parameter(ParameterSetName = 'Bulk_Destroy_RMM_PSA')]
+        [Parameter(ParameterSetName = 'BulkDestroyPSA')]
+        [Parameter(ParameterSetName = 'BulkDestroyRMMPSA')]
         [string]$FilterPsaID,
 
-        [Parameter(ParameterSetName = 'Bulk_Destroy_RMM')]
-        [Parameter(ParameterSetName = 'Bulk_Destroy_PSA', Mandatory = $true)]
-        [Parameter(ParameterSetName = 'Bulk_Destroy_RMM_PSA', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'BulkDestroyRMM')]
+        [Parameter(ParameterSetName = 'BulkDestroyPSA', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'BulkDestroyRMMPSA', Mandatory = $true)]
         [ValidateSet('manage', 'autotask', 'tigerpaw', 'kaseya-bms', 'pulseway-psa', 'vorex')]
         [string]$FilterPsaIntegrationType,
 
-        [Parameter(ParameterSetName = 'Bulk_Destroy_RMM')]
-        [Parameter(ParameterSetName = 'Bulk_Destroy_RMM_PSA')]
+        [Parameter(ParameterSetName = 'BulkDestroyRMM')]
+        [Parameter(ParameterSetName = 'BulkDestroyRMMPSA')]
         [string]$FilterRmmID,
 
-        [Parameter(ParameterSetName = 'Bulk_Destroy_RMM', Mandatory = $true)]
-        [Parameter(ParameterSetName = 'Bulk_Destroy_PSA')]
-        [Parameter(ParameterSetName = 'Bulk_Destroy_RMM_PSA', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'BulkDestroyRMM', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'BulkDestroyPSA')]
+        [Parameter(ParameterSetName = 'BulkDestroyRMMPSA', Mandatory = $true)]
         [ValidateSet(   'addigy', 'aem', 'atera', 'auvik', 'managed-workplace',
                         'continuum', 'jamf-pro', 'kaseya-vsa', 'automate', 'log-me-in',
                         'msp-rmm', 'meraki', 'msp-n-central', 'ninja-rmm', 'panorama9',
@@ -2533,16 +2377,16 @@ function Remove-ITGlueConfiguration {
         )]
         [string]$FilterRmmIntegrationType,
 
-        [Parameter(ParameterSetName = 'Bulk_Destroy_RMM')]
-        [Parameter(ParameterSetName = 'Bulk_Destroy_PSA')]
-        [Parameter(ParameterSetName = 'Bulk_Destroy_RMM_PSA')]
+        [Parameter(ParameterSetName = 'BulkDestroyRMM')]
+        [Parameter(ParameterSetName = 'BulkDestroyPSA')]
+        [Parameter(ParameterSetName = 'BulkDestroyRMMPSA')]
         [ValidateSet('true','false','0','1', IgnoreCase = $false)]
         [string]$FilterArchived,
 
-        [Parameter(ParameterSetName = 'Bulk_Destroy', Mandatory = $true)]
-        [Parameter(ParameterSetName = 'Bulk_Destroy_RMM', Mandatory = $true)]
-        [Parameter(ParameterSetName = 'Bulk_Destroy_PSA', Mandatory = $true)]
-        [Parameter(ParameterSetName = 'Bulk_Destroy_RMM_PSA', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'BulkDestroy', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'BulkDestroyRMM', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'BulkDestroyPSA', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'BulkDestroyRMMPSA', Mandatory = $true)]
         $Data
     )
 
@@ -2563,30 +2407,30 @@ function Remove-ITGlueConfiguration {
             $false  { $ResourceUri = "/configurations" }
         }
 
-        $query_params = @{}
+        $UriParameters = @{}
 
         #Region     [ Parameter Translation ]
 
         if ($PSCmdlet.ParameterSetName -like 'Bulk_Destroy*') {
-            if ($FilterID)                      { $query_params['filter[id]']                       = $FilterID }
-            if ($FilterName)                    { $query_params['filter[name]']                     = $FilterName }
-            if ($FilterOrganizationID)          { $query_params['filter[organization_id]']          = $FilterOrganizationID }
-            if ($FilterConfigurationTypeID)     { $query_params['filter[configuration_type_id]']    = $FilterConfigurationTypeID }
-            if ($FilterConfigurationStatusID)   { $query_params['filter[configuration_status_id]']  = $FilterConfigurationStatusID }
-            if ($FilterContactID)               { $query_params['filter[contact_id]']               = $FilterContactID }
-            if ($FilterSerialNumber)            { $query_params['filter[serial_number]']            = $FilterSerialNumber }
-            if ($FilterMacAddress)              { $query_params['filter[mac_address]']              = $FilterMacAddress }
-            if ($FilterAssetTag)                { $query_params['filter[asset_tag]']                = $FilterAssetTag }
-            if ($FilterPsaIntegrationType)      { $query_params['filter[psa_integration_type]']     = $FilterPsaIntegrationType }
-            if ($FilterRmmIntegrationType)      { $query_params['filter[rmm_integration_type]']     = $FilterRmmIntegrationType }
-            if ($FilterArchived)                { $query_params['filter[archived]']                 = $FilterArchived }
+            if ($FilterID)                      { $UriParameters['filter[id]']                       = $FilterID }
+            if ($FilterName)                    { $UriParameters['filter[name]']                     = $FilterName }
+            if ($FilterOrganizationID)          { $UriParameters['filter[organization_id]']          = $FilterOrganizationID }
+            if ($FilterConfigurationTypeID)     { $UriParameters['filter[configuration_type_id]']    = $FilterConfigurationTypeID }
+            if ($FilterConfigurationStatusID)   { $UriParameters['filter[configuration_status_id]']  = $FilterConfigurationStatusID }
+            if ($FilterContactID)               { $UriParameters['filter[contact_id]']               = $FilterContactID }
+            if ($FilterSerialNumber)            { $UriParameters['filter[serial_number]']            = $FilterSerialNumber }
+            if ($FilterMacAddress)              { $UriParameters['filter[mac_address]']              = $FilterMacAddress }
+            if ($FilterAssetTag)                { $UriParameters['filter[asset_tag]']                = $FilterAssetTag }
+            if ($FilterPsaIntegrationType)      { $UriParameters['filter[psa_integration_type]']     = $FilterPsaIntegrationType }
+            if ($FilterRmmIntegrationType)      { $UriParameters['filter[rmm_integration_type]']     = $FilterRmmIntegrationType }
+            if ($FilterArchived)                { $UriParameters['filter[archived]']                 = $FilterArchived }
         }
 
-        if ($PSCmdlet.ParameterSetName -like 'Bulk_Destroy_RMM*') {
-            if ($FilterRmmID) {$query_params['filter[rmm_id]'] = $FilterRmmID}
+        if ($PSCmdlet.ParameterSetName -like 'BulkDestroyRMM*') {
+            if ($FilterRmmID) {$UriParameters['filter[rmm_id]'] = $FilterRmmID}
         }
-        if ($PSCmdlet.ParameterSetName -like '*_PSA') {
-            if ($FilterPsaID) {$query_params['filter[psa_id]'] = $FilterPsaID}
+        if ($PSCmdlet.ParameterSetName -like '*PSA') {
+            if ($FilterPsaID) {$UriParameters['filter[psa_id]'] = $FilterPsaID}
         }
 
         if ($PSCmdlet.ParameterSetName -eq 'Destroy') {
@@ -2603,10 +2447,10 @@ function Remove-ITGlueConfiguration {
         #EndRegion  [ Parameter Translation ]
 
         Set-Variable -Name $ParameterName -Value $PSBoundParameters -Scope Global -Force -Confirm:$false
-        Set-Variable -Name $QueryParameterName -Value $query_params -Scope Global -Force -Confirm:$false
+        Set-Variable -Name $QueryParameterName -Value $UriParameters -Scope Global -Force -Confirm:$false
 
         if ($PSCmdlet.ShouldProcess($ResourceUri)) {
-            return Invoke-ITGlueRequest -Method DELETE -ResourceURI $ResourceUri -Data $Data -QueryParams $query_params
+            return Invoke-ITGlueRequest -Method DELETE -ResourceURI $ResourceUri -UriFilter $UriParameters -Data $Data
         }
 
     }
@@ -2719,7 +2563,7 @@ function Set-ITGlueConfiguration {
         https://api.itglue.com/developer/#configurations-update
 #>
 
-    [CmdletBinding(DefaultParameterSetName = 'Bulk_Update', SupportsShouldProcess, ConfirmImpact = 'Medium')]
+    [CmdletBinding(DefaultParameterSetName = 'BulkUpdate', SupportsShouldProcess, ConfirmImpact = 'Medium')]
     Param (
         [Parameter(ParameterSetName = 'Update', Mandatory = $true)]
         [int64]$ID,
@@ -2727,68 +2571,68 @@ function Set-ITGlueConfiguration {
         [Parameter(ParameterSetName = 'Update')]
         [int64]$OrganizationID,
 
-        [Parameter(ParameterSetName = 'Bulk_Update_RMM')]
-        [Parameter(ParameterSetName = 'Bulk_Update_PSA')]
-        [Parameter(ParameterSetName = 'Bulk_Update_RMM_PSA')]
+        [Parameter(ParameterSetName = 'BulkUpdateRMM')]
+        [Parameter(ParameterSetName = 'BulkUpdatePSA')]
+        [Parameter(ParameterSetName = 'BulkUpdateRMMPSA')]
         [int64]$FilterID,
 
-        [Parameter(ParameterSetName = 'Bulk_Update_RMM')]
-        [Parameter(ParameterSetName = 'Bulk_Update_PSA')]
-        [Parameter(ParameterSetName = 'Bulk_Update_RMM_PSA')]
+        [Parameter(ParameterSetName = 'BulkUpdateRMM')]
+        [Parameter(ParameterSetName = 'BulkUpdatePSA')]
+        [Parameter(ParameterSetName = 'BulkUpdateRMMPSA')]
         [string]$FilterName,
 
-        [Parameter(ParameterSetName = 'Bulk_Update_RMM')]
-        [Parameter(ParameterSetName = 'Bulk_Update_PSA')]
-        [Parameter(ParameterSetName = 'Bulk_Update_RMM_PSA')]
+        [Parameter(ParameterSetName = 'BulkUpdateRMM')]
+        [Parameter(ParameterSetName = 'BulkUpdatePSA')]
+        [Parameter(ParameterSetName = 'BulkUpdateRMMPSA')]
         [int64]$FilterOrganizationID,
 
-        [Parameter(ParameterSetName = 'Bulk_Update_RMM')]
-        [Parameter(ParameterSetName = 'Bulk_Update_PSA')]
-        [Parameter(ParameterSetName = 'Bulk_Update_RMM_PSA')]
+        [Parameter(ParameterSetName = 'BulkUpdateRMM')]
+        [Parameter(ParameterSetName = 'BulkUpdatePSA')]
+        [Parameter(ParameterSetName = 'BulkUpdateRMMPSA')]
         [int64]$FilterConfigurationTypeID,
 
-        [Parameter(ParameterSetName = 'Bulk_Update_RMM')]
-        [Parameter(ParameterSetName = 'Bulk_Update_PSA')]
-        [Parameter(ParameterSetName = 'Bulk_Update_RMM_PSA')]
+        [Parameter(ParameterSetName = 'BulkUpdateRMM')]
+        [Parameter(ParameterSetName = 'BulkUpdatePSA')]
+        [Parameter(ParameterSetName = 'BulkUpdateRMMPSA')]
         [int64]$FilterConfigurationStatusID,
 
-        [Parameter(ParameterSetName = 'Bulk_Update_RMM')]
-        [Parameter(ParameterSetName = 'Bulk_Update_PSA')]
-        [Parameter(ParameterSetName = 'Bulk_Update_RMM_PSA')]
+        [Parameter(ParameterSetName = 'BulkUpdateRMM')]
+        [Parameter(ParameterSetName = 'BulkUpdatePSA')]
+        [Parameter(ParameterSetName = 'BulkUpdateRMMPSA')]
         [int64]$FilterContactID,
 
-        [Parameter(ParameterSetName = 'Bulk_Update_RMM')]
-        [Parameter(ParameterSetName = 'Bulk_Update_PSA')]
-        [Parameter(ParameterSetName = 'Bulk_Update_RMM_PSA')]
+        [Parameter(ParameterSetName = 'BulkUpdateRMM')]
+        [Parameter(ParameterSetName = 'BulkUpdatePSA')]
+        [Parameter(ParameterSetName = 'BulkUpdateRMMPSA')]
         [string]$FilterSerialNumber,
 
-        [Parameter(ParameterSetName = 'Bulk_Update_RMM')]
-        [Parameter(ParameterSetName = 'Bulk_Update_PSA')]
-        [Parameter(ParameterSetName = 'Bulk_Update_RMM_PSA')]
+        [Parameter(ParameterSetName = 'BulkUpdateRMM')]
+        [Parameter(ParameterSetName = 'BulkUpdatePSA')]
+        [Parameter(ParameterSetName = 'BulkUpdateRMMPSA')]
         [string]$FilterMacAddress,
 
-        [Parameter(ParameterSetName = 'Bulk_Update_RMM')]
-        [Parameter(ParameterSetName = 'Bulk_Update_PSA')]
-        [Parameter(ParameterSetName = 'Bulk_Update_RMM_PSA')]
+        [Parameter(ParameterSetName = 'BulkUpdateRMM')]
+        [Parameter(ParameterSetName = 'BulkUpdatePSA')]
+        [Parameter(ParameterSetName = 'BulkUpdateRMMPSA')]
         [string]$FilterAssetTag,
 
-        [Parameter(ParameterSetName = 'Bulk_Update_PSA')]
-        [Parameter(ParameterSetName = 'Bulk_Update_RMM_PSA')]
+        [Parameter(ParameterSetName = 'BulkUpdatePSA')]
+        [Parameter(ParameterSetName = 'BulkUpdateRMMPSA')]
         [string]$FilterPsaID,
 
-        [Parameter(ParameterSetName = 'Bulk_Update_RMM')]
-        [Parameter(ParameterSetName = 'Bulk_Update_PSA', Mandatory = $true)]
-        [Parameter(ParameterSetName = 'Bulk_Update_RMM_PSA', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'BulkUpdateRMM')]
+        [Parameter(ParameterSetName = 'BulkUpdatePSA', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'BulkUpdateRMMPSA', Mandatory = $true)]
         [ValidateSet('manage', 'autotask', 'tigerpaw', 'kaseya-bms', 'pulseway-psa', 'vorex')]
         [string]$FilterPsaIntegrationType,
 
-        [Parameter(ParameterSetName = 'Bulk_Update_RMM')]
-        [Parameter(ParameterSetName = 'Bulk_Update_RMM_PSA')]
+        [Parameter(ParameterSetName = 'BulkUpdateRMM')]
+        [Parameter(ParameterSetName = 'BulkUpdateRMMPSA')]
         [string]$FilterRmmID,
 
-        [Parameter(ParameterSetName = 'Bulk_Update_RMM', Mandatory = $true)]
-        [Parameter(ParameterSetName = 'Bulk_Update_PSA')]
-        [Parameter(ParameterSetName = 'Bulk_Update_RMM_PSA', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'BulkUpdateRMM', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'BulkUpdatePSA')]
+        [Parameter(ParameterSetName = 'BulkUpdateRMMPSA', Mandatory = $true)]
         [ValidateSet(   'addigy', 'aem', 'atera', 'auvik', 'managed-workplace',
                         'continuum', 'jamf-pro', 'kaseya-vsa', 'automate', 'log-me-in',
                         'msp-rmm', 'meraki', 'msp-n-central', 'ninja-rmm', 'panorama9',
@@ -2796,17 +2640,17 @@ function Set-ITGlueConfiguration {
         )]
         [string]$FilterRmmIntegrationType,
 
-        [Parameter(ParameterSetName = 'Bulk_Update_RMM')]
-        [Parameter(ParameterSetName = 'Bulk_Update_PSA')]
-        [Parameter(ParameterSetName = 'Bulk_Update_RMM_PSA')]
+        [Parameter(ParameterSetName = 'BulkUpdateRMM')]
+        [Parameter(ParameterSetName = 'BulkUpdatePSA')]
+        [Parameter(ParameterSetName = 'BulkUpdateRMMPSA')]
         [ValidateSet('true','false','0','1', IgnoreCase = $false)]
         [string]$FilterArchived,
 
         [Parameter(ParameterSetName = 'Update', Mandatory = $true)]
-        [Parameter(ParameterSetName = 'Bulk_Update', Mandatory = $true)]
-        [Parameter(ParameterSetName = 'Bulk_Update_rmm', Mandatory = $true)]
-        [Parameter(ParameterSetName = 'Bulk_Update_psa', Mandatory = $true)]
-        [Parameter(ParameterSetName = 'Bulk_Update_rmm_psa', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'BulkUpdate', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'BulkUpdatermm', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'BulkUpdatepsa', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'BulkUpdateRMMPSA', Mandatory = $true)]
         $Data
     )
 
@@ -2824,7 +2668,7 @@ function Set-ITGlueConfiguration {
 
 
         switch -Wildcard ($PSCmdlet.ParameterSetName) {
-            'Bulk_Update*'  { $ResourceUri = "/configurations" }
+            'BulkUpdate*'  { $ResourceUri = "/configurations" }
             'Update'        {
 
                 switch ([bool]$OrganizationID) {
@@ -2836,39 +2680,39 @@ function Set-ITGlueConfiguration {
 
         }
 
-        $query_params = @{}
+        $UriParameters = @{}
 
         #Region     [ Parameter Translation ]
 
-        if ($PSCmdlet.ParameterSetName -like 'Bulk_Update*') {
-            if ($FilterID)                      { $query_params['filter[id]']                       = $FilterID }
-            if ($FilterName)                    { $query_params['filter[name]']                     = $FilterName }
-            if ($FilterOrganizationID)          { $query_params['filter[organization_id]']          = $FilterOrganizationID }
-            if ($FilterConfigurationTypeID)     { $query_params['filter[configuration_type_id]']    = $FilterConfigurationTypeID }
-            if ($FilterConfigurationStatusID)   { $query_params['filter[configuration_status_id]']  = $FilterConfigurationStatusID }
-            if ($FilterContactID)               { $query_params['filter[contact_id]']               = $FilterContactID }
-            if ($FilterSerialNumber)            { $query_params['filter[serial_number]']            = $FilterSerialNumber }
-            if ($FilterMacAddress)              { $query_params['filter[mac_address]']              = $FilterMacAddress }
-            if ($FilterAssetTag)                { $query_params['filter[asset_tag]']                = $FilterAssetTag }
-            if ($FilterPsaIntegrationType)      { $query_params['filter[psa_integration_type]']     = $FilterPsaIntegrationType }
-            if ($FilterRmmIntegrationType)      { $query_params['filter[rmm_integration_type]']     = $FilterRmmIntegrationType }
-            if ($FilterArchived)                { $query_params['filter[archived]']                 = $FilterArchived }
+        if ($PSCmdlet.ParameterSetName -like 'BulkUpdate*') {
+            if ($FilterID)                      { $UriParameters['filter[id]']                       = $FilterID }
+            if ($FilterName)                    { $UriParameters['filter[name]']                     = $FilterName }
+            if ($FilterOrganizationID)          { $UriParameters['filter[organization_id]']          = $FilterOrganizationID }
+            if ($FilterConfigurationTypeID)     { $UriParameters['filter[configuration_type_id]']    = $FilterConfigurationTypeID }
+            if ($FilterConfigurationStatusID)   { $UriParameters['filter[configuration_status_id]']  = $FilterConfigurationStatusID }
+            if ($FilterContactID)               { $UriParameters['filter[contact_id]']               = $FilterContactID }
+            if ($FilterSerialNumber)            { $UriParameters['filter[serial_number]']            = $FilterSerialNumber }
+            if ($FilterMacAddress)              { $UriParameters['filter[mac_address]']              = $FilterMacAddress }
+            if ($FilterAssetTag)                { $UriParameters['filter[asset_tag]']                = $FilterAssetTag }
+            if ($FilterPsaIntegrationType)      { $UriParameters['filter[psa_integration_type]']     = $FilterPsaIntegrationType }
+            if ($FilterRmmIntegrationType)      { $UriParameters['filter[rmm_integration_type]']     = $FilterRmmIntegrationType }
+            if ($FilterArchived)                { $UriParameters['filter[archived]']                 = $FilterArchived }
         }
 
-        if ($PSCmdlet.ParameterSetName -like 'Bulk_Update_RMM*') {
-            if ($FilterRmmID) {$query_params['filter[rmm_id]'] = $FilterRmmID}
+        if ($PSCmdlet.ParameterSetName -like 'BulkUpdateRMM*') {
+            if ($FilterRmmID) {$UriParameters['filter[rmm_id]'] = $FilterRmmID}
         }
-        if ($PSCmdlet.ParameterSetName -like '*_PSA') {
-            if ($FilterPsaID) {$query_params['filter[psa_id]'] = $FilterPsaID}
+        if ($PSCmdlet.ParameterSetName -like '*PSA') {
+            if ($FilterPsaID) {$UriParameters['filter[psa_id]'] = $FilterPsaID}
         }
 
         #EndRegion  [ Parameter Translation ]
 
         Set-Variable -Name $ParameterName -Value $PSBoundParameters -Scope Global -Force -Confirm:$false
-        Set-Variable -Name $QueryParameterName -Value $query_params -Scope Global -Force -Confirm:$false
+        Set-Variable -Name $QueryParameterName -Value $UriParameters -Scope Global -Force -Confirm:$false
 
         if ($PSCmdlet.ShouldProcess($ResourceUri)) {
-            return Invoke-ITGlueRequest -Method PATCH -ResourceURI $ResourceUri -QueryParams $query_params -Data $Data
+            return Invoke-ITGlueRequest -Method PATCH -ResourceURI $ResourceUri -UriFilter $UriParameters -Data $Data
         }
 
     }
@@ -2988,23 +2832,23 @@ function Get-ITGlueConfigurationStatus {
             'Show'  { $ResourceUri = "/configuration_statuses/$ID" }
         }
 
-        $query_params = @{}
+        $UriParameters = @{}
 
         #Region     [ Parameter Translation ]
 
         if ($PSCmdlet.ParameterSetName -eq 'Index') {
-            if ($FilterName)    { $query_params['filter[name]'] = $FilterName }
-            if ($Sort)          { $query_params['sort']         = $Sort }
-            if ($PageNumber)    { $query_params['page[number]'] = $PageNumber }
-            if ($PageSize)      { $query_params['page[size]']   = $PageSize }
+            if ($FilterName)    { $UriParameters['filter[name]'] = $FilterName }
+            if ($Sort)          { $UriParameters['sort']         = $Sort }
+            if ($PageNumber)    { $UriParameters['page[number]'] = $PageNumber }
+            if ($PageSize)      { $UriParameters['page[size]']   = $PageSize }
         }
 
         #EndRegion   [ Parameter Translation ]
 
         Set-Variable -Name $ParameterName -Value $PSBoundParameters -Scope Global -Force -Confirm:$false
-        Set-Variable -Name $QueryParameterName -Value $query_params -Scope Global -Force -Confirm:$false
+        Set-Variable -Name $QueryParameterName -Value $UriParameters -Scope Global -Force -Confirm:$false
 
-        return Invoke-ITGlueRequest -Method GET -ResourceURI $ResourceUri -QueryParams $query_params -AllResults:$AllResults
+        return Invoke-ITGlueRequest -Method GET -ResourceURI $ResourceUri -UriFilter $UriParameters -AllResults:$AllResults
 
     }
 
@@ -3263,23 +3107,23 @@ function Get-ITGlueConfigurationType {
             'Show'  { $ResourceUri = "/configuration_types/$ID" }
         }
 
-        $query_params = @{}
+        $UriParameters = @{}
 
         #Region     [ Parameter Translation ]
 
         if ($PSCmdlet.ParameterSetName -eq 'Index') {
-            if ($FilterName)    { $query_params['filter[name]'] = $FilterName }
-            if ($Sort)          { $query_params['sort']         = $Sort }
-            if ($PageNumber)    { $query_params['page[number]'] = $PageNumber }
-            if ($PageSize)      { $query_params['page[size]']   = $PageSize }
+            if ($FilterName)    { $UriParameters['filter[name]'] = $FilterName }
+            if ($Sort)          { $UriParameters['sort']         = $Sort }
+            if ($PageNumber)    { $UriParameters['page[number]'] = $PageNumber }
+            if ($PageSize)      { $UriParameters['page[size]']   = $PageSize }
         }
 
         #EndRegion  [ Parameter Translation ]
 
         Set-Variable -Name $ParameterName -Value $PSBoundParameters -Scope Global -Force -Confirm:$false
-        Set-Variable -Name $QueryParameterName -Value $query_params -Scope Global -Force -Confirm:$false
+        Set-Variable -Name $QueryParameterName -Value $UriParameters -Scope Global -Force -Confirm:$false
 
-        return Invoke-ITGlueRequest -Method GET -ResourceURI $ResourceUri -QueryParams $query_params -AllResults:$AllResults
+        return Invoke-ITGlueRequest -Method GET -ResourceURI $ResourceUri -UriFilter $UriParameters -AllResults:$AllResults
 
     }
 
@@ -3554,71 +3398,71 @@ function Get-ITGlueContact {
     [CmdletBinding(DefaultParameterSetName = 'Index')]
     Param (
         [Parameter(ParameterSetName = 'Index')]
-        [Parameter(ParameterSetName = 'Index_PSA')]
+        [Parameter(ParameterSetName = 'IndexPSA')]
         [Parameter(ParameterSetName = 'Show')]
         [int64]$OrganizationID,
 
         [Parameter(ParameterSetName = 'Index')]
-        [Parameter(ParameterSetName = 'Index_PSA')]
+        [Parameter(ParameterSetName = 'IndexPSA')]
         [int64]$FilterID,
 
         [Parameter(ParameterSetName = 'Index')]
-        [Parameter(ParameterSetName = 'Index_PSA')]
+        [Parameter(ParameterSetName = 'IndexPSA')]
         [string]$FilterFirstName,
 
         [Parameter(ParameterSetName = 'Index')]
-        [Parameter(ParameterSetName = 'Index_PSA')]
+        [Parameter(ParameterSetName = 'IndexPSA')]
         [string]$FilterLastName,
 
         [Parameter(ParameterSetName = 'Index')]
-        [Parameter(ParameterSetName = 'Index_PSA')]
+        [Parameter(ParameterSetName = 'IndexPSA')]
         [string]$FilterTitle,
 
         [Parameter(ParameterSetName = 'Index')]
-        [Parameter(ParameterSetName = 'Index_PSA')]
+        [Parameter(ParameterSetName = 'IndexPSA')]
         [int64]$FilterContactTypeID,
 
         [Parameter(ParameterSetName = 'Index')]
-        [Parameter(ParameterSetName = 'Index_PSA')]
+        [Parameter(ParameterSetName = 'IndexPSA')]
         [ValidateSet('true', 'false')]
         [string]$FilterImportant,
 
         [Parameter(ParameterSetName = 'Index')]
-        [Parameter(ParameterSetName = 'Index_PSA')]
+        [Parameter(ParameterSetName = 'IndexPSA')]
         [string]$FilterPrimaryEmail,
 
         [Parameter(ParameterSetName = 'Index')]
-        [Parameter(ParameterSetName = 'Index_PSA')]
+        [Parameter(ParameterSetName = 'IndexPSA')]
         [Parameter(ParameterSetName = 'Show')]
         [int64]$FilterOrganizationID,
 
-        [Parameter(ParameterSetName = 'Index_PSA')]
+        [Parameter(ParameterSetName = 'IndexPSA')]
         [string]$FilterPsaID,
 
         [Parameter(ParameterSetName = 'Index')]
-        [Parameter(ParameterSetName = 'Index_PSA', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'IndexPSA', Mandatory = $true)]
         [ValidateSet('manage', 'autotask', 'tigerpaw', 'kaseya-bms', 'pulseway-psa', 'vorex')]
         [string]$FilterPsaIntegrationType,
 
         [Parameter(ParameterSetName = 'Index')]
-        [Parameter(ParameterSetName = 'Index_PSA')]
+        [Parameter(ParameterSetName = 'IndexPSA')]
         [ValidateSet(   'first_name', 'last_name', 'id', 'created_at', 'updated_at',
                         '-first_name', '-last_name', '-id', '-created_at', '-updated_at')]
         [string]$Sort,
 
         [Parameter(ParameterSetName = 'Index')]
-        [Parameter(ParameterSetName = 'Index_PSA')]
+        [Parameter(ParameterSetName = 'IndexPSA')]
         [int64]$PageNumber,
 
         [Parameter(ParameterSetName = 'Index')]
-        [Parameter(ParameterSetName = 'Index_PSA')]
+        [Parameter(ParameterSetName = 'IndexPSA')]
         [int]$PageSize,
 
         [Parameter(ParameterSetName = 'Show', ValueFromPipeline = $true , Mandatory = $true)]
         [int64]$ID,
 
         [Parameter(ParameterSetName = 'Index')]
-        [Parameter(ParameterSetName = 'Index_PSA')]
+        [Parameter(ParameterSetName = 'IndexPSA')]
         [Parameter(ParameterSetName = 'Show')]
         [ValidateSet(   'adapters_resources','attachments', 'authorized_users', 'distinct_remote_contacts',
                         'group_resource_accesses', 'location', 'passwords', 'recent_versions',
@@ -3626,7 +3470,7 @@ function Get-ITGlueContact {
         $Include,
 
         [Parameter(ParameterSetName = 'Index')]
-        [Parameter(ParameterSetName = 'Index_PSA')]
+        [Parameter(ParameterSetName = 'IndexPSA')]
         [switch]$AllResults
     )
 
@@ -3642,7 +3486,7 @@ function Get-ITGlueContact {
 
         Write-Verbose "[ $FunctionName ] - Running the [ $($PSCmdlet.ParameterSetName) ] parameterSet"
 
-        if ($PSCmdlet.ParameterSetName -eq 'Index' -or $PSCmdlet.ParameterSetName -eq 'Index_PSA') {
+        if ($PSCmdlet.ParameterSetName -eq 'Index' -or $PSCmdlet.ParameterSetName -eq 'IndexPSA') {
 
             switch ([bool]$OrganizationID) {
                 $true   { $ResourceUri = "/organizations/$OrganizationID/relationships/contacts" }
@@ -3660,38 +3504,38 @@ function Get-ITGlueContact {
 
         }
 
-        $query_params = @{}
+        $UriParameters = @{}
 
         #Region     [ Parameter Translation ]
 
-        if (($PSCmdlet.ParameterSetName -eq 'Index') -or ($PSCmdlet.ParameterSetName -eq 'Index_PSA')) {
-            if ($FilterID)                  { $query_params['filter[id]']                   = $FilterID }
-            if ($FilterFirstName)           { $query_params['filter[first_name]']           = $FilterFirstName }
-            if ($FilterLastName)            { $query_params['filter[last_name]']            = $FilterLastName }
-            if ($FilterTitle)               { $query_params['filter[title]']                = $FilterTitle }
-            if ($FilterContactTypeID)       { $query_params['filter[contact_type_id]']      = $FilterContactTypeID }
-            if ($FilterImportant)           { $query_params['filter[important]']            = $FilterImportant }
-            if ($FilterPrimaryEmail)        { $query_params['filter[primary_email]']        = $FilterPrimaryEmail }
-            if ($FilterOrganizationID)      { $query_params['filter[organization_id]']      = $FilterOrganizationID}
-            if ($FilterPsaIntegrationType)  { $query_params['filter[psa_integration_type]'] = $FilterPsaIntegrationType }
-            if ($Sort)                      { $query_params['sort']                         = $Sort }
-            if ($PageNumber)                { $query_params['page[number]']                 = $PageNumber }
-            if ($PageSize)                  { $query_params['page[size]']                   = $PageSize }
+        if (($PSCmdlet.ParameterSetName -eq 'Index') -or ($PSCmdlet.ParameterSetName -eq 'IndexPSA')) {
+            if ($FilterID)                  { $UriParameters['filter[id]']                   = $FilterID }
+            if ($FilterFirstName)           { $UriParameters['filter[first_name]']           = $FilterFirstName }
+            if ($FilterLastName)            { $UriParameters['filter[last_name]']            = $FilterLastName }
+            if ($FilterTitle)               { $UriParameters['filter[title]']                = $FilterTitle }
+            if ($FilterContactTypeID)       { $UriParameters['filter[contact_type_id]']      = $FilterContactTypeID }
+            if ($FilterImportant)           { $UriParameters['filter[important]']            = $FilterImportant }
+            if ($FilterPrimaryEmail)        { $UriParameters['filter[primary_email]']        = $FilterPrimaryEmail }
+            if ($FilterOrganizationID)      { $UriParameters['filter[organization_id]']      = $FilterOrganizationID}
+            if ($FilterPsaIntegrationType)  { $UriParameters['filter[psa_integration_type]'] = $FilterPsaIntegrationType }
+            if ($Sort)                      { $UriParameters['sort']                         = $Sort }
+            if ($PageNumber)                { $UriParameters['page[number]']                 = $PageNumber }
+            if ($PageSize)                  { $UriParameters['page[size]']                   = $PageSize }
         }
 
-        if ($PSCmdlet.ParameterSetName -eq 'Index_PSA') {
-            if($FilterPsaID) { $query_params['filter[psa_id]'] = $FilterPsaID }
+        if ($PSCmdlet.ParameterSetName -eq 'IndexPSA') {
+            if($FilterPsaID) { $UriParameters['filter[psa_id]'] = $FilterPsaID }
         }
 
         #Shared Parameters
-        if($Include) { $query_params['include'] = $Include }
+        if($Include) { $UriParameters['include'] = $Include }
 
         #EndRegion  [ Parameter Translation ]
 
         Set-Variable -Name $ParameterName -Value $PSBoundParameters -Scope Global -Force -Confirm:$false
-        Set-Variable -Name $QueryParameterName -Value $query_params -Scope Global -Force -Confirm:$false
+        Set-Variable -Name $QueryParameterName -Value $UriParameters -Scope Global -Force -Confirm:$false
 
-        return Invoke-ITGlueRequest -Method GET -ResourceURI $ResourceUri -QueryParams $query_params -AllResults:$AllResults
+        return Invoke-ITGlueRequest -Method GET -ResourceURI $ResourceUri -UriFilter $UriParameters -AllResults:$AllResults
 
     }
 
@@ -3767,7 +3611,7 @@ function New-ITGlueContact {
         }
 
         Set-Variable -Name $ParameterName -Value $PSBoundParameters -Scope Global -Force -Confirm:$false
-        Set-Variable -Name $QueryParameterName -Value $query_params -Scope Global -Force -Confirm:$false
+        Set-Variable -Name $QueryParameterName -Value $UriParameters -Scope Global -Force -Confirm:$false
 
         if ($PSCmdlet.ShouldProcess($ResourceUri)) {
             return Invoke-ITGlueRequest -Method POST -ResourceURI $ResourceUri -Data $Data
@@ -3857,54 +3701,54 @@ function Remove-ITGlueContact {
         https://api.itglue.com/developer/#contacts-bulk-destroy
 #>
 
-    [CmdletBinding(DefaultParameterSetName = 'Bulk_Destroy', SupportsShouldProcess, ConfirmImpact = 'High')]
+    [CmdletBinding(DefaultParameterSetName = 'BulkDestroy', SupportsShouldProcess, ConfirmImpact = 'High')]
     Param (
-        [Parameter(ParameterSetName = 'Bulk_Destroy')]
-        [Parameter(ParameterSetName = 'Bulk_Destroy_ByFilter')]
-        [Parameter(ParameterSetName = 'Bulk_Destroy_ByFilter_PSA')]
+        [Parameter(ParameterSetName = 'BulkDestroy')]
+        [Parameter(ParameterSetName = 'BulkDestroyByFilter')]
+        [Parameter(ParameterSetName = 'BulkDestroyByFilterPSA')]
         [int64]$OrganizationID,
 
-        [Parameter(ParameterSetName = 'Bulk_Destroy_ByFilter')]
-        [Parameter(ParameterSetName = 'Bulk_Destroy_ByFilter_PSA')]
+        [Parameter(ParameterSetName = 'BulkDestroyByFilter')]
+        [Parameter(ParameterSetName = 'BulkDestroyByFilterPSA')]
         [int64]$FilterID,
 
-        [Parameter(ParameterSetName = 'Bulk_Destroy_ByFilter')]
-        [Parameter(ParameterSetName = 'Bulk_Destroy_ByFilter_PSA')]
+        [Parameter(ParameterSetName = 'BulkDestroyByFilter')]
+        [Parameter(ParameterSetName = 'BulkDestroyByFilterPSA')]
         [string]$FilterFirstName,
 
-        [Parameter(ParameterSetName = 'Bulk_Destroy_ByFilter')]
-        [Parameter(ParameterSetName = 'Bulk_Destroy_ByFilter_PSA')]
+        [Parameter(ParameterSetName = 'BulkDestroyByFilter')]
+        [Parameter(ParameterSetName = 'BulkDestroyByFilterPSA')]
         [string]$FilterLastName,
 
-        [Parameter(ParameterSetName = 'Bulk_Destroy_ByFilter')]
-        [Parameter(ParameterSetName = 'Bulk_Destroy_ByFilter_PSA')]
+        [Parameter(ParameterSetName = 'BulkDestroyByFilter')]
+        [Parameter(ParameterSetName = 'BulkDestroyByFilterPSA')]
         [string]$FilterTitle,
 
-        [Parameter(ParameterSetName = 'Bulk_Destroy_ByFilter')]
-        [Parameter(ParameterSetName = 'Bulk_Destroy_ByFilter_PSA')]
+        [Parameter(ParameterSetName = 'BulkDestroyByFilter')]
+        [Parameter(ParameterSetName = 'BulkDestroyByFilterPSA')]
         [int64]$FilterContactTypeID,
 
-        [Parameter(ParameterSetName = 'Bulk_Destroy_ByFilter')]
-        [Parameter(ParameterSetName = 'Bulk_Destroy_ByFilter_PSA')]
+        [Parameter(ParameterSetName = 'BulkDestroyByFilter')]
+        [Parameter(ParameterSetName = 'BulkDestroyByFilterPSA')]
         [switch]$FilterImportant,
 
-        [Parameter(ParameterSetName = 'Bulk_Destroy_ByFilter')]
-        [Parameter(ParameterSetName = 'Bulk_Destroy_ByFilter_PSA')]
+        [Parameter(ParameterSetName = 'BulkDestroyByFilter')]
+        [Parameter(ParameterSetName = 'BulkDestroyByFilterPSA')]
         [string]$FilterPrimaryEmail,
 
-        [Parameter(ParameterSetName = 'Bulk_Destroy_ByFilter')]
-        [Parameter(ParameterSetName = 'Bulk_Destroy_ByFilter_PSA')]
+        [Parameter(ParameterSetName = 'BulkDestroyByFilter')]
+        [Parameter(ParameterSetName = 'BulkDestroyByFilterPSA')]
         [string]$FilterOrganizationID,
 
-        [Parameter(ParameterSetName = 'Bulk_Destroy_ByFilter_PSA')]
+        [Parameter(ParameterSetName = 'BulkDestroyByFilterPSA')]
         [string]$FilterPsaID,
 
-        [Parameter(ParameterSetName = 'Bulk_Destroy_ByFilter')]
-        [Parameter(ParameterSetName = 'Bulk_Destroy_ByFilter_PSA', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'BulkDestroyByFilter')]
+        [Parameter(ParameterSetName = 'BulkDestroyByFilterPSA', Mandatory = $true)]
         [ValidateSet('manage', 'autotask', 'tigerpaw', 'kaseya-bms', 'pulseway-psa', 'vorex')]
         [string]$FilterPsaIntegrationType,
 
-        [Parameter(ParameterSetName = 'Bulk_Destroy', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'BulkDestroy', Mandatory = $true)]
         $Data
     )
 
@@ -3925,36 +3769,36 @@ function Remove-ITGlueContact {
             $false  { $ResourceUri = "/contacts" }
         }
 
-        $query_params = @{}
+        $UriParameters = @{}
 
         #Region     [ Parameter Translation ]
 
         if ($PSCmdlet.ParameterSetName -like "Bulk_Destroy_*") {
-            if ($FilterID)              { $query_params['filter[id]']               = $FilterID }
-            if ($FilterFirstName)       { $query_params['filter[first_name]']       = $FilterFirstName }
-            if ($FilterLastName)        { $query_params['filter[last_name]']        = $FilterLastName }
-            if ($FilterTitle)           { $query_params['filter[title]']            = $FilterTitle }
-            if ($FilterContactTypeID)   { $query_params['filter[contact_type_id]']  = $FilterContactTypeID }
+            if ($FilterID)              { $UriParameters['filter[id]']               = $FilterID }
+            if ($FilterFirstName)       { $UriParameters['filter[first_name]']       = $FilterFirstName }
+            if ($FilterLastName)        { $UriParameters['filter[last_name]']        = $FilterLastName }
+            if ($FilterTitle)           { $UriParameters['filter[title]']            = $FilterTitle }
+            if ($FilterContactTypeID)   { $UriParameters['filter[contact_type_id]']  = $FilterContactTypeID }
 
-            if ($FilterImportant -eq $true)         { $query_params['filter[important]'] = '1' }
-            elseif ($FilterImportant -eq $false)    { $query_params['filter[important]'] = '0'}
+            if ($FilterImportant -eq $true)         { $UriParameters['filter[important]'] = '1' }
+            elseif ($FilterImportant -eq $false)    { $UriParameters['filter[important]'] = '0'}
 
-            if ($FilterPrimaryEmail)        { $query_params['filter[primary_email]']        = $FilterPrimaryEmail }
-            if ($FilterOrganizationID)      { $query_params['filter[organization_id]']      = $FilterOrganizationID }
-            if ($FilterPsaIntegrationType)  { $query_params['filter[psa_integration_type]'] = $FilterPsaIntegrationType }
+            if ($FilterPrimaryEmail)        { $UriParameters['filter[primary_email]']        = $FilterPrimaryEmail }
+            if ($FilterOrganizationID)      { $UriParameters['filter[organization_id]']      = $FilterOrganizationID }
+            if ($FilterPsaIntegrationType)  { $UriParameters['filter[psa_integration_type]'] = $FilterPsaIntegrationType }
         }
 
-        if ($PSCmdlet.ParameterSetName -eq 'Bulk_Destroy_ByFilter_PSA') {
-            if($FilterPsaID) { $query_params['filter[psa_id]'] = $FilterPsaID }
+        if ($PSCmdlet.ParameterSetName -eq 'BulkDestroyByFilterPSA') {
+            if($FilterPsaID) { $UriParameters['filter[psa_id]'] = $FilterPsaID }
         }
 
         #EndRegion  [ Parameter Translation ]
 
         Set-Variable -Name $ParameterName -Value $PSBoundParameters -Scope Global -Force -Confirm:$false
-        Set-Variable -Name $QueryParameterName -Value $query_params -Scope Global -Force -Confirm:$false
+        Set-Variable -Name $QueryParameterName -Value $UriParameters -Scope Global -Force -Confirm:$false
 
         if ($PSCmdlet.ShouldProcess($ResourceUri)) {
-            return Invoke-ITGlueRequest -Method DELETE -ResourceURI $ResourceUri -Data $Data -QueryParams $query_params
+            return Invoke-ITGlueRequest -Method DELETE -ResourceURI $ResourceUri -UriFilter $UriParameters -Data $Data
         }
 
     }
@@ -4049,7 +3893,7 @@ function Set-ITGlueContact {
         https://api.itglue.com/developer/#contacts-update
 #>
 
-    [CmdletBinding(DefaultParameterSetName = 'Bulk_Update', SupportsShouldProcess, ConfirmImpact = 'Medium')]
+    [CmdletBinding(DefaultParameterSetName = 'BulkUpdate', SupportsShouldProcess, ConfirmImpact = 'Medium')]
     Param (
         [Parameter(ParameterSetName = 'Update')]
         [int64]$OrganizationID,
@@ -4057,50 +3901,50 @@ function Set-ITGlueContact {
         [Parameter(ParameterSetName = 'Update', Mandatory = $true)]
         [int64]$ID,
 
-        [Parameter(ParameterSetName = 'Bulk_Update_ByFilter')]
-        [Parameter(ParameterSetName = 'Bulk_Update_ByFilter_PSA')]
+        [Parameter(ParameterSetName = 'BulkUpdateByFilter')]
+        [Parameter(ParameterSetName = 'BulkUpdateByFilterPSA')]
         [int64]$FilterID,
 
-        [Parameter(ParameterSetName = 'Bulk_Update_ByFilter')]
-        [Parameter(ParameterSetName = 'Bulk_Update_ByFilter_PSA')]
+        [Parameter(ParameterSetName = 'BulkUpdateByFilter')]
+        [Parameter(ParameterSetName = 'BulkUpdateByFilterPSA')]
         [string]$FilterFirstName,
 
-        [Parameter(ParameterSetName = 'Bulk_Update_ByFilter')]
-        [Parameter(ParameterSetName = 'Bulk_Update_ByFilter_PSA')]
+        [Parameter(ParameterSetName = 'BulkUpdateByFilter')]
+        [Parameter(ParameterSetName = 'BulkUpdateByFilterPSA')]
         [string]$FilterLastName,
 
-        [Parameter(ParameterSetName = 'Bulk_Update_ByFilter')]
-        [Parameter(ParameterSetName = 'Bulk_Update_ByFilter_PSA')]
+        [Parameter(ParameterSetName = 'BulkUpdateByFilter')]
+        [Parameter(ParameterSetName = 'BulkUpdateByFilterPSA')]
         [string]$FilterTitle,
 
-        [Parameter(ParameterSetName = 'Bulk_Update_ByFilter')]
-        [Parameter(ParameterSetName = 'Bulk_Update_ByFilter_PSA')]
+        [Parameter(ParameterSetName = 'BulkUpdateByFilter')]
+        [Parameter(ParameterSetName = 'BulkUpdateByFilterPSA')]
         [int64]$FilterContactTypeID,
 
-        [Parameter(ParameterSetName = 'Bulk_Update_ByFilter')]
-        [Parameter(ParameterSetName = 'Bulk_Update_ByFilter_PSA')]
+        [Parameter(ParameterSetName = 'BulkUpdateByFilter')]
+        [Parameter(ParameterSetName = 'BulkUpdateByFilterPSA')]
         [switch]$FilterImportant,
 
-        [Parameter(ParameterSetName = 'Bulk_Update_ByFilter')]
-        [Parameter(ParameterSetName = 'Bulk_Update_ByFilter_PSA')]
+        [Parameter(ParameterSetName = 'BulkUpdateByFilter')]
+        [Parameter(ParameterSetName = 'BulkUpdateByFilterPSA')]
         [string]$FilterPrimaryEmail,
 
-        [Parameter(ParameterSetName = 'Bulk_Update_ByFilter')]
-        [Parameter(ParameterSetName = 'Bulk_Update_ByFilter_PSA')]
+        [Parameter(ParameterSetName = 'BulkUpdateByFilter')]
+        [Parameter(ParameterSetName = 'BulkUpdateByFilterPSA')]
         [string]$FilterOrganizationID,
 
-        [Parameter(ParameterSetName = 'Bulk_Update_ByFilter_PSA')]
+        [Parameter(ParameterSetName = 'BulkUpdateByFilterPSA')]
         [string]$FilterPsaID,
 
-        [Parameter(ParameterSetName = 'Bulk_Update_ByFilter')]
-        [Parameter(ParameterSetName = 'Bulk_Update_ByFilter_PSA', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'BulkUpdateByFilter')]
+        [Parameter(ParameterSetName = 'BulkUpdateByFilterPSA', Mandatory = $true)]
         [ValidateSet('manage', 'autotask', 'tigerpaw', 'kaseya-bms', 'pulseway-psa', 'vorex')]
         [string]$FilterPsaIntegrationType,
 
         [Parameter(ParameterSetName = 'Update', Mandatory = $true)]
-        [Parameter(ParameterSetName = 'Bulk_Update', Mandatory = $true)]
-        [Parameter(ParameterSetName = 'Bulk_Update_ByFilter', Mandatory = $true)]
-        [Parameter(ParameterSetName = 'Bulk_Update_ByFilter_PSA', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'BulkUpdate', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'BulkUpdateByFilter', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'BulkUpdateByFilterPSA', Mandatory = $true)]
         $Data
 
     )
@@ -4126,39 +3970,39 @@ function Set-ITGlueContact {
                 }
 
             }
-            'Bulk_Update'   { $ResourceUri = "/contacts" }
+            'BulkUpdate'   { $ResourceUri = "/contacts" }
         }
 
-        $query_params = @{}
+        $UriParameters = @{}
 
         #Region     [ Parameter Translation ]
 
         if ($PSCmdlet.ParameterSetName -like "Bulk_Update_*") {
-            if ($FilterID)              { $query_params['filter[id]']               = $FilterID }
-            if ($FilterFirstName)       { $query_params['filter[first_name]']       = $FilterFirstName }
-            if ($FilterLastName)        { $query_params['filter[last_name]']        = $FilterLastName }
-            if ($FilterTitle)           { $query_params['filter[title]']            = $FilterTitle }
-            if ($FilterContactTypeID)   { $query_params['filter[contact_type_id]']  = $FilterContactTypeID }
+            if ($FilterID)              { $UriParameters['filter[id]']               = $FilterID }
+            if ($FilterFirstName)       { $UriParameters['filter[first_name]']       = $FilterFirstName }
+            if ($FilterLastName)        { $UriParameters['filter[last_name]']        = $FilterLastName }
+            if ($FilterTitle)           { $UriParameters['filter[title]']            = $FilterTitle }
+            if ($FilterContactTypeID)   { $UriParameters['filter[contact_type_id]']  = $FilterContactTypeID }
 
-            if ($FilterImportant -eq $true)         { $query_params['filter[important]'] = '1' }
-            elseif ($FilterImportant -eq $false)    { $query_params['filter[important]'] = '0'}
+            if ($FilterImportant -eq $true)         { $UriParameters['filter[important]'] = '1' }
+            elseif ($FilterImportant -eq $false)    { $UriParameters['filter[important]'] = '0'}
 
-            if ($FilterPrimaryEmail)        { $query_params['filter[primary_email]']        = $FilterPrimaryEmail }
-            if ($FilterOrganizationID)      { $query_params['filter[organization_id]']      = $FilterOrganizationID }
-            if ($FilterPsaIntegrationType)  { $query_params['filter[psa_integration_type]'] = $FilterPsaIntegrationType }
+            if ($FilterPrimaryEmail)        { $UriParameters['filter[primary_email]']        = $FilterPrimaryEmail }
+            if ($FilterOrganizationID)      { $UriParameters['filter[organization_id]']      = $FilterOrganizationID }
+            if ($FilterPsaIntegrationType)  { $UriParameters['filter[psa_integration_type]'] = $FilterPsaIntegrationType }
         }
 
-        if ($PSCmdlet.ParameterSetName -eq 'Bulk_Update_ByFilter_PSA') {
-            if($FilterPsaID) { $query_params['filter[psa_id]'] = $FilterPsaID }
+        if ($PSCmdlet.ParameterSetName -eq 'BulkUpdateByFilterPSA') {
+            if($FilterPsaID) { $UriParameters['filter[psa_id]'] = $FilterPsaID }
         }
 
         #EndRegion  [ Parameter Translation ]
 
         Set-Variable -Name $ParameterName -Value $PSBoundParameters -Scope Global -Force -Confirm:$false
-        Set-Variable -Name $QueryParameterName -Value $query_params -Scope Global -Force -Confirm:$false
+        Set-Variable -Name $QueryParameterName -Value $UriParameters -Scope Global -Force -Confirm:$false
 
         if ($PSCmdlet.ShouldProcess($ResourceUri)) {
-            return Invoke-ITGlueRequest -Method PATCH -ResourceURI $ResourceUri -QueryParams $query_params -Data $Data
+            return Invoke-ITGlueRequest -Method PATCH -ResourceURI $ResourceUri -UriFilter $UriParameters -Data $Data
         }
 
     }
@@ -4278,23 +4122,23 @@ function Get-ITGlueContactType {
             'Show'  { $ResourceUri = "/contact_types/$ID" }
         }
 
-        $query_params = @{}
+        $UriParameters = @{}
 
         #Region     [ Parameter Translation ]
 
         if ($PSCmdlet.ParameterSetName -eq 'Index') {
-            if ($FilterName)    { $query_params['filter[name]'] = $FilterName }
-            if ($Sort)          { $query_params['sort']         = $Sort }
-            if ($PageNumber)    { $query_params['page[number]'] = $PageNumber }
-            if ($PageSize)      { $query_params['page[size]']   = $PageSize }
+            if ($FilterName)    { $UriParameters['filter[name]'] = $FilterName }
+            if ($Sort)          { $UriParameters['sort']         = $Sort }
+            if ($PageNumber)    { $UriParameters['page[number]'] = $PageNumber }
+            if ($PageSize)      { $UriParameters['page[size]']   = $PageSize }
         }
 
         #EndRegion  [ Parameter Translation ]
 
         Set-Variable -Name $ParameterName -Value $PSBoundParameters -Scope Global -Force -Confirm:$false
-        Set-Variable -Name $QueryParameterName -Value $query_params -Scope Global -Force -Confirm:$false
+        Set-Variable -Name $QueryParameterName -Value $UriParameters -Scope Global -Force -Confirm:$false
 
-        return Invoke-ITGlueRequest -Method GET -ResourceURI $ResourceUri -QueryParams $query_params -AllResults:$AllResults
+        return Invoke-ITGlueRequest -Method GET -ResourceURI $ResourceUri -UriFilter $UriParameters -AllResults:$AllResults
 
     }
 
@@ -4547,23 +4391,23 @@ function Get-ITGlueCopilotSmartAssistDocument {
             $false  { $ResourceUri = "/copilot_smart_assist/documents" }
         }
 
-        $query_params = @{}
+        $UriParameters = @{}
 
         #Region     [ Parameter Translation ]
 
         if ($PSCmdlet.ParameterSetName -eq 'Index') {
-            if ($FilterType)            { $query_params['filter[type]']             = $FilterID }
-            if ($FilterOrganizationID)  { $query_params['filter[organization_id]']  = $FilterOrganizationID}
-            if ($PageNumber)            { $query_params['page[number]']             = $PageNumber }
-            if ($PageSize)              { $query_params['page[size]']               = $PageSize }
+            if ($FilterType)            { $UriParameters['filter[type]']             = $FilterID }
+            if ($FilterOrganizationID)  { $UriParameters['filter[organization_id]']  = $FilterOrganizationID}
+            if ($PageNumber)            { $UriParameters['page[number]']             = $PageNumber }
+            if ($PageSize)              { $UriParameters['page[size]']               = $PageSize }
         }
 
         #EndRegion  [ Parameter Translation ]
 
         Set-Variable -Name $ParameterName -Value $PSBoundParameters -Scope Global -Force -Confirm:$false
-        Set-Variable -Name $QueryParameterName -Value $query_params -Scope Global -Force -Confirm:$false
+        Set-Variable -Name $QueryParameterName -Value $UriParameters -Scope Global -Force -Confirm:$false
 
-        return Invoke-ITGlueRequest -Method GET -ResourceURI $ResourceUri -QueryParams $query_params -AllResults:$AllResults
+        return Invoke-ITGlueRequest -Method GET -ResourceURI $ResourceUri -UriFilter $UriParameters -AllResults:$AllResults
 
     }
 
@@ -4621,16 +4465,16 @@ function Remove-ITGlueCopilotSmartAssistDocument {
         https://api.itglue.com/developer#copilot-smart-assist-bulk-destroy
 #>
 
-    [CmdletBinding(DefaultParameterSetName = 'Bulk_Destroy', SupportsShouldProcess, ConfirmImpact = 'High')]
+    [CmdletBinding(DefaultParameterSetName = 'BulkDestroy', SupportsShouldProcess, ConfirmImpact = 'High')]
     Param (
-        [Parameter(ParameterSetName = 'Bulk_Destroy')]
+        [Parameter(ParameterSetName = 'BulkDestroy')]
         [ValidateSet( 'stale', 'not_viewed', 'expired', 'duplicate' )]
         [string]$FilterType,
 
-        [Parameter(ParameterSetName = 'Bulk_Destroy')]
+        [Parameter(ParameterSetName = 'BulkDestroy')]
         [int64]$FilterOrganizationID,
 
-        [Parameter(ParameterSetName = 'Bulk_Destroy', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'BulkDestroy', Mandatory = $true)]
         $Data
 
     )
@@ -4652,22 +4496,22 @@ function Remove-ITGlueCopilotSmartAssistDocument {
             $false  { $ResourceUri = "/copilot_smart_assist/documents" }
         }
 
-        $query_params = @{}
+        $UriParameters = @{}
 
         #Region     [ Parameter Translation ]
 
         if ($PSCmdlet.ParameterSetName -eq "Bulk_Destroy") {
-            if ($FilterType)            { $query_params['filter[type]']             = $FilterID }
-            if ($FilterOrganizationID)  { $query_params['filter[organization_id]']  = $FilterOrganizationID}
+            if ($FilterType)            { $UriParameters['filter[type]']             = $FilterID }
+            if ($FilterOrganizationID)  { $UriParameters['filter[organization_id]']  = $FilterOrganizationID}
         }
 
         #EndRegion  [ Parameter Translation ]
 
         Set-Variable -Name $ParameterName -Value $PSBoundParameters -Scope Global -Force -Confirm:$false
-        Set-Variable -Name $QueryParameterName -Value $query_params -Scope Global -Force -Confirm:$false
+        Set-Variable -Name $QueryParameterName -Value $UriParameters -Scope Global -Force -Confirm:$false
 
         if ($PSCmdlet.ShouldProcess($ResourceUri)) {
-            return Invoke-ITGlueRequest -Method DELETE -ResourceURI $ResourceUri -QueryParams $query_params -Data $Data
+            return Invoke-ITGlueRequest -Method DELETE -ResourceURI $ResourceUri -UriFilter $UriParameters -Data $Data
         }
 
     }
@@ -4726,16 +4570,16 @@ function Set-ITGlueCopilotSmartAssistDocument {
         https://api.itglue.com/developer#copilot-smart-assist-bulk-update
 #>
 
-    [CmdletBinding(DefaultParameterSetName = 'Bulk_Update', SupportsShouldProcess, ConfirmImpact = 'Medium')]
+    [CmdletBinding(DefaultParameterSetName = 'BulkUpdate', SupportsShouldProcess, ConfirmImpact = 'Medium')]
     Param (
-        [Parameter(ParameterSetName = 'Bulk_Update')]
+        [Parameter(ParameterSetName = 'BulkUpdate')]
         [ValidateSet( 'stale', 'not_viewed', 'expired', 'duplicate' )]
         [string]$FilterType,
 
-        [Parameter(ParameterSetName = 'Bulk_Update')]
+        [Parameter(ParameterSetName = 'BulkUpdate')]
         [int64]$FilterOrganizationID,
 
-        [Parameter(ParameterSetName = 'Bulk_Update', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'BulkUpdate', Mandatory = $true)]
         $Data
 
     )
@@ -4757,22 +4601,22 @@ function Set-ITGlueCopilotSmartAssistDocument {
             $false  { $ResourceUri = "/copilot_smart_assist/documents" }
         }
 
-        $query_params = @{}
+        $UriParameters = @{}
 
         #Region     [ Parameter Translation ]
 
         if ($PSCmdlet.ParameterSetName -eq "Bulk_Update") {
-            if ($FilterType)            { $query_params['filter[type]']             = $FilterID }
-            if ($FilterOrganizationID)  { $query_params['filter[organization_id]']  = $FilterOrganizationID}
+            if ($FilterType)            { $UriParameters['filter[type]']             = $FilterID }
+            if ($FilterOrganizationID)  { $UriParameters['filter[organization_id]']  = $FilterOrganizationID}
         }
 
         #EndRegion  [ Parameter Translation ]
 
         Set-Variable -Name $ParameterName -Value $PSBoundParameters -Scope Global -Force -Confirm:$false
-        Set-Variable -Name $QueryParameterName -Value $query_params -Scope Global -Force -Confirm:$false
+        Set-Variable -Name $QueryParameterName -Value $UriParameters -Scope Global -Force -Confirm:$false
 
         if ($PSCmdlet.ShouldProcess($ResourceUri)) {
-            return Invoke-ITGlueRequest -Method PATCH -ResourceURI $ResourceUri -QueryParams $query_params -Data $Data
+            return Invoke-ITGlueRequest -Method PATCH -ResourceURI $ResourceUri -UriFilter $UriParameters -Data $Data
         }
 
     }
@@ -4848,7 +4692,7 @@ function Get-ITGlueCountry {
         N/A
 
     .LINK
-        https://celerium.github.io/Celerium.ITGlue/site/Countires/Get-ITGlueCountry.html
+        https://celerium.github.io/Celerium.ITGlue/site/Countries/Get-ITGlueCountry.html
 
     .LINK
         https://api.itglue.com/developer/#countries-index
@@ -4897,24 +4741,24 @@ function Get-ITGlueCountry {
             'Show'  { $ResourceUri = "/countries/$ID" }
         }
 
-        $query_params = @{}
+        $UriParameters = @{}
 
         #Region     [ Parameter Translation ]
 
         if ($PSCmdlet.ParameterSetName -eq 'Index') {
-            if ($FilterName)    { $query_params['filter[name]'] = $FilterName }
-            if ($FilterISO)     { $query_params['filter[iso]']  = $FilterISO }
-            if ($Sort)          { $query_params['sort']         = $Sort }
-            if ($PageNumber)    { $query_params["page[number]"] = $PageNumber }
-            if ($PageSize)      { $query_params["page[size]"]   = $PageSize }
+            if ($FilterName)    { $UriParameters['filter[name]'] = $FilterName }
+            if ($FilterISO)     { $UriParameters['filter[iso]']  = $FilterISO }
+            if ($Sort)          { $UriParameters['sort']         = $Sort }
+            if ($PageNumber)    { $UriParameters["page[number]"] = $PageNumber }
+            if ($PageSize)      { $UriParameters["page[size]"]   = $PageSize }
         }
 
         #EndRegion  [ Parameter Translation ]
 
         Set-Variable -Name $ParameterName -Value $PSBoundParameters -Scope Global -Force -Confirm:$false
-        Set-Variable -Name $QueryParameterName -Value $query_params -Scope Global -Force -Confirm:$false
+        Set-Variable -Name $QueryParameterName -Value $UriParameters -Scope Global -Force -Confirm:$false
 
-        return Invoke-ITGlueRequest -Method GET -ResourceURI $ResourceUri -QueryParams $query_params -AllResults:$AllResults
+        return Invoke-ITGlueRequest -Method GET -ResourceURI $ResourceUri -UriFilter $UriParameters -AllResults:$AllResults
 
     }
 
@@ -4970,17 +4814,17 @@ function Set-ITGlueDocument {
         https://api.itglue.com/developer/#documents-update
 #>
 
-    [CmdletBinding(DefaultParameterSetName = 'Bulk_Update', SupportsShouldProcess, ConfirmImpact = 'Medium')]
+    [CmdletBinding(DefaultParameterSetName = 'BulkUpdate', SupportsShouldProcess, ConfirmImpact = 'Medium')]
     Param (
         [Parameter(ParameterSetName = 'Update')]
-        [Parameter(ParameterSetName = 'Bulk_Update')]
+        [Parameter(ParameterSetName = 'BulkUpdate')]
         [int64]$OrganizationID,
 
         [Parameter(ParameterSetName = 'Update', Mandatory = $true)]
         [int64]$ID,
 
         [Parameter(ParameterSetName = 'Update', Mandatory = $true)]
-        [Parameter(ParameterSetName = 'Bulk_Update', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'BulkUpdate', Mandatory = $true)]
         $Data
     )
 
@@ -5005,11 +4849,11 @@ function Set-ITGlueDocument {
                 }
 
             }
-            'Bulk_Update'   { $ResourceUri = "/documents" }
+            'BulkUpdate'   { $ResourceUri = "/documents" }
         }
 
         Set-Variable -Name $ParameterName -Value $PSBoundParameters -Scope Global -Force -Confirm:$false
-        Set-Variable -Name $QueryParameterName -Value $query_params -Scope Global -Force -Confirm:$false
+        Set-Variable -Name $QueryParameterName -Value $UriParameters -Scope Global -Force -Confirm:$false
 
         if ($PSCmdlet.ShouldProcess($ResourceUri)) {
             return Invoke-ITGlueRequest -Method PATCH -ResourceURI $ResourceUri -Data $Data
@@ -5148,25 +4992,25 @@ function Get-ITGlueDomain {
             $false  { $ResourceUri = "/domains" }
         }
 
-        $query_params = @{}
+        $UriParameters = @{}
 
         #Region     [ Parameter Translation ]
 
         if ($PSCmdlet.ParameterSetName -eq 'Index') {
-            if ($FilterID)              { $query_params['filter[id]']               = $FilterID }
-            if ($FilterOrganizationID)  { $query_params['filter[organization_id]']  = $FilterOrganizationID }
-            if ($Sort)                  { $query_params['sort']                     = $Sort }
-            if ($PageNumber)            { $query_params['page[number]']             = $PageNumber }
-            if ($PageSize)              { $query_params['page[size]']               = $PageSize}
-            if ($Include)               { $query_params['include']                  = $Include }
+            if ($FilterID)              { $UriParameters['filter[id]']               = $FilterID }
+            if ($FilterOrganizationID)  { $UriParameters['filter[organization_id]']  = $FilterOrganizationID }
+            if ($Sort)                  { $UriParameters['sort']                     = $Sort }
+            if ($PageNumber)            { $UriParameters['page[number]']             = $PageNumber }
+            if ($PageSize)              { $UriParameters['page[size]']               = $PageSize}
+            if ($Include)               { $UriParameters['include']                  = $Include }
         }
 
         #EndRegion  [ Parameter Translation ]
 
         Set-Variable -Name $ParameterName -Value $PSBoundParameters -Scope Global -Force -Confirm:$false
-        Set-Variable -Name $QueryParameterName -Value $query_params -Scope Global -Force -Confirm:$false
+        Set-Variable -Name $QueryParameterName -Value $UriParameters -Scope Global -Force -Confirm:$false
 
-        return Invoke-ITGlueRequest -Method GET -ResourceURI $ResourceUri -QueryParams $query_params -AllResults:$AllResults
+        return Invoke-ITGlueRequest -Method GET -ResourceURI $ResourceUri -UriFilter $UriParameters -AllResults:$AllResults
 
     }
 
@@ -5365,30 +5209,30 @@ function Get-ITGlueExpiration {
             }
         }
 
-        $query_params = @{}
+        $UriParameters = @{}
 
         #Region     [ Parameter Translation ]
 
         if ($PSCmdlet.ParameterSetName -eq 'Index') {
-            if ($FilterID)              { $query_params['filter[id]']                   = $FilterID }
-            if ($FilterResourceID)      { $query_params['filter[resource_id]']          = $FilterResourceID }
-            if ($FilterResourceName)    { $query_params['filter[resource_name]']        = $FilterResourceName }
-            if ($FilterResourceTypeName) { $query_params['filter[resource_type_name]']   = $FilterResourceTypeName }
-            if ($FilterDescription)     { $query_params['filter[description]']          = $FilterDescription }
-            if ($FilterExpirationDate)  { $query_params['filter[expiration_date]']      = $FilterExpirationDate }
-            if ($FilterOrganizationID)  { $query_params['filter[organization_id]']      = $FilterOrganizationID }
-            if ($FilterRange)           { $query_params['filter[range]']                = $FilterRange }
-            if ($Sort)                  { $query_params['sort']                         = $Sort }
-            if ($PageNumber)            { $query_params['page[number]']                 = $PageNumber }
-            if ($PageSize)              { $query_params['page[size]']                   = $PageSize }
+            if ($FilterID)              { $UriParameters['filter[id]']                   = $FilterID }
+            if ($FilterResourceID)      { $UriParameters['filter[resource_id]']          = $FilterResourceID }
+            if ($FilterResourceName)    { $UriParameters['filter[resource_name]']        = $FilterResourceName }
+            if ($FilterResourceTypeName) { $UriParameters['filter[resource_type_name]']   = $FilterResourceTypeName }
+            if ($FilterDescription)     { $UriParameters['filter[description]']          = $FilterDescription }
+            if ($FilterExpirationDate)  { $UriParameters['filter[expiration_date]']      = $FilterExpirationDate }
+            if ($FilterOrganizationID)  { $UriParameters['filter[organization_id]']      = $FilterOrganizationID }
+            if ($FilterRange)           { $UriParameters['filter[range]']                = $FilterRange }
+            if ($Sort)                  { $UriParameters['sort']                         = $Sort }
+            if ($PageNumber)            { $UriParameters['page[number]']                 = $PageNumber }
+            if ($PageSize)              { $UriParameters['page[size]']                   = $PageSize }
         }
 
         #EndRegion  [ Parameter Translation ]
 
         Set-Variable -Name $ParameterName -Value $PSBoundParameters -Scope Global -Force -Confirm:$false
-        Set-Variable -Name $QueryParameterName -Value $query_params -Scope Global -Force -Confirm:$false
+        Set-Variable -Name $QueryParameterName -Value $UriParameters -Scope Global -Force -Confirm:$false
 
-        return Invoke-ITGlueRequest -Method GET -ResourceURI $ResourceUri -QueryParams $query_params -AllResults:$AllResults
+        return Invoke-ITGlueRequest -Method GET -ResourceURI $ResourceUri -UriFilter $UriParameters -AllResults:$AllResults
 
     }
 
@@ -5517,27 +5361,27 @@ function Get-ITGlueExport {
             'Show'  { $ResourceUri = "/exports/$ID" }
         }
 
-        $query_params = @{}
+        $UriParameters = @{}
 
         #Region     [ Parameter Translation ]
 
         if ($PSCmdlet.ParameterSetName -eq 'Index') {
-            if ($FilterID)      { $query_params['filter[id]']   = $FilterID }
-            if ($Sort)          { $query_params['sort']         = $Sort }
-            if ($PageNumber)    { $query_params['page[number]'] = $PageNumber }
-            if ($PageSize)      { $query_params['page[size]']   = $PageSize }
+            if ($FilterID)      { $UriParameters['filter[id]']   = $FilterID }
+            if ($Sort)          { $UriParameters['sort']         = $Sort }
+            if ($PageNumber)    { $UriParameters['page[number]'] = $PageNumber }
+            if ($PageSize)      { $UriParameters['page[size]']   = $PageSize }
         }
 
         if ($PSCmdlet.ParameterSetName -eq 'Show') {
-            if ($Include) { $query_params['include'] = $Include }
+            if ($Include) { $UriParameters['include'] = $Include }
         }
 
         #EndRegion  [ Parameter Translation ]
 
         Set-Variable -Name $ParameterName -Value $PSBoundParameters -Scope Global -Force -Confirm:$false
-        Set-Variable -Name $QueryParameterName -Value $query_params -Scope Global -Force -Confirm:$false
+        Set-Variable -Name $QueryParameterName -Value $UriParameters -Scope Global -Force -Confirm:$false
 
-        return Invoke-ITGlueRequest -Method GET -ResourceURI $ResourceUri -QueryParams $query_params -AllResults:$AllResults
+        return Invoke-ITGlueRequest -Method GET -ResourceURI $ResourceUri -UriFilter $UriParameters -AllResults:$AllResults
 
     }
 
@@ -5851,24 +5695,24 @@ function Get-ITGlueFlexibleAssetField {
             }
         }
 
-        $query_params = @{}
+        $UriParameters = @{}
 
         #Region     [ Parameter Translation ]
 
         if ($PSCmdlet.ParameterSetName -eq 'Index') {
-            if ($FilterID)      { $query_params['filter[id]']   = $FilterID }
-            if ($Sort)          { $query_params['sort']         = $Sort }
-            if ($PageNumber)    { $query_params['page[number]'] = $PageNumber }
-            if ($PageSize)      { $query_params['page[size]']   = $PageSize }
-            if ($Include)       { $query_params['include']      = $Include }
+            if ($FilterID)      { $UriParameters['filter[id]']   = $FilterID }
+            if ($Sort)          { $UriParameters['sort']         = $Sort }
+            if ($PageNumber)    { $UriParameters['page[number]'] = $PageNumber }
+            if ($PageSize)      { $UriParameters['page[size]']   = $PageSize }
+            if ($Include)       { $UriParameters['include']      = $Include }
         }
 
         #EndRegion  [ Parameter Translation ]
 
         Set-Variable -Name $ParameterName -Value $PSBoundParameters -Scope Global -Force -Confirm:$false
-        Set-Variable -Name $QueryParameterName -Value $query_params -Scope Global -Force -Confirm:$false
+        Set-Variable -Name $QueryParameterName -Value $UriParameters -Scope Global -Force -Confirm:$false
 
-        return Invoke-ITGlueRequest -Method GET -ResourceURI $ResourceUri -QueryParams $query_params -AllResults:$AllResults
+        return Invoke-ITGlueRequest -Method GET -ResourceURI $ResourceUri -UriFilter $UriParameters -AllResults:$AllResults
 
     }
 
@@ -6079,7 +5923,7 @@ function Set-ITGlueFlexibleAssetField {
         https://api.itglue.com/developer/#flexible-asset-fields-update
 #>
 
-    [CmdletBinding(DefaultParameterSetName = 'Bulk_Update', SupportsShouldProcess, ConfirmImpact = 'Medium')]
+    [CmdletBinding(DefaultParameterSetName = 'BulkUpdate', SupportsShouldProcess, ConfirmImpact = 'Medium')]
     Param (
         [Parameter(ParameterSetName = 'Update')]
         [int64]$FlexibleAssetTypeID,
@@ -6087,11 +5931,11 @@ function Set-ITGlueFlexibleAssetField {
         [Parameter(ParameterSetName = 'Update', Mandatory = $true)]
         [int64]$ID,
 
-        [Parameter(ParameterSetName = 'Bulk_Update')]
+        [Parameter(ParameterSetName = 'BulkUpdate')]
         [int64]$FilterID,
 
         [Parameter(ParameterSetName = 'Update', Mandatory = $true)]
-        [Parameter(ParameterSetName = 'Bulk_Update', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'BulkUpdate', Mandatory = $true)]
         $Data
     )
 
@@ -6108,7 +5952,7 @@ function Set-ITGlueFlexibleAssetField {
         Write-Verbose "[ $FunctionName ] - Running the [ $($PSCmdlet.ParameterSetName) ] parameterSet"
 
         switch ($PSCmdlet.ParameterSetName) {
-            'Bulk_Update'   { $ResourceUri = "/flexible_asset_fields" }
+            'BulkUpdate'   { $ResourceUri = "/flexible_asset_fields" }
             'Update'        {
 
                 switch ([bool]$FlexibleAssetTypeID) {
@@ -6120,21 +5964,21 @@ function Set-ITGlueFlexibleAssetField {
 
         }
 
-        $query_params = @{}
+        $UriParameters = @{}
 
         #Region     [ Parameter Translation ]
 
-        if ($PSCmdlet.ParameterSetName -eq 'Bulk_Update') {
-            if ($FilterID) { $query_params['filter[id]'] = $FilterID }
+        if ($PSCmdlet.ParameterSetName -eq 'BulkUpdate') {
+            if ($FilterID) { $UriParameters['filter[id]'] = $FilterID }
         }
 
         #EndRegion  [ Parameter Translation ]
 
         Set-Variable -Name $ParameterName -Value $PSBoundParameters -Scope Global -Force -Confirm:$false
-        Set-Variable -Name $QueryParameterName -Value $query_params -Scope Global -Force -Confirm:$false
+        Set-Variable -Name $QueryParameterName -Value $UriParameters -Scope Global -Force -Confirm:$false
 
         if ($PSCmdlet.ShouldProcess($ResourceUri)) {
-            return Invoke-ITGlueRequest -Method PATCH -ResourceURI $ResourceUri -QueryParams $query_params -Data $Data
+            return Invoke-ITGlueRequest -Method PATCH -ResourceURI $ResourceUri -UriFilter $UriParameters -Data $Data
         }
 
     }
@@ -6285,28 +6129,28 @@ function Get-ITGlueFlexibleAsset {
             'Show'  { $ResourceUri = "/flexible_assets/$ID" }
         }
 
-        $query_params = @{}
+        $UriParameters = @{}
 
         #Region     [ Parameter Translation ]
 
         if ($PSCmdlet.ParameterSetName -eq 'Index') {
-            if ($FilterFlexibleAssetTypeID) { $query_params['filter[flexible-asset-type-id]']   = $FilterFlexibleAssetTypeID }
-            if ($FilterName)                { $query_params['filter[name]']                     = $FilterName }
-            if ($FilterOrganizationID)      { $query_params['filter[organization-id]']          = $FilterOrganizationID }
-            if ($Sort)                      { $query_params['sort']                             = $Sort }
-            if ($PageNumber)                { $query_params['page[number]']                     = $PageNumber }
-            if ($PageSize)                  { $query_params['page[size]']                       = $PageSize }
+            if ($FilterFlexibleAssetTypeID) { $UriParameters['filter[flexible-asset-type-id]']   = $FilterFlexibleAssetTypeID }
+            if ($FilterName)                { $UriParameters['filter[name]']                     = $FilterName }
+            if ($FilterOrganizationID)      { $UriParameters['filter[organization-id]']          = $FilterOrganizationID }
+            if ($Sort)                      { $UriParameters['sort']                             = $Sort }
+            if ($PageNumber)                { $UriParameters['page[number]']                     = $PageNumber }
+            if ($PageSize)                  { $UriParameters['page[size]']                       = $PageSize }
         }
 
         #Shared Parameters
-        if($Include) { $query_params['include'] = $Include }
+        if($Include) { $UriParameters['include'] = $Include }
 
         #EndRegion  [ Parameter Translation ]
 
         Set-Variable -Name $ParameterName -Value $PSBoundParameters -Scope Global -Force -Confirm:$false
-        Set-Variable -Name $QueryParameterName -Value $query_params -Scope Global -Force -Confirm:$false
+        Set-Variable -Name $QueryParameterName -Value $UriParameters -Scope Global -Force -Confirm:$false
 
-        return Invoke-ITGlueRequest -Method GET -ResourceURI $ResourceUri -QueryParams $query_params -AllResults:$AllResults
+        return Invoke-ITGlueRequest -Method GET -ResourceURI $ResourceUri -UriFilter $UriParameters -AllResults:$AllResults
 
     }
 
@@ -6439,7 +6283,7 @@ function Remove-ITGlueFlexibleAsset {
         [Parameter(ParameterSetName = 'Destroy', Mandatory = $true)]
         [int64]$ID,
 
-        [Parameter(ParameterSetName = 'Bulk_Destroy', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'BulkDestroy', Mandatory = $true)]
         $Data
     )
 
@@ -6455,7 +6299,7 @@ function Remove-ITGlueFlexibleAsset {
         Write-Verbose "[ $FunctionName ] - Running the [ $($PSCmdlet.ParameterSetName) ] parameterSet"
 
         switch ($PSCmdlet.ParameterSetName) {
-            'Bulk_Destroy'  { $ResourceUri = "/flexible_assets" }
+            'BulkDestroy'  { $ResourceUri = "/flexible_assets" }
             'Destroy'       { $ResourceUri = "/flexible_assets/$ID" }
         }
 
@@ -6511,13 +6355,13 @@ function Set-ITGlueFlexibleAsset {
         https://api.itglue.com/developer/#flexible-assets-update
 #>
 
-    [CmdletBinding(DefaultParameterSetName = 'Bulk_Update', SupportsShouldProcess, ConfirmImpact = 'Medium')]
+    [CmdletBinding(DefaultParameterSetName = 'BulkUpdate', SupportsShouldProcess, ConfirmImpact = 'Medium')]
     Param (
         [Parameter(ParameterSetName = 'Update', Mandatory = $true)]
         [int64]$ID,
 
         [Parameter(ParameterSetName = 'Update', Mandatory = $true)]
-        [Parameter(ParameterSetName = 'Bulk_Update', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'BulkUpdate', Mandatory = $true)]
         $Data
     )
 
@@ -6533,7 +6377,7 @@ function Set-ITGlueFlexibleAsset {
         Write-Verbose "[ $FunctionName ] - Running the [ $($PSCmdlet.ParameterSetName) ] parameterSet"
 
         switch ($PSCmdlet.ParameterSetName) {
-            'Bulk_Update'   { $ResourceUri = "/flexible_assets" }
+            'BulkUpdate'   { $ResourceUri = "/flexible_assets" }
             'Update'        { $ResourceUri = "/flexible_assets/$ID" }
         }
 
@@ -6689,28 +6533,28 @@ function Get-ITGlueFlexibleAssetType {
             'Show'  { $ResourceUri = "/flexible_asset_types/$ID" }
         }
 
-        $query_params = @{}
+        $UriParameters = @{}
 
         #Region     [ Parameter Translation ]
 
         if ($PSCmdlet.ParameterSetName -eq 'Index') {
-            if ($FilterID)      { $query_params['filter[id]']       = $FilterID }
-            if ($FilterName)    { $query_params['filter[name]']     = $FilterName }
-            if ($FilterIcon)    { $query_params['filter[icon]']     = $FilterIcon }
-            if ($FilterEnabled) { $query_params['filter[enabled]']  = $FilterEnabled }
-            if ($Sort)          { $query_params['sort']             = $Sort }
-            if ($PageNumber)    { $query_params['page[number]']     = $PageNumber }
-            if ($PageSize)      { $query_params['page[size]']       = $PageSize }
+            if ($FilterID)      { $UriParameters['filter[id]']       = $FilterID }
+            if ($FilterName)    { $UriParameters['filter[name]']     = $FilterName }
+            if ($FilterIcon)    { $UriParameters['filter[icon]']     = $FilterIcon }
+            if ($FilterEnabled) { $UriParameters['filter[enabled]']  = $FilterEnabled }
+            if ($Sort)          { $UriParameters['sort']             = $Sort }
+            if ($PageNumber)    { $UriParameters['page[number]']     = $PageNumber }
+            if ($PageSize)      { $UriParameters['page[size]']       = $PageSize }
         }
 
-        if($Include) { $query_params['include'] = $Include }
+        if($Include) { $UriParameters['include'] = $Include }
 
         #EndRegion  [ Parameter Translation ]
 
         Set-Variable -Name $ParameterName -Value $PSBoundParameters -Scope Global -Force -Confirm:$false
-        Set-Variable -Name $QueryParameterName -Value $query_params -Scope Global -Force -Confirm:$false
+        Set-Variable -Name $QueryParameterName -Value $UriParameters -Scope Global -Force -Confirm:$false
 
-        return Invoke-ITGlueRequest -Method GET -ResourceURI $ResourceUri -QueryParams $query_params -AllResults:$AllResults
+        return Invoke-ITGlueRequest -Method GET -ResourceURI $ResourceUri -UriFilter $UriParameters -AllResults:$AllResults
 
     }
 
@@ -6980,26 +6824,26 @@ function Get-ITGlueGroup {
             'Show'  { $ResourceUri = "/groups/$ID" }
         }
 
-        $query_params = @{}
+        $UriParameters = @{}
 
         #Region     [ Parameter Translation ]
 
         if ($PSCmdlet.ParameterSetName -eq 'Index') {
-            if ($FilterName)    { $query_params['filter[name]'] = $FilterName }
-            if ($Sort)          { $query_params['sort']         = $Sort }
-            if ($PageNumber)    { $query_params['page[number]'] = $PageNumber }
-            if ($PageSize)      { $query_params['page[size]']   = $PageSize }
+            if ($FilterName)    { $UriParameters['filter[name]'] = $FilterName }
+            if ($Sort)          { $UriParameters['sort']         = $Sort }
+            if ($PageNumber)    { $UriParameters['page[number]'] = $PageNumber }
+            if ($PageSize)      { $UriParameters['page[size]']   = $PageSize }
         }
 
         #Shared Parameters
-        if ($Include) { $query_params['include'] = $Include }
+        if ($Include) { $UriParameters['include'] = $Include }
 
         #EndRegion  [ Parameter Translation ]
 
         Set-Variable -Name $ParameterName -Value $PSBoundParameters -Scope Global -Force -Confirm:$false
-        Set-Variable -Name $QueryParameterName -Value $query_params -Scope Global -Force -Confirm:$false
+        Set-Variable -Name $QueryParameterName -Value $UriParameters -Scope Global -Force -Confirm:$false
 
-        return Invoke-ITGlueRequest -Method GET -ResourceURI $ResourceUri -QueryParams $query_params -AllResults:$AllResults
+        return Invoke-ITGlueRequest -Method GET -ResourceURI $ResourceUri -UriFilter $UriParameters -AllResults:$AllResults
 
     }
 
@@ -7122,62 +6966,62 @@ function Get-ITGlueLocation {
     [CmdletBinding(DefaultParameterSetName = 'Index')]
     Param (
         [Parameter(ParameterSetName = 'Index')]
-        [Parameter(ParameterSetName = 'Index_PSA')]
+        [Parameter(ParameterSetName = 'IndexPSA')]
         [Parameter(ParameterSetName = 'Show')]
         [int64]$OrganizationID,
 
         [Parameter(ParameterSetName = 'Index')]
-        [Parameter(ParameterSetName = 'Index_PSA')]
+        [Parameter(ParameterSetName = 'IndexPSA')]
         [int64]$FilterID,
 
         [Parameter(ParameterSetName = 'Index')]
-        [Parameter(ParameterSetName = 'Index_PSA')]
+        [Parameter(ParameterSetName = 'IndexPSA')]
         [string]$FilterName,
 
         [Parameter(ParameterSetName = 'Index')]
-        [Parameter(ParameterSetName = 'Index_PSA')]
+        [Parameter(ParameterSetName = 'IndexPSA')]
         [string]$FilterCity,
 
         [Parameter(ParameterSetName = 'Index')]
-        [Parameter(ParameterSetName = 'Index_PSA')]
+        [Parameter(ParameterSetName = 'IndexPSA')]
         [int64]$FilterRegionID,
 
         [Parameter(ParameterSetName = 'Index')]
-        [Parameter(ParameterSetName = 'Index_PSA')]
+        [Parameter(ParameterSetName = 'IndexPSA')]
         [int64]$FilterCountryID,
 
         [Parameter(ParameterSetName = 'Index')]
-        [Parameter(ParameterSetName = 'Index_PSA')]
+        [Parameter(ParameterSetName = 'IndexPSA')]
         [Parameter(ParameterSetName = 'Show')]
         [int64]$FilterOrganizationID,
 
-        [Parameter(ParameterSetName = 'Index_PSA')]
+        [Parameter(ParameterSetName = 'IndexPSA')]
         [string]$FilterPsaID,
 
         [Parameter(ParameterSetName = 'Index')]
-        [Parameter(ParameterSetName = 'Index_PSA', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'IndexPSA', Mandatory = $true)]
         [ValidateSet('manage', 'autotask', 'tigerpaw', 'kaseya-bms', 'pulseway-psa', 'vorex')]
         [string]$FilterPsaIntegrationType,
 
         [Parameter(ParameterSetName = 'Index')]
-        [Parameter(ParameterSetName = 'Index_PSA')]
+        [Parameter(ParameterSetName = 'IndexPSA')]
         [ValidateSet(   'name', 'id', 'created_at', 'updated_at',
                         '-name', '-id', '-created_at', '-updated_at')]
         [string]$Sort,
 
         [Parameter(ParameterSetName = 'Index')]
-        [Parameter(ParameterSetName = 'Index_PSA')]
+        [Parameter(ParameterSetName = 'IndexPSA')]
         [int64]$PageNumber,
 
         [Parameter(ParameterSetName = 'Index')]
-        [Parameter(ParameterSetName = 'Index_PSA')]
+        [Parameter(ParameterSetName = 'IndexPSA')]
         [int64]$PageSize,
 
         [Parameter(ParameterSetName = 'Show', ValueFromPipeline = $true , Mandatory = $true)]
         [int64]$ID,
 
         [Parameter(ParameterSetName = 'Index')]
-        [Parameter(ParameterSetName = 'Index_PSA')]
+        [Parameter(ParameterSetName = 'IndexPSA')]
         [Parameter(ParameterSetName = 'Show')]
         [ValidateSet(   'adapters_resources', 'attachments', 'group_resource_accesses', 'passwords',
                         'user_resource_accesses', 'recent_versions', 'related_items', 'authorized_users'
@@ -7185,7 +7029,7 @@ function Get-ITGlueLocation {
         [string]$Include,
 
         [Parameter(ParameterSetName = 'Index')]
-        [Parameter(ParameterSetName = 'Index_PSA')]
+        [Parameter(ParameterSetName = 'IndexPSA')]
         [switch]$AllResults
     )
 
@@ -7221,37 +7065,37 @@ function Get-ITGlueLocation {
 
         }
 
-        $query_params = @{}
+        $UriParameters = @{}
 
         #Region     [ Parameter Translation ]
 
         if (($PSCmdlet.ParameterSetName -like 'Index*')) {
-            if ($FilterID)                  { $query_params['filter[id]']                   = $FilterID }
-            if ($FilterName)                { $query_params['filter[name]']                 = $FilterName }
-            if ($FilterCity)                { $query_params['filter[city]']                 = $FilterCity }
-            if ($FilterRegionID)            { $query_params['filter[region_id]']            = $FilterRegionID }
-            if ($FilterCountryID)           { $query_params['filter[country_id]']            = $FilterCountryID }
-            if ($FilterOrganizationID)      { $query_params['filter[organization_id]']      = $FilterOrganizationID }
-            if ($FilterPsaIntegrationType)  { $query_params['filter[psa_integration_type]'] = $FilterPsaIntegrationType }
-            if ($Sort)                      { $query_params['sort']                         = $Sort }
-            if ($PageNumber)                { $query_params['page[number]']                 = $PageNumber }
-            if ($PageSize)                  { $query_params['page[size]']                   = $PageSize }
+            if ($FilterID)                  { $UriParameters['filter[id]']                   = $FilterID }
+            if ($FilterName)                { $UriParameters['filter[name]']                 = $FilterName }
+            if ($FilterCity)                { $UriParameters['filter[city]']                 = $FilterCity }
+            if ($FilterRegionID)            { $UriParameters['filter[region_id]']            = $FilterRegionID }
+            if ($FilterCountryID)           { $UriParameters['filter[country_id]']            = $FilterCountryID }
+            if ($FilterOrganizationID)      { $UriParameters['filter[organization_id]']      = $FilterOrganizationID }
+            if ($FilterPsaIntegrationType)  { $UriParameters['filter[psa_integration_type]'] = $FilterPsaIntegrationType }
+            if ($Sort)                      { $UriParameters['sort']                         = $Sort }
+            if ($PageNumber)                { $UriParameters['page[number]']                 = $PageNumber }
+            if ($PageSize)                  { $UriParameters['page[size]']                   = $PageSize }
         }
 
-        if ($PSCmdlet.ParameterSetName -eq 'Index_PSA') {
-            $query_params['filter[psa_id]'] = $FilterPsaID
+        if ($PSCmdlet.ParameterSetName -eq 'IndexPSA') {
+            $UriParameters['filter[psa_id]'] = $FilterPsaID
         }
 
         if($Include) {
-            $query_params['include'] = $Include
+            $UriParameters['include'] = $Include
         }
 
         #EndRegion  [ Parameter Translation ]
 
         Set-Variable -Name $ParameterName -Value $PSBoundParameters -Scope Global -Force -Confirm:$false
-        Set-Variable -Name $QueryParameterName -Value $query_params -Scope Global -Force -Confirm:$false
+        Set-Variable -Name $QueryParameterName -Value $UriParameters -Scope Global -Force -Confirm:$false
 
-        return Invoke-ITGlueRequest -Method GET -ResourceURI $ResourceUri -QueryParams $query_params -AllResults:$AllResults
+        return Invoke-ITGlueRequest -Method GET -ResourceURI $ResourceUri -UriFilter $UriParameters -AllResults:$AllResults
 
     }
 
@@ -7408,50 +7252,50 @@ function Remove-ITGlueLocation {
         https://api.itglue.com/developer/#locations-bulk-destroy
 #>
 
-    [CmdletBinding(DefaultParameterSetName = 'Bulk_Destroy', SupportsShouldProcess, ConfirmImpact = 'High')]
+    [CmdletBinding(DefaultParameterSetName = 'BulkDestroy', SupportsShouldProcess, ConfirmImpact = 'High')]
     Param (
-        [Parameter(ParameterSetName = 'Bulk_Destroy')]
-        [Parameter(ParameterSetName = 'Bulk_Destroy_PSA')]
+        [Parameter(ParameterSetName = 'BulkDestroy')]
+        [Parameter(ParameterSetName = 'BulkDestroyPSA')]
         [int64]$OrganizationID,
 
-        [Parameter(ParameterSetName = 'Bulk_Destroy')]
-        [Parameter(ParameterSetName = 'Bulk_Destroy_PSA')]
+        [Parameter(ParameterSetName = 'BulkDestroy')]
+        [Parameter(ParameterSetName = 'BulkDestroyPSA')]
         [int64]$ID,
 
-        [Parameter(ParameterSetName = 'Bulk_Destroy')]
-        [Parameter(ParameterSetName = 'Bulk_Destroy_PSA')]
+        [Parameter(ParameterSetName = 'BulkDestroy')]
+        [Parameter(ParameterSetName = 'BulkDestroyPSA')]
         [int64]$FilterID,
 
-        [Parameter(ParameterSetName = 'Bulk_Destroy')]
-        [Parameter(ParameterSetName = 'Bulk_Destroy_PSA')]
+        [Parameter(ParameterSetName = 'BulkDestroy')]
+        [Parameter(ParameterSetName = 'BulkDestroyPSA')]
         [string]$FilterName,
 
-        [Parameter(ParameterSetName = 'Bulk_Destroy')]
-        [Parameter(ParameterSetName = 'Bulk_Destroy_PSA')]
+        [Parameter(ParameterSetName = 'BulkDestroy')]
+        [Parameter(ParameterSetName = 'BulkDestroyPSA')]
         [string]$FilterCity,
 
-        [Parameter(ParameterSetName = 'Bulk_Destroy')]
-        [Parameter(ParameterSetName = 'Bulk_Destroy_PSA')]
+        [Parameter(ParameterSetName = 'BulkDestroy')]
+        [Parameter(ParameterSetName = 'BulkDestroyPSA')]
         [int64]$FilterRegionID,
 
-        [Parameter(ParameterSetName = 'Bulk_Destroy')]
-        [Parameter(ParameterSetName = 'Bulk_Destroy_PSA')]
+        [Parameter(ParameterSetName = 'BulkDestroy')]
+        [Parameter(ParameterSetName = 'BulkDestroyPSA')]
         [int64]$FilterCountryID,
 
-        [Parameter(ParameterSetName = 'Bulk_Destroy')]
-        [Parameter(ParameterSetName = 'Bulk_Destroy_PSA')]
+        [Parameter(ParameterSetName = 'BulkDestroy')]
+        [Parameter(ParameterSetName = 'BulkDestroyPSA')]
         [int64]$FilterOrganizationID,
 
-        [Parameter(ParameterSetName = 'Bulk_Destroy_PSA')]
+        [Parameter(ParameterSetName = 'BulkDestroyPSA')]
         [string]$FilterPsaID,
 
-        [Parameter(ParameterSetName = 'Bulk_Destroy')]
-        [Parameter(ParameterSetName = 'Bulk_Destroy_PSA', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'BulkDestroy')]
+        [Parameter(ParameterSetName = 'BulkDestroyPSA', Mandatory = $true)]
         [ValidateSet('manage', 'autotask', 'tigerpaw', 'kaseya-bms', 'pulseway-psa', 'vorex')]
         [string]$FilterPsaIntegrationType,
 
-        [Parameter(ParameterSetName = 'Bulk_Destroy', Mandatory = $true)]
-        [Parameter(ParameterSetName = 'Bulk_Destroy_PSA', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'BulkDestroy', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'BulkDestroyPSA', Mandatory = $true)]
         $Data
     )
 
@@ -7472,31 +7316,31 @@ function Remove-ITGlueLocation {
             $false  { $ResourceUri = "/locations" }
         }
 
-        $query_params = @{}
+        $UriParameters = @{}
 
         #Region     [ Parameter Translation ]
 
         if ($PSCmdlet.ParameterSetName -like 'Bulk_Destroy*') {
-            if ($FilterID)                  { $query_params['filter[id]']                   = $FilterID }
-            if ($FilterName)                { $query_params['filter[name]']                 = $FilterName }
-            if ($FilterCity)                { $query_params['filter[city]']                 = $FilterCity }
-            if ($FilterRegionID)            { $query_params['filter[region_id]']            = $FilterRegionID }
-            if ($FilterCountryID)           { $query_params['filter[country_id]']           = $FilterCountryID }
-            if ($FilterOrganizationID)      { $query_params['filter[organization_id]']      = $FilterOrganizationID }
-            if ($FilterPsaIntegrationType)  { $query_params['filter[psa_integration_type]'] = $FilterPsaIntegrationType }
+            if ($FilterID)                  { $UriParameters['filter[id]']                   = $FilterID }
+            if ($FilterName)                { $UriParameters['filter[name]']                 = $FilterName }
+            if ($FilterCity)                { $UriParameters['filter[city]']                 = $FilterCity }
+            if ($FilterRegionID)            { $UriParameters['filter[region_id]']            = $FilterRegionID }
+            if ($FilterCountryID)           { $UriParameters['filter[country_id]']           = $FilterCountryID }
+            if ($FilterOrganizationID)      { $UriParameters['filter[organization_id]']      = $FilterOrganizationID }
+            if ($FilterPsaIntegrationType)  { $UriParameters['filter[psa_integration_type]'] = $FilterPsaIntegrationType }
         }
 
-        if ($PSCmdlet.ParameterSetName -eq 'Bulk_Destroy_PSA') {
-            $query_params['filter[psa_id]'] = $FilterPsaID
+        if ($PSCmdlet.ParameterSetName -eq 'BulkDestroyPSA') {
+            $UriParameters['filter[psa_id]'] = $FilterPsaID
         }
 
         #EndRegion  [ Parameter Translation ]
 
         Set-Variable -Name $ParameterName -Value $PSBoundParameters -Scope Global -Force -Confirm:$false
-        Set-Variable -Name $QueryParameterName -Value $query_params -Scope Global -Force -Confirm:$false
+        Set-Variable -Name $QueryParameterName -Value $UriParameters -Scope Global -Force -Confirm:$false
 
         if ($PSCmdlet.ShouldProcess($ResourceUri)) {
-            return Invoke-ITGlueRequest -Method DELETE -ResourceURI $ResourceUri -Data $Data -QueryParams $query_params
+            return Invoke-ITGlueRequest -Method DELETE -ResourceURI $ResourceUri -UriFilter $UriParameters -Data $Data
         }
 
     }
@@ -7575,7 +7419,7 @@ function Set-ITGlueLocation {
         https://api.itglue.com/developer/#locations-update
 #>
 
-    [CmdletBinding(DefaultParameterSetName = 'Bulk_Update', SupportsShouldProcess, ConfirmImpact = 'Medium')]
+    [CmdletBinding(DefaultParameterSetName = 'BulkUpdate', SupportsShouldProcess, ConfirmImpact = 'Medium')]
     Param (
         [Parameter(ParameterSetName = 'Update', Mandatory = $true)]
         [int64]$ID,
@@ -7583,40 +7427,40 @@ function Set-ITGlueLocation {
         [Parameter(ParameterSetName = 'Update')]
         [int64]$OrganizationID,
 
-        [Parameter(ParameterSetName = 'Bulk_Update')]
-        [Parameter(ParameterSetName = 'Bulk_Update_PSA')]
+        [Parameter(ParameterSetName = 'BulkUpdate')]
+        [Parameter(ParameterSetName = 'BulkUpdatePSA')]
         [int64]$FilterID,
 
-        [Parameter(ParameterSetName = 'Bulk_Update')]
-        [Parameter(ParameterSetName = 'Bulk_Update_PSA')]
+        [Parameter(ParameterSetName = 'BulkUpdate')]
+        [Parameter(ParameterSetName = 'BulkUpdatePSA')]
         [string]$FilterName,
 
-        [Parameter(ParameterSetName = 'Bulk_Update')]
-        [Parameter(ParameterSetName = 'Bulk_Update_PSA')]
+        [Parameter(ParameterSetName = 'BulkUpdate')]
+        [Parameter(ParameterSetName = 'BulkUpdatePSA')]
         [string]$FilterCity,
 
-        [Parameter(ParameterSetName = 'Bulk_Update')]
-        [Parameter(ParameterSetName = 'Bulk_Update_PSA')]
+        [Parameter(ParameterSetName = 'BulkUpdate')]
+        [Parameter(ParameterSetName = 'BulkUpdatePSA')]
         [int64]$FilterRegionID,
 
-        [Parameter(ParameterSetName = 'Bulk_Update')]
-        [Parameter(ParameterSetName = 'Bulk_Update_PSA')]
+        [Parameter(ParameterSetName = 'BulkUpdate')]
+        [Parameter(ParameterSetName = 'BulkUpdatePSA')]
         [int64]$FilterCountryID,
 
-        [Parameter(ParameterSetName = 'Bulk_Update')]
-        [Parameter(ParameterSetName = 'Bulk_Update_PSA')]
+        [Parameter(ParameterSetName = 'BulkUpdate')]
+        [Parameter(ParameterSetName = 'BulkUpdatePSA')]
         [int64]$FilterOrganizationID,
 
-        [Parameter(ParameterSetName = 'Bulk_Update_PSA')]
+        [Parameter(ParameterSetName = 'BulkUpdatePSA')]
         [string]$FilterPsaID,
 
-        [Parameter(ParameterSetName = 'Bulk_Update')]
-        [Parameter(ParameterSetName = 'Bulk_Update_PSA', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'BulkUpdate')]
+        [Parameter(ParameterSetName = 'BulkUpdatePSA', Mandatory = $true)]
         [ValidateSet('manage', 'autotask', 'tigerpaw', 'kaseya-bms', 'pulseway-psa', 'vorex')]
         [string]$FilterPsaIntegrationType,
 
         [Parameter(ParameterSetName = 'Update', Mandatory = $true)]
-        [Parameter(ParameterSetName = 'Bulk_Update', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'BulkUpdate', Mandatory = $true)]
         $Data
     )
 
@@ -7633,7 +7477,7 @@ function Set-ITGlueLocation {
         Write-Verbose "[ $FunctionName ] - Running the [ $($PSCmdlet.ParameterSetName) ] parameterSet"
 
         switch -Wildcard ($PSCmdlet.ParameterSetName) {
-            'Bulk_Update*'  { $ResourceUri = "/locations" }
+            'BulkUpdate*'  { $ResourceUri = "/locations" }
             'Update'        {
 
                 switch ([bool]$OrganizationID) {
@@ -7645,31 +7489,31 @@ function Set-ITGlueLocation {
 
         }
 
-        $query_params = @{}
+        $UriParameters = @{}
 
         #Region     [ Parameter Translation ]
 
-        if ($PSCmdlet.ParameterSetName -eq 'Bulk_Update') {
-            if ($FilterID)                  { $query_params['filter[id]']                   = $FilterID }
-            if ($FilterName)                { $query_params['filter[name]']                 = $FilterName }
-            if ($FilterCity)                { $query_params['filter[city]']                 = $FilterCity }
-            if ($FilterRegionID)            { $query_params['filter[region_id]']            = $FilterRegionID }
-            if ($FilterCountryID)           { $query_params['filter[country_id]']            = $FilterCountryID }
-            if ($FilterOrganizationID)      { $query_params['filter[organization_id]']      = $FilterOrganizationID }
-            if ($FilterPsaIntegrationType)  { $query_params['filter[psa_integration_type]'] = $FilterPsaIntegrationType }
+        if ($PSCmdlet.ParameterSetName -eq 'BulkUpdate') {
+            if ($FilterID)                  { $UriParameters['filter[id]']                   = $FilterID }
+            if ($FilterName)                { $UriParameters['filter[name]']                 = $FilterName }
+            if ($FilterCity)                { $UriParameters['filter[city]']                 = $FilterCity }
+            if ($FilterRegionID)            { $UriParameters['filter[region_id]']            = $FilterRegionID }
+            if ($FilterCountryID)           { $UriParameters['filter[country_id]']            = $FilterCountryID }
+            if ($FilterOrganizationID)      { $UriParameters['filter[organization_id]']      = $FilterOrganizationID }
+            if ($FilterPsaIntegrationType)  { $UriParameters['filter[psa_integration_type]'] = $FilterPsaIntegrationType }
         }
 
-        if ($PSCmdlet.ParameterSetName -eq 'Bulk_Update_PSA') {
-            $query_params['filter[psa_id]'] = $FilterPsaID
+        if ($PSCmdlet.ParameterSetName -eq 'BulkUpdatePSA') {
+            $UriParameters['filter[psa_id]'] = $FilterPsaID
         }
 
         #EndRegion  [ Parameter Translation ]
 
         Set-Variable -Name $ParameterName -Value $PSBoundParameters -Scope Global -Force -Confirm:$false
-        Set-Variable -Name $QueryParameterName -Value $query_params -Scope Global -Force -Confirm:$false
+        Set-Variable -Name $QueryParameterName -Value $UriParameters -Scope Global -Force -Confirm:$false
 
         if ($PSCmdlet.ShouldProcess($ResourceUri)) {
-            return Invoke-ITGlueRequest -Method PATCH -ResourceURI $ResourceUri -QueryParams $query_params -Data $Data
+            return Invoke-ITGlueRequest -Method PATCH -ResourceURI $ResourceUri -UriFilter $UriParameters -Data $Data
         }
 
     }
@@ -7795,23 +7639,23 @@ function Get-ITGlueLog {
 
         $ResourceUri = '/logs'
 
-        $query_params = @{}
+        $UriParameters = @{}
 
         #Region     [ Parameter Translation ]
 
         if ($PSCmdlet.ParameterSetName -eq 'Index') {
-            if ($FilterCreatedAt)   { $query_params['filter[created_at]']   = $FilterCreatedAt }
-            if ($Sort)              { $query_params['sort']                 = $Sort }
-            if ($PageNumber)        { $query_params['page[number]']         = $PageNumber }
-            if ($PageSize)          { $query_params['page[size]']           = $PageSize }
+            if ($FilterCreatedAt)   { $UriParameters['filter[created_at]']   = $FilterCreatedAt }
+            if ($Sort)              { $UriParameters['sort']                 = $Sort }
+            if ($PageNumber)        { $UriParameters['page[number]']         = $PageNumber }
+            if ($PageSize)          { $UriParameters['page[size]']           = $PageSize }
         }
 
         #EndRegion  [ Parameter Translation ]
 
         Set-Variable -Name $ParameterName -Value $PSBoundParameters -Scope Global -Force -Confirm:$false
-        Set-Variable -Name $QueryParameterName -Value $query_params -Scope Global -Force -Confirm:$false
+        Set-Variable -Name $QueryParameterName -Value $UriParameters -Scope Global -Force -Confirm:$false
 
-        return Invoke-ITGlueRequest -Method GET -ResourceURI $ResourceUri -QueryParams $query_params -AllResults:$AllResults
+        return Invoke-ITGlueRequest -Method GET -ResourceURI $ResourceUri -UriFilter $UriParameters -AllResults:$AllResults
 
     }
 
@@ -7930,23 +7774,23 @@ function Get-ITGlueManufacturer {
             'Show'  { $ResourceUri = "/manufacturers/$ID" }
         }
 
-        $query_params = @{}
+        $UriParameters = @{}
 
         #Region     [ Parameter Translation ]
 
         if ($PSCmdlet.ParameterSetName -eq 'Index') {
-            if ($FilterName)    { $query_params['filter[name]'] = $FilterName }
-            if ($Sort)          { $query_params['sort']         = $Sort }
-            if ($PageNumber)    { $query_params['page[number]'] = $PageNumber }
-            if ($PageSize)      { $query_params['page[size]']   = $PageSize }
+            if ($FilterName)    { $UriParameters['filter[name]'] = $FilterName }
+            if ($Sort)          { $UriParameters['sort']         = $Sort }
+            if ($PageNumber)    { $UriParameters['page[number]'] = $PageNumber }
+            if ($PageSize)      { $UriParameters['page[size]']   = $PageSize }
         }
 
         #EndRegion  [ Parameter Translation ]
 
         Set-Variable -Name $ParameterName -Value $PSBoundParameters -Scope Global -Force -Confirm:$false
-        Set-Variable -Name $QueryParameterName -Value $query_params -Scope Global -Force -Confirm:$false
+        Set-Variable -Name $QueryParameterName -Value $UriParameters -Scope Global -Force -Confirm:$false
 
-        return Invoke-ITGlueRequest -Method GET -ResourceURI $ResourceUri -QueryParams $query_params -AllResults:$AllResults
+        return Invoke-ITGlueRequest -Method GET -ResourceURI $ResourceUri -UriFilter $UriParameters -AllResults:$AllResults
 
     }
 
@@ -8223,23 +8067,23 @@ function Get-ITGlueModel {
             }
         }
 
-        $query_params = @{}
+        $UriParameters = @{}
 
         #Region     [ Parameter Translation ]
 
         if ($PSCmdlet.ParameterSetName -eq 'Index') {
-            if ($FilterID)      { $query_params['filter[id]']   = $FilterID }
-            if ($Sort)          { $query_params['sort']         = $Sort }
-            if ($PageNumber)    { $query_params['page[number]'] = $PageNumber }
-            if ($PageSize)      { $query_params['page[size]']   = $PageSize }
+            if ($FilterID)      { $UriParameters['filter[id]']   = $FilterID }
+            if ($Sort)          { $UriParameters['sort']         = $Sort }
+            if ($PageNumber)    { $UriParameters['page[number]'] = $PageNumber }
+            if ($PageSize)      { $UriParameters['page[size]']   = $PageSize }
         }
 
         #EndRegion  [ Parameter Translation ]
 
         Set-Variable -Name $ParameterName -Value $PSBoundParameters -Scope Global -Force -Confirm:$false
-        Set-Variable -Name $QueryParameterName -Value $query_params -Scope Global -Force -Confirm:$false
+        Set-Variable -Name $QueryParameterName -Value $UriParameters -Scope Global -Force -Confirm:$false
 
-        return Invoke-ITGlueRequest -Method GET -ResourceURI $ResourceUri -QueryParams $query_params -AllResults:$AllResults
+        return Invoke-ITGlueRequest -Method GET -ResourceURI $ResourceUri -UriFilter $UriParameters -AllResults:$AllResults
 
     }
 
@@ -8376,7 +8220,7 @@ function Set-ITGlueModel {
         https://api.itglue.com/developer/#models-update
 #>
 
-    [CmdletBinding(DefaultParameterSetName = 'Bulk_Update', SupportsShouldProcess, ConfirmImpact = 'Low')]
+    [CmdletBinding(DefaultParameterSetName = 'BulkUpdate', SupportsShouldProcess, ConfirmImpact = 'Low')]
     Param (
         [Parameter(ParameterSetName = 'Update')]
         [int64]$ManufacturerID,
@@ -8384,11 +8228,11 @@ function Set-ITGlueModel {
         [Parameter(ParameterSetName = 'Update', Mandatory = $true)]
         [int64]$ID,
 
-        [Parameter(ParameterSetName = 'Bulk_Update')]
+        [Parameter(ParameterSetName = 'BulkUpdate')]
         [int64]$FilterID,
 
         [Parameter(ParameterSetName = 'Update', Mandatory = $true)]
-        [Parameter(ParameterSetName = 'Bulk_Update', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'BulkUpdate', Mandatory = $true)]
         $Data
     )
 
@@ -8413,25 +8257,25 @@ function Set-ITGlueModel {
                 }
 
             }
-            'Bulk_Update'   { $ResourceUri = "/models" }
+            'BulkUpdate'   { $ResourceUri = "/models" }
 
         }
 
-        $query_params = @{}
+        $UriParameters = @{}
 
         #Region     [ Parameter Translation ]
 
-        if ($PSCmdlet.ParameterSetName -eq 'Bulk_Update') {
-            if ($FilterID) { $query_params['filter[id]'] = $FilterID }
+        if ($PSCmdlet.ParameterSetName -eq 'BulkUpdate') {
+            if ($FilterID) { $UriParameters['filter[id]'] = $FilterID }
         }
 
         #EndRegion  [ Parameter Translation ]
 
         Set-Variable -Name $ParameterName -Value $PSBoundParameters -Scope Global -Force -Confirm:$false
-        Set-Variable -Name $QueryParameterName -Value $query_params -Scope Global -Force -Confirm:$false
+        Set-Variable -Name $QueryParameterName -Value $UriParameters -Scope Global -Force -Confirm:$false
 
         if ($PSCmdlet.ShouldProcess($ResourceUri)) {
-            return Invoke-ITGlueRequest -Method PATCH -ResourceURI $ResourceUri -QueryParams $query_params -Data $Data
+            return Invoke-ITGlueRequest -Method PATCH -ResourceURI $ResourceUri -UriFilter $UriParameters -Data $Data
         }
 
     }
@@ -8551,23 +8395,23 @@ function Get-ITGlueOperatingSystem {
             'Show'  { $ResourceUri = "/operating_systems/$ID" }
         }
 
-        $query_params = @{}
+        $UriParameters = @{}
 
         #Region     [ Parameter Translation ]
 
         if ($PSCmdlet.ParameterSetName -eq 'Index') {
-            if ($FilterName)    { $query_params['filter[name]'] = $FilterName }
-            if ($Sort)          { $query_params['sort']         = $Sort }
-            if ($PageNumber)    { $query_params['page[number]'] = $PageNumber }
-            if ($PageSize)      { $query_params['page[size]']   = $PageSize }
+            if ($FilterName)    { $UriParameters['filter[name]'] = $FilterName }
+            if ($Sort)          { $UriParameters['sort']         = $Sort }
+            if ($PageNumber)    { $UriParameters['page[number]'] = $PageNumber }
+            if ($PageSize)      { $UriParameters['page[size]']   = $PageSize }
         }
 
         #EndRegion  [ Parameter Translation ]
 
         Set-Variable -Name $ParameterName -Value $PSBoundParameters -Scope Global -Force -Confirm:$false
-        Set-Variable -Name $QueryParameterName -Value $query_params -Scope Global -Force -Confirm:$false
+        Set-Variable -Name $QueryParameterName -Value $UriParameters -Scope Global -Force -Confirm:$false
 
-        return Invoke-ITGlueRequest -Method GET -ResourceURI $ResourceUri -QueryParams $query_params -AllResults:$AllResults
+        return Invoke-ITGlueRequest -Method GET -ResourceURI $ResourceUri -UriFilter $UriParameters -AllResults:$AllResults
 
     }
 
@@ -8716,86 +8560,86 @@ function Get-ITGlueOrganization {
     [CmdletBinding(DefaultParameterSetName = 'Index')]
     Param (
         [Parameter(ParameterSetName = 'Index')]
-        [Parameter(ParameterSetName = 'Index_PSA')]
+        [Parameter(ParameterSetName = 'IndexPSA')]
         [int64]$FilterID,
 
         [Parameter(ParameterSetName = 'Index')]
-        [Parameter(ParameterSetName = 'Index_PSA')]
+        [Parameter(ParameterSetName = 'IndexPSA')]
         [string]$FilterName,
 
         [Parameter(ParameterSetName = 'Index')]
-        [Parameter(ParameterSetName = 'Index_PSA')]
+        [Parameter(ParameterSetName = 'IndexPSA')]
         [int64]$FilterOrganizationTypeID,
 
         [Parameter(ParameterSetName = 'Index')]
-        [Parameter(ParameterSetName = 'Index_PSA')]
+        [Parameter(ParameterSetName = 'IndexPSA')]
         [int64]$FilterOrganizationStatusID,
 
         [Parameter(ParameterSetName = 'Index')]
-        [Parameter(ParameterSetName = 'Index_PSA')]
+        [Parameter(ParameterSetName = 'IndexPSA')]
         [string]$FilterCreatedAt,
 
         [Parameter(ParameterSetName = 'Index')]
-        [Parameter(ParameterSetName = 'Index_PSA')]
+        [Parameter(ParameterSetName = 'IndexPSA')]
         [string]$FilterUpdatedAt,
 
         [Parameter(ParameterSetName = 'Index')]
-        [Parameter(ParameterSetName = 'Index_PSA')]
+        [Parameter(ParameterSetName = 'IndexPSA')]
         [int64]$FilterMyGlueAccountID,
 
-        [Parameter(ParameterSetName = 'Index_PSA')]
+        [Parameter(ParameterSetName = 'IndexPSA')]
         [string]$FilterPsaID,
 
         [Parameter(ParameterSetName = 'Index')]
-        [Parameter(ParameterSetName = 'Index_PSA', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'IndexPSA', Mandatory = $true)]
         [ValidateSet( 'manage', 'autotask', 'tigerpaw', 'kaseya-bms', 'pulseway-psa', 'vorex')]
         [string]$FilterPsaIntegrationType,
 
         [Parameter(ParameterSetName = 'Index')]
-        [Parameter(ParameterSetName = 'Index_PSA')]
+        [Parameter(ParameterSetName = 'IndexPSA')]
         [int64]$FilterGroupID,
 
         [Parameter(ParameterSetName = 'Index')]
-        [Parameter(ParameterSetName = 'Index_PSA')]
+        [Parameter(ParameterSetName = 'IndexPSA')]
         [ValidateSet( 'true', 'false')]
         [string]$FilterPrimary,
 
         [Parameter(ParameterSetName = 'Index')]
-        [Parameter(ParameterSetName = 'Index_PSA')]
+        [Parameter(ParameterSetName = 'IndexPSA')]
         [int64]$FilterExcludeID,
 
         [Parameter(ParameterSetName = 'Index')]
-        [Parameter(ParameterSetName = 'Index_PSA')]
+        [Parameter(ParameterSetName = 'IndexPSA')]
         [string]$FilterExcludeName,
 
         [Parameter(ParameterSetName = 'Index')]
-        [Parameter(ParameterSetName = 'Index_PSA')]
+        [Parameter(ParameterSetName = 'IndexPSA')]
         [int64]$FilterExcludeOrganizationTypeID,
 
         [Parameter(ParameterSetName = 'Index')]
-        [Parameter(ParameterSetName = 'Index_PSA')]
+        [Parameter(ParameterSetName = 'IndexPSA')]
         [int64]$FilterExcludeOrganizationStatusID,
 
         [Parameter(ParameterSetName = 'Index')]
-        [Parameter(ParameterSetName = 'Index_PSA')]
+        [Parameter(ParameterSetName = 'IndexPSA')]
         [string]$FilterRange,
 
         [Parameter(ParameterSetName = 'Index')]
-        [Parameter(ParameterSetName = 'Index_PSA')]
+        [Parameter(ParameterSetName = 'IndexPSA')]
         [int64]$FilterRangeMyGlueAccountID,
 
         [Parameter(ParameterSetName = 'Index')]
-        [Parameter(ParameterSetName = 'Index_PSA')]
+        [Parameter(ParameterSetName = 'IndexPSA')]
         [ValidateSet( 'name', 'id', 'updated_at', 'organization_status_name', 'organization_type_name', 'created_at', 'short_name', 'my_glue_account_id',
                 '-name', '-id', '-updated_at', '-organization_status_name', '-organization_type_name', '-created_at', '-short_name', '-my_glue_account_id')]
         [string]$Sort,
 
         [Parameter(ParameterSetName = 'Index')]
-        [Parameter(ParameterSetName = 'Index_PSA')]
+        [Parameter(ParameterSetName = 'IndexPSA')]
         [int64]$PageNumber,
 
         [Parameter(ParameterSetName = 'Index')]
-        [Parameter(ParameterSetName = 'Index_PSA')]
+        [Parameter(ParameterSetName = 'IndexPSA')]
         [ValidateRange(1,1000)]
         [int]$PageSize,
 
@@ -8803,13 +8647,13 @@ function Get-ITGlueOrganization {
         [int64]$ID,
 
         [Parameter(ParameterSetName = 'Index')]
-        [Parameter(ParameterSetName = 'Index_PSA')]
+        [Parameter(ParameterSetName = 'IndexPSA')]
         [Parameter(ParameterSetName = 'Show')]
         [ValidateSet( 'adapters_resources', 'attachments', 'rmm_companies' )]
         [string]$Include,
 
         [Parameter(ParameterSetName = 'Index')]
-        [Parameter(ParameterSetName = 'Index_PSA')]
+        [Parameter(ParameterSetName = 'IndexPSA')]
         [switch]$AllResults
     )
 
@@ -8830,45 +8674,45 @@ function Get-ITGlueOrganization {
             'Show'      { $ResourceUri = "/organizations/$ID" }
         }
 
-        $query_params = @{}
+        $UriParameters = @{}
 
         #Region     [ Parameter Translation ]
 
         if ($PSCmdlet.ParameterSetName -like 'Index*') {
-            if ($FilterID)                          { $query_params['filter[id]']                               = $FilterID }
-            if ($FilterName)                        { $query_params['filter[name]']                             = $FilterName }
-            if ($FilterOrganizationTypeID)          { $query_params['filter[organization_type_id]']             = $FilterOrganizationTypeID }
-            if ($FilterOrganizationStatusID)        { $query_params['filter[organization_status_id]']           = $FilterOrganizationStatusID }
-            if ($FilterCreatedAt)                   { $query_params['filter[created_at]']                       = $FilterCreatedAt }
-            if ($FilterUpdatedAt)                   { $query_params['filter[updated_at]']                       = $FilterUpdatedAt }
-            if ($FilterMyGlueAccountID)             { $query_params['filter[my_glue_account_id]']               = $FilterMyGlueAccountID }
-            if ($FilterPsaIntegrationType)          { $query_params['filter[psa_integration_type]']             = $FilterPsaIntegrationType }
-            if ($FilterGroupID)                     { $query_params['filter[group_id]']                         = $FilterGroupID }
-            if ($FilterPrimary)                     { $query_params['filter[primary]']                          = $FilterPrimary }
-            if ($FilterExcludeID)                   { $query_params['filter[exclude][id]']                      = $FilterExcludeID }
-            if ($FilterExcludeName)                 { $query_params['filter[exclude][name]']                    = $FilterExcludeName }
-            if ($FilterExcludeOrganizationTypeID)   { $query_params['filter[exclude][organization_type_id]']    = $FilterExcludeOrganizationTypeID }
-            if ($FilterExcludeOrganizationStatusID) { $query_params['filter[exclude][organization_status_id]']  = $FilterExcludeOrganizationStatusID }
-            if ($FilterRange)                       { $query_params['filter[range]']                            = $FilterRange }
-            if ($FilterRangeMyGlueAccountID)        { $query_params['filter[range][my_glue_account_id]']        = $FilterRangeMyGlueAccountID }
-            if ($Sort)                              { $query_params['sort']                                     = $Sort }
-            if ($PageNumber)                        { $query_params['page[number]']                             = $PageNumber }
-            if ($PageSize)                          { $query_params['page[size]']                               = $PageSize }
+            if ($FilterID)                          { $UriParameters['filter[id]']                               = $FilterID }
+            if ($FilterName)                        { $UriParameters['filter[name]']                             = $FilterName }
+            if ($FilterOrganizationTypeID)          { $UriParameters['filter[organization_type_id]']             = $FilterOrganizationTypeID }
+            if ($FilterOrganizationStatusID)        { $UriParameters['filter[organization_status_id]']           = $FilterOrganizationStatusID }
+            if ($FilterCreatedAt)                   { $UriParameters['filter[created_at]']                       = $FilterCreatedAt }
+            if ($FilterUpdatedAt)                   { $UriParameters['filter[updated_at]']                       = $FilterUpdatedAt }
+            if ($FilterMyGlueAccountID)             { $UriParameters['filter[my_glue_account_id]']               = $FilterMyGlueAccountID }
+            if ($FilterPsaIntegrationType)          { $UriParameters['filter[psa_integration_type]']             = $FilterPsaIntegrationType }
+            if ($FilterGroupID)                     { $UriParameters['filter[group_id]']                         = $FilterGroupID }
+            if ($FilterPrimary)                     { $UriParameters['filter[primary]']                          = $FilterPrimary }
+            if ($FilterExcludeID)                   { $UriParameters['filter[exclude][id]']                      = $FilterExcludeID }
+            if ($FilterExcludeName)                 { $UriParameters['filter[exclude][name]']                    = $FilterExcludeName }
+            if ($FilterExcludeOrganizationTypeID)   { $UriParameters['filter[exclude][organization_type_id]']    = $FilterExcludeOrganizationTypeID }
+            if ($FilterExcludeOrganizationStatusID) { $UriParameters['filter[exclude][organization_status_id]']  = $FilterExcludeOrganizationStatusID }
+            if ($FilterRange)                       { $UriParameters['filter[range]']                            = $FilterRange }
+            if ($FilterRangeMyGlueAccountID)        { $UriParameters['filter[range][my_glue_account_id]']        = $FilterRangeMyGlueAccountID }
+            if ($Sort)                              { $UriParameters['sort']                                     = $Sort }
+            if ($PageNumber)                        { $UriParameters['page[number]']                             = $PageNumber }
+            if ($PageSize)                          { $UriParameters['page[size]']                               = $PageSize }
         }
 
-        if ($PSCmdlet.ParameterSetName -eq 'Index_PSA') {
-            if ($FilterPsaID) { $query_params['filter[psa_id]'] = $FilterPsaID }
+        if ($PSCmdlet.ParameterSetName -eq 'IndexPSA') {
+            if ($FilterPsaID) { $UriParameters['filter[psa_id]'] = $FilterPsaID }
         }
 
         #Shared Parameters
-        if($Include) { $query_params['include'] = $Include }
+        if($Include) { $UriParameters['include'] = $Include }
 
         #EndRegion  [ Parameter Translation ]
 
         Set-Variable -Name $ParameterName -Value $PSBoundParameters -Scope Global -Force -Confirm:$false
-        Set-Variable -Name $QueryParameterName -Value $query_params -Scope Global -Force -Confirm:$false
+        Set-Variable -Name $QueryParameterName -Value $UriParameters -Scope Global -Force -Confirm:$false
 
-        return Invoke-ITGlueRequest -Method GET -ResourceURI $ResourceUri -QueryParams $query_params -AllResults:$AllResults
+        return Invoke-ITGlueRequest -Method GET -ResourceURI $ResourceUri -UriFilter $UriParameters -AllResults:$AllResults
 
     }
 
@@ -9030,71 +8874,71 @@ function Remove-ITGlueOrganization {
         https://api.itglue.com/developer/#organizations-bulk-destroy
 #>
 
-    [CmdletBinding(DefaultParameterSetName = 'Bulk_Destroy', SupportsShouldProcess, ConfirmImpact = 'High')]
+    [CmdletBinding(DefaultParameterSetName = 'BulkDestroy', SupportsShouldProcess, ConfirmImpact = 'High')]
     Param (
-        [Parameter(ParameterSetName = 'Bulk_Destroy')]
-        [Parameter(ParameterSetName = 'Bulk_Destroy_PSA')]
+        [Parameter(ParameterSetName = 'BulkDestroy')]
+        [Parameter(ParameterSetName = 'BulkDestroyPSA')]
         [int64]$FilterID,
 
-        [Parameter(ParameterSetName = 'Bulk_Destroy')]
-        [Parameter(ParameterSetName = 'Bulk_Destroy_PSA')]
+        [Parameter(ParameterSetName = 'BulkDestroy')]
+        [Parameter(ParameterSetName = 'BulkDestroyPSA')]
         [string]$FilterName,
 
-        [Parameter(ParameterSetName = 'Bulk_Destroy')]
-        [Parameter(ParameterSetName = 'Bulk_Destroy_PSA')]
+        [Parameter(ParameterSetName = 'BulkDestroy')]
+        [Parameter(ParameterSetName = 'BulkDestroyPSA')]
         [int64]$FilterOrganizationTypeID,
 
-        [Parameter(ParameterSetName = 'Bulk_Destroy')]
-        [Parameter(ParameterSetName = 'Bulk_Destroy_PSA')]
+        [Parameter(ParameterSetName = 'BulkDestroy')]
+        [Parameter(ParameterSetName = 'BulkDestroyPSA')]
         [int64]$FilterOrganizationStatusID,
 
-        [Parameter(ParameterSetName = 'Bulk_Destroy')]
-        [Parameter(ParameterSetName = 'Bulk_Destroy_PSA')]
+        [Parameter(ParameterSetName = 'BulkDestroy')]
+        [Parameter(ParameterSetName = 'BulkDestroyPSA')]
         [string]$FilterCreatedAt,
 
-        [Parameter(ParameterSetName = 'Bulk_Destroy')]
-        [Parameter(ParameterSetName = 'Bulk_Destroy_PSA')]
+        [Parameter(ParameterSetName = 'BulkDestroy')]
+        [Parameter(ParameterSetName = 'BulkDestroyPSA')]
         [string]$FilterUpdatedAt,
 
-        [Parameter(ParameterSetName = 'Bulk_Destroy')]
-        [Parameter(ParameterSetName = 'Bulk_Destroy_PSA')]
+        [Parameter(ParameterSetName = 'BulkDestroy')]
+        [Parameter(ParameterSetName = 'BulkDestroyPSA')]
         [int64]$FilterMyGlueAccountID,
 
-        [Parameter(ParameterSetName = 'Bulk_Destroy_PSA')]
+        [Parameter(ParameterSetName = 'BulkDestroyPSA')]
         [string]$FilterPsaID,
 
-        [Parameter(ParameterSetName = 'Bulk_Destroy')]
-        [Parameter(ParameterSetName = 'Bulk_Destroy_PSA', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'BulkDestroy')]
+        [Parameter(ParameterSetName = 'BulkDestroyPSA', Mandatory = $true)]
         [ValidateSet( 'manage', 'autotask', 'tigerpaw', 'kaseya-bms', 'pulseway-psa', 'vorex')]
         [string]$FilterPsaIntegrationType,
 
-        [Parameter(ParameterSetName = 'Bulk_Destroy')]
-        [Parameter(ParameterSetName = 'Bulk_Destroy_PSA')]
+        [Parameter(ParameterSetName = 'BulkDestroy')]
+        [Parameter(ParameterSetName = 'BulkDestroyPSA')]
         [int64]$FilterGroupID,
 
-        [Parameter(ParameterSetName = 'Bulk_Destroy')]
-        [Parameter(ParameterSetName = 'Bulk_Destroy_PSA')]
+        [Parameter(ParameterSetName = 'BulkDestroy')]
+        [Parameter(ParameterSetName = 'BulkDestroyPSA')]
         [ValidateSet( 'true', 'false')]
         [string]$FilterPrimary,
 
-        [Parameter(ParameterSetName = 'Bulk_Destroy')]
-        [Parameter(ParameterSetName = 'Bulk_Destroy_PSA')]
+        [Parameter(ParameterSetName = 'BulkDestroy')]
+        [Parameter(ParameterSetName = 'BulkDestroyPSA')]
         [int64]$FilterExcludeID,
 
-        [Parameter(ParameterSetName = 'Bulk_Destroy')]
-        [Parameter(ParameterSetName = 'Bulk_Destroy_PSA')]
+        [Parameter(ParameterSetName = 'BulkDestroy')]
+        [Parameter(ParameterSetName = 'BulkDestroyPSA')]
         [string]$FilterExcludeName,
 
-        [Parameter(ParameterSetName = 'Bulk_Destroy')]
-        [Parameter(ParameterSetName = 'Bulk_Destroy_PSA')]
+        [Parameter(ParameterSetName = 'BulkDestroy')]
+        [Parameter(ParameterSetName = 'BulkDestroyPSA')]
         [int64]$FilterExcludeOrganizationTypeID,
 
-        [Parameter(ParameterSetName = 'Bulk_Destroy')]
-        [Parameter(ParameterSetName = 'Bulk_Destroy_PSA')]
+        [Parameter(ParameterSetName = 'BulkDestroy')]
+        [Parameter(ParameterSetName = 'BulkDestroyPSA')]
         [int64]$FilterExcludeOrganizationStatusID,
 
-        [Parameter(ParameterSetName = 'Bulk_Destroy', Mandatory = $true)]
-        [Parameter(ParameterSetName = 'Bulk_Destroy_PSA', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'BulkDestroy', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'BulkDestroyPSA', Mandatory = $true)]
         $Data
 
     )
@@ -9113,38 +8957,38 @@ function Remove-ITGlueOrganization {
 
         $ResourceUri = '/organizations'
 
-        $query_params = @{}
+        $UriParameters = @{}
 
         #Region     [ Parameter Translation ]
 
         if ($PSCmdlet.ParameterSetName -like 'Bulk_Destroy*') {
-            if ($FilterID)                           { $query_params['filter[id]']                               = $FilterID }
-            if ($FilterName)                         { $query_params['filter[name]']                             = $FilterName }
-            if ($FilterOrganizationTypeID)           { $query_params['filter[organization_type_id]']             = $FilterOrganizationTypeID }
-            if ($FilterOrganizationStatusID)         { $query_params['filter[organization_status_id]']           = $FilterOrganizationStatusID }
-            if ($FilterCreatedAt)                    { $query_params['filter[created_at]']                       = $FilterCreatedAt }
-            if ($FilterUpdatedAt)                    { $query_params['filter[updated_at]']                       = $FilterUpdatedAt }
-            if ($FilterMyGlueAccountID)              { $query_params['filter[my_glue_account_id]']               = $FilterMyGlueAccountID }
-            if ($FilterPsaIntegrationType)           { $query_params['filter[psa_integration_type]']             = $FilterPsaIntegrationType }
-            if ($FilterGroupID)                      { $query_params['filter[group_id]']                         = $FilterGroupID }
-            if ($FilterPrimary)                      { $query_params['filter[primary]']                          = $FilterPrimary }
-            if ($FilterExcludeID)                    { $query_params['filter[exclude][id]']                      = $FilterExcludeID }
-            if ($FilterExcludeName)                  { $query_params['filter[exclude][name]']                    = $FilterExcludeName }
-            if ($FilterExcludeOrganizationTypeID)    { $query_params['filter[exclude][organization_type_id]']    = $FilterExcludeOrganizationTypeID }
-            if ($FilterExcludeOrganizationStatusID)  { $query_params['filter[exclude][organization_status_id]']  = $FilterExcludeOrganizationStatusID }
+            if ($FilterID)                           { $UriParameters['filter[id]']                               = $FilterID }
+            if ($FilterName)                         { $UriParameters['filter[name]']                             = $FilterName }
+            if ($FilterOrganizationTypeID)           { $UriParameters['filter[organization_type_id]']             = $FilterOrganizationTypeID }
+            if ($FilterOrganizationStatusID)         { $UriParameters['filter[organization_status_id]']           = $FilterOrganizationStatusID }
+            if ($FilterCreatedAt)                    { $UriParameters['filter[created_at]']                       = $FilterCreatedAt }
+            if ($FilterUpdatedAt)                    { $UriParameters['filter[updated_at]']                       = $FilterUpdatedAt }
+            if ($FilterMyGlueAccountID)              { $UriParameters['filter[my_glue_account_id]']               = $FilterMyGlueAccountID }
+            if ($FilterPsaIntegrationType)           { $UriParameters['filter[psa_integration_type]']             = $FilterPsaIntegrationType }
+            if ($FilterGroupID)                      { $UriParameters['filter[group_id]']                         = $FilterGroupID }
+            if ($FilterPrimary)                      { $UriParameters['filter[primary]']                          = $FilterPrimary }
+            if ($FilterExcludeID)                    { $UriParameters['filter[exclude][id]']                      = $FilterExcludeID }
+            if ($FilterExcludeName)                  { $UriParameters['filter[exclude][name]']                    = $FilterExcludeName }
+            if ($FilterExcludeOrganizationTypeID)    { $UriParameters['filter[exclude][organization_type_id]']    = $FilterExcludeOrganizationTypeID }
+            if ($FilterExcludeOrganizationStatusID)  { $UriParameters['filter[exclude][organization_status_id]']  = $FilterExcludeOrganizationStatusID }
         }
 
-        if ($PSCmdlet.ParameterSetName -eq 'Bulk_Destroy_PSA') {
-            if ($FilterPsaID) { $query_params['filter[psa_id]'] = $FilterPsaID }
+        if ($PSCmdlet.ParameterSetName -eq 'BulkDestroyPSA') {
+            if ($FilterPsaID) { $UriParameters['filter[psa_id]'] = $FilterPsaID }
         }
 
         #EndRegion  [ Parameter Translation ]
 
         Set-Variable -Name $ParameterName -Value $PSBoundParameters -Scope Global -Force -Confirm:$false
-        Set-Variable -Name $QueryParameterName -Value $query_params -Scope Global -Force -Confirm:$false
+        Set-Variable -Name $QueryParameterName -Value $UriParameters -Scope Global -Force -Confirm:$false
 
         if ($PSCmdlet.ShouldProcess($ResourceUri)) {
-            return Invoke-ITGlueRequest -Method DELETE -ResourceURI $ResourceUri -Data $Data -QueryParams $query_params
+            return Invoke-ITGlueRequest -Method DELETE -ResourceURI $ResourceUri -UriFilter $UriParameters -Data $Data
         }
 
     }
@@ -9252,75 +9096,75 @@ function Set-ITGlueOrganization {
         https://api.itglue.com/developer/#organizations-update
 #>
 
-    [CmdletBinding(DefaultParameterSetName = 'Bulk_Update', SupportsShouldProcess, ConfirmImpact = 'Medium')]
+    [CmdletBinding(DefaultParameterSetName = 'BulkUpdate', SupportsShouldProcess, ConfirmImpact = 'Medium')]
     Param (
         [Parameter(ParameterSetName = 'Update', Mandatory = $true)]
         [int64]$ID,
 
-        [Parameter(ParameterSetName = 'Bulk_Update')]
-        [Parameter(ParameterSetName = 'Bulk_Update_PSA')]
+        [Parameter(ParameterSetName = 'BulkUpdate')]
+        [Parameter(ParameterSetName = 'BulkUpdatePSA')]
         [int64]$FilterID,
 
-        [Parameter(ParameterSetName = 'Bulk_Update')]
-        [Parameter(ParameterSetName = 'Bulk_Update_PSA')]
+        [Parameter(ParameterSetName = 'BulkUpdate')]
+        [Parameter(ParameterSetName = 'BulkUpdatePSA')]
         [string]$FilterName,
 
-        [Parameter(ParameterSetName = 'Bulk_Update')]
-        [Parameter(ParameterSetName = 'Bulk_Update_PSA')]
+        [Parameter(ParameterSetName = 'BulkUpdate')]
+        [Parameter(ParameterSetName = 'BulkUpdatePSA')]
         [int64]$FilterOrganizationTypeID,
 
-        [Parameter(ParameterSetName = 'Bulk_Update')]
-        [Parameter(ParameterSetName = 'Bulk_Update_PSA')]
+        [Parameter(ParameterSetName = 'BulkUpdate')]
+        [Parameter(ParameterSetName = 'BulkUpdatePSA')]
         [int64]$FilterOrganizationStatusID,
 
-        [Parameter(ParameterSetName = 'Bulk_Update')]
-        [Parameter(ParameterSetName = 'Bulk_Update_PSA')]
+        [Parameter(ParameterSetName = 'BulkUpdate')]
+        [Parameter(ParameterSetName = 'BulkUpdatePSA')]
         [string]$FilterCreatedAt,
 
-        [Parameter(ParameterSetName = 'Bulk_Update')]
-        [Parameter(ParameterSetName = 'Bulk_Update_PSA')]
+        [Parameter(ParameterSetName = 'BulkUpdate')]
+        [Parameter(ParameterSetName = 'BulkUpdatePSA')]
         [string]$FilterUpdatedAt,
 
-        [Parameter(ParameterSetName = 'Bulk_Update')]
-        [Parameter(ParameterSetName = 'Bulk_Update_PSA')]
+        [Parameter(ParameterSetName = 'BulkUpdate')]
+        [Parameter(ParameterSetName = 'BulkUpdatePSA')]
         [int64]$FilterMyGlueAccountID,
 
-        [Parameter(ParameterSetName = 'Bulk_Update_PSA')]
+        [Parameter(ParameterSetName = 'BulkUpdatePSA')]
         [string]$FilterPsaID,
 
-        [Parameter(ParameterSetName = 'Bulk_Update')]
-        [Parameter(ParameterSetName = 'Bulk_Update_PSA', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'BulkUpdate')]
+        [Parameter(ParameterSetName = 'BulkUpdatePSA', Mandatory = $true)]
         [ValidateSet( 'manage', 'autotask', 'tigerpaw', 'kaseya-bms', 'pulseway-psa', 'vorex')]
         [string]$FilterPsaIntegrationType,
 
-        [Parameter(ParameterSetName = 'Bulk_Update')]
-        [Parameter(ParameterSetName = 'Bulk_Update_PSA')]
+        [Parameter(ParameterSetName = 'BulkUpdate')]
+        [Parameter(ParameterSetName = 'BulkUpdatePSA')]
         [int64]$FilterGroupID,
 
-        [Parameter(ParameterSetName = 'Bulk_Update')]
-        [Parameter(ParameterSetName = 'Bulk_Update_PSA')]
+        [Parameter(ParameterSetName = 'BulkUpdate')]
+        [Parameter(ParameterSetName = 'BulkUpdatePSA')]
         [ValidateSet( 'true', 'false')]
         [string]$FilterPrimary,
 
-        [Parameter(ParameterSetName = 'Bulk_Update')]
-        [Parameter(ParameterSetName = 'Bulk_Update_PSA')]
+        [Parameter(ParameterSetName = 'BulkUpdate')]
+        [Parameter(ParameterSetName = 'BulkUpdatePSA')]
         [int64]$FilterExcludeID,
 
-        [Parameter(ParameterSetName = 'Bulk_Update')]
-        [Parameter(ParameterSetName = 'Bulk_Update_PSA')]
+        [Parameter(ParameterSetName = 'BulkUpdate')]
+        [Parameter(ParameterSetName = 'BulkUpdatePSA')]
         [string]$FilterExcludeName,
 
-        [Parameter(ParameterSetName = 'Bulk_Update')]
-        [Parameter(ParameterSetName = 'Bulk_Update_PSA')]
+        [Parameter(ParameterSetName = 'BulkUpdate')]
+        [Parameter(ParameterSetName = 'BulkUpdatePSA')]
         [int64]$FilterExcludeOrganizationTypeID,
 
-        [Parameter(ParameterSetName = 'Bulk_Update')]
-        [Parameter(ParameterSetName = 'Bulk_Update_PSA')]
+        [Parameter(ParameterSetName = 'BulkUpdate')]
+        [Parameter(ParameterSetName = 'BulkUpdatePSA')]
         [int64]$FilterExcludeOrganizationStatusID,
 
         [Parameter(ParameterSetName = 'Update', Mandatory = $true)]
-        [Parameter(ParameterSetName = 'Bulk_Update', Mandatory = $true)]
-        [Parameter(ParameterSetName = 'Bulk_Update_PSA', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'BulkUpdate', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'BulkUpdatePSA', Mandatory = $true)]
         $Data
 
     )
@@ -9342,38 +9186,38 @@ function Set-ITGlueOrganization {
             'Update'    { $ResourceUri = "/organizations/$ID" }
         }
 
-        $query_params = @{}
+        $UriParameters = @{}
 
         #Region     [ Parameter Translation ]
 
-        if ($PSCmdlet.ParameterSetName -like 'Bulk_Update*') {
-            if ($FilterID)                          { $query_params['filter[id]']                                = $FilterID }
-            if ($FilterName)                         { $query_params['filter[name]']                             = $FilterName }
-            if ($FilterOrganizationTypeID)           { $query_params['filter[organization_type_id]']             = $FilterOrganizationTypeID }
-            if ($FilterOrganizationStatusID)         { $query_params['filter[organization_status_id]']           = $FilterOrganizationStatusID }
-            if ($FilterCreatedAt)                    { $query_params['filter[created_at]']                       = $FilterCreatedAt }
-            if ($FilterUpdatedAt)                    { $query_params['filter[updated_at]']                       = $FilterUpdatedAt }
-            if ($FilterMyGlueAccountID)              { $query_params['filter[my_glue_account_id]']               = $FilterMyGlueAccountID }
-            if ($FilterPsaIntegrationType)           { $query_params['filter[psa_integration_type]']             = $FilterPsaIntegrationType }
-            if ($FilterGroupID)                      { $query_params['filter[group_id]']                         = $FilterGroupID }
-            if ($FilterPrimary)                      { $query_params['filter[primary]']                          = $FilterPrimary }
-            if ($FilterExcludeID)                    { $query_params['filter[exclude][id]']                      = $FilterExcludeID }
-            if ($FilterExcludeName)                  { $query_params['filter[exclude][name]']                    = $FilterExcludeName }
-            if ($FilterExcludeOrganizationTypeID)    { $query_params['filter[exclude][organization_type_id]']    = $FilterExcludeOrganizationTypeID }
-            if ($FilterExcludeOrganizationStatusID)  { $query_params['filter[exclude][organization_status_id]']  = $FilterExcludeOrganizationStatusID }
+        if ($PSCmdlet.ParameterSetName -like 'BulkUpdate*') {
+            if ($FilterID)                          { $UriParameters['filter[id]']                                = $FilterID }
+            if ($FilterName)                         { $UriParameters['filter[name]']                             = $FilterName }
+            if ($FilterOrganizationTypeID)           { $UriParameters['filter[organization_type_id]']             = $FilterOrganizationTypeID }
+            if ($FilterOrganizationStatusID)         { $UriParameters['filter[organization_status_id]']           = $FilterOrganizationStatusID }
+            if ($FilterCreatedAt)                    { $UriParameters['filter[created_at]']                       = $FilterCreatedAt }
+            if ($FilterUpdatedAt)                    { $UriParameters['filter[updated_at]']                       = $FilterUpdatedAt }
+            if ($FilterMyGlueAccountID)              { $UriParameters['filter[my_glue_account_id]']               = $FilterMyGlueAccountID }
+            if ($FilterPsaIntegrationType)           { $UriParameters['filter[psa_integration_type]']             = $FilterPsaIntegrationType }
+            if ($FilterGroupID)                      { $UriParameters['filter[group_id]']                         = $FilterGroupID }
+            if ($FilterPrimary)                      { $UriParameters['filter[primary]']                          = $FilterPrimary }
+            if ($FilterExcludeID)                    { $UriParameters['filter[exclude][id]']                      = $FilterExcludeID }
+            if ($FilterExcludeName)                  { $UriParameters['filter[exclude][name]']                    = $FilterExcludeName }
+            if ($FilterExcludeOrganizationTypeID)    { $UriParameters['filter[exclude][organization_type_id]']    = $FilterExcludeOrganizationTypeID }
+            if ($FilterExcludeOrganizationStatusID)  { $UriParameters['filter[exclude][organization_status_id]']  = $FilterExcludeOrganizationStatusID }
         }
 
-        if ($PSCmdlet.ParameterSetName -eq 'Bulk_Update_PSA') {
-            if ($FilterPsaID) { $query_params['filter[psa_id]'] = $FilterPsaID }
+        if ($PSCmdlet.ParameterSetName -eq 'BulkUpdatePSA') {
+            if ($FilterPsaID) { $UriParameters['filter[psa_id]'] = $FilterPsaID }
         }
 
         #EndRegion  [ Parameter Translation ]
 
         Set-Variable -Name $ParameterName -Value $PSBoundParameters -Scope Global -Force -Confirm:$false
-        Set-Variable -Name $QueryParameterName -Value $query_params -Scope Global -Force -Confirm:$false
+        Set-Variable -Name $QueryParameterName -Value $UriParameters -Scope Global -Force -Confirm:$false
 
         if ($PSCmdlet.ShouldProcess($ResourceUri)) {
-            return Invoke-ITGlueRequest -Method PATCH -ResourceURI $ResourceUri -QueryParams $query_params -Data $Data
+            return Invoke-ITGlueRequest -Method PATCH -ResourceURI $ResourceUri -UriFilter $UriParameters -Data $Data
         }
 
     }
@@ -9493,23 +9337,23 @@ function Get-ITGlueOrganizationStatus {
             'Show'  { $ResourceUri = "/organization_statuses/$ID" }
         }
 
-        $query_params = @{}
+        $UriParameters = @{}
 
         #Region     [ Parameter Translation ]
 
         if ($PSCmdlet.ParameterSetName -eq 'Index') {
-            if ($FilterName)    { $query_params['filter[name]'] = $FilterName }
-            if ($Sort)          { $query_params['sort']         = $Sort }
-            if ($PageNumber)    { $query_params['page[number]'] = $PageNumber }
-            if ($PageSize)      { $query_params['page[size]']   = $PageSize }
+            if ($FilterName)    { $UriParameters['filter[name]'] = $FilterName }
+            if ($Sort)          { $UriParameters['sort']         = $Sort }
+            if ($PageNumber)    { $UriParameters['page[number]'] = $PageNumber }
+            if ($PageSize)      { $UriParameters['page[size]']   = $PageSize }
         }
 
         #EndRegion  [ Parameter Translation ]
 
         Set-Variable -Name $ParameterName -Value $PSBoundParameters -Scope Global -Force -Confirm:$false
-        Set-Variable -Name $QueryParameterName -Value $query_params -Scope Global -Force -Confirm:$false
+        Set-Variable -Name $QueryParameterName -Value $UriParameters -Scope Global -Force -Confirm:$false
 
-        return Invoke-ITGlueRequest -Method GET -ResourceURI $ResourceUri -QueryParams $query_params -AllResults:$AllResults
+        return Invoke-ITGlueRequest -Method GET -ResourceURI $ResourceUri -UriFilter $UriParameters -AllResults:$AllResults
 
     }
 
@@ -9769,23 +9613,23 @@ function Get-ITGlueOrganizationType {
             'Show'  { $ResourceUri = "/organization_types/$ID" }
         }
 
-        $query_params = @{}
+        $UriParameters = @{}
 
         #Region     [ Parameter Translation ]
 
         if ($PSCmdlet.ParameterSetName -eq 'Index') {
-            if ($FilterName)    { $query_params['filter[name]'] = $FilterName }
-            if ($Sort)          { $query_params['sort']         = $Sort }
-            if ($PageNumber)    { $query_params['page[number]'] = $PageNumber }
-            if ($PageSize)      { $query_params['page[size]']   = $PageSize }
+            if ($FilterName)    { $UriParameters['filter[name]'] = $FilterName }
+            if ($Sort)          { $UriParameters['sort']         = $Sort }
+            if ($PageNumber)    { $UriParameters['page[number]'] = $PageNumber }
+            if ($PageSize)      { $UriParameters['page[size]']   = $PageSize }
         }
 
         #EndRegion  [ Parameter Translation ]
 
         Set-Variable -Name $ParameterName -Value $PSBoundParameters -Scope Global -Force -Confirm:$false
-        Set-Variable -Name $QueryParameterName -Value $query_params -Scope Global -Force -Confirm:$false
+        Set-Variable -Name $QueryParameterName -Value $UriParameters -Scope Global -Force -Confirm:$false
 
-        return Invoke-ITGlueRequest -Method GET -ResourceURI $ResourceUri -QueryParams $query_params -AllResults:$AllResults
+        return Invoke-ITGlueRequest -Method GET -ResourceURI $ResourceUri -UriFilter $UriParameters -AllResults:$AllResults
 
     }
 
@@ -10043,23 +9887,23 @@ function Get-ITGluePasswordCategory {
             'Show'  { $ResourceUri = "/password_categories/$ID" }
         }
 
-        $query_params = @{}
+        $UriParameters = @{}
 
         #Region     [ Parameter Translation ]
 
         if ($PSCmdlet.ParameterSetName -eq 'Index') {
-            if ($FilterName)    { $query_params['filter[name]'] = $FilterName }
-            if ($Sort)          { $query_params['sort']         = $Sort }
-            if ($PageNumber)    { $query_params['page[number]'] = $PageNumber }
-            if ($PageSize)      { $query_params['page[size]']   = $PageSize }
+            if ($FilterName)    { $UriParameters['filter[name]'] = $FilterName }
+            if ($Sort)          { $UriParameters['sort']         = $Sort }
+            if ($PageNumber)    { $UriParameters['page[number]'] = $PageNumber }
+            if ($PageSize)      { $UriParameters['page[size]']   = $PageSize }
         }
 
         #EndRegion  [ Parameter Translation ]
 
         Set-Variable -Name $ParameterName -Value $PSBoundParameters -Scope Global -Force -Confirm:$false
-        Set-Variable -Name $QueryParameterName -Value $query_params -Scope Global -Force -Confirm:$false
+        Set-Variable -Name $QueryParameterName -Value $UriParameters -Scope Global -Force -Confirm:$false
 
-        return Invoke-ITGlueRequest -Method GET -ResourceURI $ResourceUri -QueryParams $query_params -AllResults:$AllResults
+        return Invoke-ITGlueRequest -Method GET -ResourceURI $ResourceUri -UriFilter $UriParameters -AllResults:$AllResults
 
     }
 
@@ -10419,37 +10263,37 @@ function Get-ITGluePassword {
             }
         }
 
-        $query_params = @{}
+        $UriParameters = @{}
 
         #Region     [ Parameter Translation ]
 
         if ($PSCmdlet.ParameterSetName -eq 'Index') {
-            if ($FilterID)                  { $query_params['filter[id]']                   = $FilterID }
-            if ($FilterName)                { $query_params['filter[name]']                 = $FilterName }
-            if ($FilterOrganizationID)      { $query_params['filter[organization_id]']      = $FilterOrganizationID }
-            if ($FilterPasswordCategoryID)  { $query_params['filter[password_category_id]'] = $FilterPasswordCategoryID }
-            if ($FilterUrl)                 { $query_params['filter[url]']                  = $FilterUrl }
-            if ($FilterCachedResourceName)  { $query_params['filter[cached_resource_name]'] = $FilterCachedResourceName }
-            if ($FilterArchived)            { $query_params['filter[archived]']             = $FilterArchived }
-            if ($Sort)                      { $query_params['sort']                         = $Sort }
-            if ($PageNumber)                { $query_params['page[number]']                 = $PageNumber }
-            if ($PageSize)                  { $query_params['page[size]']                   = $PageSize }
+            if ($FilterID)                  { $UriParameters['filter[id]']                   = $FilterID }
+            if ($FilterName)                { $UriParameters['filter[name]']                 = $FilterName }
+            if ($FilterOrganizationID)      { $UriParameters['filter[organization_id]']      = $FilterOrganizationID }
+            if ($FilterPasswordCategoryID)  { $UriParameters['filter[password_category_id]'] = $FilterPasswordCategoryID }
+            if ($FilterUrl)                 { $UriParameters['filter[url]']                  = $FilterUrl }
+            if ($FilterCachedResourceName)  { $UriParameters['filter[cached_resource_name]'] = $FilterCachedResourceName }
+            if ($FilterArchived)            { $UriParameters['filter[archived]']             = $FilterArchived }
+            if ($Sort)                      { $UriParameters['sort']                         = $Sort }
+            if ($PageNumber)                { $UriParameters['page[number]']                 = $PageNumber }
+            if ($PageSize)                  { $UriParameters['page[size]']                   = $PageSize }
         }
 
         if ($PSCmdlet.ParameterSetName -eq 'show') {
-            if ($ShowPassword)  { $query_params['show_password']    = $ShowPassword }
-            if ($VersionID)     { $query_params['version_id']       = $VersionID }
+            if ($ShowPassword)  { $UriParameters['show_password']    = $ShowPassword }
+            if ($VersionID)     { $UriParameters['version_id']       = $VersionID }
         }
 
         #Shared Parameters
-        if($Include) { $query_params['include'] = $Include }
+        if($Include) { $UriParameters['include'] = $Include }
 
         #EndRegion  [ Parameter Translation ]
 
         Set-Variable -Name $ParameterName -Value $PSBoundParameters -Scope Global -Force -Confirm:$false
-        Set-Variable -Name $QueryParameterName -Value $query_params -Scope Global -Force -Confirm:$false
+        Set-Variable -Name $QueryParameterName -Value $UriParameters -Scope Global -Force -Confirm:$false
 
-        return Invoke-ITGlueRequest -Method GET -ResourceURI $ResourceUri -QueryParams $query_params -AllResults:$AllResults
+        return Invoke-ITGlueRequest -Method GET -ResourceURI $ResourceUri -UriFilter $UriParameters -AllResults:$AllResults
 
     }
 
@@ -10552,15 +10396,15 @@ function New-ITGluePassword {
             $false  { $ResourceUri = "/passwords/" }
         }
 
-        $query_params = @{}
+        $UriParameters = @{}
 
-        if ($ShowPassword) { $query_params['show_password'] = $ShowPassword}
+        if ($ShowPassword) { $UriParameters['show_password'] = $ShowPassword}
 
         Set-Variable -Name $ParameterName -Value $PSBoundParameters -Scope Global -Force -Confirm:$false
-        Set-Variable -Name $QueryParameterName -Value $query_params -Scope Global -Force -Confirm:$false
+        Set-Variable -Name $QueryParameterName -Value $UriParameters -Scope Global -Force -Confirm:$false
 
         if ($PSCmdlet.ShouldProcess($ResourceUri)) {
-            return Invoke-ITGlueRequest -Method POST -ResourceURI $ResourceUri -Data $Data -QueryParams $query_params
+            return Invoke-ITGlueRequest -Method POST -ResourceURI $ResourceUri -UriFilter $UriParameters -Data $Data
         }
 
     }
@@ -10637,35 +10481,35 @@ function Remove-ITGluePassword {
     [CmdletBinding(DefaultParameterSetName = 'Destroy', SupportsShouldProcess, ConfirmImpact = 'High')]
     Param (
         [Parameter(ParameterSetName = 'Destroy', Mandatory = $true)]
-        [Parameter(ParameterSetName = 'Bulk_Destroy')]
+        [Parameter(ParameterSetName = 'BulkDestroy')]
         [int64]$ID,
 
-        [Parameter(ParameterSetName = 'Bulk_Destroy')]
+        [Parameter(ParameterSetName = 'BulkDestroy')]
         [int64]$OrganizationID,
 
-        [Parameter(ParameterSetName = 'Bulk_Destroy')]
+        [Parameter(ParameterSetName = 'BulkDestroy')]
         [int64]$FilterID,
 
-        [Parameter(ParameterSetName = 'Bulk_Destroy')]
+        [Parameter(ParameterSetName = 'BulkDestroy')]
         [string]$FilterName,
 
-        [Parameter(ParameterSetName = 'Bulk_Destroy')]
+        [Parameter(ParameterSetName = 'BulkDestroy')]
         [int64]$FilterOrganizationID,
 
-        [Parameter(ParameterSetName = 'Bulk_Destroy')]
+        [Parameter(ParameterSetName = 'BulkDestroy')]
         [int64]$FilterPasswordCategoryID,
 
-        [Parameter(ParameterSetName = 'Bulk_Destroy')]
+        [Parameter(ParameterSetName = 'BulkDestroy')]
         [string]$FilterUrl,
 
-        [Parameter(ParameterSetName = 'Bulk_Destroy')]
+        [Parameter(ParameterSetName = 'BulkDestroy')]
         [string]$FilterCachedResourceName,
 
-        [Parameter(ParameterSetName = 'Bulk_Destroy')]
+        [Parameter(ParameterSetName = 'BulkDestroy')]
         [ValidateSet('true','false','0','1', IgnoreCase = $false)]
         [string]$FilterArchived,
 
-        [Parameter(ParameterSetName = 'Bulk_Destroy', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'BulkDestroy', Mandatory = $true)]
         $Data
     )
 
@@ -10682,7 +10526,7 @@ function Remove-ITGluePassword {
         Write-Verbose "[ $FunctionName ] - Running the [ $($PSCmdlet.ParameterSetName) ] parameterSet"
 
         switch ($PSCmdlet.ParameterSetName) {
-            'Bulk_Destroy'  {
+            'BulkDestroy'  {
 
                 switch ([bool]$OrganizationID) {
                     $true   { $ResourceUri = "/organizations/$OrganizationID/relationships/passwords/$ID" }
@@ -10693,27 +10537,27 @@ function Remove-ITGluePassword {
             'Destroy'       { $ResourceUri = "/passwords/$ID" }
         }
 
-        $query_params = @{}
+        $UriParameters = @{}
 
         #Region     [ Parameter Translation ]
 
-        if ($PSCmdlet.ParameterSetName -eq 'Bulk_Destroy') {
-            if ($FilterID)                  { $query_params['filter[id]']                   = $FilterID }
-            if ($FilterName)                { $query_params['filter[name]']                 = $FilterName }
-            if ($FilterOrganizationID)      { $query_params['filter[organization_id]']      = $FilterOrganizationID }
-            if ($FilterPasswordCategoryID)  { $query_params['filter[password_category_id]'] = $FilterPasswordCategoryID }
-            if ($FilterUrl)                 { $query_params['filter[url]']                  = $FilterUrl }
-            if ($FilterCachedResourceName)  { $query_params['filter[cached_resource_name]'] = $FilterCachedResourceName }
-            if ($FilterArchived)            { $query_params['filter[archived]']             = $FilterArchived }
+        if ($PSCmdlet.ParameterSetName -eq 'BulkDestroy') {
+            if ($FilterID)                  { $UriParameters['filter[id]']                   = $FilterID }
+            if ($FilterName)                { $UriParameters['filter[name]']                 = $FilterName }
+            if ($FilterOrganizationID)      { $UriParameters['filter[organization_id]']      = $FilterOrganizationID }
+            if ($FilterPasswordCategoryID)  { $UriParameters['filter[password_category_id]'] = $FilterPasswordCategoryID }
+            if ($FilterUrl)                 { $UriParameters['filter[url]']                  = $FilterUrl }
+            if ($FilterCachedResourceName)  { $UriParameters['filter[cached_resource_name]'] = $FilterCachedResourceName }
+            if ($FilterArchived)            { $UriParameters['filter[archived]']             = $FilterArchived }
         }
 
         #EndRegion  [ Parameter Translation ]
 
         Set-Variable -Name $ParameterName -Value $PSBoundParameters -Scope Global -Force -Confirm:$false
-        Set-Variable -Name $QueryParameterName -Value $query_params -Scope Global -Force -Confirm:$false
+        Set-Variable -Name $QueryParameterName -Value $UriParameters -Scope Global -Force -Confirm:$false
 
         if ($PSCmdlet.ShouldProcess($ResourceUri)) {
-            return Invoke-ITGlueRequest -Method DELETE -ResourceURI $ResourceUri -Data $Data -QueryParams $query_params
+            return Invoke-ITGlueRequest -Method DELETE -ResourceURI $ResourceUri -UriFilter $UriParameters -Data $Data
         }
 
     }
@@ -10784,7 +10628,7 @@ function Set-ITGluePassword {
         https://api.itglue.com/developer/#passwords-update
 #>
 
-    [CmdletBinding(DefaultParameterSetName = 'Bulk_Update', SupportsShouldProcess, ConfirmImpact = 'Medium')]
+    [CmdletBinding(DefaultParameterSetName = 'BulkUpdate', SupportsShouldProcess, ConfirmImpact = 'Medium')]
     Param (
         [Parameter(ParameterSetName = 'Update')]
         [int64]$OrganizationID,
@@ -10797,7 +10641,7 @@ function Set-ITGluePassword {
         [string]$ShowPassword,
 
         [Parameter(ParameterSetName = 'Update', Mandatory = $true)]
-        [Parameter(ParameterSetName = 'Bulk_Update', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'BulkUpdate', Mandatory = $true)]
         $Data
     )
 
@@ -10814,7 +10658,7 @@ function Set-ITGluePassword {
         Write-Verbose "[ $FunctionName ] - Running the [ $($PSCmdlet.ParameterSetName) ] parameterSet"
 
         switch ($PSCmdlet.ParameterSetName) {
-            'Bulk_Update'  { $ResourceUri = "/passwords" }
+            'BulkUpdate'  { $ResourceUri = "/passwords" }
             'Update'       {
 
                 switch ([bool]$OrganizationID) {
@@ -10825,13 +10669,13 @@ function Set-ITGluePassword {
             }
         }
 
-        $query_params = @{ 'show_password'= $ShowPassword }
+        $UriParameters = @{ 'show_password'= $ShowPassword }
 
         Set-Variable -Name $ParameterName -Value $PSBoundParameters -Scope Global -Force -Confirm:$false
-        Set-Variable -Name $QueryParameterName -Value $query_params -Scope Global -Force -Confirm:$false
+        Set-Variable -Name $QueryParameterName -Value $UriParameters -Scope Global -Force -Confirm:$false
 
         if ($PSCmdlet.ShouldProcess($ResourceUri)) {
-            return Invoke-ITGlueRequest -Method PATCH -ResourceURI $ResourceUri -QueryParams $query_params -Data $Data
+            return Invoke-ITGlueRequest -Method PATCH -ResourceURI $ResourceUri -UriFilter $UriParameters -Data $Data
         }
 
     }
@@ -10952,23 +10796,23 @@ function Get-ITGluePlatform {
             'Show'  { $ResourceUri = "/platforms/$ID" }
         }
 
-        $query_params = @{}
+        $UriParameters = @{}
 
         #Region     [ Parameter Translation ]
 
         if ($PSCmdlet.ParameterSetName -eq 'Index') {
-            if ($FilterName)    { $query_params['filter[name]'] = $FilterName }
-            if ($Sort)          { $query_params['sort']         = $Sort }
-            if ($PageNumber)    { $query_params['page[number]'] = $PageNumber }
-            if ($PageSize)      { $query_params['page[size]']   = $PageSize }
+            if ($FilterName)    { $UriParameters['filter[name]'] = $FilterName }
+            if ($Sort)          { $UriParameters['sort']         = $Sort }
+            if ($PageNumber)    { $UriParameters['page[number]'] = $PageNumber }
+            if ($PageSize)      { $UriParameters['page[size]']   = $PageSize }
         }
 
         #EndRegion  [ Parameter Translation ]
 
         Set-Variable -Name $ParameterName -Value $PSBoundParameters -Scope Global -Force -Confirm:$false
-        Set-Variable -Name $QueryParameterName -Value $query_params -Scope Global -Force -Confirm:$false
+        Set-Variable -Name $QueryParameterName -Value $UriParameters -Scope Global -Force -Confirm:$false
 
-        return Invoke-ITGlueRequest -Method GET -ResourceURI $ResourceUri -QueryParams $query_params -AllResults:$AllResults
+        return Invoke-ITGlueRequest -Method GET -ResourceURI $ResourceUri -UriFilter $UriParameters -AllResults:$AllResults
 
     }
 
@@ -11115,25 +10959,25 @@ function Get-ITGlueRegion {
             }
         }
 
-        $query_params = @{}
+        $UriParameters = @{}
 
         #Region     [ Parameter Translation ]
 
         if ($PSCmdlet.ParameterSetName -eq 'Index') {
-            if ($FilterName)        { $query_params['filter[name]']         = $FilterName }
-            if ($FilterISO)         { $query_params['filter[iso]']          = $FilterISO }
-            if ($FilterCountryID)   { $query_params['filter[CountryID]']    = $FilterCountryID }
-            if ($Sort)              { $query_params['sort']                 = $Sort }
-            if ($PageNumber)        { $query_params['page[number]']         = $PageNumber }
-            if ($PageSize)          { $query_params['page[size]']           = $PageSize }
+            if ($FilterName)        { $UriParameters['filter[name]']         = $FilterName }
+            if ($FilterISO)         { $UriParameters['filter[iso]']          = $FilterISO }
+            if ($FilterCountryID)   { $UriParameters['filter[CountryID]']    = $FilterCountryID }
+            if ($Sort)              { $UriParameters['sort']                 = $Sort }
+            if ($PageNumber)        { $UriParameters['page[number]']         = $PageNumber }
+            if ($PageSize)          { $UriParameters['page[size]']           = $PageSize }
         }
 
         #EndRegion  [ Parameter Translation ]
 
         Set-Variable -Name $ParameterName -Value $PSBoundParameters -Scope Global -Force -Confirm:$false
-        Set-Variable -Name $QueryParameterName -Value $query_params -Scope Global -Force -Confirm:$false
+        Set-Variable -Name $QueryParameterName -Value $UriParameters -Scope Global -Force -Confirm:$false
 
-        return Invoke-ITGlueRequest -Method GET -ResourceURI $ResourceUri -QueryParams $query_params -AllResults:$AllResults
+        return Invoke-ITGlueRequest -Method GET -ResourceURI $ResourceUri -UriFilter $UriParameters -AllResults:$AllResults
 
     }
 
@@ -11542,26 +11386,26 @@ function Get-ITGlueUserMetric {
 
         $ResourceUri = '/user_metrics'
 
-        $query_params = @{}
+        $UriParameters = @{}
 
         #Region     [ Parameter Translation ]
 
         if ($PSCmdlet.ParameterSetName -eq 'Index') {
-            if ($FilterUserID)          { $query_params['filter[user_id]']          = $FilterUserID }
-            if ($FilterOrganizationID)  { $query_params['filter[organization_id]']  = $FilterOrganizationID }
-            if ($FilterResourceType)    { $query_params['filter[resource_type]']    = $FilterResourceType }
-            if ($FilterDate)            { $query_params['filter[date]']             = $FilterDate }
-            if ($Sort)                  { $query_params['sort']                     = $Sort }
-            if ($PageNumber)            { $query_params['page[number]']             = $PageNumber }
-            if ($PageSize)              { $query_params['page[size]']               = $PageSize }
+            if ($FilterUserID)          { $UriParameters['filter[user_id]']          = $FilterUserID }
+            if ($FilterOrganizationID)  { $UriParameters['filter[organization_id]']  = $FilterOrganizationID }
+            if ($FilterResourceType)    { $UriParameters['filter[resource_type]']    = $FilterResourceType }
+            if ($FilterDate)            { $UriParameters['filter[date]']             = $FilterDate }
+            if ($Sort)                  { $UriParameters['sort']                     = $Sort }
+            if ($PageNumber)            { $UriParameters['page[number]']             = $PageNumber }
+            if ($PageSize)              { $UriParameters['page[size]']               = $PageSize }
         }
 
         #EndRegion  [ Parameter Translation ]
 
         Set-Variable -Name $ParameterName -Value $PSBoundParameters -Scope Global -Force -Confirm:$false
-        Set-Variable -Name $QueryParameterName -Value $query_params -Scope Global -Force -Confirm:$false
+        Set-Variable -Name $QueryParameterName -Value $UriParameters -Scope Global -Force -Confirm:$false
 
-        return Invoke-ITGlueRequest -Method GET -ResourceURI $ResourceUri -QueryParams $query_params -AllResults:$AllResults
+        return Invoke-ITGlueRequest -Method GET -ResourceURI $ResourceUri -UriFilter $UriParameters -AllResults:$AllResults
 
     }
 
@@ -11709,27 +11553,27 @@ function Get-ITGlueUser {
         }
 
 
-        $query_params = @{}
+        $UriParameters = @{}
 
         #Region     [ Parameter Translation ]
 
         if ($PSCmdlet.ParameterSetName -eq 'Index') {
-            if ($FilterID)              { $query_params['filter[id]']               = $FilterID }
-            if ($FilterName)            { $query_params['filter[name]']             = $FilterName }
-            if ($FilterEmail)           { $query_params['filter[email]']            = $FilterEmail }
-            if ($FilterRoleName)        { $query_params['filter[role_name]']        = $FilterRoleName }
-            if ($FilterSalesForceID)    { $query_params['filter[salesforce_id]']    = $FilterSalesForceID }
-            if ($Sort)                  { $query_params['sort']                     = $Sort }
-            if ($PageNumber)            { $query_params['page[number]']             = $PageNumber }
-            if ($PageSize)              { $query_params['page[size]']               = $PageSize }
+            if ($FilterID)              { $UriParameters['filter[id]']               = $FilterID }
+            if ($FilterName)            { $UriParameters['filter[name]']             = $FilterName }
+            if ($FilterEmail)           { $UriParameters['filter[email]']            = $FilterEmail }
+            if ($FilterRoleName)        { $UriParameters['filter[role_name]']        = $FilterRoleName }
+            if ($FilterSalesForceID)    { $UriParameters['filter[salesforce_id]']    = $FilterSalesForceID }
+            if ($Sort)                  { $UriParameters['sort']                     = $Sort }
+            if ($PageNumber)            { $UriParameters['page[number]']             = $PageNumber }
+            if ($PageSize)              { $UriParameters['page[size]']               = $PageSize }
         }
 
         #EndRegion  [ Parameter Translation ]
 
         Set-Variable -Name $ParameterName -Value $PSBoundParameters -Scope Global -Force -Confirm:$false
-        Set-Variable -Name $QueryParameterName -Value $query_params -Scope Global -Force -Confirm:$false
+        Set-Variable -Name $QueryParameterName -Value $UriParameters -Scope Global -Force -Confirm:$false
 
-        return Invoke-ITGlueRequest -Method GET -ResourceURI $ResourceUri -QueryParams $query_params -AllResults:$AllResults
+        return Invoke-ITGlueRequest -Method GET -ResourceURI $ResourceUri -UriFilter $UriParameters -AllResults:$AllResults
 
     }
 

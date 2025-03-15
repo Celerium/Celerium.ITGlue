@@ -2682,8 +2682,8 @@
     </command:examples>
     <command:relatedLinks>
       <maml:navigationLink>
-        <maml:linkText>https://celerium.github.io/Celerium.ITGlue/site/Configurations/new-ITGlueConfiguration.html</maml:linkText>
-        <maml:uri>https://celerium.github.io/Celerium.ITGlue/site/Configurations/new-ITGlueConfiguration.html</maml:uri>
+        <maml:linkText>https://celerium.github.io/Celerium.ITGlue/site/Configurations/New-ITGlueConfiguration.html</maml:linkText>
+        <maml:uri>https://celerium.github.io/Celerium.ITGlue/site/Configurations/New-ITGlueConfiguration.html</maml:uri>
       </maml:navigationLink>
       <maml:navigationLink>
         <maml:linkText>https://api.itglue.com/developer/#configurations-create</maml:linkText>
@@ -8840,12 +8840,8 @@
     </command:examples>
     <command:relatedLinks>
       <maml:navigationLink>
-        <maml:linkText>Online Version:</maml:linkText>
+        <maml:linkText>https://celerium.github.io/Celerium.ITGlue/site/Countries/Get-ITGlueCountry.html</maml:linkText>
         <maml:uri>https://celerium.github.io/Celerium.ITGlue/site/Countries/Get-ITGlueCountry.html</maml:uri>
-      </maml:navigationLink>
-      <maml:navigationLink>
-        <maml:linkText>https://celerium.github.io/Celerium.ITGlue/site/Countires/Get-ITGlueCountry.html</maml:linkText>
-        <maml:uri>https://celerium.github.io/Celerium.ITGlue/site/Countires/Get-ITGlueCountry.html</maml:uri>
       </maml:navigationLink>
       <maml:navigationLink>
         <maml:linkText>https://api.itglue.com/developer/#countries-index</maml:linkText>
@@ -12734,33 +12730,6 @@
           <dev:defaultValue>None</dev:defaultValue>
         </command:parameter>
       </command:syntaxItem>
-      <command:syntaxItem>
-        <maml:name>Add-ITGlueAPIKey</maml:name>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
-          <maml:name>EncryptedStandardAPIKeyPath</maml:name>
-          <maml:description>
-            <maml:para>Path to the AES standard encrypted API key file</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
-          <dev:type>
-            <maml:name>String</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>None</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
-          <maml:name>EncryptedStandardAESKeyPath</maml:name>
-          <maml:description>
-            <maml:para>Path to the AES key file</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
-          <dev:type>
-            <maml:name>String</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>None</dev:defaultValue>
-        </command:parameter>
-      </command:syntaxItem>
     </command:syntax>
     <command:parameters>
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="True (ByValue)" position="named" aliases="none">
@@ -12784,30 +12753,6 @@
         <command:parameterValue required="true" variableLength="false">SecureString</command:parameterValue>
         <dev:type>
           <maml:name>SecureString</maml:name>
-          <maml:uri />
-        </dev:type>
-        <dev:defaultValue>None</dev:defaultValue>
-      </command:parameter>
-      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
-        <maml:name>EncryptedStandardAPIKeyPath</maml:name>
-        <maml:description>
-          <maml:para>Path to the AES standard encrypted API key file</maml:para>
-        </maml:description>
-        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
-        <dev:type>
-          <maml:name>String</maml:name>
-          <maml:uri />
-        </dev:type>
-        <dev:defaultValue>None</dev:defaultValue>
-      </command:parameter>
-      <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
-        <maml:name>EncryptedStandardAESKeyPath</maml:name>
-        <maml:description>
-          <maml:para>Path to the AES key file</maml:para>
-        </maml:description>
-        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
-        <dev:type>
-          <maml:name>String</maml:name>
           <maml:uri />
         </dev:type>
         <dev:defaultValue>None</dev:defaultValue>
@@ -12854,10 +12799,6 @@
       <maml:navigationLink>
         <maml:linkText>https://celerium.github.io/Celerium.ITGlue/site/Internal/Add-ITGlueAPIKey.html</maml:linkText>
         <maml:uri>https://celerium.github.io/Celerium.ITGlue/site/Internal/Add-ITGlueAPIKey.html</maml:uri>
-      </maml:navigationLink>
-      <maml:navigationLink>
-        <maml:linkText>https://github.com/Celerium/Celerium.ITGlue</maml:linkText>
-        <maml:uri>https://github.com/Celerium/Celerium.ITGlue</maml:uri>
       </maml:navigationLink>
     </command:relatedLinks>
   </command:command>
@@ -12951,16 +12892,16 @@
       </command:example>
       <command:example>
         <maml:title>-------------------------- EXAMPLE 2 --------------------------</maml:title>
-        <dev:code>Add-ITGlueBaseURI -BaseUri 'https://my.gateway.com'</dev:code>
+        <dev:code>Add-ITGlueBaseURI -BaseUri 'https://gateway.celerium.org'</dev:code>
         <dev:remarks>
-          <maml:para>The base URI will use https://my.gateway.com</maml:para>
+          <maml:para>The base URI will use https://gateway.celerium.org</maml:para>
         </dev:remarks>
       </command:example>
       <command:example>
         <maml:title>-------------------------- EXAMPLE 3 --------------------------</maml:title>
-        <dev:code>'https://my.gateway.com' | Add-ITGlueBaseURI</dev:code>
+        <dev:code>'https://gateway.celerium.org' | Add-ITGlueBaseURI</dev:code>
         <dev:remarks>
-          <maml:para>The base URI will use https://my.gateway.com</maml:para>
+          <maml:para>The base URI will use https://gateway.celerium.org</maml:para>
         </dev:remarks>
       </command:example>
       <command:example>
@@ -12975,10 +12916,6 @@
       <maml:navigationLink>
         <maml:linkText>https://celerium.github.io/Celerium.ITGlue/site/Internal/Add-ITGlueBaseURI.html</maml:linkText>
         <maml:uri>https://celerium.github.io/Celerium.ITGlue/site/Internal/Add-ITGlueBaseURI.html</maml:uri>
-      </maml:navigationLink>
-      <maml:navigationLink>
-        <maml:linkText>https://github.com/Celerium/Celerium.ITGlue</maml:linkText>
-        <maml:uri>https://github.com/Celerium/Celerium.ITGlue</maml:uri>
       </maml:navigationLink>
     </command:relatedLinks>
   </command:command>
@@ -12999,7 +12936,7 @@
       <command:syntaxItem>
         <maml:name>ConvertTo-ITGlueQueryString</maml:name>
         <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="1" aliases="none">
-          <maml:name>QueryParams</maml:name>
+          <maml:name>UriFilter</maml:name>
           <maml:description>
             <maml:para>Hashtable of values to combine a functions parameters with the ResourceUri parameter</maml:para>
             <maml:para>This allows for the full uri query to occur</maml:para>
@@ -13015,7 +12952,7 @@
     </command:syntax>
     <command:parameters>
       <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="1" aliases="none">
-        <maml:name>QueryParams</maml:name>
+        <maml:name>UriFilter</maml:name>
         <maml:description>
           <maml:para>Hashtable of values to combine a functions parameters with the ResourceUri parameter</maml:para>
           <maml:para>This allows for the full uri query to occur</maml:para>
@@ -13038,9 +12975,9 @@
     <command:examples>
       <command:example>
         <maml:title>-------------------------- EXAMPLE 1 --------------------------</maml:title>
-        <dev:code>ConvertTo-ITGlueQueryString -QueryParams $HashTable</dev:code>
+        <dev:code>ConvertTo-ITGlueQueryString -UriFilter $HashTable</dev:code>
         <dev:remarks>
-          <maml:para>Example HashTable:     $query_params = @{         'filter[id]']               = 123456789         'filter[organization_id]']  = 12345     }</maml:para>
+          <maml:para>Example HashTable:     $UriParameters = @{         'filter[id]']               = 123456789         'filter[organization_id]']  = 12345     }</maml:para>
         </dev:remarks>
       </command:example>
     </command:examples>
@@ -13049,28 +12986,24 @@
         <maml:linkText>https://celerium.github.io/Celerium.ITGlue/site/Internal/ConvertTo-ITGlueQueryString.html</maml:linkText>
         <maml:uri>https://celerium.github.io/Celerium.ITGlue/site/Internal/ConvertTo-ITGlueQueryString.html</maml:uri>
       </maml:navigationLink>
-      <maml:navigationLink>
-        <maml:linkText>https://github.com/Celerium/Celerium.ITGlue</maml:linkText>
-        <maml:uri>https://github.com/Celerium/Celerium.ITGlue</maml:uri>
-      </maml:navigationLink>
     </command:relatedLinks>
   </command:command>
   <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10" xmlns:MSHelp="http://msdn.microsoft.com/mshelp">
     <command:details>
-      <command:name>Export-ITGlueModuleSetting</command:name>
+      <command:name>Export-ITGlueModuleSettings</command:name>
       <command:verb>Export</command:verb>
-      <command:noun>ITGlueModuleSetting</command:noun>
+      <command:noun>ITGlueModuleSettings</command:noun>
       <maml:description>
         <maml:para>Exports the ITGlue BaseURI, API, &amp; JSON configuration information to file</maml:para>
       </maml:description>
     </command:details>
     <maml:description>
-      <maml:para>The Export-ITGlueModuleSetting cmdlet exports the ITGlue BaseURI, API, &amp; JSON configuration information to file</maml:para>
+      <maml:para>The Export-ITGlueModuleSettings cmdlet exports the ITGlue BaseURI, API, &amp; JSON configuration information to file</maml:para>
       <maml:para>Making use of PowerShell's System.Security.SecureString type, exporting module settings encrypts your API key in a format that can only be unencrypted with the your Windows account as this encryption is tied to your user principal This means that you cannot copy your configuration file to another computer or user account and expect it to work</maml:para>
     </maml:description>
     <command:syntax>
       <command:syntaxItem>
-        <maml:name>Export-ITGlueModuleSetting</maml:name>
+        <maml:name>Export-ITGlueModuleSettings</maml:name>
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="1" aliases="none">
           <maml:name>ITGlueConfigPath</maml:name>
           <maml:description>
@@ -13137,14 +13070,14 @@
     <command:examples>
       <command:example>
         <maml:title>-------------------------- EXAMPLE 1 --------------------------</maml:title>
-        <dev:code>Export-ITGlueModuleSetting</dev:code>
+        <dev:code>Export-ITGlueModuleSettings</dev:code>
         <dev:remarks>
           <maml:para>Validates that the BaseURI, API, and JSON depth are set then exports their values to the current user's ITGlue configuration file located at:     $env:USERPROFILE\Celerium.ITGlue\config.psd1</maml:para>
         </dev:remarks>
       </command:example>
       <command:example>
         <maml:title>-------------------------- EXAMPLE 2 --------------------------</maml:title>
-        <dev:code>Export-ITGlueModuleSetting -ITGlueConfigPath C:\Celerium.ITGlue -ITGlueConfigFile MyConfig.psd1</dev:code>
+        <dev:code>Export-ITGlueModuleSettings -ITGlueConfigPath C:\Celerium.ITGlue -ITGlueConfigFile MyConfig.psd1</dev:code>
         <dev:remarks>
           <maml:para>Validates that the BaseURI, API, and JSON depth are set then exports their values to the current user's ITGlue configuration file located at:     C:\Celerium.ITGlue\MyConfig.psd1</maml:para>
         </dev:remarks>
@@ -13152,12 +13085,8 @@
     </command:examples>
     <command:relatedLinks>
       <maml:navigationLink>
-        <maml:linkText>https://celerium.github.io/Celerium.ITGlue/site/Internal/Export-ITGlueModuleSetting.html</maml:linkText>
-        <maml:uri>https://celerium.github.io/Celerium.ITGlue/site/Internal/Export-ITGlueModuleSetting.html</maml:uri>
-      </maml:navigationLink>
-      <maml:navigationLink>
-        <maml:linkText>https://github.com/Celerium/Celerium.ITGlue</maml:linkText>
-        <maml:uri>https://github.com/Celerium/Celerium.ITGlue</maml:uri>
+        <maml:linkText>https://celerium.github.io/Celerium.ITGlue/site/Internal/Export-ITGlueModuleSettings.html</maml:linkText>
+        <maml:uri>https://celerium.github.io/Celerium.ITGlue/site/Internal/Export-ITGlueModuleSettings.html</maml:uri>
       </maml:navigationLink>
     </command:relatedLinks>
   </command:command>
@@ -13215,14 +13144,14 @@
         <maml:title>-------------------------- EXAMPLE 1 --------------------------</maml:title>
         <dev:code>Get-ITGlueAPIKey</dev:code>
         <dev:remarks>
-          <maml:para>Gets the ITGlue API secret key global variable and returns an object with the secret key as a SecureString</maml:para>
+          <maml:para>Gets the Api key and returns it as a SecureString</maml:para>
         </dev:remarks>
       </command:example>
       <command:example>
         <maml:title>-------------------------- EXAMPLE 2 --------------------------</maml:title>
         <dev:code>Get-ITGlueAPIKey -AsPlainText</dev:code>
         <dev:remarks>
-          <maml:para>Gets the ITGlue API secret key global variable and returns an object with the secret key as plain text</maml:para>
+          <maml:para>Gets and decrypts the API key from the global variable and returns the API key as plain text</maml:para>
         </dev:remarks>
       </command:example>
     </command:examples>
@@ -13230,10 +13159,6 @@
       <maml:navigationLink>
         <maml:linkText>https://celerium.github.io/Celerium.ITGlue/site/Internal/Get-ITGlueAPIKey.html</maml:linkText>
         <maml:uri>https://celerium.github.io/Celerium.ITGlue/site/Internal/Get-ITGlueAPIKey.html</maml:uri>
-      </maml:navigationLink>
-      <maml:navigationLink>
-        <maml:linkText>https://github.com/Celerium/Celerium.ITGlue</maml:linkText>
-        <maml:uri>https://github.com/Celerium/Celerium.ITGlue</maml:uri>
       </maml:navigationLink>
     </command:relatedLinks>
   </command:command>
@@ -13276,28 +13201,24 @@
         <maml:linkText>https://celerium.github.io/Celerium.ITGlue/site/Internal/Get-ITGlueBaseURI.html</maml:linkText>
         <maml:uri>https://celerium.github.io/Celerium.ITGlue/site/Internal/Get-ITGlueBaseURI.html</maml:uri>
       </maml:navigationLink>
-      <maml:navigationLink>
-        <maml:linkText>https://github.com/Celerium/Celerium.ITGlue</maml:linkText>
-        <maml:uri>https://github.com/Celerium/Celerium.ITGlue</maml:uri>
-      </maml:navigationLink>
     </command:relatedLinks>
   </command:command>
   <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10" xmlns:MSHelp="http://msdn.microsoft.com/mshelp">
     <command:details>
-      <command:name>Get-ITGlueModuleSetting</command:name>
+      <command:name>Get-ITGlueModuleSettings</command:name>
       <command:verb>Get</command:verb>
-      <command:noun>ITGlueModuleSetting</command:noun>
+      <command:noun>ITGlueModuleSettings</command:noun>
       <maml:description>
         <maml:para>Gets the saved ITGlue configuration settings</maml:para>
       </maml:description>
     </command:details>
     <maml:description>
-      <maml:para>The Get-ITGlueModuleSetting cmdlet gets the saved ITGlue configuration settings from the local system</maml:para>
+      <maml:para>The Get-ITGlueModuleSettings cmdlet gets the saved ITGlue configuration settings from the local system</maml:para>
       <maml:para>By default the configuration file is stored in the following location:     $env:USERPROFILE\Celerium.ITGlue</maml:para>
     </maml:description>
     <command:syntax>
       <command:syntaxItem>
-        <maml:name>Get-ITGlueModuleSetting</maml:name>
+        <maml:name>Get-ITGlueModuleSettings</maml:name>
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="1" aliases="none">
           <maml:name>ITGlueConfigPath</maml:name>
           <maml:description>
@@ -13387,15 +13308,15 @@
     <command:examples>
       <command:example>
         <maml:title>-------------------------- EXAMPLE 1 --------------------------</maml:title>
-        <dev:code>Get-ITGlueModuleSetting</dev:code>
+        <dev:code>Get-ITGlueModuleSettings</dev:code>
         <dev:remarks>
-          <maml:para>Gets the contents of the configuration file that was created with the Export-ITGlueModuleSetting</maml:para>
+          <maml:para>Gets the contents of the configuration file that was created with the Export-ITGlueModuleSettings</maml:para>
           <maml:para>The default location of the ITGlue configuration file is:     $env:USERPROFILE\Celerium.ITGlue\config.psd1</maml:para>
         </dev:remarks>
       </command:example>
       <command:example>
         <maml:title>-------------------------- EXAMPLE 2 --------------------------</maml:title>
-        <dev:code>Get-ITGlueModuleSetting -ITGlueConfigPath C:\Celerium.ITGlue -ITGlueConfigFile MyConfig.psd1 -openConfFile</dev:code>
+        <dev:code>Get-ITGlueModuleSettings -ITGlueConfigPath C:\Celerium.ITGlue -ITGlueConfigFile MyConfig.psd1 -openConfFile</dev:code>
         <dev:remarks>
           <maml:para>Opens the configuration file from the defined location in the default editor</maml:para>
           <maml:para>The location of the ITGlue configuration file in this example is:     C:\Celerium.ITGlue\MyConfig.psd1</maml:para>
@@ -13404,31 +13325,27 @@
     </command:examples>
     <command:relatedLinks>
       <maml:navigationLink>
-        <maml:linkText>https://celerium.github.io/Celerium.ITGlue/site/Internal/Get-ITGlueModuleSetting.html</maml:linkText>
-        <maml:uri>https://celerium.github.io/Celerium.ITGlue/site/Internal/Get-ITGlueModuleSetting.html</maml:uri>
-      </maml:navigationLink>
-      <maml:navigationLink>
-        <maml:linkText>https://github.com/Celerium/Celerium.ITGlue</maml:linkText>
-        <maml:uri>https://github.com/Celerium/Celerium.ITGlue</maml:uri>
+        <maml:linkText>https://celerium.github.io/Celerium.ITGlue/site/Internal/Get-ITGlueModuleSettings.html</maml:linkText>
+        <maml:uri>https://celerium.github.io/Celerium.ITGlue/site/Internal/Get-ITGlueModuleSettings.html</maml:uri>
       </maml:navigationLink>
     </command:relatedLinks>
   </command:command>
   <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10" xmlns:MSHelp="http://msdn.microsoft.com/mshelp">
     <command:details>
-      <command:name>Import-ITGlueModuleSetting</command:name>
+      <command:name>Import-ITGlueModuleSettings</command:name>
       <command:verb>Import</command:verb>
-      <command:noun>ITGlueModuleSetting</command:noun>
+      <command:noun>ITGlueModuleSettings</command:noun>
       <maml:description>
         <maml:para>Imports the ITGlue BaseURI, API, &amp; JSON configuration information to the current session</maml:para>
       </maml:description>
     </command:details>
     <maml:description>
-      <maml:para>The Import-ITGlueModuleSetting cmdlet imports the ITGlue BaseURI, API, &amp; JSON configuration information stored in the ITGlue configuration file to the users current session</maml:para>
+      <maml:para>The Import-ITGlueModuleSettings cmdlet imports the ITGlue BaseURI, API, &amp; JSON configuration information stored in the ITGlue configuration file to the users current session</maml:para>
       <maml:para>By default the configuration file is stored in the following location:     $env:USERPROFILE\Celerium.ITGlue</maml:para>
     </maml:description>
     <command:syntax>
       <command:syntaxItem>
-        <maml:name>Import-ITGlueModuleSetting</maml:name>
+        <maml:name>Import-ITGlueModuleSettings</maml:name>
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="1" aliases="none">
           <maml:name>ITGlueConfigPath</maml:name>
           <maml:description>
@@ -13495,29 +13412,25 @@
     <command:examples>
       <command:example>
         <maml:title>-------------------------- EXAMPLE 1 --------------------------</maml:title>
-        <dev:code>Import-ITGlueModuleSetting</dev:code>
+        <dev:code>Import-ITGlueModuleSettings</dev:code>
         <dev:remarks>
-          <maml:para>Validates that the configuration file created with the Export-ITGlueModuleSetting cmdlet exists then imports the stored data into the current users session</maml:para>
+          <maml:para>Validates that the configuration file created with the Export-ITGlueModuleSettings cmdlet exists then imports the stored data into the current users session</maml:para>
           <maml:para>The default location of the ITGlue configuration file is:     $env:USERPROFILE\Celerium.ITGlue\config.psd1</maml:para>
         </dev:remarks>
       </command:example>
       <command:example>
         <maml:title>-------------------------- EXAMPLE 2 --------------------------</maml:title>
-        <dev:code>Import-ITGlueModuleSetting -ITGlueConfigPath C:\Celerium.ITGlue -ITGlueConfigFile MyConfig.psd1</dev:code>
+        <dev:code>Import-ITGlueModuleSettings -ITGlueConfigPath C:\Celerium.ITGlue -ITGlueConfigFile MyConfig.psd1</dev:code>
         <dev:remarks>
-          <maml:para>Validates that the configuration file created with the Export-ITGlueModuleSetting cmdlet exists then imports the stored data into the current users session</maml:para>
+          <maml:para>Validates that the configuration file created with the Export-ITGlueModuleSettings cmdlet exists then imports the stored data into the current users session</maml:para>
           <maml:para>The location of the ITGlue configuration file in this example is:     C:\Celerium.ITGlue\MyConfig.psd1</maml:para>
         </dev:remarks>
       </command:example>
     </command:examples>
     <command:relatedLinks>
       <maml:navigationLink>
-        <maml:linkText>https://celerium.github.io/Celerium.ITGlue/site/Internal/Import-ITGlueModuleSetting.html</maml:linkText>
-        <maml:uri>https://celerium.github.io/Celerium.ITGlue/site/Internal/Import-ITGlueModuleSetting.html</maml:uri>
-      </maml:navigationLink>
-      <maml:navigationLink>
-        <maml:linkText>https://github.com/Celerium/Celerium.ITGlue</maml:linkText>
-        <maml:uri>https://github.com/Celerium/Celerium.ITGlue</maml:uri>
+        <maml:linkText>https://celerium.github.io/Celerium.ITGlue/site/Internal/Import-ITGlueModuleSettings.html</maml:linkText>
+        <maml:uri>https://celerium.github.io/Celerium.ITGlue/site/Internal/Import-ITGlueModuleSettings.html</maml:uri>
       </maml:navigationLink>
     </command:relatedLinks>
   </command:command>
@@ -13563,7 +13476,7 @@
           <dev:defaultValue>None</dev:defaultValue>
         </command:parameter>
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="3" aliases="none">
-          <maml:name>QueryParams</maml:name>
+          <maml:name>UriFilter</maml:name>
           <maml:description>
             <maml:para>Hashtable of values to combine a functions parameters with the ResourceUri parameter</maml:para>
             <maml:para>This allows for the full uri query to occur</maml:para>
@@ -13651,7 +13564,7 @@
         <dev:defaultValue>None</dev:defaultValue>
       </command:parameter>
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="3" aliases="none">
-        <maml:name>QueryParams</maml:name>
+        <maml:name>UriFilter</maml:name>
         <maml:description>
           <maml:para>Hashtable of values to combine a functions parameters with the ResourceUri parameter</maml:para>
           <maml:para>This allows for the full uri query to occur</maml:para>
@@ -13724,10 +13637,10 @@
     <command:examples>
       <command:example>
         <maml:title>-------------------------- EXAMPLE 1 --------------------------</maml:title>
-        <dev:code>Invoke-ITGlueRequest -method GET -ResourceURI '/passwords' -QueryParams $QueryParams</dev:code>
+        <dev:code>Invoke-ITGlueRequest -Method GET -ResourceURI '/passwords' -UriFilter $UriFilter</dev:code>
         <dev:remarks>
           <maml:para>Invoke a rest method against the defined resource using the provided parameters</maml:para>
-          <maml:para>Example HashTable:     $query_params = @{         'filter[id]']               = 123456789         'filter[organization_id]']  = 12345     }</maml:para>
+          <maml:para>Example HashTable:     $UriParameters = @{         'filter[id]']               = 123456789         'filter[organization_id]']  = 12345     }</maml:para>
         </dev:remarks>
       </command:example>
     </command:examples>
@@ -13735,158 +13648,6 @@
       <maml:navigationLink>
         <maml:linkText>https://celerium.github.io/Celerium.ITGlue/site/Internal/Invoke-ITGlueRequest.html</maml:linkText>
         <maml:uri>https://celerium.github.io/Celerium.ITGlue/site/Internal/Invoke-ITGlueRequest.html</maml:uri>
-      </maml:navigationLink>
-      <maml:navigationLink>
-        <maml:linkText>https://github.com/Celerium/Celerium.ITGlue</maml:linkText>
-        <maml:uri>https://github.com/Celerium/Celerium.ITGlue</maml:uri>
-      </maml:navigationLink>
-    </command:relatedLinks>
-  </command:command>
-  <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10" xmlns:MSHelp="http://msdn.microsoft.com/mshelp">
-    <command:details>
-      <command:name>New-ITGlueAESSecret</command:name>
-      <command:verb>New</command:verb>
-      <command:noun>ITGlueAESSecret</command:noun>
-      <maml:description>
-        <maml:para>Creates a AES encrypted API key and decipher key</maml:para>
-      </maml:description>
-    </command:details>
-    <maml:description>
-      <maml:para>The New-ITGlueAESSecret cmdlet creates a AES encrypted API key and decipher key</maml:para>
-      <maml:para>This allows the key to be exported for use on other systems without relying on Windows DPAPI</maml:para>
-      <maml:para>Do NOT share the decipher key with anyone as this will allow them to decrypt the encrypted API key</maml:para>
-    </maml:description>
-    <command:syntax>
-      <command:syntaxItem>
-        <maml:name>New-ITGlueAESSecret</maml:name>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="1" aliases="none">
-          <maml:name>KeyLength</maml:name>
-          <maml:description>
-            <maml:para>The length of the AES key to generate</maml:para>
-            <maml:para>By default a 256-bit key (32) is generated</maml:para>
-            <maml:para>Allowed values: 16, 24, 32</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">Int32</command:parameterValue>
-          <dev:type>
-            <maml:name>Int32</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>32</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="2" aliases="none">
-          <maml:name>Path</maml:name>
-          <maml:description>
-            <maml:para>The path to save the encrypted API key and decipher key</maml:para>
-            <maml:para>By default keys are only stored in memory</maml:para>
-          </maml:description>
-          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
-          <dev:type>
-            <maml:name>String</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>$(Get-Location).Path</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="wi">
-          <maml:name>WhatIf</maml:name>
-          <maml:description>
-            <maml:para>Shows what would happen if the cmdlet runs. The cmdlet is not run.</maml:para>
-          </maml:description>
-          <dev:type>
-            <maml:name>SwitchParameter</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>False</dev:defaultValue>
-        </command:parameter>
-        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="cf">
-          <maml:name>Confirm</maml:name>
-          <maml:description>
-            <maml:para>Prompts you for confirmation before running the cmdlet.</maml:para>
-          </maml:description>
-          <dev:type>
-            <maml:name>SwitchParameter</maml:name>
-            <maml:uri />
-          </dev:type>
-          <dev:defaultValue>False</dev:defaultValue>
-        </command:parameter>
-      </command:syntaxItem>
-    </command:syntax>
-    <command:parameters>
-      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="1" aliases="none">
-        <maml:name>KeyLength</maml:name>
-        <maml:description>
-          <maml:para>The length of the AES key to generate</maml:para>
-          <maml:para>By default a 256-bit key (32) is generated</maml:para>
-          <maml:para>Allowed values: 16, 24, 32</maml:para>
-        </maml:description>
-        <command:parameterValue required="true" variableLength="false">Int32</command:parameterValue>
-        <dev:type>
-          <maml:name>Int32</maml:name>
-          <maml:uri />
-        </dev:type>
-        <dev:defaultValue>32</dev:defaultValue>
-      </command:parameter>
-      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="2" aliases="none">
-        <maml:name>Path</maml:name>
-        <maml:description>
-          <maml:para>The path to save the encrypted API key and decipher key</maml:para>
-          <maml:para>By default keys are only stored in memory</maml:para>
-        </maml:description>
-        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
-        <dev:type>
-          <maml:name>String</maml:name>
-          <maml:uri />
-        </dev:type>
-        <dev:defaultValue>$(Get-Location).Path</dev:defaultValue>
-      </command:parameter>
-      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="wi">
-        <maml:name>WhatIf</maml:name>
-        <maml:description>
-          <maml:para>Shows what would happen if the cmdlet runs. The cmdlet is not run.</maml:para>
-        </maml:description>
-        <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
-        <dev:type>
-          <maml:name>SwitchParameter</maml:name>
-          <maml:uri />
-        </dev:type>
-        <dev:defaultValue>False</dev:defaultValue>
-      </command:parameter>
-      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="cf">
-        <maml:name>Confirm</maml:name>
-        <maml:description>
-          <maml:para>Prompts you for confirmation before running the cmdlet.</maml:para>
-        </maml:description>
-        <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
-        <dev:type>
-          <maml:name>SwitchParameter</maml:name>
-          <maml:uri />
-        </dev:type>
-        <dev:defaultValue>False</dev:defaultValue>
-      </command:parameter>
-    </command:parameters>
-    <command:inputTypes />
-    <command:returnValues />
-    <maml:alertSet>
-      <maml:alert>
-        <maml:para>N/A</maml:para>
-      </maml:alert>
-    </maml:alertSet>
-    <command:examples>
-      <command:example>
-        <maml:title>-------------------------- EXAMPLE 1 --------------------------</maml:title>
-        <dev:code>New-ITGlueAESSecret</dev:code>
-        <dev:remarks>
-          <maml:para>Prompts to enter in the API key which will be encrypted using a randomly generated 256-bit AES key</maml:para>
-        </dev:remarks>
-      </command:example>
-    </command:examples>
-    <command:relatedLinks>
-      <maml:navigationLink>
-        <maml:linkText>https://celerium.github.io/Celerium.ITGlue/site/Internal/New-ITGlueAESSecret.html</maml:linkText>
-        <maml:uri>https://celerium.github.io/Celerium.ITGlue/site/Internal/New-ITGlueAESSecret.html</maml:uri>
-      </maml:navigationLink>
-      <maml:navigationLink>
-        <maml:linkText>https://github.com/Celerium/Celerium.ITGlue</maml:linkText>
-        <maml:uri>https://github.com/Celerium/Celerium.ITGlue</maml:uri>
       </maml:navigationLink>
     </command:relatedLinks>
   </command:command>
@@ -13976,10 +13737,6 @@
         <maml:linkText>https://celerium.github.io/Celerium.ITGlue/site/Internal/Remove-ITGlueAPIKey.html</maml:linkText>
         <maml:uri>https://celerium.github.io/Celerium.ITGlue/site/Internal/Remove-ITGlueAPIKey.html</maml:uri>
       </maml:navigationLink>
-      <maml:navigationLink>
-        <maml:linkText>https://github.com/Celerium/Celerium.ITGlue</maml:linkText>
-        <maml:uri>https://github.com/Celerium/Celerium.ITGlue</maml:uri>
-      </maml:navigationLink>
     </command:relatedLinks>
   </command:command>
   <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10" xmlns:MSHelp="http://msdn.microsoft.com/mshelp">
@@ -14068,28 +13825,24 @@
         <maml:linkText>https://celerium.github.io/Celerium.ITGlue/site/Internal/Remove-ITGlueBaseURI.html</maml:linkText>
         <maml:uri>https://celerium.github.io/Celerium.ITGlue/site/Internal/Remove-ITGlueBaseURI.html</maml:uri>
       </maml:navigationLink>
-      <maml:navigationLink>
-        <maml:linkText>https://github.com/Celerium/Celerium.ITGlue</maml:linkText>
-        <maml:uri>https://github.com/Celerium/Celerium.ITGlue</maml:uri>
-      </maml:navigationLink>
     </command:relatedLinks>
   </command:command>
   <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10" xmlns:MSHelp="http://msdn.microsoft.com/mshelp">
     <command:details>
-      <command:name>Remove-ITGlueModuleSetting</command:name>
+      <command:name>Remove-ITGlueModuleSettings</command:name>
       <command:verb>Remove</command:verb>
-      <command:noun>ITGlueModuleSetting</command:noun>
+      <command:noun>ITGlueModuleSettings</command:noun>
       <maml:description>
         <maml:para>Removes the stored ITGlue configuration folder</maml:para>
       </maml:description>
     </command:details>
     <maml:description>
-      <maml:para>The Remove-ITGlueModuleSetting cmdlet removes the ITGlue folder and its files This cmdlet also has the option to remove sensitive ITGlue variables as well</maml:para>
+      <maml:para>The Remove-ITGlueModuleSettings cmdlet removes the ITGlue folder and its files This cmdlet also has the option to remove sensitive ITGlue variables as well</maml:para>
       <maml:para>By default configuration files are stored in the following location and will be removed:     $env:USERPROFILE\Celerium.ITGlue</maml:para>
     </maml:description>
     <command:syntax>
       <command:syntaxItem>
-        <maml:name>Remove-ITGlueModuleSetting</maml:name>
+        <maml:name>Remove-ITGlueModuleSettings</maml:name>
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="1" aliases="none">
           <maml:name>ITGlueConfigPath</maml:name>
           <maml:description>
@@ -14104,7 +13857,7 @@
           <dev:defaultValue>$(Join-Path -Path $home -ChildPath $(if ($IsWindows -or $PSEdition -eq 'Desktop') {"Celerium.ITGlue"}else{".Celerium.ITGlue"}) )</dev:defaultValue>
         </command:parameter>
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
-          <maml:name>WithVariables</maml:name>
+          <maml:name>AndVariables</maml:name>
           <maml:description>
             <maml:para>Define if sensitive ITGlue variables should be removed as well</maml:para>
             <maml:para>By default the variables are not removed</maml:para>
@@ -14154,7 +13907,7 @@
         <dev:defaultValue>$(Join-Path -Path $home -ChildPath $(if ($IsWindows -or $PSEdition -eq 'Desktop') {"Celerium.ITGlue"}else{".Celerium.ITGlue"}) )</dev:defaultValue>
       </command:parameter>
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
-        <maml:name>WithVariables</maml:name>
+        <maml:name>AndVariables</maml:name>
         <maml:description>
           <maml:para>Define if sensitive ITGlue variables should be removed as well</maml:para>
           <maml:para>By default the variables are not removed</maml:para>
@@ -14201,7 +13954,7 @@
     <command:examples>
       <command:example>
         <maml:title>-------------------------- EXAMPLE 1 --------------------------</maml:title>
-        <dev:code>Remove-ITGlueModuleSetting</dev:code>
+        <dev:code>Remove-ITGlueModuleSettings</dev:code>
         <dev:remarks>
           <maml:para>Checks to see if the default configuration folder exists and removes it if it does</maml:para>
           <maml:para>The default location of the ITGlue configuration folder is:     $env:USERPROFILE\Celerium.ITGlue</maml:para>
@@ -14209,7 +13962,7 @@
       </command:example>
       <command:example>
         <maml:title>-------------------------- EXAMPLE 2 --------------------------</maml:title>
-        <dev:code>Remove-ITGlueModuleSetting -ITGlueConfigPath C:\Celerium.ITGlue -WithVariables</dev:code>
+        <dev:code>Remove-ITGlueModuleSettings -ITGlueConfigPath C:\Celerium.ITGlue -AndVariables</dev:code>
         <dev:remarks>
           <maml:para>Checks to see if the defined configuration folder exists and removes it if it does If sensitive ITGlue variables exist then they are removed as well</maml:para>
           <maml:para>The location of the ITGlue configuration folder in this example is:     C:\Celerium.ITGlue</maml:para>
@@ -14218,12 +13971,8 @@
     </command:examples>
     <command:relatedLinks>
       <maml:navigationLink>
-        <maml:linkText>https://celerium.github.io/Celerium.ITGlue/site/Internal/Remove-ITGlueModuleSetting.html</maml:linkText>
-        <maml:uri>https://celerium.github.io/Celerium.ITGlue/site/Internal/Remove-ITGlueModuleSetting.html</maml:uri>
-      </maml:navigationLink>
-      <maml:navigationLink>
-        <maml:linkText>https://github.com/Celerium/Celerium.ITGlue</maml:linkText>
-        <maml:uri>https://github.com/Celerium/Celerium.ITGlue</maml:uri>
+        <maml:linkText>https://celerium.github.io/Celerium.ITGlue/site/Internal/Remove-ITGlueModuleSettings.html</maml:linkText>
+        <maml:uri>https://celerium.github.io/Celerium.ITGlue/site/Internal/Remove-ITGlueModuleSettings.html</maml:uri>
       </maml:navigationLink>
     </command:relatedLinks>
   </command:command>
@@ -14302,10 +14051,6 @@
       <maml:navigationLink>
         <maml:linkText>https://celerium.github.io/Celerium.ITGlue/site/Internal/Test-ITGlueAPIKey.html</maml:linkText>
         <maml:uri>https://celerium.github.io/Celerium.ITGlue/site/Internal/Test-ITGlueAPIKey.html</maml:uri>
-      </maml:navigationLink>
-      <maml:navigationLink>
-        <maml:linkText>https://github.com/Celerium/Celerium.ITGlue</maml:linkText>
-        <maml:uri>https://github.com/Celerium/Celerium.ITGlue</maml:uri>
       </maml:navigationLink>
     </command:relatedLinks>
   </command:command>

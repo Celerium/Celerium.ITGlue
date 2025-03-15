@@ -5,7 +5,7 @@ pool:
   vmImage: ubuntu-latest
 
 variables:
-  version: 1.0.0
+  version: 1.1.0
   moduleName: Celerium.ITGlue
 
 jobs:

@@ -15,7 +15,7 @@ Updates one or more configurations
 
 ## SYNTAX
 
-### Bulk_Update (Default)
+### BulkUpdate (Default)
 ```powershell
 Set-ITGlueConfiguration -Data <Object> [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
@@ -26,16 +26,16 @@ Set-ITGlueConfiguration -ID <Int64> [-OrganizationID <Int64>] -Data <Object> [-W
  [<CommonParameters>]
 ```
 
-### Bulk_Update_RMM_PSA
+### BulkUpdateRMMPSA
 ```powershell
 Set-ITGlueConfiguration [-FilterID <Int64>] [-FilterName <String>] [-FilterOrganizationID <Int64>]
  [-FilterConfigurationTypeID <Int64>] [-FilterConfigurationStatusID <Int64>] [-FilterContactID <Int64>]
  [-FilterSerialNumber <String>] [-FilterMacAddress <String>] [-FilterAssetTag <String>] [-FilterPsaID <String>]
  -FilterPsaIntegrationType <String> [-FilterRmmID <String>] -FilterRmmIntegrationType <String>
- [-FilterArchived <String>] [-WhatIf] [-Confirm] [<CommonParameters>]
+ [-FilterArchived <String>] -Data <Object> [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
-### Bulk_Update_PSA
+### BulkUpdatePSA
 ```powershell
 Set-ITGlueConfiguration [-FilterID <Int64>] [-FilterName <String>] [-FilterOrganizationID <Int64>]
  [-FilterConfigurationTypeID <Int64>] [-FilterConfigurationStatusID <Int64>] [-FilterContactID <Int64>]
@@ -44,7 +44,7 @@ Set-ITGlueConfiguration [-FilterID <Int64>] [-FilterName <String>] [-FilterOrgan
  [-Confirm] [<CommonParameters>]
 ```
 
-### Bulk_Update_RMM
+### BulkUpdateRMM
 ```powershell
 Set-ITGlueConfiguration [-FilterID <Int64>] [-FilterName <String>] [-FilterOrganizationID <Int64>]
  [-FilterConfigurationTypeID <Int64>] [-FilterConfigurationStatusID <Int64>] [-FilterContactID <Int64>]
@@ -53,17 +53,12 @@ Set-ITGlueConfiguration [-FilterID <Int64>] [-FilterName <String>] [-FilterOrgan
  [-FilterArchived <String>] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
-### Bulk_Update_rmm_psa
+### BulkUpdatepsa
 ```powershell
 Set-ITGlueConfiguration -Data <Object> [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
-### Bulk_Update_psa
-```powershell
-Set-ITGlueConfiguration -Data <Object> [-WhatIf] [-Confirm] [<CommonParameters>]
-```
-
-### Bulk_Update_rmm
+### BulkUpdatermm
 ```powershell
 Set-ITGlueConfiguration -Data <Object> [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
@@ -130,7 +125,7 @@ Filter by configuration id
 
 ```yaml
 Type: Int64
-Parameter Sets: Bulk_Update_RMM_PSA, Bulk_Update_PSA, Bulk_Update_RMM
+Parameter Sets: BulkUpdateRMMPSA, BulkUpdatePSA, BulkUpdateRMM
 Aliases:
 
 Required: False
@@ -145,7 +140,7 @@ Filter by configuration name
 
 ```yaml
 Type: String
-Parameter Sets: Bulk_Update_RMM_PSA, Bulk_Update_PSA, Bulk_Update_RMM
+Parameter Sets: BulkUpdateRMMPSA, BulkUpdatePSA, BulkUpdateRMM
 Aliases:
 
 Required: False
@@ -160,7 +155,7 @@ Filter by organization name
 
 ```yaml
 Type: Int64
-Parameter Sets: Bulk_Update_RMM_PSA, Bulk_Update_PSA, Bulk_Update_RMM
+Parameter Sets: BulkUpdateRMMPSA, BulkUpdatePSA, BulkUpdateRMM
 Aliases:
 
 Required: False
@@ -175,7 +170,7 @@ Filter by configuration type id
 
 ```yaml
 Type: Int64
-Parameter Sets: Bulk_Update_RMM_PSA, Bulk_Update_PSA, Bulk_Update_RMM
+Parameter Sets: BulkUpdateRMMPSA, BulkUpdatePSA, BulkUpdateRMM
 Aliases:
 
 Required: False
@@ -190,7 +185,7 @@ Filter by configuration status id
 
 ```yaml
 Type: Int64
-Parameter Sets: Bulk_Update_RMM_PSA, Bulk_Update_PSA, Bulk_Update_RMM
+Parameter Sets: BulkUpdateRMMPSA, BulkUpdatePSA, BulkUpdateRMM
 Aliases:
 
 Required: False
@@ -205,7 +200,7 @@ Filter by contact id
 
 ```yaml
 Type: Int64
-Parameter Sets: Bulk_Update_RMM_PSA, Bulk_Update_PSA, Bulk_Update_RMM
+Parameter Sets: BulkUpdateRMMPSA, BulkUpdatePSA, BulkUpdateRMM
 Aliases:
 
 Required: False
@@ -220,7 +215,7 @@ Filter by a configurations serial number
 
 ```yaml
 Type: String
-Parameter Sets: Bulk_Update_RMM_PSA, Bulk_Update_PSA, Bulk_Update_RMM
+Parameter Sets: BulkUpdateRMMPSA, BulkUpdatePSA, BulkUpdateRMM
 Aliases:
 
 Required: False
@@ -235,7 +230,7 @@ Filter by a configurations mac address
 
 ```yaml
 Type: String
-Parameter Sets: Bulk_Update_RMM_PSA, Bulk_Update_PSA, Bulk_Update_RMM
+Parameter Sets: BulkUpdateRMMPSA, BulkUpdatePSA, BulkUpdateRMM
 Aliases:
 
 Required: False
@@ -250,7 +245,7 @@ Filter by a configurations asset tag
 
 ```yaml
 Type: String
-Parameter Sets: Bulk_Update_RMM_PSA, Bulk_Update_PSA, Bulk_Update_RMM
+Parameter Sets: BulkUpdateRMMPSA, BulkUpdatePSA, BulkUpdateRMM
 Aliases:
 
 Required: False
@@ -265,7 +260,7 @@ Filter by a PSA id
 
 ```yaml
 Type: String
-Parameter Sets: Bulk_Update_RMM_PSA, Bulk_Update_PSA
+Parameter Sets: BulkUpdateRMMPSA, BulkUpdatePSA
 Aliases:
 
 Required: False
@@ -283,7 +278,7 @@ Allowed values:
 
 ```yaml
 Type: String
-Parameter Sets: Bulk_Update_RMM_PSA, Bulk_Update_PSA
+Parameter Sets: BulkUpdateRMMPSA, BulkUpdatePSA
 Aliases:
 
 Required: True
@@ -295,7 +290,7 @@ Accept wildcard characters: False
 
 ```yaml
 Type: String
-Parameter Sets: Bulk_Update_RMM
+Parameter Sets: BulkUpdateRMM
 Aliases:
 
 Required: False
@@ -310,7 +305,7 @@ Filter by a RMM id
 
 ```yaml
 Type: String
-Parameter Sets: Bulk_Update_RMM_PSA, Bulk_Update_RMM
+Parameter Sets: BulkUpdateRMMPSA, BulkUpdateRMM
 Aliases:
 
 Required: False
@@ -331,7 +326,7 @@ Allowed values:
 
 ```yaml
 Type: String
-Parameter Sets: Bulk_Update_RMM_PSA, Bulk_Update_RMM
+Parameter Sets: BulkUpdateRMMPSA, BulkUpdateRMM
 Aliases:
 
 Required: True
@@ -343,7 +338,7 @@ Accept wildcard characters: False
 
 ```yaml
 Type: String
-Parameter Sets: Bulk_Update_PSA
+Parameter Sets: BulkUpdatePSA
 Aliases:
 
 Required: False
@@ -361,7 +356,7 @@ Allowed values: (case-sensitive)
 
 ```yaml
 Type: String
-Parameter Sets: Bulk_Update_RMM_PSA, Bulk_Update_PSA, Bulk_Update_RMM
+Parameter Sets: BulkUpdateRMMPSA, BulkUpdatePSA, BulkUpdateRMM
 Aliases:
 
 Required: False
@@ -379,7 +374,7 @@ by the Invoke-ITGlueRequest function
 
 ```yaml
 Type: Object
-Parameter Sets: Bulk_Update, Update, Bulk_Update_rmm_psa, Bulk_Update_psa, Bulk_Update_rmm
+Parameter Sets: BulkUpdate, Update, BulkUpdateRMMPSA, BulkUpdatepsa, BulkUpdatermm
 Aliases:
 
 Required: True

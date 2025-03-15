@@ -100,7 +100,7 @@ function Set-ITGlueConfiguration {
         https://api.itglue.com/developer/#configurations-update
 #>
 
-    [CmdletBinding(DefaultParameterSetName = 'Bulk_Update', SupportsShouldProcess, ConfirmImpact = 'Medium')]
+    [CmdletBinding(DefaultParameterSetName = 'BulkUpdate', SupportsShouldProcess, ConfirmImpact = 'Medium')]
     Param (
         [Parameter(ParameterSetName = 'Update', Mandatory = $true)]
         [int64]$ID,
@@ -108,68 +108,68 @@ function Set-ITGlueConfiguration {
         [Parameter(ParameterSetName = 'Update')]
         [int64]$OrganizationID,
 
-        [Parameter(ParameterSetName = 'Bulk_Update_RMM')]
-        [Parameter(ParameterSetName = 'Bulk_Update_PSA')]
-        [Parameter(ParameterSetName = 'Bulk_Update_RMM_PSA')]
+        [Parameter(ParameterSetName = 'BulkUpdateRMM')]
+        [Parameter(ParameterSetName = 'BulkUpdatePSA')]
+        [Parameter(ParameterSetName = 'BulkUpdateRMMPSA')]
         [int64]$FilterID,
 
-        [Parameter(ParameterSetName = 'Bulk_Update_RMM')]
-        [Parameter(ParameterSetName = 'Bulk_Update_PSA')]
-        [Parameter(ParameterSetName = 'Bulk_Update_RMM_PSA')]
+        [Parameter(ParameterSetName = 'BulkUpdateRMM')]
+        [Parameter(ParameterSetName = 'BulkUpdatePSA')]
+        [Parameter(ParameterSetName = 'BulkUpdateRMMPSA')]
         [string]$FilterName,
 
-        [Parameter(ParameterSetName = 'Bulk_Update_RMM')]
-        [Parameter(ParameterSetName = 'Bulk_Update_PSA')]
-        [Parameter(ParameterSetName = 'Bulk_Update_RMM_PSA')]
+        [Parameter(ParameterSetName = 'BulkUpdateRMM')]
+        [Parameter(ParameterSetName = 'BulkUpdatePSA')]
+        [Parameter(ParameterSetName = 'BulkUpdateRMMPSA')]
         [int64]$FilterOrganizationID,
 
-        [Parameter(ParameterSetName = 'Bulk_Update_RMM')]
-        [Parameter(ParameterSetName = 'Bulk_Update_PSA')]
-        [Parameter(ParameterSetName = 'Bulk_Update_RMM_PSA')]
+        [Parameter(ParameterSetName = 'BulkUpdateRMM')]
+        [Parameter(ParameterSetName = 'BulkUpdatePSA')]
+        [Parameter(ParameterSetName = 'BulkUpdateRMMPSA')]
         [int64]$FilterConfigurationTypeID,
 
-        [Parameter(ParameterSetName = 'Bulk_Update_RMM')]
-        [Parameter(ParameterSetName = 'Bulk_Update_PSA')]
-        [Parameter(ParameterSetName = 'Bulk_Update_RMM_PSA')]
+        [Parameter(ParameterSetName = 'BulkUpdateRMM')]
+        [Parameter(ParameterSetName = 'BulkUpdatePSA')]
+        [Parameter(ParameterSetName = 'BulkUpdateRMMPSA')]
         [int64]$FilterConfigurationStatusID,
 
-        [Parameter(ParameterSetName = 'Bulk_Update_RMM')]
-        [Parameter(ParameterSetName = 'Bulk_Update_PSA')]
-        [Parameter(ParameterSetName = 'Bulk_Update_RMM_PSA')]
+        [Parameter(ParameterSetName = 'BulkUpdateRMM')]
+        [Parameter(ParameterSetName = 'BulkUpdatePSA')]
+        [Parameter(ParameterSetName = 'BulkUpdateRMMPSA')]
         [int64]$FilterContactID,
 
-        [Parameter(ParameterSetName = 'Bulk_Update_RMM')]
-        [Parameter(ParameterSetName = 'Bulk_Update_PSA')]
-        [Parameter(ParameterSetName = 'Bulk_Update_RMM_PSA')]
+        [Parameter(ParameterSetName = 'BulkUpdateRMM')]
+        [Parameter(ParameterSetName = 'BulkUpdatePSA')]
+        [Parameter(ParameterSetName = 'BulkUpdateRMMPSA')]
         [string]$FilterSerialNumber,
 
-        [Parameter(ParameterSetName = 'Bulk_Update_RMM')]
-        [Parameter(ParameterSetName = 'Bulk_Update_PSA')]
-        [Parameter(ParameterSetName = 'Bulk_Update_RMM_PSA')]
+        [Parameter(ParameterSetName = 'BulkUpdateRMM')]
+        [Parameter(ParameterSetName = 'BulkUpdatePSA')]
+        [Parameter(ParameterSetName = 'BulkUpdateRMMPSA')]
         [string]$FilterMacAddress,
 
-        [Parameter(ParameterSetName = 'Bulk_Update_RMM')]
-        [Parameter(ParameterSetName = 'Bulk_Update_PSA')]
-        [Parameter(ParameterSetName = 'Bulk_Update_RMM_PSA')]
+        [Parameter(ParameterSetName = 'BulkUpdateRMM')]
+        [Parameter(ParameterSetName = 'BulkUpdatePSA')]
+        [Parameter(ParameterSetName = 'BulkUpdateRMMPSA')]
         [string]$FilterAssetTag,
 
-        [Parameter(ParameterSetName = 'Bulk_Update_PSA')]
-        [Parameter(ParameterSetName = 'Bulk_Update_RMM_PSA')]
+        [Parameter(ParameterSetName = 'BulkUpdatePSA')]
+        [Parameter(ParameterSetName = 'BulkUpdateRMMPSA')]
         [string]$FilterPsaID,
 
-        [Parameter(ParameterSetName = 'Bulk_Update_RMM')]
-        [Parameter(ParameterSetName = 'Bulk_Update_PSA', Mandatory = $true)]
-        [Parameter(ParameterSetName = 'Bulk_Update_RMM_PSA', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'BulkUpdateRMM')]
+        [Parameter(ParameterSetName = 'BulkUpdatePSA', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'BulkUpdateRMMPSA', Mandatory = $true)]
         [ValidateSet('manage', 'autotask', 'tigerpaw', 'kaseya-bms', 'pulseway-psa', 'vorex')]
         [string]$FilterPsaIntegrationType,
 
-        [Parameter(ParameterSetName = 'Bulk_Update_RMM')]
-        [Parameter(ParameterSetName = 'Bulk_Update_RMM_PSA')]
+        [Parameter(ParameterSetName = 'BulkUpdateRMM')]
+        [Parameter(ParameterSetName = 'BulkUpdateRMMPSA')]
         [string]$FilterRmmID,
 
-        [Parameter(ParameterSetName = 'Bulk_Update_RMM', Mandatory = $true)]
-        [Parameter(ParameterSetName = 'Bulk_Update_PSA')]
-        [Parameter(ParameterSetName = 'Bulk_Update_RMM_PSA', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'BulkUpdateRMM', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'BulkUpdatePSA')]
+        [Parameter(ParameterSetName = 'BulkUpdateRMMPSA', Mandatory = $true)]
         [ValidateSet(   'addigy', 'aem', 'atera', 'auvik', 'managed-workplace',
                         'continuum', 'jamf-pro', 'kaseya-vsa', 'automate', 'log-me-in',
                         'msp-rmm', 'meraki', 'msp-n-central', 'ninja-rmm', 'panorama9',
@@ -177,17 +177,17 @@ function Set-ITGlueConfiguration {
         )]
         [string]$FilterRmmIntegrationType,
 
-        [Parameter(ParameterSetName = 'Bulk_Update_RMM')]
-        [Parameter(ParameterSetName = 'Bulk_Update_PSA')]
-        [Parameter(ParameterSetName = 'Bulk_Update_RMM_PSA')]
+        [Parameter(ParameterSetName = 'BulkUpdateRMM')]
+        [Parameter(ParameterSetName = 'BulkUpdatePSA')]
+        [Parameter(ParameterSetName = 'BulkUpdateRMMPSA')]
         [ValidateSet('true','false','0','1', IgnoreCase = $false)]
         [string]$FilterArchived,
 
         [Parameter(ParameterSetName = 'Update', Mandatory = $true)]
-        [Parameter(ParameterSetName = 'Bulk_Update', Mandatory = $true)]
-        [Parameter(ParameterSetName = 'Bulk_Update_rmm', Mandatory = $true)]
-        [Parameter(ParameterSetName = 'Bulk_Update_psa', Mandatory = $true)]
-        [Parameter(ParameterSetName = 'Bulk_Update_rmm_psa', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'BulkUpdate', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'BulkUpdatermm', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'BulkUpdatepsa', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'BulkUpdateRMMPSA', Mandatory = $true)]
         $Data
     )
 
@@ -205,7 +205,7 @@ function Set-ITGlueConfiguration {
 
 
         switch -Wildcard ($PSCmdlet.ParameterSetName) {
-            'Bulk_Update*'  { $ResourceUri = "/configurations" }
+            'BulkUpdate*'  { $ResourceUri = "/configurations" }
             'Update'        {
 
                 switch ([bool]$OrganizationID) {
@@ -217,39 +217,39 @@ function Set-ITGlueConfiguration {
 
         }
 
-        $query_params = @{}
+        $UriParameters = @{}
 
         #Region     [ Parameter Translation ]
 
-        if ($PSCmdlet.ParameterSetName -like 'Bulk_Update*') {
-            if ($FilterID)                      { $query_params['filter[id]']                       = $FilterID }
-            if ($FilterName)                    { $query_params['filter[name]']                     = $FilterName }
-            if ($FilterOrganizationID)          { $query_params['filter[organization_id]']          = $FilterOrganizationID }
-            if ($FilterConfigurationTypeID)     { $query_params['filter[configuration_type_id]']    = $FilterConfigurationTypeID }
-            if ($FilterConfigurationStatusID)   { $query_params['filter[configuration_status_id]']  = $FilterConfigurationStatusID }
-            if ($FilterContactID)               { $query_params['filter[contact_id]']               = $FilterContactID }
-            if ($FilterSerialNumber)            { $query_params['filter[serial_number]']            = $FilterSerialNumber }
-            if ($FilterMacAddress)              { $query_params['filter[mac_address]']              = $FilterMacAddress }
-            if ($FilterAssetTag)                { $query_params['filter[asset_tag]']                = $FilterAssetTag }
-            if ($FilterPsaIntegrationType)      { $query_params['filter[psa_integration_type]']     = $FilterPsaIntegrationType }
-            if ($FilterRmmIntegrationType)      { $query_params['filter[rmm_integration_type]']     = $FilterRmmIntegrationType }
-            if ($FilterArchived)                { $query_params['filter[archived]']                 = $FilterArchived }
+        if ($PSCmdlet.ParameterSetName -like 'BulkUpdate*') {
+            if ($FilterID)                      { $UriParameters['filter[id]']                       = $FilterID }
+            if ($FilterName)                    { $UriParameters['filter[name]']                     = $FilterName }
+            if ($FilterOrganizationID)          { $UriParameters['filter[organization_id]']          = $FilterOrganizationID }
+            if ($FilterConfigurationTypeID)     { $UriParameters['filter[configuration_type_id]']    = $FilterConfigurationTypeID }
+            if ($FilterConfigurationStatusID)   { $UriParameters['filter[configuration_status_id]']  = $FilterConfigurationStatusID }
+            if ($FilterContactID)               { $UriParameters['filter[contact_id]']               = $FilterContactID }
+            if ($FilterSerialNumber)            { $UriParameters['filter[serial_number]']            = $FilterSerialNumber }
+            if ($FilterMacAddress)              { $UriParameters['filter[mac_address]']              = $FilterMacAddress }
+            if ($FilterAssetTag)                { $UriParameters['filter[asset_tag]']                = $FilterAssetTag }
+            if ($FilterPsaIntegrationType)      { $UriParameters['filter[psa_integration_type]']     = $FilterPsaIntegrationType }
+            if ($FilterRmmIntegrationType)      { $UriParameters['filter[rmm_integration_type]']     = $FilterRmmIntegrationType }
+            if ($FilterArchived)                { $UriParameters['filter[archived]']                 = $FilterArchived }
         }
 
-        if ($PSCmdlet.ParameterSetName -like 'Bulk_Update_RMM*') {
-            if ($FilterRmmID) {$query_params['filter[rmm_id]'] = $FilterRmmID}
+        if ($PSCmdlet.ParameterSetName -like 'BulkUpdateRMM*') {
+            if ($FilterRmmID) {$UriParameters['filter[rmm_id]'] = $FilterRmmID}
         }
-        if ($PSCmdlet.ParameterSetName -like '*_PSA') {
-            if ($FilterPsaID) {$query_params['filter[psa_id]'] = $FilterPsaID}
+        if ($PSCmdlet.ParameterSetName -like '*PSA') {
+            if ($FilterPsaID) {$UriParameters['filter[psa_id]'] = $FilterPsaID}
         }
 
         #EndRegion  [ Parameter Translation ]
 
         Set-Variable -Name $ParameterName -Value $PSBoundParameters -Scope Global -Force -Confirm:$false
-        Set-Variable -Name $QueryParameterName -Value $query_params -Scope Global -Force -Confirm:$false
+        Set-Variable -Name $QueryParameterName -Value $UriParameters -Scope Global -Force -Confirm:$false
 
         if ($PSCmdlet.ShouldProcess($ResourceUri)) {
-            return Invoke-ITGlueRequest -Method PATCH -ResourceURI $ResourceUri -QueryParams $query_params -Data $Data
+            return Invoke-ITGlueRequest -Method PATCH -ResourceURI $ResourceUri -UriFilter $UriParameters -Data $Data
         }
 
     }

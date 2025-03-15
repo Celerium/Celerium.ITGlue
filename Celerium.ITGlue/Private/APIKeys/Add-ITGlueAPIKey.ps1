@@ -50,36 +50,18 @@ function Add-ITGlueAPIKey {
 
     .LINK
         https://celerium.github.io/Celerium.ITGlue/site/Internal/Add-ITGlueAPIKey.html
-
-    .LINK
-        https://github.com/Celerium/Celerium.ITGlue
-
 #>
 
-    [CmdletBinding(DefaultParameterSetName = 'PlainText')]
+    [CmdletBinding(DefaultParameterSetName = 'AsPlainText')]
     [Alias('Set-ITGlueAPIKey')]
     Param (
-        [Parameter(Mandatory = $false, ValueFromPipeline = $true, ParameterSetName = 'PlainText')]
+        [Parameter(Mandatory = $false, ValueFromPipeline = $true, ParameterSetName = 'AsPlainText')]
         [AllowEmptyString()]
         [string]$ApiKey,
 
         [Parameter(Mandatory = $false, ValueFromPipeline = $true, ParameterSetName = 'SecureString')]
         [ValidateNotNullOrEmpty()]
-        [securestring]$ApiKeySecureString,
-
-        [Parameter(Mandatory = $false, ParameterSetName = 'AESEncrypted')]
-        [ValidateScript({
-            if (Test-Path $_) { $true }
-            else { throw "The file provided does not exist - [  $_  ]" }
-        })]
-        [string]$EncryptedStandardAPIKeyPath,
-
-        [Parameter(Mandatory = $true, ParameterSetName = 'AESEncrypted')]
-        [ValidateScript({
-            if (Test-Path $_) { $true }
-            else { throw "The file provided does not exist - [  $_  ]" }
-        })]
-        [string]$EncryptedStandardAESKeyPath
+        [securestring]$ApiKeySecureString
     )
 
     begin {}
@@ -88,31 +70,23 @@ function Add-ITGlueAPIKey {
 
         switch ($PSCmdlet.ParameterSetName) {
 
-            'PlainText' {
+            'AsPlainText' {
 
                 if ($ApiKey) {
                     $SecureString = ConvertTo-SecureString $ApiKey -AsPlainText -Force
 
-                    Set-Variable -Name "ITGlueModuleAPIKey" -Value $SecureString -Option ReadOnly -Scope global -Force
+                    Set-Variable -Name "ITGlueModuleApiKey" -Value $SecureString -Option ReadOnly -Scope global -Force
                 }
                 else {
                     Write-Output "Please enter your API key:"
                     $SecureString = Read-Host -AsSecureString
 
-                    Set-Variable -Name "ITGlueModuleAPIKey" -Value $SecureString -Option ReadOnly -Scope global -Force
+                    Set-Variable -Name "ITGlueModuleApiKey" -Value $SecureString -Option ReadOnly -Scope global -Force
                 }
 
             }
 
-            'SecureString' { Set-Variable -Name "ITGlueModuleAPIKey" -Value $ApiKeySecureString -Option ReadOnly -Scope global -Force }
-
-            'AESEncrypted' {
-
-                $SecureString =  Get-Content $EncryptedStandardAPIKeyPath | ConvertTo-SecureString -Key $(Get-Content $EncryptedStandardAESKeyPath )
-
-                Set-Variable -Name "ITGlueModuleAPIKey" -Value $SecureString -Option ReadOnly -Scope global -Force
-
-            }
+            'SecureString' { Set-Variable -Name "ITGlueModuleApiKey" -Value $ApiKeySecureString -Option ReadOnly -Scope global -Force }
 
         }
 

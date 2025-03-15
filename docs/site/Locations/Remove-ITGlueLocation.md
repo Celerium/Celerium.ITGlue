@@ -15,14 +15,14 @@ Deletes one or more locations
 
 ## SYNTAX
 
-### Bulk_Destroy (Default)
+### BulkDestroy (Default)
 ```powershell
 Remove-ITGlueLocation [-OrganizationID <Int64>] [-ID <Int64>] [-FilterID <Int64>] [-FilterName <String>]
  [-FilterCity <String>] [-FilterRegionID <Int64>] [-FilterCountryID <Int64>] [-FilterOrganizationID <Int64>]
  [-FilterPsaIntegrationType <String>] -Data <Object> [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
-### Bulk_Destroy_PSA
+### BulkDestroyPSA
 ```powershell
 Remove-ITGlueLocation [-OrganizationID <Int64>] [-ID <Int64>] [-FilterID <Int64>] [-FilterName <String>]
  [-FilterCity <String>] [-FilterRegionID <Int64>] [-FilterCountryID <Int64>] [-FilterOrganizationID <Int64>]
@@ -180,7 +180,7 @@ Filter by a psa integration id
 
 ```yaml
 Type: String
-Parameter Sets: Bulk_Destroy_PSA
+Parameter Sets: BulkDestroyPSA
 Aliases:
 
 Required: False
@@ -198,7 +198,7 @@ Allowed values:
 
 ```yaml
 Type: String
-Parameter Sets: Bulk_Destroy
+Parameter Sets: BulkDestroy
 Aliases:
 
 Required: False
@@ -210,7 +210,7 @@ Accept wildcard characters: False
 
 ```yaml
 Type: String
-Parameter Sets: Bulk_Destroy_PSA
+Parameter Sets: BulkDestroyPSA
 Aliases:
 
 Required: True

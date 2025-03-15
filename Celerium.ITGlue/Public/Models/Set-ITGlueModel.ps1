@@ -44,7 +44,7 @@ function Set-ITGlueModel {
         https://api.itglue.com/developer/#models-update
 #>
 
-    [CmdletBinding(DefaultParameterSetName = 'Bulk_Update', SupportsShouldProcess, ConfirmImpact = 'Low')]
+    [CmdletBinding(DefaultParameterSetName = 'BulkUpdate', SupportsShouldProcess, ConfirmImpact = 'Low')]
     Param (
         [Parameter(ParameterSetName = 'Update')]
         [int64]$ManufacturerID,
@@ -52,11 +52,11 @@ function Set-ITGlueModel {
         [Parameter(ParameterSetName = 'Update', Mandatory = $true)]
         [int64]$ID,
 
-        [Parameter(ParameterSetName = 'Bulk_Update')]
+        [Parameter(ParameterSetName = 'BulkUpdate')]
         [int64]$FilterID,
 
         [Parameter(ParameterSetName = 'Update', Mandatory = $true)]
-        [Parameter(ParameterSetName = 'Bulk_Update', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'BulkUpdate', Mandatory = $true)]
         $Data
     )
 
@@ -81,25 +81,25 @@ function Set-ITGlueModel {
                 }
 
             }
-            'Bulk_Update'   { $ResourceUri = "/models" }
+            'BulkUpdate'   { $ResourceUri = "/models" }
 
         }
 
-        $query_params = @{}
+        $UriParameters = @{}
 
         #Region     [ Parameter Translation ]
 
-        if ($PSCmdlet.ParameterSetName -eq 'Bulk_Update') {
-            if ($FilterID) { $query_params['filter[id]'] = $FilterID }
+        if ($PSCmdlet.ParameterSetName -eq 'BulkUpdate') {
+            if ($FilterID) { $UriParameters['filter[id]'] = $FilterID }
         }
 
         #EndRegion  [ Parameter Translation ]
 
         Set-Variable -Name $ParameterName -Value $PSBoundParameters -Scope Global -Force -Confirm:$false
-        Set-Variable -Name $QueryParameterName -Value $query_params -Scope Global -Force -Confirm:$false
+        Set-Variable -Name $QueryParameterName -Value $UriParameters -Scope Global -Force -Confirm:$false
 
         if ($PSCmdlet.ShouldProcess($ResourceUri)) {
-            return Invoke-ITGlueRequest -Method PATCH -ResourceURI $ResourceUri -QueryParams $query_params -Data $Data
+            return Invoke-ITGlueRequest -Method PATCH -ResourceURI $ResourceUri -UriFilter $UriParameters -Data $Data
         }
 
     }

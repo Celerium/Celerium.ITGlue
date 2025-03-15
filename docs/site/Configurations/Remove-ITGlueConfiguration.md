@@ -15,7 +15,7 @@ Deletes one or more configurations
 
 ## SYNTAX
 
-### Bulk_Destroy (Default)
+### BulkDestroy (Default)
 ```powershell
 Remove-ITGlueConfiguration -Data <Object> [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
@@ -25,7 +25,7 @@ Remove-ITGlueConfiguration -Data <Object> [-WhatIf] [-Confirm] [<CommonParameter
 Remove-ITGlueConfiguration -ID <Int64> [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
-### Bulk_Destroy_RMM_PSA
+### BulkDestroyRMMPSA
 ```powershell
 Remove-ITGlueConfiguration [-FilterID <Int64>] [-FilterName <String>] [-FilterOrganizationID <Int64>]
  [-FilterConfigurationTypeID <Int64>] [-FilterConfigurationStatusID <Int64>] [-FilterContactID <Int64>]
@@ -34,7 +34,7 @@ Remove-ITGlueConfiguration [-FilterID <Int64>] [-FilterName <String>] [-FilterOr
  [-FilterArchived <String>] -Data <Object> [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
-### Bulk_Destroy_PSA
+### BulkDestroyPSA
 ```powershell
 Remove-ITGlueConfiguration [-FilterID <Int64>] [-FilterName <String>] [-FilterOrganizationID <Int64>]
  [-FilterConfigurationTypeID <Int64>] [-FilterConfigurationStatusID <Int64>] [-FilterContactID <Int64>]
@@ -43,7 +43,7 @@ Remove-ITGlueConfiguration [-FilterID <Int64>] [-FilterName <String>] [-FilterOr
  -Data <Object> [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
-### Bulk_Destroy_RMM
+### BulkDestroyRMM
 ```powershell
 Remove-ITGlueConfiguration [-FilterID <Int64>] [-FilterName <String>] [-FilterOrganizationID <Int64>]
  [-FilterConfigurationTypeID <Int64>] [-FilterConfigurationStatusID <Int64>] [-FilterContactID <Int64>]
@@ -90,7 +90,7 @@ Filter by configuration id
 
 ```yaml
 Type: Int64
-Parameter Sets: Bulk_Destroy_RMM_PSA, Bulk_Destroy_PSA, Bulk_Destroy_RMM
+Parameter Sets: BulkDestroyRMMPSA, BulkDestroyPSA, BulkDestroyRMM
 Aliases:
 
 Required: False
@@ -105,7 +105,7 @@ Filter by configuration name
 
 ```yaml
 Type: String
-Parameter Sets: Bulk_Destroy_RMM_PSA, Bulk_Destroy_PSA, Bulk_Destroy_RMM
+Parameter Sets: BulkDestroyRMMPSA, BulkDestroyPSA, BulkDestroyRMM
 Aliases:
 
 Required: False
@@ -120,7 +120,7 @@ Filter by organization name
 
 ```yaml
 Type: Int64
-Parameter Sets: Bulk_Destroy_RMM_PSA, Bulk_Destroy_PSA, Bulk_Destroy_RMM
+Parameter Sets: BulkDestroyRMMPSA, BulkDestroyPSA, BulkDestroyRMM
 Aliases:
 
 Required: False
@@ -135,7 +135,7 @@ Filter by configuration type id
 
 ```yaml
 Type: Int64
-Parameter Sets: Bulk_Destroy_RMM_PSA, Bulk_Destroy_PSA, Bulk_Destroy_RMM
+Parameter Sets: BulkDestroyRMMPSA, BulkDestroyPSA, BulkDestroyRMM
 Aliases:
 
 Required: False
@@ -150,7 +150,7 @@ Filter by configuration status id
 
 ```yaml
 Type: Int64
-Parameter Sets: Bulk_Destroy_RMM_PSA, Bulk_Destroy_PSA, Bulk_Destroy_RMM
+Parameter Sets: BulkDestroyRMMPSA, BulkDestroyPSA, BulkDestroyRMM
 Aliases:
 
 Required: False
@@ -165,7 +165,7 @@ Filter by contact id
 
 ```yaml
 Type: Int64
-Parameter Sets: Bulk_Destroy_RMM_PSA, Bulk_Destroy_PSA, Bulk_Destroy_RMM
+Parameter Sets: BulkDestroyRMMPSA, BulkDestroyPSA, BulkDestroyRMM
 Aliases:
 
 Required: False
@@ -180,7 +180,7 @@ Filter by a configurations serial number
 
 ```yaml
 Type: String
-Parameter Sets: Bulk_Destroy_RMM_PSA, Bulk_Destroy_PSA, Bulk_Destroy_RMM
+Parameter Sets: BulkDestroyRMMPSA, BulkDestroyPSA, BulkDestroyRMM
 Aliases:
 
 Required: False
@@ -195,7 +195,7 @@ Filter by a configurations mac address
 
 ```yaml
 Type: String
-Parameter Sets: Bulk_Destroy_RMM_PSA, Bulk_Destroy_PSA, Bulk_Destroy_RMM
+Parameter Sets: BulkDestroyRMMPSA, BulkDestroyPSA, BulkDestroyRMM
 Aliases:
 
 Required: False
@@ -210,7 +210,7 @@ Filter by a configurations asset tag
 
 ```yaml
 Type: String
-Parameter Sets: Bulk_Destroy_RMM_PSA, Bulk_Destroy_PSA, Bulk_Destroy_RMM
+Parameter Sets: BulkDestroyRMMPSA, BulkDestroyPSA, BulkDestroyRMM
 Aliases:
 
 Required: False
@@ -225,7 +225,7 @@ Filter by a PSA id
 
 ```yaml
 Type: String
-Parameter Sets: Bulk_Destroy_RMM_PSA, Bulk_Destroy_PSA
+Parameter Sets: BulkDestroyRMMPSA, BulkDestroyPSA
 Aliases:
 
 Required: False
@@ -243,7 +243,7 @@ Allowed values:
 
 ```yaml
 Type: String
-Parameter Sets: Bulk_Destroy_RMM_PSA, Bulk_Destroy_PSA
+Parameter Sets: BulkDestroyRMMPSA, BulkDestroyPSA
 Aliases:
 
 Required: True
@@ -255,7 +255,7 @@ Accept wildcard characters: False
 
 ```yaml
 Type: String
-Parameter Sets: Bulk_Destroy_RMM
+Parameter Sets: BulkDestroyRMM
 Aliases:
 
 Required: False
@@ -270,7 +270,7 @@ Filter by a RMM id
 
 ```yaml
 Type: String
-Parameter Sets: Bulk_Destroy_RMM_PSA, Bulk_Destroy_RMM
+Parameter Sets: BulkDestroyRMMPSA, BulkDestroyRMM
 Aliases:
 
 Required: False
@@ -291,7 +291,7 @@ Allowed values:
 
 ```yaml
 Type: String
-Parameter Sets: Bulk_Destroy_RMM_PSA, Bulk_Destroy_RMM
+Parameter Sets: BulkDestroyRMMPSA, BulkDestroyRMM
 Aliases:
 
 Required: True
@@ -303,7 +303,7 @@ Accept wildcard characters: False
 
 ```yaml
 Type: String
-Parameter Sets: Bulk_Destroy_PSA
+Parameter Sets: BulkDestroyPSA
 Aliases:
 
 Required: False
@@ -321,7 +321,7 @@ Allowed values: (case-sensitive)
 
 ```yaml
 Type: String
-Parameter Sets: Bulk_Destroy_RMM_PSA, Bulk_Destroy_PSA, Bulk_Destroy_RMM
+Parameter Sets: BulkDestroyRMMPSA, BulkDestroyPSA, BulkDestroyRMM
 Aliases:
 
 Required: False
@@ -339,7 +339,7 @@ by the Invoke-ITGlueRequest function
 
 ```yaml
 Type: Object
-Parameter Sets: Bulk_Destroy, Bulk_Destroy_RMM_PSA, Bulk_Destroy_PSA, Bulk_Destroy_RMM
+Parameter Sets: BulkDestroy, BulkDestroyRMMPSA, BulkDestroyPSA, BulkDestroyRMM
 Aliases:
 
 Required: True

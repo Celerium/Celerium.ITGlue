@@ -15,7 +15,7 @@ Updates one or more a locations
 
 ## SYNTAX
 
-### Bulk_Update (Default)
+### BulkUpdate (Default)
 ```powershell
 Set-ITGlueLocation [-FilterID <Int64>] [-FilterName <String>] [-FilterCity <String>] [-FilterRegionID <Int64>]
  [-FilterCountryID <Int64>] [-FilterOrganizationID <Int64>] [-FilterPsaIntegrationType <String>] -Data <Object>
@@ -28,7 +28,7 @@ Set-ITGlueLocation -ID <Int64> [-OrganizationID <Int64>] -Data <Object> [-WhatIf
  [<CommonParameters>]
 ```
 
-### Bulk_Update_PSA
+### BulkUpdatePSA
 ```powershell
 Set-ITGlueLocation [-FilterID <Int64>] [-FilterName <String>] [-FilterCity <String>] [-FilterRegionID <Int64>]
  [-FilterCountryID <Int64>] [-FilterOrganizationID <Int64>] [-FilterPsaID <String>]
@@ -90,7 +90,7 @@ Filter by a location id
 
 ```yaml
 Type: Int64
-Parameter Sets: Bulk_Update, Bulk_Update_PSA
+Parameter Sets: BulkUpdate, BulkUpdatePSA
 Aliases:
 
 Required: False
@@ -105,7 +105,7 @@ Filter by a location name
 
 ```yaml
 Type: String
-Parameter Sets: Bulk_Update, Bulk_Update_PSA
+Parameter Sets: BulkUpdate, BulkUpdatePSA
 Aliases:
 
 Required: False
@@ -120,7 +120,7 @@ Filter by a location city
 
 ```yaml
 Type: String
-Parameter Sets: Bulk_Update, Bulk_Update_PSA
+Parameter Sets: BulkUpdate, BulkUpdatePSA
 Aliases:
 
 Required: False
@@ -135,7 +135,7 @@ Filter by a location region id
 
 ```yaml
 Type: Int64
-Parameter Sets: Bulk_Update, Bulk_Update_PSA
+Parameter Sets: BulkUpdate, BulkUpdatePSA
 Aliases:
 
 Required: False
@@ -150,7 +150,7 @@ Filter by a location country id
 
 ```yaml
 Type: Int64
-Parameter Sets: Bulk_Update, Bulk_Update_PSA
+Parameter Sets: BulkUpdate, BulkUpdatePSA
 Aliases:
 
 Required: False
@@ -165,7 +165,7 @@ Filter by an organization ID
 
 ```yaml
 Type: Int64
-Parameter Sets: Bulk_Update, Bulk_Update_PSA
+Parameter Sets: BulkUpdate, BulkUpdatePSA
 Aliases:
 
 Required: False
@@ -180,7 +180,7 @@ Filter by a psa integration id
 
 ```yaml
 Type: String
-Parameter Sets: Bulk_Update_PSA
+Parameter Sets: BulkUpdatePSA
 Aliases:
 
 Required: False
@@ -198,7 +198,7 @@ Allowed values:
 
 ```yaml
 Type: String
-Parameter Sets: Bulk_Update
+Parameter Sets: BulkUpdate
 Aliases:
 
 Required: False
@@ -210,7 +210,7 @@ Accept wildcard characters: False
 
 ```yaml
 Type: String
-Parameter Sets: Bulk_Update_PSA
+Parameter Sets: BulkUpdatePSA
 Aliases:
 
 Required: True
@@ -228,7 +228,7 @@ by the Invoke-ITGlueRequest function
 
 ```yaml
 Type: Object
-Parameter Sets: Bulk_Update, Update
+Parameter Sets: BulkUpdate, Update
 Aliases:
 
 Required: True

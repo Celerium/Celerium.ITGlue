@@ -17,12 +17,9 @@ function Get-ITGlueBaseURI {
 
     .LINK
         https://celerium.github.io/Celerium.ITGlue/site/Internal/Get-ITGlueBaseURI.html
-
-    .LINK
-        https://github.com/Celerium/Celerium.ITGlue
 #>
 
-    [CmdletBinding()]
+    [CmdletBinding(DefaultParameterSetName = 'Index')]
     Param ()
 
     begin {}

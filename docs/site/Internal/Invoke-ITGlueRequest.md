@@ -16,8 +16,8 @@ Makes an API request to ITGlue
 ## SYNTAX
 
 ```powershell
-Invoke-ITGlueRequest [[-Method] <String>] [-ResourceURI] <String> [[-QueryParams] <Hashtable>]
- [[-Data] <Object>] [-AllResults] [-WhatIf] [-Confirm] [<CommonParameters>]
+Invoke-ITGlueRequest [[-Method] <String>] [-ResourceURI] <String> [[-UriFilter] <Hashtable>] [[-Data] <Object>]
+ [-AllResults] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -29,13 +29,13 @@ This is an internal function that is used by all public functions
 
 ### EXAMPLE 1
 ```powershell
-Invoke-ITGlueRequest -method GET -ResourceURI '/passwords' -QueryParams $QueryParams
+Invoke-ITGlueRequest -Method GET -ResourceURI '/passwords' -UriFilter $UriFilter
 ```
 
 Invoke a rest method against the defined resource using the provided parameters
 
 Example HashTable:
-    $query_params = @{
+    $UriParameters = @{
         'filter\[id\]'\]               = 123456789
         'filter\[organization_id\]'\]  = 12345
     }
@@ -75,7 +75,7 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -QueryParams
+### -UriFilter
 Hashtable of values to combine a functions parameters with
 the ResourceUri parameter
 
@@ -172,6 +172,4 @@ N/A
 ## RELATED LINKS
 
 [https://celerium.github.io/Celerium.ITGlue/site/Internal/Invoke-ITGlueRequest.html](https://celerium.github.io/Celerium.ITGlue/site/Internal/Invoke-ITGlueRequest.html)
-
-[https://github.com/Celerium/Celerium.ITGlue](https://github.com/Celerium/Celerium.ITGlue)
 

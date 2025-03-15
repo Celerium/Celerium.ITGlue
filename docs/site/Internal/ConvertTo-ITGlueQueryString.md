@@ -16,7 +16,7 @@ Converts uri filter parameters
 ## SYNTAX
 
 ```powershell
-ConvertTo-ITGlueQueryString [-QueryParams] <Hashtable> [<CommonParameters>]
+ConvertTo-ITGlueQueryString [-UriFilter] <Hashtable> [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -31,18 +31,18 @@ ConvertTo-ITGlueQueryString & any public functions that define parameters
 
 ### EXAMPLE 1
 ```powershell
-ConvertTo-ITGlueQueryString -QueryParams $HashTable
+ConvertTo-ITGlueQueryString -UriFilter $HashTable
 ```
 
 Example HashTable:
-    $query_params = @{
+    $UriParameters = @{
         'filter\[id\]'\]               = 123456789
         'filter\[organization_id\]'\]  = 12345
     }
 
 ## PARAMETERS
 
-### -QueryParams
+### -UriFilter
 Hashtable of values to combine a functions parameters with
 the ResourceUri parameter
 
@@ -73,6 +73,4 @@ N/A
 ## RELATED LINKS
 
 [https://celerium.github.io/Celerium.ITGlue/site/Internal/ConvertTo-ITGlueQueryString.html](https://celerium.github.io/Celerium.ITGlue/site/Internal/ConvertTo-ITGlueQueryString.html)
-
-[https://github.com/Celerium/Celerium.ITGlue](https://github.com/Celerium/Celerium.ITGlue)
 

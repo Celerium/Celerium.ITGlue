@@ -11,17 +11,17 @@ function ConvertTo-ITGlueQueryString {
         This is an internal helper function the ties in directly with the
         ConvertTo-ITGlueQueryString & any public functions that define parameters
 
-    .PARAMETER QueryParams
+    .PARAMETER UriFilter
         Hashtable of values to combine a functions parameters with
         the ResourceUri parameter
 
         This allows for the full uri query to occur
 
     .EXAMPLE
-        ConvertTo-ITGlueQueryString -QueryParams $HashTable
+        ConvertTo-ITGlueQueryString -UriFilter $HashTable
 
         Example HashTable:
-            $query_params = @{
+            $UriParameters = @{
                 'filter[id]']               = 123456789
                 'filter[organization_id]']  = 12345
             }
@@ -31,33 +31,30 @@ function ConvertTo-ITGlueQueryString {
 
     .LINK
         https://celerium.github.io/Celerium.ITGlue/site/Internal/ConvertTo-ITGlueQueryString.html
-
-    .LINK
-        https://github.com/Celerium/Celerium.ITGlue
 #>
 
-    [CmdletBinding()]
+    [CmdletBinding(DefaultParameterSetName = 'Convert')]
     Param (
         [Parameter(Mandatory = $true)]
-        [hashtable]$QueryParams
+        [hashtable]$UriFilter
     )
 
     begin {}
 
     process{
 
-        if (-not $QueryParams) {
+        if (-not $UriFilter) {
             return ""
         }
 
         $params = @()
-        foreach ($key in $QueryParams.Keys) {
-            $value = [System.Net.WebUtility]::UrlEncode($QueryParams[$key])
+        foreach ($key in $UriFilter.Keys) {
+            $value = [System.Net.WebUtility]::UrlEncode($UriFilter[$key])
             $params += "$key=$value"
         }
 
-        $query_string = '?' + ($params -join '&')
-        return $query_string
+        $QueryString = '?' + ($params -join '&')
+        return $QueryString
 
     }
 

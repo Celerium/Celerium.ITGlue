@@ -2,13 +2,13 @@
 external help file: Celerium.ITGlue-help.xml
 grand_parent: Internal
 Module Name: Celerium.ITGlue
-online version: https://celerium.github.io/Celerium.ITGlue/site/Internal/Remove-ITGlueModuleSetting.html
+online version: https://celerium.github.io/Celerium.ITGlue/site/Internal/Remove-ITGlueModuleSettings.html
 parent: DELETE
 schema: 2.0.0
-title: Remove-ITGlueModuleSetting
+title: Remove-ITGlueModuleSettings
 ---
 
-# Remove-ITGlueModuleSetting
+# Remove-ITGlueModuleSettings
 
 ## SYNOPSIS
 Removes the stored ITGlue configuration folder
@@ -16,12 +16,12 @@ Removes the stored ITGlue configuration folder
 ## SYNTAX
 
 ```powershell
-Remove-ITGlueModuleSetting [[-ITGlueConfigPath] <String>] [-WithVariables] [-WhatIf] [-Confirm]
+Remove-ITGlueModuleSettings [[-ITGlueConfigPath] <String>] [-AndVariables] [-WhatIf] [-Confirm]
  [<CommonParameters>]
 ```
 
 ## DESCRIPTION
-The Remove-ITGlueModuleSetting cmdlet removes the ITGlue folder and its files
+The Remove-ITGlueModuleSettings cmdlet removes the ITGlue folder and its files
 This cmdlet also has the option to remove sensitive ITGlue variables as well
 
 By default configuration files are stored in the following location and will be removed:
@@ -31,7 +31,7 @@ By default configuration files are stored in the following location and will be 
 
 ### EXAMPLE 1
 ```powershell
-Remove-ITGlueModuleSetting
+Remove-ITGlueModuleSettings
 ```
 
 Checks to see if the default configuration folder exists and removes it if it does
@@ -41,7 +41,7 @@ The default location of the ITGlue configuration folder is:
 
 ### EXAMPLE 2
 ```powershell
-Remove-ITGlueModuleSetting -ITGlueConfigPath C:\Celerium.ITGlue -WithVariables
+Remove-ITGlueModuleSettings -ITGlueConfigPath C:\Celerium.ITGlue -AndVariables
 ```
 
 Checks to see if the defined configuration folder exists and removes it if it does
@@ -70,7 +70,7 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -WithVariables
+### -AndVariables
 Define if sensitive ITGlue variables should be removed as well
 
 By default the variables are not removed
@@ -130,7 +130,5 @@ N/A
 
 ## RELATED LINKS
 
-[https://celerium.github.io/Celerium.ITGlue/site/Internal/Remove-ITGlueModuleSetting.html](https://celerium.github.io/Celerium.ITGlue/site/Internal/Remove-ITGlueModuleSetting.html)
-
-[https://github.com/Celerium/Celerium.ITGlue](https://github.com/Celerium/Celerium.ITGlue)
+[https://celerium.github.io/Celerium.ITGlue/site/Internal/Remove-ITGlueModuleSettings.html](https://celerium.github.io/Celerium.ITGlue/site/Internal/Remove-ITGlueModuleSettings.html)
 

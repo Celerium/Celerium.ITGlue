@@ -46,16 +46,16 @@ function Remove-ITGlueCopilotSmartAssistDocument {
         https://api.itglue.com/developer#copilot-smart-assist-bulk-destroy
 #>
 
-    [CmdletBinding(DefaultParameterSetName = 'Bulk_Destroy', SupportsShouldProcess, ConfirmImpact = 'High')]
+    [CmdletBinding(DefaultParameterSetName = 'BulkDestroy', SupportsShouldProcess, ConfirmImpact = 'High')]
     Param (
-        [Parameter(ParameterSetName = 'Bulk_Destroy')]
+        [Parameter(ParameterSetName = 'BulkDestroy')]
         [ValidateSet( 'stale', 'not_viewed', 'expired', 'duplicate' )]
         [string]$FilterType,
 
-        [Parameter(ParameterSetName = 'Bulk_Destroy')]
+        [Parameter(ParameterSetName = 'BulkDestroy')]
         [int64]$FilterOrganizationID,
 
-        [Parameter(ParameterSetName = 'Bulk_Destroy', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'BulkDestroy', Mandatory = $true)]
         $Data
 
     )
@@ -77,22 +77,22 @@ function Remove-ITGlueCopilotSmartAssistDocument {
             $false  { $ResourceUri = "/copilot_smart_assist/documents" }
         }
 
-        $query_params = @{}
+        $UriParameters = @{}
 
         #Region     [ Parameter Translation ]
 
         if ($PSCmdlet.ParameterSetName -eq "Bulk_Destroy") {
-            if ($FilterType)            { $query_params['filter[type]']             = $FilterID }
-            if ($FilterOrganizationID)  { $query_params['filter[organization_id]']  = $FilterOrganizationID}
+            if ($FilterType)            { $UriParameters['filter[type]']             = $FilterID }
+            if ($FilterOrganizationID)  { $UriParameters['filter[organization_id]']  = $FilterOrganizationID}
         }
 
         #EndRegion  [ Parameter Translation ]
 
         Set-Variable -Name $ParameterName -Value $PSBoundParameters -Scope Global -Force -Confirm:$false
-        Set-Variable -Name $QueryParameterName -Value $query_params -Scope Global -Force -Confirm:$false
+        Set-Variable -Name $QueryParameterName -Value $UriParameters -Scope Global -Force -Confirm:$false
 
         if ($PSCmdlet.ShouldProcess($ResourceUri)) {
-            return Invoke-ITGlueRequest -Method DELETE -ResourceURI $ResourceUri -QueryParams $query_params -Data $Data
+            return Invoke-ITGlueRequest -Method DELETE -ResourceURI $ResourceUri -UriFilter $UriParameters -Data $Data
         }
 
     }

@@ -71,99 +71,131 @@
     # Modules to import as nested modules of the module specified in RootModule/ModuleToProcess
     NestedModules = 'Private/ApiCalls/ConvertTo-ITGlueQueryString.ps1',
                     'Private/ApiCalls/Invoke-ITGlueRequest.ps1',
+
                     'Private/ApiKeys/Add-ITGlueAPIKey.ps1',
                     'Private/ApiKeys/Get-ITGlueAPIKey.ps1',
-                    'Private/ApiKeys/New-ITGlueAESSecret.ps1',
                     'Private/ApiKeys/Remove-ITGlueAPIKey.ps1',
                     'Private/ApiKeys/Test-ITGlueAPIKey.ps1',
+
                     'Private/BaseUri/Add-ITGlueBaseURI.ps1',
                     'Private/BaseUri/Get-ITGlueBaseURI.ps1',
                     'Private/BaseUri/Remove-ITGlueBaseURI.ps1',
-                    'Private/ModuleSettings/Export-ITGlueModuleSetting.ps1',
-                    'Private/ModuleSettings/Get-ITGlueModuleSetting.ps1',
-                    'Private/ModuleSettings/Import-ITGlueModuleSetting.ps1',
-                    'Private/ModuleSettings/Initialize-ITGlueModuleSetting.ps1',
-                    'Private/ModuleSettings/Remove-ITGlueModuleSetting.ps1',
+
+                    'Private/ModuleSettings/Export-ITGlueModuleSettings.ps1',
+                    'Private/ModuleSettings/Get-ITGlueModuleSettings.ps1',
+                    'Private/ModuleSettings/Import-ITGlueModuleSettings.ps1',
+                    'Private/ModuleSettings/Initialize-ITGlueModuleSettings.ps1',
+                    'Private/ModuleSettings/Remove-ITGlueModuleSettings.ps1',
+
                     'Public/Attachments/New-ITGlueAttachment.ps1',
                     'Public/Attachments/Remove-ITGlueAttachment.ps1',
                     'Public/Attachments/Set-ITGlueAttachment.ps1',
+
                     'Public/ConfigurationInterfaces/Get-ITGlueConfigurationInterface.ps1',
                     'Public/ConfigurationInterfaces/New-ITGlueConfigurationInterface.ps1',
                     'Public/ConfigurationInterfaces/Set-ITGlueConfigurationInterface.ps1',
+
                     'Public/ConfigurationStatuses/Get-ITGlueConfigurationStatus.ps1',
                     'Public/ConfigurationStatuses/New-ITGlueConfigurationStatus.ps1',
                     'Public/ConfigurationStatuses/Set-ITGlueConfigurationStatus.ps1',
+
                     'Public/ConfigurationTypes/Get-ITGlueConfigurationType.ps1',
                     'Public/ConfigurationTypes/New-ITGlueConfigurationType.ps1',
                     'Public/ConfigurationTypes/Set-ITGlueConfigurationType.ps1',
+
                     'Public/Configurations/Get-ITGlueConfiguration.ps1',
                     'Public/Configurations/New-ITGlueConfiguration.ps1',
                     'Public/Configurations/Remove-ITGlueConfiguration.ps1',
                     'Public/Configurations/Set-ITGlueConfiguration.ps1',
+
                     'Public/ContactTypes/Get-ITGlueContactType.ps1',
                     'Public/ContactTypes/New-ITGlueContactType.ps1',
                     'Public/ContactTypes/Set-ITGlueContactType.ps1',
+
                     'Public/Contacts/Get-ITGlueContact.ps1',
                     'Public/Contacts/New-ITGlueContact.ps1',
                     'Public/Contacts/Remove-ITGlueContact.ps1',
                     'Public/Contacts/Set-ITGlueContact.ps1',
+
                     'Public/CopilotSmartAssist/Get-ITGlueCopilotSmartAssistDocument.ps1',
                     'Public/CopilotSmartAssist/Remove-ITGlueCopilotSmartAssistDocument.ps1',
                     'Public/CopilotSmartAssist/Set-ITGlueCopilotSmartAssistDocument.ps1',
+
                     'Public/Countries/Get-ITGlueCountry.ps1',
                     'Public/Documents/Set-ITGlueDocument.ps1',
                     'Public/Domains/Get-ITGlueDomain.ps1',
+
                     'Public/Expirations/Get-ITGlueExpiration.ps1',
+
                     'Public/Exports/Get-ITGlueExport.ps1',
                     'Public/Exports/New-ITGlueExport.ps1',
                     'Public/Exports/Remove-ITGlueExport.ps1',
+
                     'Public/FlexibleAssetFields/Get-ITGlueFlexibleAssetField.ps1',
                     'Public/FlexibleAssetFields/New-ITGlueFlexibleAssetField.ps1',
                     'Public/FlexibleAssetFields/Remove-ITGlueFlexibleAssetField.ps1',
                     'Public/FlexibleAssetFields/Set-ITGlueFlexibleAssetField.ps1',
+
                     'Public/FlexibleAssetTypes/Get-ITGlueFlexibleAssetType.ps1',
                     'Public/FlexibleAssetTypes/New-ITGlueFlexibleAssetType.ps1',
                     'Public/FlexibleAssetTypes/Set-ITGlueFlexibleAssetType.ps1',
+
                     'Public/FlexibleAssets/Get-ITGlueFlexibleAsset.ps1',
                     'Public/FlexibleAssets/New-ITGlueFlexibleAsset.ps1',
                     'Public/FlexibleAssets/Remove-ITGlueFlexibleAsset.ps1',
                     'Public/FlexibleAssets/Set-ITGlueFlexibleAsset.ps1',
+
                     'Public/Groups/Get-ITGlueGroup.ps1',
+
                     'Public/Locations/Get-ITGlueLocation.ps1',
                     'Public/Locations/New-ITGlueLocation.ps1',
                     'Public/Locations/Remove-ITGlueLocation.ps1',
                     'Public/Locations/Set-ITGlueLocation.ps1',
+
                     'Public/Logs/Get-ITGlueLog.ps1',
+
                     'Public/Manufacturers/Get-ITGlueManufacturer.ps1',
                     'Public/Manufacturers/New-ITGlueManufacturer.ps1',
                     'Public/Manufacturers/Set-ITGlueManufacturer.ps1',
+
                     'Public/Models/Get-ITGlueModel.ps1',
                     'Public/Models/New-ITGlueModel.ps1',
                     'Public/Models/Set-ITGlueModel.ps1',
+
                     'Public/OperatingSystems/Get-ITGlueOperatingSystem.ps1',
+
                     'Public/OrganizationStatuses/Get-ITGlueOrganizationStatus.ps1',
                     'Public/OrganizationStatuses/New-ITGlueOrganizationStatus.ps1',
                     'Public/OrganizationStatuses/Set-ITGlueOrganizationStatus.ps1',
+
                     'Public/OrganizationTypes/Get-ITGlueOrganizationType.ps1',
                     'Public/OrganizationTypes/New-ITGlueOrganizationType.ps1',
                     'Public/OrganizationTypes/Set-ITGlueOrganizationType.ps1',
+
                     'Public/Organizations/Get-ITGlueOrganization.ps1',
                     'Public/Organizations/New-ITGlueOrganization.ps1',
                     'Public/Organizations/Remove-ITGlueOrganization.ps1',
                     'Public/Organizations/Set-ITGlueOrganization.ps1',
+
                     'Public/PasswordCategories/Get-ITGluePasswordCategory.ps1',
                     'Public/PasswordCategories/New-ITGluePasswordCategory.ps1',
                     'Public/PasswordCategories/Set-ITGluePasswordCategory.ps1',
+
                     'Public/Passwords/Get-ITGluePassword.ps1',
                     'Public/Passwords/New-ITGluePassword.ps1',
                     'Public/Passwords/Remove-ITGluePassword.ps1',
                     'Public/Passwords/Set-ITGluePassword.ps1',
+
                     'Public/Platforms/Get-ITGluePlatform.ps1',
+
                     'Public/Regions/Get-ITGlueRegion.ps1',
+
                     'Public/RelatedItems/New-ITGlueRelatedItem.ps1',
                     'Public/RelatedItems/Remove-ITGlueRelatedItem.ps1',
                     'Public/RelatedItems/Set-ITGlueRelatedItem.ps1',
+
                     'Public/UserMetrics/Get-ITGlueUserMetric.ps1',
+
                     'Public/Users/Get-ITGlueUser.ps1',
                     'Public/Users/Set-ITGlueUser.ps1'
 

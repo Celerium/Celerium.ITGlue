@@ -17,12 +17,9 @@ function Remove-ITGlueBaseURI {
 
     .LINK
         https://celerium.github.io/Celerium.ITGlue/site/Internal/Remove-ITGlueBaseURI.html
-
-    .LINK
-        https://github.com/Celerium/Celerium.ITGlue
 #>
 
-    [CmdletBinding(SupportsShouldProcess, ConfirmImpact = 'None')]
+    [CmdletBinding(DefaultParameterSetName = 'Destroy', SupportsShouldProcess, ConfirmImpact = 'None')]
     Param ()
 
     begin {}
@@ -36,7 +33,6 @@ function Remove-ITGlueBaseURI {
                     Remove-Variable -Name "ITGlueModuleBaseURI" -Scope global -Force
                 }
             }
-
             $false  { Write-Warning "The ITGlue base URI variable is not set. Nothing to remove" }
 
         }

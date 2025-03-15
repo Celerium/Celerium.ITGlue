@@ -20,7 +20,7 @@ Deletes one or more a flexible assets
 Remove-ITGlueFlexibleAsset -ID <Int64> [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
-### Bulk_Destroy
+### BulkDestroy
 ```powershell
 Remove-ITGlueFlexibleAsset -Data <Object> [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
@@ -70,7 +70,7 @@ by the Invoke-ITGlueRequest function
 
 ```yaml
 Type: Object
-Parameter Sets: Bulk_Destroy
+Parameter Sets: BulkDestroy
 Aliases:
 
 Required: True

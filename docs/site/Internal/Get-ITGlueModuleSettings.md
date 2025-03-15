@@ -2,26 +2,27 @@
 external help file: Celerium.ITGlue-help.xml
 grand_parent: Internal
 Module Name: Celerium.ITGlue
-online version: https://celerium.github.io/Celerium.ITGlue/site/Internal/Import-ITGlueModuleSetting.html
+online version: https://celerium.github.io/Celerium.ITGlue/site/Internal/Get-ITGlueModuleSettings.html
 parent: GET
 schema: 2.0.0
-title: Import-ITGlueModuleSetting
+title: Get-ITGlueModuleSettings
 ---
 
-# Import-ITGlueModuleSetting
+# Get-ITGlueModuleSettings
 
 ## SYNOPSIS
-Imports the ITGlue BaseURI, API, & JSON configuration information to the current session
+Gets the saved ITGlue configuration settings
 
 ## SYNTAX
 
 ```powershell
-Import-ITGlueModuleSetting [[-ITGlueConfigPath] <String>] [[-ITGlueConfigFile] <String>] [<CommonParameters>]
+Get-ITGlueModuleSettings [[-ITGlueConfigPath] <String>] [[-ITGlueConfigFile] <String>] [-OpenConfigFile]
+ [<CommonParameters>]
 ```
 
 ## DESCRIPTION
-The Import-ITGlueModuleSetting cmdlet imports the ITGlue BaseURI, API, & JSON configuration
-information stored in the ITGlue configuration file to the users current session
+The Get-ITGlueModuleSettings cmdlet gets the saved ITGlue configuration settings
+from the local system
 
 By default the configuration file is stored in the following location:
     $env:USERPROFILE\Celerium.ITGlue
@@ -30,22 +31,21 @@ By default the configuration file is stored in the following location:
 
 ### EXAMPLE 1
 ```powershell
-Import-ITGlueModuleSetting
+Get-ITGlueModuleSettings
 ```
 
-Validates that the configuration file created with the Export-ITGlueModuleSetting cmdlet exists
-then imports the stored data into the current users session
+Gets the contents of the configuration file that was created with the
+Export-ITGlueModuleSettings
 
 The default location of the ITGlue configuration file is:
     $env:USERPROFILE\Celerium.ITGlue\config.psd1
 
 ### EXAMPLE 2
 ```powershell
-Import-ITGlueModuleSetting -ITGlueConfigPath C:\Celerium.ITGlue -ITGlueConfigFile MyConfig.psd1
+Get-ITGlueModuleSettings -ITGlueConfigPath C:\Celerium.ITGlue -ITGlueConfigFile MyConfig.psd1 -openConfFile
 ```
 
-Validates that the configuration file created with the Export-ITGlueModuleSetting cmdlet exists
-then imports the stored data into the current users session
+Opens the configuration file from the defined location in the default editor
 
 The location of the ITGlue configuration file in this example is:
     C:\Celerium.ITGlue\MyConfig.psd1
@@ -88,6 +88,21 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
+### -OpenConfigFile
+Opens the ITGlue configuration file
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
 ### CommonParameters
 This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable. For more information, see [about_CommonParameters](http://go.microsoft.com/fwlink/?LinkID=113216).
 
@@ -100,7 +115,5 @@ N/A
 
 ## RELATED LINKS
 
-[https://celerium.github.io/Celerium.ITGlue/site/Internal/Import-ITGlueModuleSetting.html](https://celerium.github.io/Celerium.ITGlue/site/Internal/Import-ITGlueModuleSetting.html)
-
-[https://github.com/Celerium/Celerium.ITGlue](https://github.com/Celerium/Celerium.ITGlue)
+[https://celerium.github.io/Celerium.ITGlue/site/Internal/Get-ITGlueModuleSettings.html](https://celerium.github.io/Celerium.ITGlue/site/Internal/Get-ITGlueModuleSettings.html)
 

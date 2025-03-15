@@ -79,5 +79,3 @@ N/A
 
 [https://celerium.github.io/Celerium.ITGlue/site/Internal/Remove-ITGlueAPIKey.html](https://celerium.github.io/Celerium.ITGlue/site/Internal/Remove-ITGlueAPIKey.html)
 
-[https://github.com/Celerium/Celerium.ITGlue](https://github.com/Celerium/Celerium.ITGlue)
-

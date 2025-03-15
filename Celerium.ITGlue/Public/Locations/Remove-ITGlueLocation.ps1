@@ -69,50 +69,50 @@ function Remove-ITGlueLocation {
         https://api.itglue.com/developer/#locations-bulk-destroy
 #>
 
-    [CmdletBinding(DefaultParameterSetName = 'Bulk_Destroy', SupportsShouldProcess, ConfirmImpact = 'High')]
+    [CmdletBinding(DefaultParameterSetName = 'BulkDestroy', SupportsShouldProcess, ConfirmImpact = 'High')]
     Param (
-        [Parameter(ParameterSetName = 'Bulk_Destroy')]
-        [Parameter(ParameterSetName = 'Bulk_Destroy_PSA')]
+        [Parameter(ParameterSetName = 'BulkDestroy')]
+        [Parameter(ParameterSetName = 'BulkDestroyPSA')]
         [int64]$OrganizationID,
 
-        [Parameter(ParameterSetName = 'Bulk_Destroy')]
-        [Parameter(ParameterSetName = 'Bulk_Destroy_PSA')]
+        [Parameter(ParameterSetName = 'BulkDestroy')]
+        [Parameter(ParameterSetName = 'BulkDestroyPSA')]
         [int64]$ID,
 
-        [Parameter(ParameterSetName = 'Bulk_Destroy')]
-        [Parameter(ParameterSetName = 'Bulk_Destroy_PSA')]
+        [Parameter(ParameterSetName = 'BulkDestroy')]
+        [Parameter(ParameterSetName = 'BulkDestroyPSA')]
         [int64]$FilterID,
 
-        [Parameter(ParameterSetName = 'Bulk_Destroy')]
-        [Parameter(ParameterSetName = 'Bulk_Destroy_PSA')]
+        [Parameter(ParameterSetName = 'BulkDestroy')]
+        [Parameter(ParameterSetName = 'BulkDestroyPSA')]
         [string]$FilterName,
 
-        [Parameter(ParameterSetName = 'Bulk_Destroy')]
-        [Parameter(ParameterSetName = 'Bulk_Destroy_PSA')]
+        [Parameter(ParameterSetName = 'BulkDestroy')]
+        [Parameter(ParameterSetName = 'BulkDestroyPSA')]
         [string]$FilterCity,
 
-        [Parameter(ParameterSetName = 'Bulk_Destroy')]
-        [Parameter(ParameterSetName = 'Bulk_Destroy_PSA')]
+        [Parameter(ParameterSetName = 'BulkDestroy')]
+        [Parameter(ParameterSetName = 'BulkDestroyPSA')]
         [int64]$FilterRegionID,
 
-        [Parameter(ParameterSetName = 'Bulk_Destroy')]
-        [Parameter(ParameterSetName = 'Bulk_Destroy_PSA')]
+        [Parameter(ParameterSetName = 'BulkDestroy')]
+        [Parameter(ParameterSetName = 'BulkDestroyPSA')]
         [int64]$FilterCountryID,
 
-        [Parameter(ParameterSetName = 'Bulk_Destroy')]
-        [Parameter(ParameterSetName = 'Bulk_Destroy_PSA')]
+        [Parameter(ParameterSetName = 'BulkDestroy')]
+        [Parameter(ParameterSetName = 'BulkDestroyPSA')]
         [int64]$FilterOrganizationID,
 
-        [Parameter(ParameterSetName = 'Bulk_Destroy_PSA')]
+        [Parameter(ParameterSetName = 'BulkDestroyPSA')]
         [string]$FilterPsaID,
 
-        [Parameter(ParameterSetName = 'Bulk_Destroy')]
-        [Parameter(ParameterSetName = 'Bulk_Destroy_PSA', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'BulkDestroy')]
+        [Parameter(ParameterSetName = 'BulkDestroyPSA', Mandatory = $true)]
         [ValidateSet('manage', 'autotask', 'tigerpaw', 'kaseya-bms', 'pulseway-psa', 'vorex')]
         [string]$FilterPsaIntegrationType,
 
-        [Parameter(ParameterSetName = 'Bulk_Destroy', Mandatory = $true)]
-        [Parameter(ParameterSetName = 'Bulk_Destroy_PSA', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'BulkDestroy', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'BulkDestroyPSA', Mandatory = $true)]
         $Data
     )
 
@@ -133,31 +133,31 @@ function Remove-ITGlueLocation {
             $false  { $ResourceUri = "/locations" }
         }
 
-        $query_params = @{}
+        $UriParameters = @{}
 
         #Region     [ Parameter Translation ]
 
         if ($PSCmdlet.ParameterSetName -like 'Bulk_Destroy*') {
-            if ($FilterID)                  { $query_params['filter[id]']                   = $FilterID }
-            if ($FilterName)                { $query_params['filter[name]']                 = $FilterName }
-            if ($FilterCity)                { $query_params['filter[city]']                 = $FilterCity }
-            if ($FilterRegionID)            { $query_params['filter[region_id]']            = $FilterRegionID }
-            if ($FilterCountryID)           { $query_params['filter[country_id]']           = $FilterCountryID }
-            if ($FilterOrganizationID)      { $query_params['filter[organization_id]']      = $FilterOrganizationID }
-            if ($FilterPsaIntegrationType)  { $query_params['filter[psa_integration_type]'] = $FilterPsaIntegrationType }
+            if ($FilterID)                  { $UriParameters['filter[id]']                   = $FilterID }
+            if ($FilterName)                { $UriParameters['filter[name]']                 = $FilterName }
+            if ($FilterCity)                { $UriParameters['filter[city]']                 = $FilterCity }
+            if ($FilterRegionID)            { $UriParameters['filter[region_id]']            = $FilterRegionID }
+            if ($FilterCountryID)           { $UriParameters['filter[country_id]']           = $FilterCountryID }
+            if ($FilterOrganizationID)      { $UriParameters['filter[organization_id]']      = $FilterOrganizationID }
+            if ($FilterPsaIntegrationType)  { $UriParameters['filter[psa_integration_type]'] = $FilterPsaIntegrationType }
         }
 
-        if ($PSCmdlet.ParameterSetName -eq 'Bulk_Destroy_PSA') {
-            $query_params['filter[psa_id]'] = $FilterPsaID
+        if ($PSCmdlet.ParameterSetName -eq 'BulkDestroyPSA') {
+            $UriParameters['filter[psa_id]'] = $FilterPsaID
         }
 
         #EndRegion  [ Parameter Translation ]
 
         Set-Variable -Name $ParameterName -Value $PSBoundParameters -Scope Global -Force -Confirm:$false
-        Set-Variable -Name $QueryParameterName -Value $query_params -Scope Global -Force -Confirm:$false
+        Set-Variable -Name $QueryParameterName -Value $UriParameters -Scope Global -Force -Confirm:$false
 
         if ($PSCmdlet.ShouldProcess($ResourceUri)) {
-            return Invoke-ITGlueRequest -Method DELETE -ResourceURI $ResourceUri -Data $Data -QueryParams $query_params
+            return Invoke-ITGlueRequest -Method DELETE -ResourceURI $ResourceUri -UriFilter $UriParameters -Data $Data
         }
 
     }

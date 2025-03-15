@@ -30,7 +30,7 @@ Get-ITGlueConfiguration [-OrganizationID <Int64>] [-FilterID <Int64>] [-FilterNa
 Get-ITGlueConfiguration [-OrganizationID <Int64>] -ID <Int64> [-Include <String>] [<CommonParameters>]
 ```
 
-### Index_RMM_PSA
+### Index_RMMPSA
 ```powershell
 Get-ITGlueConfiguration [-OrganizationID <Int64>] [-FilterID <Int64>] [-FilterName <String>]
  [-FilterOrganizationID <Int64>] [-FilterConfigurationTypeID <Int64>] [-FilterConfigurationStatusID <Int64>]
@@ -40,7 +40,7 @@ Get-ITGlueConfiguration [-OrganizationID <Int64>] [-FilterID <Int64>] [-FilterNa
  [-PageSize <Int32>] [-Include <String>] [-AllResults] [<CommonParameters>]
 ```
 
-### Index_PSA
+### IndexPSA
 ```powershell
 Get-ITGlueConfiguration [-OrganizationID <Int64>] [-FilterID <Int64>] [-FilterName <String>]
  [-FilterOrganizationID <Int64>] [-FilterConfigurationTypeID <Int64>] [-FilterConfigurationStatusID <Int64>]
@@ -132,7 +132,7 @@ Filter by configuration id
 
 ```yaml
 Type: Int64
-Parameter Sets: Index, Index_RMM_PSA, Index_PSA, Index_RMM
+Parameter Sets: Index, Index_RMMPSA, IndexPSA, Index_RMM
 Aliases:
 
 Required: False
@@ -147,7 +147,7 @@ Filter by configuration name
 
 ```yaml
 Type: String
-Parameter Sets: Index, Index_RMM_PSA, Index_PSA, Index_RMM
+Parameter Sets: Index, Index_RMMPSA, IndexPSA, Index_RMM
 Aliases:
 
 Required: False
@@ -162,7 +162,7 @@ Filter by organization name
 
 ```yaml
 Type: Int64
-Parameter Sets: Index, Index_RMM_PSA, Index_PSA, Index_RMM
+Parameter Sets: Index, Index_RMMPSA, IndexPSA, Index_RMM
 Aliases:
 
 Required: False
@@ -177,7 +177,7 @@ Filter by configuration type id
 
 ```yaml
 Type: Int64
-Parameter Sets: Index, Index_RMM_PSA, Index_PSA, Index_RMM
+Parameter Sets: Index, Index_RMMPSA, IndexPSA, Index_RMM
 Aliases:
 
 Required: False
@@ -192,7 +192,7 @@ Filter by configuration status id
 
 ```yaml
 Type: Int64
-Parameter Sets: Index, Index_RMM_PSA, Index_PSA, Index_RMM
+Parameter Sets: Index, Index_RMMPSA, IndexPSA, Index_RMM
 Aliases:
 
 Required: False
@@ -207,7 +207,7 @@ Filter by contact id
 
 ```yaml
 Type: Int64
-Parameter Sets: Index, Index_RMM_PSA, Index_PSA, Index_RMM
+Parameter Sets: Index, Index_RMMPSA, IndexPSA, Index_RMM
 Aliases:
 
 Required: False
@@ -222,7 +222,7 @@ Filter by a configurations serial number
 
 ```yaml
 Type: String
-Parameter Sets: Index, Index_RMM_PSA, Index_PSA, Index_RMM
+Parameter Sets: Index, Index_RMMPSA, IndexPSA, Index_RMM
 Aliases:
 
 Required: False
@@ -237,7 +237,7 @@ Filter by a configurations mac address
 
 ```yaml
 Type: String
-Parameter Sets: Index, Index_RMM_PSA, Index_PSA, Index_RMM
+Parameter Sets: Index, Index_RMMPSA, IndexPSA, Index_RMM
 Aliases:
 
 Required: False
@@ -252,7 +252,7 @@ Filter by a configurations asset tag
 
 ```yaml
 Type: String
-Parameter Sets: Index, Index_RMM_PSA, Index_PSA, Index_RMM
+Parameter Sets: Index, Index_RMMPSA, IndexPSA, Index_RMM
 Aliases:
 
 Required: False
@@ -267,7 +267,7 @@ Filter by a PSA id
 
 ```yaml
 Type: String
-Parameter Sets: Index_RMM_PSA, Index_PSA
+Parameter Sets: Index_RMMPSA, IndexPSA
 Aliases:
 
 Required: False
@@ -297,7 +297,7 @@ Accept wildcard characters: False
 
 ```yaml
 Type: String
-Parameter Sets: Index_RMM_PSA, Index_PSA
+Parameter Sets: Index_RMMPSA, IndexPSA
 Aliases:
 
 Required: True
@@ -312,7 +312,7 @@ Filter by a RMM id
 
 ```yaml
 Type: String
-Parameter Sets: Index_RMM_PSA, Index_RMM
+Parameter Sets: Index_RMMPSA, Index_RMM
 Aliases:
 
 Required: False
@@ -333,7 +333,7 @@ Allowed values:
 
 ```yaml
 Type: String
-Parameter Sets: Index, Index_PSA
+Parameter Sets: Index, IndexPSA
 Aliases:
 
 Required: False
@@ -345,7 +345,7 @@ Accept wildcard characters: False
 
 ```yaml
 Type: String
-Parameter Sets: Index_RMM_PSA, Index_RMM
+Parameter Sets: Index_RMMPSA, Index_RMM
 Aliases:
 
 Required: True
@@ -363,7 +363,7 @@ Allowed values: (case-sensitive)
 
 ```yaml
 Type: String
-Parameter Sets: Index, Index_RMM_PSA, Index_PSA, Index_RMM
+Parameter Sets: Index, Index_RMMPSA, IndexPSA, Index_RMM
 Aliases:
 
 Required: False
@@ -382,7 +382,7 @@ Allowed values:
 
 ```yaml
 Type: String
-Parameter Sets: Index, Index_RMM_PSA, Index_PSA, Index_RMM
+Parameter Sets: Index, Index_RMMPSA, IndexPSA, Index_RMM
 Aliases:
 
 Required: False
@@ -397,7 +397,7 @@ Return results starting from the defined number
 
 ```yaml
 Type: Int64
-Parameter Sets: Index, Index_RMM_PSA, Index_PSA, Index_RMM
+Parameter Sets: Index, Index_RMMPSA, IndexPSA, Index_RMM
 Aliases:
 
 Required: False
@@ -415,7 +415,7 @@ requested is 1000
 
 ```yaml
 Type: Int32
-Parameter Sets: Index, Index_RMM_PSA, Index_PSA, Index_RMM
+Parameter Sets: Index, Index_RMMPSA, IndexPSA, Index_RMM
 Aliases:
 
 Required: False
@@ -463,7 +463,7 @@ sequential requests to the API
 
 ```yaml
 Type: SwitchParameter
-Parameter Sets: Index, Index_RMM_PSA, Index_PSA, Index_RMM
+Parameter Sets: Index, Index_RMMPSA, IndexPSA, Index_RMM
 Aliases:
 
 Required: False

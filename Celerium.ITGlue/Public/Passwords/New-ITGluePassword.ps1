@@ -91,15 +91,15 @@ function New-ITGluePassword {
             $false  { $ResourceUri = "/passwords/" }
         }
 
-        $query_params = @{}
+        $UriParameters = @{}
 
-        if ($ShowPassword) { $query_params['show_password'] = $ShowPassword}
+        if ($ShowPassword) { $UriParameters['show_password'] = $ShowPassword}
 
         Set-Variable -Name $ParameterName -Value $PSBoundParameters -Scope Global -Force -Confirm:$false
-        Set-Variable -Name $QueryParameterName -Value $query_params -Scope Global -Force -Confirm:$false
+        Set-Variable -Name $QueryParameterName -Value $UriParameters -Scope Global -Force -Confirm:$false
 
         if ($PSCmdlet.ShouldProcess($ResourceUri)) {
-            return Invoke-ITGlueRequest -Method POST -ResourceURI $ResourceUri -Data $Data -QueryParams $query_params
+            return Invoke-ITGlueRequest -Method POST -ResourceURI $ResourceUri -UriFilter $UriParameters -Data $Data
         }
 
     }

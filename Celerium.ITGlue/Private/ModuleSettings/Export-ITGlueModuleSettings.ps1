@@ -1,10 +1,10 @@
-function Export-ITGlueModuleSetting {
+function Export-ITGlueModuleSettings {
 <#
     .SYNOPSIS
         Exports the ITGlue BaseURI, API, & JSON configuration information to file
 
     .DESCRIPTION
-        The Export-ITGlueModuleSetting cmdlet exports the ITGlue BaseURI, API, & JSON configuration information to file
+        The Export-ITGlueModuleSettings cmdlet exports the ITGlue BaseURI, API, & JSON configuration information to file
 
         Making use of PowerShell's System.Security.SecureString type, exporting module settings encrypts your API key in a format
         that can only be unencrypted with the your Windows account as this encryption is tied to your user principal
@@ -23,14 +23,14 @@ function Export-ITGlueModuleSetting {
             config.psd1
 
     .EXAMPLE
-        Export-ITGlueModuleSetting
+        Export-ITGlueModuleSettings
 
         Validates that the BaseURI, API, and JSON depth are set then exports their values
         to the current user's ITGlue configuration file located at:
             $env:USERPROFILE\Celerium.ITGlue\config.psd1
 
     .EXAMPLE
-        Export-ITGlueModuleSetting -ITGlueConfigPath C:\Celerium.ITGlue -ITGlueConfigFile MyConfig.psd1
+        Export-ITGlueModuleSettings -ITGlueConfigPath C:\Celerium.ITGlue -ITGlueConfigFile MyConfig.psd1
 
         Validates that the BaseURI, API, and JSON depth are set then exports their values
         to the current user's ITGlue configuration file located at:
@@ -40,10 +40,7 @@ function Export-ITGlueModuleSetting {
         N/A
 
     .LINK
-        https://celerium.github.io/Celerium.ITGlue/site/Internal/Export-ITGlueModuleSetting.html
-
-    .LINK
-        https://github.com/Celerium/Celerium.ITGlue
+        https://celerium.github.io/Celerium.ITGlue/site/Internal/Export-ITGlueModuleSettings.html
 #>
 
     [CmdletBinding(DefaultParameterSetName = 'Set')]
@@ -65,8 +62,8 @@ function Export-ITGlueModuleSetting {
         $ITGlueConfig = Join-Path -Path $ITGlueConfigPath -ChildPath $ITGlueConfigFile
 
         # Confirm variables exist and are not null before exporting
-        if ($ITGlueModuleBaseURI -and $ITGlueModuleAPIKey -and $ITGlueModuleJSONConversionDepth) {
-            $SecureString = $ITGlueModuleAPIKey | ConvertFrom-SecureString
+        if ($ITGlueModuleBaseURI -and $ITGlueModuleApiKey -and $ITGlueModuleJSONConversionDepth) {
+            $SecureString = $ITGlueModuleApiKey | ConvertFrom-SecureString
 
             if ($IsWindows -or $PSEdition -eq 'Desktop') {
                 New-Item -Path $ITGlueConfigPath -ItemType Directory -Force | ForEach-Object { $_.Attributes = $_.Attributes -bor "Hidden" }
@@ -77,7 +74,7 @@ function Export-ITGlueModuleSetting {
 @"
     @{
         ITGlueModuleBaseURI             = '$ITGlueModuleBaseURI'
-        ITGlueModuleAPIKey              = '$SecureString'
+        ITGlueModuleApiKey              = '$SecureString'
         ITGlueModuleJSONConversionDepth = '$ITGlueModuleJSONConversionDepth'
     }
 "@ | Out-File -FilePath $ITGlueConfig -Force

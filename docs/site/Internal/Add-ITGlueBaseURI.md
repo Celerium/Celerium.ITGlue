@@ -34,17 +34,17 @@ The base URI will use https://api.itglue.com
 
 ### EXAMPLE 2
 ```powershell
-Add-ITGlueBaseURI -BaseUri 'https://my.gateway.com'
+Add-ITGlueBaseURI -BaseUri 'https://gateway.celerium.org'
 ```
 
-The base URI will use https://my.gateway.com
+The base URI will use https://gateway.celerium.org
 
 ### EXAMPLE 3
 ```
-'https://my.gateway.com' | Add-ITGlueBaseURI
+'https://gateway.celerium.org' | Add-ITGlueBaseURI
 ```
 
-The base URI will use https://my.gateway.com
+The base URI will use https://gateway.celerium.org
 
 ### EXAMPLE 4
 ```powershell
@@ -110,6 +110,4 @@ N/A
 ## RELATED LINKS
 
 [https://celerium.github.io/Celerium.ITGlue/site/Internal/Add-ITGlueBaseURI.html](https://celerium.github.io/Celerium.ITGlue/site/Internal/Add-ITGlueBaseURI.html)
-
-[https://github.com/Celerium/Celerium.ITGlue](https://github.com/Celerium/Celerium.ITGlue)
 

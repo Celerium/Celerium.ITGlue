@@ -15,7 +15,7 @@ Update one or more configuration interfaces
 
 ## SYNTAX
 
-### Bulk_Update (Default)
+### BulkUpdate (Default)
 ```powershell
 Set-ITGlueConfigurationInterface [-FilterID <Int64>] [-FilterIPAddress <String>] -Data <Object> [-WhatIf]
  [-Confirm] [<CommonParameters>]
@@ -100,7 +100,7 @@ Configuration id to filter by
 
 ```yaml
 Type: Int64
-Parameter Sets: Bulk_Update
+Parameter Sets: BulkUpdate
 Aliases:
 
 Required: False
@@ -115,7 +115,7 @@ Filter by an IP4 or IP6 address
 
 ```yaml
 Type: String
-Parameter Sets: Bulk_Update
+Parameter Sets: BulkUpdate
 Aliases:
 
 Required: False

@@ -1,10 +1,10 @@
-function Get-ITGlueModuleSetting {
+function Get-ITGlueModuleSettings {
 <#
     .SYNOPSIS
         Gets the saved ITGlue configuration settings
 
     .DESCRIPTION
-        The Get-ITGlueModuleSetting cmdlet gets the saved ITGlue configuration settings
+        The Get-ITGlueModuleSettings cmdlet gets the saved ITGlue configuration settings
         from the local system
 
         By default the configuration file is stored in the following location:
@@ -26,16 +26,16 @@ function Get-ITGlueModuleSetting {
         Opens the ITGlue configuration file
 
     .EXAMPLE
-        Get-ITGlueModuleSetting
+        Get-ITGlueModuleSettings
 
         Gets the contents of the configuration file that was created with the
-        Export-ITGlueModuleSetting
+        Export-ITGlueModuleSettings
 
         The default location of the ITGlue configuration file is:
             $env:USERPROFILE\Celerium.ITGlue\config.psd1
 
     .EXAMPLE
-        Get-ITGlueModuleSetting -ITGlueConfigPath C:\Celerium.ITGlue -ITGlueConfigFile MyConfig.psd1 -openConfFile
+        Get-ITGlueModuleSettings -ITGlueConfigPath C:\Celerium.ITGlue -ITGlueConfigFile MyConfig.psd1 -openConfFile
 
         Opens the configuration file from the defined location in the default editor
 
@@ -46,10 +46,7 @@ function Get-ITGlueModuleSetting {
         N/A
 
     .LINK
-        https://celerium.github.io/Celerium.ITGlue/site/Internal/Get-ITGlueModuleSetting.html
-
-    .LINK
-        https://github.com/Celerium/Celerium.ITGlue
+        https://celerium.github.io/Celerium.ITGlue/site/Internal/Get-ITGlueModuleSettings.html
 #>
 
     [CmdletBinding(DefaultParameterSetName = 'Index')]

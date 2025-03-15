@@ -64,35 +64,35 @@ function Remove-ITGluePassword {
     [CmdletBinding(DefaultParameterSetName = 'Destroy', SupportsShouldProcess, ConfirmImpact = 'High')]
     Param (
         [Parameter(ParameterSetName = 'Destroy', Mandatory = $true)]
-        [Parameter(ParameterSetName = 'Bulk_Destroy')]
+        [Parameter(ParameterSetName = 'BulkDestroy')]
         [int64]$ID,
 
-        [Parameter(ParameterSetName = 'Bulk_Destroy')]
+        [Parameter(ParameterSetName = 'BulkDestroy')]
         [int64]$OrganizationID,
 
-        [Parameter(ParameterSetName = 'Bulk_Destroy')]
+        [Parameter(ParameterSetName = 'BulkDestroy')]
         [int64]$FilterID,
 
-        [Parameter(ParameterSetName = 'Bulk_Destroy')]
+        [Parameter(ParameterSetName = 'BulkDestroy')]
         [string]$FilterName,
 
-        [Parameter(ParameterSetName = 'Bulk_Destroy')]
+        [Parameter(ParameterSetName = 'BulkDestroy')]
         [int64]$FilterOrganizationID,
 
-        [Parameter(ParameterSetName = 'Bulk_Destroy')]
+        [Parameter(ParameterSetName = 'BulkDestroy')]
         [int64]$FilterPasswordCategoryID,
 
-        [Parameter(ParameterSetName = 'Bulk_Destroy')]
+        [Parameter(ParameterSetName = 'BulkDestroy')]
         [string]$FilterUrl,
 
-        [Parameter(ParameterSetName = 'Bulk_Destroy')]
+        [Parameter(ParameterSetName = 'BulkDestroy')]
         [string]$FilterCachedResourceName,
 
-        [Parameter(ParameterSetName = 'Bulk_Destroy')]
+        [Parameter(ParameterSetName = 'BulkDestroy')]
         [ValidateSet('true','false','0','1', IgnoreCase = $false)]
         [string]$FilterArchived,
 
-        [Parameter(ParameterSetName = 'Bulk_Destroy', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'BulkDestroy', Mandatory = $true)]
         $Data
     )
 
@@ -109,7 +109,7 @@ function Remove-ITGluePassword {
         Write-Verbose "[ $FunctionName ] - Running the [ $($PSCmdlet.ParameterSetName) ] parameterSet"
 
         switch ($PSCmdlet.ParameterSetName) {
-            'Bulk_Destroy'  {
+            'BulkDestroy'  {
 
                 switch ([bool]$OrganizationID) {
                     $true   { $ResourceUri = "/organizations/$OrganizationID/relationships/passwords/$ID" }
@@ -120,27 +120,27 @@ function Remove-ITGluePassword {
             'Destroy'       { $ResourceUri = "/passwords/$ID" }
         }
 
-        $query_params = @{}
+        $UriParameters = @{}
 
         #Region     [ Parameter Translation ]
 
-        if ($PSCmdlet.ParameterSetName -eq 'Bulk_Destroy') {
-            if ($FilterID)                  { $query_params['filter[id]']                   = $FilterID }
-            if ($FilterName)                { $query_params['filter[name]']                 = $FilterName }
-            if ($FilterOrganizationID)      { $query_params['filter[organization_id]']      = $FilterOrganizationID }
-            if ($FilterPasswordCategoryID)  { $query_params['filter[password_category_id]'] = $FilterPasswordCategoryID }
-            if ($FilterUrl)                 { $query_params['filter[url]']                  = $FilterUrl }
-            if ($FilterCachedResourceName)  { $query_params['filter[cached_resource_name]'] = $FilterCachedResourceName }
-            if ($FilterArchived)            { $query_params['filter[archived]']             = $FilterArchived }
+        if ($PSCmdlet.ParameterSetName -eq 'BulkDestroy') {
+            if ($FilterID)                  { $UriParameters['filter[id]']                   = $FilterID }
+            if ($FilterName)                { $UriParameters['filter[name]']                 = $FilterName }
+            if ($FilterOrganizationID)      { $UriParameters['filter[organization_id]']      = $FilterOrganizationID }
+            if ($FilterPasswordCategoryID)  { $UriParameters['filter[password_category_id]'] = $FilterPasswordCategoryID }
+            if ($FilterUrl)                 { $UriParameters['filter[url]']                  = $FilterUrl }
+            if ($FilterCachedResourceName)  { $UriParameters['filter[cached_resource_name]'] = $FilterCachedResourceName }
+            if ($FilterArchived)            { $UriParameters['filter[archived]']             = $FilterArchived }
         }
 
         #EndRegion  [ Parameter Translation ]
 
         Set-Variable -Name $ParameterName -Value $PSBoundParameters -Scope Global -Force -Confirm:$false
-        Set-Variable -Name $QueryParameterName -Value $query_params -Scope Global -Force -Confirm:$false
+        Set-Variable -Name $QueryParameterName -Value $UriParameters -Scope Global -Force -Confirm:$false
 
         if ($PSCmdlet.ShouldProcess($ResourceUri)) {
-            return Invoke-ITGlueRequest -Method DELETE -ResourceURI $ResourceUri -Data $Data -QueryParams $query_params
+            return Invoke-ITGlueRequest -Method DELETE -ResourceURI $ResourceUri -UriFilter $UriParameters -Data $Data
         }
 
     }

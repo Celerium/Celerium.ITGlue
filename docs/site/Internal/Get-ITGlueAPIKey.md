@@ -30,16 +30,15 @@ the global variable and returns it as a SecureString
 Get-ITGlueAPIKey
 ```
 
-Gets the ITGlue API secret key global variable and returns an object
-with the secret key as a SecureString
+Gets the Api key and returns it as a SecureString
 
 ### EXAMPLE 2
 ```powershell
 Get-ITGlueAPIKey -AsPlainText
 ```
 
-Gets the ITGlue API secret key global variable and returns an object
-with the secret key as plain text
+Gets and decrypts the API key from the global variable and
+returns the API key as plain text
 
 ## PARAMETERS
 
@@ -71,6 +70,4 @@ N/A
 ## RELATED LINKS
 
 [https://celerium.github.io/Celerium.ITGlue/site/Internal/Get-ITGlueAPIKey.html](https://celerium.github.io/Celerium.ITGlue/site/Internal/Get-ITGlueAPIKey.html)
-
-[https://github.com/Celerium/Celerium.ITGlue](https://github.com/Celerium/Celerium.ITGlue)
 

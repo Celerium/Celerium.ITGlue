@@ -13,27 +13,22 @@ function Get-ITGlueAPIKey {
     .EXAMPLE
         Get-ITGlueAPIKey
 
-        Gets the ITGlue API secret key global variable and returns an object
-        with the secret key as a SecureString
+        Gets the Api key and returns it as a SecureString
 
     .EXAMPLE
         Get-ITGlueAPIKey -AsPlainText
 
-        Gets the ITGlue API secret key global variable and returns an object
-        with the secret key as plain text
+        Gets and decrypts the API key from the global variable and
+        returns the API key as plain text
 
     .NOTES
         N/A
 
     .LINK
         https://celerium.github.io/Celerium.ITGlue/site/Internal/Get-ITGlueAPIKey.html
-
-    .LINK
-        https://github.com/Celerium/Celerium.ITGlue
-
 #>
 
-    [CmdletBinding()]
+    [CmdletBinding(DefaultParameterSetName = 'Index')]
     Param (
         [Parameter(Mandatory = $false)]
         [switch]$AsPlainText
@@ -45,15 +40,15 @@ function Get-ITGlueAPIKey {
 
         try {
 
-            if ($ITGlueModuleAPIKey) {
+            if ($ITGlueModuleApiKey) {
 
                 if ($AsPlainText) {
-                    $Api_Key = [System.Runtime.InteropServices.Marshal]::SecureStringToBSTR($ITGlueModuleAPIKey)
+                    $ApiKey = [System.Runtime.InteropServices.Marshal]::SecureStringToBSTR($ITGlueModuleApiKey)
 
-                    ([System.Runtime.InteropServices.Marshal]::PtrToStringAuto($Api_Key)).ToString()
+                    ( [System.Runtime.InteropServices.Marshal]::PtrToStringBSTR($ApiKey) ).ToString()
 
                 }
-                else { $ITGlueModuleAPIKey }
+                else { $ITGlueModuleApiKey }
 
             }
             else { Write-Warning "The ITGlue API [ secret ] key is not set. Run Add-ITGlueAPIKey to set the API key." }
@@ -63,8 +58,8 @@ function Get-ITGlueAPIKey {
             Write-Error $_
         }
         finally {
-            if ($Api_Key) {
-                [System.Runtime.InteropServices.Marshal]::ZeroFreeBSTR($Api_Key)
+            if ($ApiKey) {
+                [System.Runtime.InteropServices.Marshal]::ZeroFreeBSTR($ApiKey)
             }
         }
 

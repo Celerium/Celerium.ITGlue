@@ -15,7 +15,7 @@ Deletes one or more organizations
 
 ## SYNTAX
 
-### Bulk_Destroy (Default)
+### BulkDestroy (Default)
 ```powershell
 Remove-ITGlueOrganization [-FilterID <Int64>] [-FilterName <String>] [-FilterOrganizationTypeID <Int64>]
  [-FilterOrganizationStatusID <Int64>] [-FilterCreatedAt <String>] [-FilterUpdatedAt <String>]
@@ -25,7 +25,7 @@ Remove-ITGlueOrganization [-FilterID <Int64>] [-FilterName <String>] [-FilterOrg
  [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
-### Bulk_Destroy_PSA
+### BulkDestroyPSA
 ```powershell
 Remove-ITGlueOrganization [-FilterID <Int64>] [-FilterName <String>] [-FilterOrganizationTypeID <Int64>]
  [-FilterOrganizationStatusID <Int64>] [-FilterCreatedAt <String>] [-FilterUpdatedAt <String>]
@@ -166,7 +166,7 @@ Filter by a PSA id
 
 ```yaml
 Type: String
-Parameter Sets: Bulk_Destroy_PSA
+Parameter Sets: BulkDestroyPSA
 Aliases:
 
 Required: False
@@ -184,7 +184,7 @@ Allowed values:
 
 ```yaml
 Type: String
-Parameter Sets: Bulk_Destroy
+Parameter Sets: BulkDestroy
 Aliases:
 
 Required: False
@@ -196,7 +196,7 @@ Accept wildcard characters: False
 
 ```yaml
 Type: String
-Parameter Sets: Bulk_Destroy_PSA
+Parameter Sets: BulkDestroyPSA
 Aliases:
 
 Required: True

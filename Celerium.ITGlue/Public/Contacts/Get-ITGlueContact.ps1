@@ -123,71 +123,71 @@ function Get-ITGlueContact {
     [CmdletBinding(DefaultParameterSetName = 'Index')]
     Param (
         [Parameter(ParameterSetName = 'Index')]
-        [Parameter(ParameterSetName = 'Index_PSA')]
+        [Parameter(ParameterSetName = 'IndexPSA')]
         [Parameter(ParameterSetName = 'Show')]
         [int64]$OrganizationID,
 
         [Parameter(ParameterSetName = 'Index')]
-        [Parameter(ParameterSetName = 'Index_PSA')]
+        [Parameter(ParameterSetName = 'IndexPSA')]
         [int64]$FilterID,
 
         [Parameter(ParameterSetName = 'Index')]
-        [Parameter(ParameterSetName = 'Index_PSA')]
+        [Parameter(ParameterSetName = 'IndexPSA')]
         [string]$FilterFirstName,
 
         [Parameter(ParameterSetName = 'Index')]
-        [Parameter(ParameterSetName = 'Index_PSA')]
+        [Parameter(ParameterSetName = 'IndexPSA')]
         [string]$FilterLastName,
 
         [Parameter(ParameterSetName = 'Index')]
-        [Parameter(ParameterSetName = 'Index_PSA')]
+        [Parameter(ParameterSetName = 'IndexPSA')]
         [string]$FilterTitle,
 
         [Parameter(ParameterSetName = 'Index')]
-        [Parameter(ParameterSetName = 'Index_PSA')]
+        [Parameter(ParameterSetName = 'IndexPSA')]
         [int64]$FilterContactTypeID,
 
         [Parameter(ParameterSetName = 'Index')]
-        [Parameter(ParameterSetName = 'Index_PSA')]
+        [Parameter(ParameterSetName = 'IndexPSA')]
         [ValidateSet('true', 'false')]
         [string]$FilterImportant,
 
         [Parameter(ParameterSetName = 'Index')]
-        [Parameter(ParameterSetName = 'Index_PSA')]
+        [Parameter(ParameterSetName = 'IndexPSA')]
         [string]$FilterPrimaryEmail,
 
         [Parameter(ParameterSetName = 'Index')]
-        [Parameter(ParameterSetName = 'Index_PSA')]
+        [Parameter(ParameterSetName = 'IndexPSA')]
         [Parameter(ParameterSetName = 'Show')]
         [int64]$FilterOrganizationID,
 
-        [Parameter(ParameterSetName = 'Index_PSA')]
+        [Parameter(ParameterSetName = 'IndexPSA')]
         [string]$FilterPsaID,
 
         [Parameter(ParameterSetName = 'Index')]
-        [Parameter(ParameterSetName = 'Index_PSA', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'IndexPSA', Mandatory = $true)]
         [ValidateSet('manage', 'autotask', 'tigerpaw', 'kaseya-bms', 'pulseway-psa', 'vorex')]
         [string]$FilterPsaIntegrationType,
 
         [Parameter(ParameterSetName = 'Index')]
-        [Parameter(ParameterSetName = 'Index_PSA')]
+        [Parameter(ParameterSetName = 'IndexPSA')]
         [ValidateSet(   'first_name', 'last_name', 'id', 'created_at', 'updated_at',
                         '-first_name', '-last_name', '-id', '-created_at', '-updated_at')]
         [string]$Sort,
 
         [Parameter(ParameterSetName = 'Index')]
-        [Parameter(ParameterSetName = 'Index_PSA')]
+        [Parameter(ParameterSetName = 'IndexPSA')]
         [int64]$PageNumber,
 
         [Parameter(ParameterSetName = 'Index')]
-        [Parameter(ParameterSetName = 'Index_PSA')]
+        [Parameter(ParameterSetName = 'IndexPSA')]
         [int]$PageSize,
 
         [Parameter(ParameterSetName = 'Show', ValueFromPipeline = $true , Mandatory = $true)]
         [int64]$ID,
 
         [Parameter(ParameterSetName = 'Index')]
-        [Parameter(ParameterSetName = 'Index_PSA')]
+        [Parameter(ParameterSetName = 'IndexPSA')]
         [Parameter(ParameterSetName = 'Show')]
         [ValidateSet(   'adapters_resources','attachments', 'authorized_users', 'distinct_remote_contacts',
                         'group_resource_accesses', 'location', 'passwords', 'recent_versions',
@@ -195,7 +195,7 @@ function Get-ITGlueContact {
         $Include,
 
         [Parameter(ParameterSetName = 'Index')]
-        [Parameter(ParameterSetName = 'Index_PSA')]
+        [Parameter(ParameterSetName = 'IndexPSA')]
         [switch]$AllResults
     )
 
@@ -211,7 +211,7 @@ function Get-ITGlueContact {
 
         Write-Verbose "[ $FunctionName ] - Running the [ $($PSCmdlet.ParameterSetName) ] parameterSet"
 
-        if ($PSCmdlet.ParameterSetName -eq 'Index' -or $PSCmdlet.ParameterSetName -eq 'Index_PSA') {
+        if ($PSCmdlet.ParameterSetName -eq 'Index' -or $PSCmdlet.ParameterSetName -eq 'IndexPSA') {
 
             switch ([bool]$OrganizationID) {
                 $true   { $ResourceUri = "/organizations/$OrganizationID/relationships/contacts" }
@@ -229,38 +229,38 @@ function Get-ITGlueContact {
 
         }
 
-        $query_params = @{}
+        $UriParameters = @{}
 
         #Region     [ Parameter Translation ]
 
-        if (($PSCmdlet.ParameterSetName -eq 'Index') -or ($PSCmdlet.ParameterSetName -eq 'Index_PSA')) {
-            if ($FilterID)                  { $query_params['filter[id]']                   = $FilterID }
-            if ($FilterFirstName)           { $query_params['filter[first_name]']           = $FilterFirstName }
-            if ($FilterLastName)            { $query_params['filter[last_name]']            = $FilterLastName }
-            if ($FilterTitle)               { $query_params['filter[title]']                = $FilterTitle }
-            if ($FilterContactTypeID)       { $query_params['filter[contact_type_id]']      = $FilterContactTypeID }
-            if ($FilterImportant)           { $query_params['filter[important]']            = $FilterImportant }
-            if ($FilterPrimaryEmail)        { $query_params['filter[primary_email]']        = $FilterPrimaryEmail }
-            if ($FilterOrganizationID)      { $query_params['filter[organization_id]']      = $FilterOrganizationID}
-            if ($FilterPsaIntegrationType)  { $query_params['filter[psa_integration_type]'] = $FilterPsaIntegrationType }
-            if ($Sort)                      { $query_params['sort']                         = $Sort }
-            if ($PageNumber)                { $query_params['page[number]']                 = $PageNumber }
-            if ($PageSize)                  { $query_params['page[size]']                   = $PageSize }
+        if (($PSCmdlet.ParameterSetName -eq 'Index') -or ($PSCmdlet.ParameterSetName -eq 'IndexPSA')) {
+            if ($FilterID)                  { $UriParameters['filter[id]']                   = $FilterID }
+            if ($FilterFirstName)           { $UriParameters['filter[first_name]']           = $FilterFirstName }
+            if ($FilterLastName)            { $UriParameters['filter[last_name]']            = $FilterLastName }
+            if ($FilterTitle)               { $UriParameters['filter[title]']                = $FilterTitle }
+            if ($FilterContactTypeID)       { $UriParameters['filter[contact_type_id]']      = $FilterContactTypeID }
+            if ($FilterImportant)           { $UriParameters['filter[important]']            = $FilterImportant }
+            if ($FilterPrimaryEmail)        { $UriParameters['filter[primary_email]']        = $FilterPrimaryEmail }
+            if ($FilterOrganizationID)      { $UriParameters['filter[organization_id]']      = $FilterOrganizationID}
+            if ($FilterPsaIntegrationType)  { $UriParameters['filter[psa_integration_type]'] = $FilterPsaIntegrationType }
+            if ($Sort)                      { $UriParameters['sort']                         = $Sort }
+            if ($PageNumber)                { $UriParameters['page[number]']                 = $PageNumber }
+            if ($PageSize)                  { $UriParameters['page[size]']                   = $PageSize }
         }
 
-        if ($PSCmdlet.ParameterSetName -eq 'Index_PSA') {
-            if($FilterPsaID) { $query_params['filter[psa_id]'] = $FilterPsaID }
+        if ($PSCmdlet.ParameterSetName -eq 'IndexPSA') {
+            if($FilterPsaID) { $UriParameters['filter[psa_id]'] = $FilterPsaID }
         }
 
         #Shared Parameters
-        if($Include) { $query_params['include'] = $Include }
+        if($Include) { $UriParameters['include'] = $Include }
 
         #EndRegion  [ Parameter Translation ]
 
         Set-Variable -Name $ParameterName -Value $PSBoundParameters -Scope Global -Force -Confirm:$false
-        Set-Variable -Name $QueryParameterName -Value $query_params -Scope Global -Force -Confirm:$false
+        Set-Variable -Name $QueryParameterName -Value $UriParameters -Scope Global -Force -Confirm:$false
 
-        return Invoke-ITGlueRequest -Method GET -ResourceURI $ResourceUri -QueryParams $query_params -AllResults:$AllResults
+        return Invoke-ITGlueRequest -Method GET -ResourceURI $ResourceUri -UriFilter $UriParameters -AllResults:$AllResults
 
     }
 

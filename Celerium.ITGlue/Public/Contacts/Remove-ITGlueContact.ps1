@@ -74,54 +74,54 @@ function Remove-ITGlueContact {
         https://api.itglue.com/developer/#contacts-bulk-destroy
 #>
 
-    [CmdletBinding(DefaultParameterSetName = 'Bulk_Destroy', SupportsShouldProcess, ConfirmImpact = 'High')]
+    [CmdletBinding(DefaultParameterSetName = 'BulkDestroy', SupportsShouldProcess, ConfirmImpact = 'High')]
     Param (
-        [Parameter(ParameterSetName = 'Bulk_Destroy')]
-        [Parameter(ParameterSetName = 'Bulk_Destroy_ByFilter')]
-        [Parameter(ParameterSetName = 'Bulk_Destroy_ByFilter_PSA')]
+        [Parameter(ParameterSetName = 'BulkDestroy')]
+        [Parameter(ParameterSetName = 'BulkDestroyByFilter')]
+        [Parameter(ParameterSetName = 'BulkDestroyByFilterPSA')]
         [int64]$OrganizationID,
 
-        [Parameter(ParameterSetName = 'Bulk_Destroy_ByFilter')]
-        [Parameter(ParameterSetName = 'Bulk_Destroy_ByFilter_PSA')]
+        [Parameter(ParameterSetName = 'BulkDestroyByFilter')]
+        [Parameter(ParameterSetName = 'BulkDestroyByFilterPSA')]
         [int64]$FilterID,
 
-        [Parameter(ParameterSetName = 'Bulk_Destroy_ByFilter')]
-        [Parameter(ParameterSetName = 'Bulk_Destroy_ByFilter_PSA')]
+        [Parameter(ParameterSetName = 'BulkDestroyByFilter')]
+        [Parameter(ParameterSetName = 'BulkDestroyByFilterPSA')]
         [string]$FilterFirstName,
 
-        [Parameter(ParameterSetName = 'Bulk_Destroy_ByFilter')]
-        [Parameter(ParameterSetName = 'Bulk_Destroy_ByFilter_PSA')]
+        [Parameter(ParameterSetName = 'BulkDestroyByFilter')]
+        [Parameter(ParameterSetName = 'BulkDestroyByFilterPSA')]
         [string]$FilterLastName,
 
-        [Parameter(ParameterSetName = 'Bulk_Destroy_ByFilter')]
-        [Parameter(ParameterSetName = 'Bulk_Destroy_ByFilter_PSA')]
+        [Parameter(ParameterSetName = 'BulkDestroyByFilter')]
+        [Parameter(ParameterSetName = 'BulkDestroyByFilterPSA')]
         [string]$FilterTitle,
 
-        [Parameter(ParameterSetName = 'Bulk_Destroy_ByFilter')]
-        [Parameter(ParameterSetName = 'Bulk_Destroy_ByFilter_PSA')]
+        [Parameter(ParameterSetName = 'BulkDestroyByFilter')]
+        [Parameter(ParameterSetName = 'BulkDestroyByFilterPSA')]
         [int64]$FilterContactTypeID,
 
-        [Parameter(ParameterSetName = 'Bulk_Destroy_ByFilter')]
-        [Parameter(ParameterSetName = 'Bulk_Destroy_ByFilter_PSA')]
+        [Parameter(ParameterSetName = 'BulkDestroyByFilter')]
+        [Parameter(ParameterSetName = 'BulkDestroyByFilterPSA')]
         [switch]$FilterImportant,
 
-        [Parameter(ParameterSetName = 'Bulk_Destroy_ByFilter')]
-        [Parameter(ParameterSetName = 'Bulk_Destroy_ByFilter_PSA')]
+        [Parameter(ParameterSetName = 'BulkDestroyByFilter')]
+        [Parameter(ParameterSetName = 'BulkDestroyByFilterPSA')]
         [string]$FilterPrimaryEmail,
 
-        [Parameter(ParameterSetName = 'Bulk_Destroy_ByFilter')]
-        [Parameter(ParameterSetName = 'Bulk_Destroy_ByFilter_PSA')]
+        [Parameter(ParameterSetName = 'BulkDestroyByFilter')]
+        [Parameter(ParameterSetName = 'BulkDestroyByFilterPSA')]
         [string]$FilterOrganizationID,
 
-        [Parameter(ParameterSetName = 'Bulk_Destroy_ByFilter_PSA')]
+        [Parameter(ParameterSetName = 'BulkDestroyByFilterPSA')]
         [string]$FilterPsaID,
 
-        [Parameter(ParameterSetName = 'Bulk_Destroy_ByFilter')]
-        [Parameter(ParameterSetName = 'Bulk_Destroy_ByFilter_PSA', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'BulkDestroyByFilter')]
+        [Parameter(ParameterSetName = 'BulkDestroyByFilterPSA', Mandatory = $true)]
         [ValidateSet('manage', 'autotask', 'tigerpaw', 'kaseya-bms', 'pulseway-psa', 'vorex')]
         [string]$FilterPsaIntegrationType,
 
-        [Parameter(ParameterSetName = 'Bulk_Destroy', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'BulkDestroy', Mandatory = $true)]
         $Data
     )
 
@@ -142,36 +142,36 @@ function Remove-ITGlueContact {
             $false  { $ResourceUri = "/contacts" }
         }
 
-        $query_params = @{}
+        $UriParameters = @{}
 
         #Region     [ Parameter Translation ]
 
         if ($PSCmdlet.ParameterSetName -like "Bulk_Destroy_*") {
-            if ($FilterID)              { $query_params['filter[id]']               = $FilterID }
-            if ($FilterFirstName)       { $query_params['filter[first_name]']       = $FilterFirstName }
-            if ($FilterLastName)        { $query_params['filter[last_name]']        = $FilterLastName }
-            if ($FilterTitle)           { $query_params['filter[title]']            = $FilterTitle }
-            if ($FilterContactTypeID)   { $query_params['filter[contact_type_id]']  = $FilterContactTypeID }
+            if ($FilterID)              { $UriParameters['filter[id]']               = $FilterID }
+            if ($FilterFirstName)       { $UriParameters['filter[first_name]']       = $FilterFirstName }
+            if ($FilterLastName)        { $UriParameters['filter[last_name]']        = $FilterLastName }
+            if ($FilterTitle)           { $UriParameters['filter[title]']            = $FilterTitle }
+            if ($FilterContactTypeID)   { $UriParameters['filter[contact_type_id]']  = $FilterContactTypeID }
 
-            if ($FilterImportant -eq $true)         { $query_params['filter[important]'] = '1' }
-            elseif ($FilterImportant -eq $false)    { $query_params['filter[important]'] = '0'}
+            if ($FilterImportant -eq $true)         { $UriParameters['filter[important]'] = '1' }
+            elseif ($FilterImportant -eq $false)    { $UriParameters['filter[important]'] = '0'}
 
-            if ($FilterPrimaryEmail)        { $query_params['filter[primary_email]']        = $FilterPrimaryEmail }
-            if ($FilterOrganizationID)      { $query_params['filter[organization_id]']      = $FilterOrganizationID }
-            if ($FilterPsaIntegrationType)  { $query_params['filter[psa_integration_type]'] = $FilterPsaIntegrationType }
+            if ($FilterPrimaryEmail)        { $UriParameters['filter[primary_email]']        = $FilterPrimaryEmail }
+            if ($FilterOrganizationID)      { $UriParameters['filter[organization_id]']      = $FilterOrganizationID }
+            if ($FilterPsaIntegrationType)  { $UriParameters['filter[psa_integration_type]'] = $FilterPsaIntegrationType }
         }
 
-        if ($PSCmdlet.ParameterSetName -eq 'Bulk_Destroy_ByFilter_PSA') {
-            if($FilterPsaID) { $query_params['filter[psa_id]'] = $FilterPsaID }
+        if ($PSCmdlet.ParameterSetName -eq 'BulkDestroyByFilterPSA') {
+            if($FilterPsaID) { $UriParameters['filter[psa_id]'] = $FilterPsaID }
         }
 
         #EndRegion  [ Parameter Translation ]
 
         Set-Variable -Name $ParameterName -Value $PSBoundParameters -Scope Global -Force -Confirm:$false
-        Set-Variable -Name $QueryParameterName -Value $query_params -Scope Global -Force -Confirm:$false
+        Set-Variable -Name $QueryParameterName -Value $UriParameters -Scope Global -Force -Confirm:$false
 
         if ($PSCmdlet.ShouldProcess($ResourceUri)) {
-            return Invoke-ITGlueRequest -Method DELETE -ResourceURI $ResourceUri -Data $Data -QueryParams $query_params
+            return Invoke-ITGlueRequest -Method DELETE -ResourceURI $ResourceUri -UriFilter $UriParameters -Data $Data
         }
 
     }

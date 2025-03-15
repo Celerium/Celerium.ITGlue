@@ -1,10 +1,10 @@
-function Import-ITGlueModuleSetting {
+function Import-ITGlueModuleSettings {
 <#
     .SYNOPSIS
         Imports the ITGlue BaseURI, API, & JSON configuration information to the current session
 
     .DESCRIPTION
-        The Import-ITGlueModuleSetting cmdlet imports the ITGlue BaseURI, API, & JSON configuration
+        The Import-ITGlueModuleSettings cmdlet imports the ITGlue BaseURI, API, & JSON configuration
         information stored in the ITGlue configuration file to the users current session
 
         By default the configuration file is stored in the following location:
@@ -23,18 +23,18 @@ function Import-ITGlueModuleSetting {
             config.psd1
 
     .EXAMPLE
-        Import-ITGlueModuleSetting
+        Import-ITGlueModuleSettings
 
-        Validates that the configuration file created with the Export-ITGlueModuleSetting cmdlet exists
+        Validates that the configuration file created with the Export-ITGlueModuleSettings cmdlet exists
         then imports the stored data into the current users session
 
         The default location of the ITGlue configuration file is:
             $env:USERPROFILE\Celerium.ITGlue\config.psd1
 
     .EXAMPLE
-        Import-ITGlueModuleSetting -ITGlueConfigPath C:\Celerium.ITGlue -ITGlueConfigFile MyConfig.psd1
+        Import-ITGlueModuleSettings -ITGlueConfigPath C:\Celerium.ITGlue -ITGlueConfigFile MyConfig.psd1
 
-        Validates that the configuration file created with the Export-ITGlueModuleSetting cmdlet exists
+        Validates that the configuration file created with the Export-ITGlueModuleSettings cmdlet exists
         then imports the stored data into the current users session
 
         The location of the ITGlue configuration file in this example is:
@@ -44,10 +44,7 @@ function Import-ITGlueModuleSetting {
         N/A
 
     .LINK
-        https://celerium.github.io/Celerium.ITGlue/site/Internal/Import-ITGlueModuleSetting.html
-
-    .LINK
-        https://github.com/Celerium/Celerium.ITGlue
+        https://celerium.github.io/Celerium.ITGlue/site/Internal/Import-ITGlueModuleSettings.html
 #>
 
     [CmdletBinding(DefaultParameterSetName = 'Set')]
@@ -66,21 +63,21 @@ function Import-ITGlueModuleSetting {
     process {
 
         if (Test-Path $ITGlueConfig) {
-            $tmp_config = Import-LocalizedData -BaseDirectory $ITGlueConfigPath -FileName $ITGlueConfigFile
+            $TempConfig = Import-LocalizedData -BaseDirectory $ITGlueConfigPath -FileName $ITGlueConfigFile
 
             # Send to function to strip potentially superfluous slash (/)
-            Add-ITGlueBaseURI $tmp_config.ITGlueModuleBaseURI
+            Add-ITGlueBaseURI $TempConfig.ITGlueModuleBaseURI
 
-            $tmp_config.ITGlueModuleAPIKey = ConvertTo-SecureString $tmp_config.ITGlueModuleAPIKey
+            $TempConfig.ITGlueModuleApiKey = ConvertTo-SecureString $TempConfig.ITGlueModuleApiKey
 
-            Set-Variable -Name "ITGlueModuleAPIKey" -Value $tmp_config.ITGlueModuleAPIKey -Option ReadOnly -Scope global -Force
+            Set-Variable -Name "ITGlueModuleApiKey" -Value $TempConfig.ITGlueModuleApiKey -Option ReadOnly -Scope global -Force
 
-            Set-Variable -Name "ITGlueModuleJSONConversionDepth" -Value $tmp_config.ITGlueModuleJSONConversionDepth -Scope global -Force
+            Set-Variable -Name "ITGlueModuleJSONConversionDepth" -Value $TempConfig.ITGlueModuleJSONConversionDepth -Scope global -Force
 
             Write-Verbose "Celerium.ITGlue Module configuration loaded successfully from [ $ITGlueConfig ]"
 
             # Clean things up
-            Remove-Variable "tmp_config"
+            Remove-Variable "TempConfig"
         }
         else {
             Write-Verbose "No configuration file found at [ $ITGlueConfig ] run Add-ITGlueAPIKey to get started."

@@ -111,62 +111,62 @@ function Get-ITGlueLocation {
     [CmdletBinding(DefaultParameterSetName = 'Index')]
     Param (
         [Parameter(ParameterSetName = 'Index')]
-        [Parameter(ParameterSetName = 'Index_PSA')]
+        [Parameter(ParameterSetName = 'IndexPSA')]
         [Parameter(ParameterSetName = 'Show')]
         [int64]$OrganizationID,
 
         [Parameter(ParameterSetName = 'Index')]
-        [Parameter(ParameterSetName = 'Index_PSA')]
+        [Parameter(ParameterSetName = 'IndexPSA')]
         [int64]$FilterID,
 
         [Parameter(ParameterSetName = 'Index')]
-        [Parameter(ParameterSetName = 'Index_PSA')]
+        [Parameter(ParameterSetName = 'IndexPSA')]
         [string]$FilterName,
 
         [Parameter(ParameterSetName = 'Index')]
-        [Parameter(ParameterSetName = 'Index_PSA')]
+        [Parameter(ParameterSetName = 'IndexPSA')]
         [string]$FilterCity,
 
         [Parameter(ParameterSetName = 'Index')]
-        [Parameter(ParameterSetName = 'Index_PSA')]
+        [Parameter(ParameterSetName = 'IndexPSA')]
         [int64]$FilterRegionID,
 
         [Parameter(ParameterSetName = 'Index')]
-        [Parameter(ParameterSetName = 'Index_PSA')]
+        [Parameter(ParameterSetName = 'IndexPSA')]
         [int64]$FilterCountryID,
 
         [Parameter(ParameterSetName = 'Index')]
-        [Parameter(ParameterSetName = 'Index_PSA')]
+        [Parameter(ParameterSetName = 'IndexPSA')]
         [Parameter(ParameterSetName = 'Show')]
         [int64]$FilterOrganizationID,
 
-        [Parameter(ParameterSetName = 'Index_PSA')]
+        [Parameter(ParameterSetName = 'IndexPSA')]
         [string]$FilterPsaID,
 
         [Parameter(ParameterSetName = 'Index')]
-        [Parameter(ParameterSetName = 'Index_PSA', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'IndexPSA', Mandatory = $true)]
         [ValidateSet('manage', 'autotask', 'tigerpaw', 'kaseya-bms', 'pulseway-psa', 'vorex')]
         [string]$FilterPsaIntegrationType,
 
         [Parameter(ParameterSetName = 'Index')]
-        [Parameter(ParameterSetName = 'Index_PSA')]
+        [Parameter(ParameterSetName = 'IndexPSA')]
         [ValidateSet(   'name', 'id', 'created_at', 'updated_at',
                         '-name', '-id', '-created_at', '-updated_at')]
         [string]$Sort,
 
         [Parameter(ParameterSetName = 'Index')]
-        [Parameter(ParameterSetName = 'Index_PSA')]
+        [Parameter(ParameterSetName = 'IndexPSA')]
         [int64]$PageNumber,
 
         [Parameter(ParameterSetName = 'Index')]
-        [Parameter(ParameterSetName = 'Index_PSA')]
+        [Parameter(ParameterSetName = 'IndexPSA')]
         [int64]$PageSize,
 
         [Parameter(ParameterSetName = 'Show', ValueFromPipeline = $true , Mandatory = $true)]
         [int64]$ID,
 
         [Parameter(ParameterSetName = 'Index')]
-        [Parameter(ParameterSetName = 'Index_PSA')]
+        [Parameter(ParameterSetName = 'IndexPSA')]
         [Parameter(ParameterSetName = 'Show')]
         [ValidateSet(   'adapters_resources', 'attachments', 'group_resource_accesses', 'passwords',
                         'user_resource_accesses', 'recent_versions', 'related_items', 'authorized_users'
@@ -174,7 +174,7 @@ function Get-ITGlueLocation {
         [string]$Include,
 
         [Parameter(ParameterSetName = 'Index')]
-        [Parameter(ParameterSetName = 'Index_PSA')]
+        [Parameter(ParameterSetName = 'IndexPSA')]
         [switch]$AllResults
     )
 
@@ -210,37 +210,37 @@ function Get-ITGlueLocation {
 
         }
 
-        $query_params = @{}
+        $UriParameters = @{}
 
         #Region     [ Parameter Translation ]
 
         if (($PSCmdlet.ParameterSetName -like 'Index*')) {
-            if ($FilterID)                  { $query_params['filter[id]']                   = $FilterID }
-            if ($FilterName)                { $query_params['filter[name]']                 = $FilterName }
-            if ($FilterCity)                { $query_params['filter[city]']                 = $FilterCity }
-            if ($FilterRegionID)            { $query_params['filter[region_id]']            = $FilterRegionID }
-            if ($FilterCountryID)           { $query_params['filter[country_id]']            = $FilterCountryID }
-            if ($FilterOrganizationID)      { $query_params['filter[organization_id]']      = $FilterOrganizationID }
-            if ($FilterPsaIntegrationType)  { $query_params['filter[psa_integration_type]'] = $FilterPsaIntegrationType }
-            if ($Sort)                      { $query_params['sort']                         = $Sort }
-            if ($PageNumber)                { $query_params['page[number]']                 = $PageNumber }
-            if ($PageSize)                  { $query_params['page[size]']                   = $PageSize }
+            if ($FilterID)                  { $UriParameters['filter[id]']                   = $FilterID }
+            if ($FilterName)                { $UriParameters['filter[name]']                 = $FilterName }
+            if ($FilterCity)                { $UriParameters['filter[city]']                 = $FilterCity }
+            if ($FilterRegionID)            { $UriParameters['filter[region_id]']            = $FilterRegionID }
+            if ($FilterCountryID)           { $UriParameters['filter[country_id]']            = $FilterCountryID }
+            if ($FilterOrganizationID)      { $UriParameters['filter[organization_id]']      = $FilterOrganizationID }
+            if ($FilterPsaIntegrationType)  { $UriParameters['filter[psa_integration_type]'] = $FilterPsaIntegrationType }
+            if ($Sort)                      { $UriParameters['sort']                         = $Sort }
+            if ($PageNumber)                { $UriParameters['page[number]']                 = $PageNumber }
+            if ($PageSize)                  { $UriParameters['page[size]']                   = $PageSize }
         }
 
-        if ($PSCmdlet.ParameterSetName -eq 'Index_PSA') {
-            $query_params['filter[psa_id]'] = $FilterPsaID
+        if ($PSCmdlet.ParameterSetName -eq 'IndexPSA') {
+            $UriParameters['filter[psa_id]'] = $FilterPsaID
         }
 
         if($Include) {
-            $query_params['include'] = $Include
+            $UriParameters['include'] = $Include
         }
 
         #EndRegion  [ Parameter Translation ]
 
         Set-Variable -Name $ParameterName -Value $PSBoundParameters -Scope Global -Force -Confirm:$false
-        Set-Variable -Name $QueryParameterName -Value $query_params -Scope Global -Force -Confirm:$false
+        Set-Variable -Name $QueryParameterName -Value $UriParameters -Scope Global -Force -Confirm:$false
 
-        return Invoke-ITGlueRequest -Method GET -ResourceURI $ResourceUri -QueryParams $query_params -AllResults:$AllResults
+        return Invoke-ITGlueRequest -Method GET -ResourceURI $ResourceUri -UriFilter $UriParameters -AllResults:$AllResults
 
     }
 

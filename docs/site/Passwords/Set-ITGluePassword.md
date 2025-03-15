@@ -15,7 +15,7 @@ Updates one or more passwords
 
 ## SYNTAX
 
-### Bulk_Update (Default)
+### BulkUpdate (Default)
 ```powershell
 Set-ITGluePassword -Data <Object> [-WhatIf] [-Confirm] [<CommonParameters>]
 ```

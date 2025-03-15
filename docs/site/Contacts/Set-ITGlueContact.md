@@ -15,7 +15,7 @@ Updates one or more contacts
 
 ## SYNTAX
 
-### Bulk_Update (Default)
+### BulkUpdate (Default)
 ```powershell
 Set-ITGlueContact -Data <Object> [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
@@ -26,7 +26,7 @@ Set-ITGlueContact [-OrganizationID <Int64>] -ID <Int64> -Data <Object> [-WhatIf]
  [<CommonParameters>]
 ```
 
-### Bulk_Update_ByFilter_PSA
+### BulkUpdateByFilterPSA
 ```powershell
 Set-ITGlueContact [-FilterID <Int64>] [-FilterFirstName <String>] [-FilterLastName <String>]
  [-FilterTitle <String>] [-FilterContactTypeID <Int64>] [-FilterImportant] [-FilterPrimaryEmail <String>]
@@ -34,7 +34,7 @@ Set-ITGlueContact [-FilterID <Int64>] [-FilterFirstName <String>] [-FilterLastNa
  [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
-### Bulk_Update_ByFilter
+### BulkUpdateByFilter
 ```powershell
 Set-ITGlueContact [-FilterID <Int64>] [-FilterFirstName <String>] [-FilterLastName <String>]
  [-FilterTitle <String>] [-FilterContactTypeID <Int64>] [-FilterImportant] [-FilterPrimaryEmail <String>]
@@ -105,7 +105,7 @@ Filter by contact id
 
 ```yaml
 Type: Int64
-Parameter Sets: Bulk_Update_ByFilter_PSA, Bulk_Update_ByFilter
+Parameter Sets: BulkUpdateByFilterPSA, BulkUpdateByFilter
 Aliases:
 
 Required: False
@@ -120,7 +120,7 @@ Filter by contact first name
 
 ```yaml
 Type: String
-Parameter Sets: Bulk_Update_ByFilter_PSA, Bulk_Update_ByFilter
+Parameter Sets: BulkUpdateByFilterPSA, BulkUpdateByFilter
 Aliases:
 
 Required: False
@@ -135,7 +135,7 @@ Filter by contact last name
 
 ```yaml
 Type: String
-Parameter Sets: Bulk_Update_ByFilter_PSA, Bulk_Update_ByFilter
+Parameter Sets: BulkUpdateByFilterPSA, BulkUpdateByFilter
 Aliases:
 
 Required: False
@@ -150,7 +150,7 @@ Filter by contact title
 
 ```yaml
 Type: String
-Parameter Sets: Bulk_Update_ByFilter_PSA, Bulk_Update_ByFilter
+Parameter Sets: BulkUpdateByFilterPSA, BulkUpdateByFilter
 Aliases:
 
 Required: False
@@ -165,7 +165,7 @@ Filter by contact type id
 
 ```yaml
 Type: Int64
-Parameter Sets: Bulk_Update_ByFilter_PSA, Bulk_Update_ByFilter
+Parameter Sets: BulkUpdateByFilterPSA, BulkUpdateByFilter
 Aliases:
 
 Required: False
@@ -180,7 +180,7 @@ Filter by if contact is important
 
 ```yaml
 Type: SwitchParameter
-Parameter Sets: Bulk_Update_ByFilter_PSA, Bulk_Update_ByFilter
+Parameter Sets: BulkUpdateByFilterPSA, BulkUpdateByFilter
 Aliases:
 
 Required: False
@@ -195,7 +195,7 @@ Filter by contact primary email address
 
 ```yaml
 Type: String
-Parameter Sets: Bulk_Update_ByFilter_PSA, Bulk_Update_ByFilter
+Parameter Sets: BulkUpdateByFilterPSA, BulkUpdateByFilter
 Aliases:
 
 Required: False
@@ -210,7 +210,7 @@ Filter by an organization ID
 
 ```yaml
 Type: String
-Parameter Sets: Bulk_Update_ByFilter_PSA, Bulk_Update_ByFilter
+Parameter Sets: BulkUpdateByFilterPSA, BulkUpdateByFilter
 Aliases:
 
 Required: False
@@ -227,7 +227,7 @@ This must be accompanied by the filter for FilterPsaIntegrationType
 
 ```yaml
 Type: String
-Parameter Sets: Bulk_Update_ByFilter_PSA
+Parameter Sets: BulkUpdateByFilterPSA
 Aliases:
 
 Required: False
@@ -245,7 +245,7 @@ Allowed values:
 
 ```yaml
 Type: String
-Parameter Sets: Bulk_Update_ByFilter_PSA
+Parameter Sets: BulkUpdateByFilterPSA
 Aliases:
 
 Required: True
@@ -257,7 +257,7 @@ Accept wildcard characters: False
 
 ```yaml
 Type: String
-Parameter Sets: Bulk_Update_ByFilter
+Parameter Sets: BulkUpdateByFilter
 Aliases:
 
 Required: False

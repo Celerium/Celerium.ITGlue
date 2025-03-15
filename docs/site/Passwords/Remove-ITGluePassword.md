@@ -20,7 +20,7 @@ Deletes one or more passwords
 Remove-ITGluePassword -ID <Int64> [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
-### Bulk_Destroy
+### BulkDestroy
 ```powershell
 Remove-ITGluePassword [-ID <Int64>] [-OrganizationID <Int64>] [-FilterID <Int64>] [-FilterName <String>]
  [-FilterOrganizationID <Int64>] [-FilterPasswordCategoryID <Int64>] [-FilterUrl <String>]
@@ -63,7 +63,7 @@ Accept wildcard characters: False
 
 ```yaml
 Type: Int64
-Parameter Sets: Bulk_Destroy
+Parameter Sets: BulkDestroy
 Aliases:
 
 Required: False
@@ -78,7 +78,7 @@ A valid organization Id in your account
 
 ```yaml
 Type: Int64
-Parameter Sets: Bulk_Destroy
+Parameter Sets: BulkDestroy
 Aliases:
 
 Required: False
@@ -93,7 +93,7 @@ Filter by password id
 
 ```yaml
 Type: Int64
-Parameter Sets: Bulk_Destroy
+Parameter Sets: BulkDestroy
 Aliases:
 
 Required: False
@@ -108,7 +108,7 @@ Filter by password name
 
 ```yaml
 Type: String
-Parameter Sets: Bulk_Destroy
+Parameter Sets: BulkDestroy
 Aliases:
 
 Required: False
@@ -123,7 +123,7 @@ Filter for passwords by organization id
 
 ```yaml
 Type: Int64
-Parameter Sets: Bulk_Destroy
+Parameter Sets: BulkDestroy
 Aliases:
 
 Required: False
@@ -138,7 +138,7 @@ Filter by passwords category id
 
 ```yaml
 Type: Int64
-Parameter Sets: Bulk_Destroy
+Parameter Sets: BulkDestroy
 Aliases:
 
 Required: False
@@ -153,7 +153,7 @@ Filter by password url
 
 ```yaml
 Type: String
-Parameter Sets: Bulk_Destroy
+Parameter Sets: BulkDestroy
 Aliases:
 
 Required: False
@@ -168,7 +168,7 @@ Filter by a passwords cached resource name
 
 ```yaml
 Type: String
-Parameter Sets: Bulk_Destroy
+Parameter Sets: BulkDestroy
 Aliases:
 
 Required: False
@@ -186,7 +186,7 @@ Allowed values: (case-sensitive)
 
 ```yaml
 Type: String
-Parameter Sets: Bulk_Destroy
+Parameter Sets: BulkDestroy
 Aliases:
 
 Required: False
@@ -204,7 +204,7 @@ by the Invoke-ITGlueRequest function
 
 ```yaml
 Type: Object
-Parameter Sets: Bulk_Destroy
+Parameter Sets: BulkDestroy
 Aliases:
 
 Required: True

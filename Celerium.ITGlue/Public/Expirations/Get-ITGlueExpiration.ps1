@@ -187,30 +187,30 @@ function Get-ITGlueExpiration {
             }
         }
 
-        $query_params = @{}
+        $UriParameters = @{}
 
         #Region     [ Parameter Translation ]
 
         if ($PSCmdlet.ParameterSetName -eq 'Index') {
-            if ($FilterID)              { $query_params['filter[id]']                   = $FilterID }
-            if ($FilterResourceID)      { $query_params['filter[resource_id]']          = $FilterResourceID }
-            if ($FilterResourceName)    { $query_params['filter[resource_name]']        = $FilterResourceName }
-            if ($FilterResourceTypeName) { $query_params['filter[resource_type_name]']   = $FilterResourceTypeName }
-            if ($FilterDescription)     { $query_params['filter[description]']          = $FilterDescription }
-            if ($FilterExpirationDate)  { $query_params['filter[expiration_date]']      = $FilterExpirationDate }
-            if ($FilterOrganizationID)  { $query_params['filter[organization_id]']      = $FilterOrganizationID }
-            if ($FilterRange)           { $query_params['filter[range]']                = $FilterRange }
-            if ($Sort)                  { $query_params['sort']                         = $Sort }
-            if ($PageNumber)            { $query_params['page[number]']                 = $PageNumber }
-            if ($PageSize)              { $query_params['page[size]']                   = $PageSize }
+            if ($FilterID)              { $UriParameters['filter[id]']                   = $FilterID }
+            if ($FilterResourceID)      { $UriParameters['filter[resource_id]']          = $FilterResourceID }
+            if ($FilterResourceName)    { $UriParameters['filter[resource_name]']        = $FilterResourceName }
+            if ($FilterResourceTypeName) { $UriParameters['filter[resource_type_name]']   = $FilterResourceTypeName }
+            if ($FilterDescription)     { $UriParameters['filter[description]']          = $FilterDescription }
+            if ($FilterExpirationDate)  { $UriParameters['filter[expiration_date]']      = $FilterExpirationDate }
+            if ($FilterOrganizationID)  { $UriParameters['filter[organization_id]']      = $FilterOrganizationID }
+            if ($FilterRange)           { $UriParameters['filter[range]']                = $FilterRange }
+            if ($Sort)                  { $UriParameters['sort']                         = $Sort }
+            if ($PageNumber)            { $UriParameters['page[number]']                 = $PageNumber }
+            if ($PageSize)              { $UriParameters['page[size]']                   = $PageSize }
         }
 
         #EndRegion  [ Parameter Translation ]
 
         Set-Variable -Name $ParameterName -Value $PSBoundParameters -Scope Global -Force -Confirm:$false
-        Set-Variable -Name $QueryParameterName -Value $query_params -Scope Global -Force -Confirm:$false
+        Set-Variable -Name $QueryParameterName -Value $UriParameters -Scope Global -Force -Confirm:$false
 
-        return Invoke-ITGlueRequest -Method GET -ResourceURI $ResourceUri -QueryParams $query_params -AllResults:$AllResults
+        return Invoke-ITGlueRequest -Method GET -ResourceURI $ResourceUri -UriFilter $UriParameters -AllResults:$AllResults
 
     }
 

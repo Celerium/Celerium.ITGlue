@@ -210,37 +210,37 @@ function Get-ITGluePassword {
             }
         }
 
-        $query_params = @{}
+        $UriParameters = @{}
 
         #Region     [ Parameter Translation ]
 
         if ($PSCmdlet.ParameterSetName -eq 'Index') {
-            if ($FilterID)                  { $query_params['filter[id]']                   = $FilterID }
-            if ($FilterName)                { $query_params['filter[name]']                 = $FilterName }
-            if ($FilterOrganizationID)      { $query_params['filter[organization_id]']      = $FilterOrganizationID }
-            if ($FilterPasswordCategoryID)  { $query_params['filter[password_category_id]'] = $FilterPasswordCategoryID }
-            if ($FilterUrl)                 { $query_params['filter[url]']                  = $FilterUrl }
-            if ($FilterCachedResourceName)  { $query_params['filter[cached_resource_name]'] = $FilterCachedResourceName }
-            if ($FilterArchived)            { $query_params['filter[archived]']             = $FilterArchived }
-            if ($Sort)                      { $query_params['sort']                         = $Sort }
-            if ($PageNumber)                { $query_params['page[number]']                 = $PageNumber }
-            if ($PageSize)                  { $query_params['page[size]']                   = $PageSize }
+            if ($FilterID)                  { $UriParameters['filter[id]']                   = $FilterID }
+            if ($FilterName)                { $UriParameters['filter[name]']                 = $FilterName }
+            if ($FilterOrganizationID)      { $UriParameters['filter[organization_id]']      = $FilterOrganizationID }
+            if ($FilterPasswordCategoryID)  { $UriParameters['filter[password_category_id]'] = $FilterPasswordCategoryID }
+            if ($FilterUrl)                 { $UriParameters['filter[url]']                  = $FilterUrl }
+            if ($FilterCachedResourceName)  { $UriParameters['filter[cached_resource_name]'] = $FilterCachedResourceName }
+            if ($FilterArchived)            { $UriParameters['filter[archived]']             = $FilterArchived }
+            if ($Sort)                      { $UriParameters['sort']                         = $Sort }
+            if ($PageNumber)                { $UriParameters['page[number]']                 = $PageNumber }
+            if ($PageSize)                  { $UriParameters['page[size]']                   = $PageSize }
         }
 
         if ($PSCmdlet.ParameterSetName -eq 'show') {
-            if ($ShowPassword)  { $query_params['show_password']    = $ShowPassword }
-            if ($VersionID)     { $query_params['version_id']       = $VersionID }
+            if ($ShowPassword)  { $UriParameters['show_password']    = $ShowPassword }
+            if ($VersionID)     { $UriParameters['version_id']       = $VersionID }
         }
 
         #Shared Parameters
-        if($Include) { $query_params['include'] = $Include }
+        if($Include) { $UriParameters['include'] = $Include }
 
         #EndRegion  [ Parameter Translation ]
 
         Set-Variable -Name $ParameterName -Value $PSBoundParameters -Scope Global -Force -Confirm:$false
-        Set-Variable -Name $QueryParameterName -Value $query_params -Scope Global -Force -Confirm:$false
+        Set-Variable -Name $QueryParameterName -Value $UriParameters -Scope Global -Force -Confirm:$false
 
-        return Invoke-ITGlueRequest -Method GET -ResourceURI $ResourceUri -QueryParams $query_params -AllResults:$AllResults
+        return Invoke-ITGlueRequest -Method GET -ResourceURI $ResourceUri -UriFilter $UriParameters -AllResults:$AllResults
 
     }
 

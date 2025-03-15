@@ -1,10 +1,10 @@
-function Remove-ITGlueModuleSetting {
+function Remove-ITGlueModuleSettings {
 <#
     .SYNOPSIS
         Removes the stored ITGlue configuration folder
 
     .DESCRIPTION
-        The Remove-ITGlueModuleSetting cmdlet removes the ITGlue folder and its files
+        The Remove-ITGlueModuleSettings cmdlet removes the ITGlue folder and its files
         This cmdlet also has the option to remove sensitive ITGlue variables as well
 
         By default configuration files are stored in the following location and will be removed:
@@ -16,13 +16,13 @@ function Remove-ITGlueModuleSetting {
         By default the configuration folder is located at:
             $env:USERPROFILE\Celerium.ITGlue
 
-    .PARAMETER WithVariables
+    .PARAMETER AndVariables
         Define if sensitive ITGlue variables should be removed as well
 
         By default the variables are not removed
 
     .EXAMPLE
-        Remove-ITGlueModuleSetting
+        Remove-ITGlueModuleSettings
 
         Checks to see if the default configuration folder exists and removes it if it does
 
@@ -30,7 +30,7 @@ function Remove-ITGlueModuleSetting {
             $env:USERPROFILE\Celerium.ITGlue
 
     .EXAMPLE
-        Remove-ITGlueModuleSetting -ITGlueConfigPath C:\Celerium.ITGlue -WithVariables
+        Remove-ITGlueModuleSettings -ITGlueConfigPath C:\Celerium.ITGlue -AndVariables
 
         Checks to see if the defined configuration folder exists and removes it if it does
         If sensitive ITGlue variables exist then they are removed as well
@@ -42,39 +42,40 @@ function Remove-ITGlueModuleSetting {
         N/A
 
     .LINK
-        https://celerium.github.io/Celerium.ITGlue/site/Internal/Remove-ITGlueModuleSetting.html
-
-    .LINK
-        https://github.com/Celerium/Celerium.ITGlue
+        https://celerium.github.io/Celerium.ITGlue/site/Internal/Remove-ITGlueModuleSettings.html
 #>
 
-    [CmdletBinding(DefaultParameterSetName = 'Destroy',SupportsShouldProcess)]
+    [CmdletBinding(DefaultParameterSetName = 'Destroy',SupportsShouldProcess, ConfirmImpact = 'None')]
     Param (
         [Parameter()]
         [string]$ITGlueConfigPath = $(Join-Path -Path $home -ChildPath $(if ($IsWindows -or $PSEdition -eq 'Desktop') {"Celerium.ITGlue"}else{".Celerium.ITGlue"}) ),
 
         [Parameter()]
-        [switch]$WithVariables
+        [switch]$AndVariables
     )
 
     begin {}
 
     process {
 
-        if (Test-Path $ITGlueConfigPath) {
+        if(Test-Path $ITGlueConfigPath)  {
 
             Remove-Item -Path $ITGlueConfigPath -Recurse -Force -WhatIf:$WhatIfPreference
 
-            If ($WithVariables) {
-                Remove-ITGlueAPIKey
-                Remove-ITGlueBaseURI
+            If ($AndVariables) {
+                Remove-ITGlueApiKey
+                Remove-ITGlueBaseUri
             }
 
-            if (!(Test-Path $ITGlueConfigPath)) {
-                Write-Output "The Celerium.ITGlue configuration folder has been removed successfully from [ $ITGlueConfigPath ]"
-            }
-            else {
-                Write-Error "The Celerium.ITGlue configuration folder could not be removed from [ $ITGlueConfigPath ]"
+            if ($WhatIfPreference -eq $false) {
+
+                if (!(Test-Path $ITGlueConfigPath)) {
+                    Write-Output "The Celerium.ITGlue configuration folder has been removed successfully from [ $ITGlueConfigPath ]"
+                }
+                else {
+                    Write-Error "The Celerium.ITGlue configuration folder could not be removed from [ $ITGlueConfigPath ]"
+                }
+
             }
 
         }

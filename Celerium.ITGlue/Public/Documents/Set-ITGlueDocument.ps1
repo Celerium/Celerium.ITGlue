@@ -44,17 +44,17 @@ function Set-ITGlueDocument {
         https://api.itglue.com/developer/#documents-update
 #>
 
-    [CmdletBinding(DefaultParameterSetName = 'Bulk_Update', SupportsShouldProcess, ConfirmImpact = 'Medium')]
+    [CmdletBinding(DefaultParameterSetName = 'BulkUpdate', SupportsShouldProcess, ConfirmImpact = 'Medium')]
     Param (
         [Parameter(ParameterSetName = 'Update')]
-        [Parameter(ParameterSetName = 'Bulk_Update')]
+        [Parameter(ParameterSetName = 'BulkUpdate')]
         [int64]$OrganizationID,
 
         [Parameter(ParameterSetName = 'Update', Mandatory = $true)]
         [int64]$ID,
 
         [Parameter(ParameterSetName = 'Update', Mandatory = $true)]
-        [Parameter(ParameterSetName = 'Bulk_Update', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'BulkUpdate', Mandatory = $true)]
         $Data
     )
 
@@ -79,11 +79,11 @@ function Set-ITGlueDocument {
                 }
 
             }
-            'Bulk_Update'   { $ResourceUri = "/documents" }
+            'BulkUpdate'   { $ResourceUri = "/documents" }
         }
 
         Set-Variable -Name $ParameterName -Value $PSBoundParameters -Scope Global -Force -Confirm:$false
-        Set-Variable -Name $QueryParameterName -Value $query_params -Scope Global -Force -Confirm:$false
+        Set-Variable -Name $QueryParameterName -Value $UriParameters -Scope Global -Force -Confirm:$false
 
         if ($PSCmdlet.ShouldProcess($ResourceUri)) {
             return Invoke-ITGlueRequest -Method PATCH -ResourceURI $ResourceUri -Data $Data

@@ -114,7 +114,7 @@ N/A
 
 ## RELATED LINKS
 
-[https://celerium.github.io/Celerium.ITGlue/site/Configurations/new-ITGlueConfiguration.html](https://celerium.github.io/Celerium.ITGlue/site/Configurations/new-ITGlueConfiguration.html)
+[https://celerium.github.io/Celerium.ITGlue/site/Configurations/New-ITGlueConfiguration.html](https://celerium.github.io/Celerium.ITGlue/site/Configurations/New-ITGlueConfiguration.html)
 
 [https://api.itglue.com/developer/#configurations-create](https://api.itglue.com/developer/#configurations-create)
 

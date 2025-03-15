@@ -29,7 +29,7 @@ Get-ITGlueLocation [-OrganizationID <Int64>] [-FilterOrganizationID <Int64>] -ID
  [<CommonParameters>]
 ```
 
-### Index_PSA
+### IndexPSA
 ```powershell
 Get-ITGlueLocation [-OrganizationID <Int64>] [-FilterID <Int64>] [-FilterName <String>] [-FilterCity <String>]
  [-FilterRegionID <Int64>] [-FilterCountryID <Int64>] [-FilterOrganizationID <Int64>] [-FilterPsaID <String>]
@@ -94,7 +94,7 @@ Filter by a location id
 
 ```yaml
 Type: Int64
-Parameter Sets: Index, Index_PSA
+Parameter Sets: Index, IndexPSA
 Aliases:
 
 Required: False
@@ -109,7 +109,7 @@ Filter by a location name
 
 ```yaml
 Type: String
-Parameter Sets: Index, Index_PSA
+Parameter Sets: Index, IndexPSA
 Aliases:
 
 Required: False
@@ -124,7 +124,7 @@ Filter by a location city
 
 ```yaml
 Type: String
-Parameter Sets: Index, Index_PSA
+Parameter Sets: Index, IndexPSA
 Aliases:
 
 Required: False
@@ -139,7 +139,7 @@ Filter by a location region id
 
 ```yaml
 Type: Int64
-Parameter Sets: Index, Index_PSA
+Parameter Sets: Index, IndexPSA
 Aliases:
 
 Required: False
@@ -154,7 +154,7 @@ Filter by a location country id
 
 ```yaml
 Type: Int64
-Parameter Sets: Index, Index_PSA
+Parameter Sets: Index, IndexPSA
 Aliases:
 
 Required: False
@@ -184,7 +184,7 @@ Filter by a psa integration id
 
 ```yaml
 Type: String
-Parameter Sets: Index_PSA
+Parameter Sets: IndexPSA
 Aliases:
 
 Required: False
@@ -214,7 +214,7 @@ Accept wildcard characters: False
 
 ```yaml
 Type: String
-Parameter Sets: Index_PSA
+Parameter Sets: IndexPSA
 Aliases:
 
 Required: True
@@ -233,7 +233,7 @@ Allowed values:
 
 ```yaml
 Type: String
-Parameter Sets: Index, Index_PSA
+Parameter Sets: Index, IndexPSA
 Aliases:
 
 Required: False
@@ -248,7 +248,7 @@ Return results starting from the defined number
 
 ```yaml
 Type: Int64
-Parameter Sets: Index, Index_PSA
+Parameter Sets: Index, IndexPSA
 Aliases:
 
 Required: False
@@ -266,7 +266,7 @@ requested is 1000
 
 ```yaml
 Type: Int64
-Parameter Sets: Index, Index_PSA
+Parameter Sets: Index, IndexPSA
 Aliases:
 
 Required: False
@@ -324,7 +324,7 @@ sequential requests to the API
 
 ```yaml
 Type: SwitchParameter
-Parameter Sets: Index, Index_PSA
+Parameter Sets: Index, IndexPSA
 Aliases:
 
 Required: False

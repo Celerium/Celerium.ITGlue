@@ -65,7 +65,7 @@ function Set-ITGlueConfigurationInterface {
         https://api.itglue.com/developer/#configuration-interfaces-update
 #>
 
-    [CmdletBinding(DefaultParameterSetName = 'Bulk_Update', SupportsShouldProcess, ConfirmImpact = 'Medium')]
+    [CmdletBinding(DefaultParameterSetName = 'BulkUpdate', SupportsShouldProcess, ConfirmImpact = 'Medium')]
     Param (
         [Parameter(ParameterSetName = 'Update')]
         [int64]$ConfigurationID,
@@ -73,14 +73,14 @@ function Set-ITGlueConfigurationInterface {
         [Parameter(ParameterSetName = 'Update', Mandatory = $true)]
         [int64]$ID,
 
-        [Parameter(ParameterSetName = 'Bulk_Update')]
+        [Parameter(ParameterSetName = 'BulkUpdate')]
         [int64]$FilterID,
 
-        [Parameter(ParameterSetName = 'Bulk_Update')]
+        [Parameter(ParameterSetName = 'BulkUpdate')]
         [string]$FilterIPAddress,
 
         [Parameter(ParameterSetName = 'Update', Mandatory = $true)]
-        [Parameter(ParameterSetName = 'Bulk_Update', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'BulkUpdate', Mandatory = $true)]
         $Data
     )
 
@@ -97,7 +97,7 @@ function Set-ITGlueConfigurationInterface {
         Write-Verbose "[ $FunctionName ] - Running the [ $($PSCmdlet.ParameterSetName) ] parameterSet"
 
         switch ($PsCmdlet.ParameterSetName) {
-            'Bulk_Update'  { $ResourceUri = "/configuration_interfaces" }
+            'BulkUpdate'  { $ResourceUri = "/configuration_interfaces" }
             'Update' {
 
                 switch ([bool]$ConfigurationID) {
@@ -108,22 +108,22 @@ function Set-ITGlueConfigurationInterface {
             }
         }
 
-        $query_params = @{}
+        $UriParameters = @{}
 
         #Region     [ Parameter Translation ]
 
-        if ($PSCmdlet.ParameterSetName -eq 'Bulk_Update') {
-            if ($FilterID)          { $query_params['filter[id]']           = $FilterID }
-            if ($FilterIPAddress)   { $query_params['filter[ip_address]']   = $FilterIPAddress }
+        if ($PSCmdlet.ParameterSetName -eq 'BulkUpdate') {
+            if ($FilterID)          { $UriParameters['filter[id]']           = $FilterID }
+            if ($FilterIPAddress)   { $UriParameters['filter[ip_address]']   = $FilterIPAddress }
         }
 
         #EndRegion  [ Parameter Translation ]
 
         Set-Variable -Name $ParameterName -Value $PSBoundParameters -Scope Global -Force -Confirm:$false
-        Set-Variable -Name $QueryParameterName -Value $query_params -Scope Global -Force -Confirm:$false
+        Set-Variable -Name $QueryParameterName -Value $UriParameters -Scope Global -Force -Confirm:$false
 
         if ($PSCmdlet.ShouldProcess($ResourceUri)) {
-            return Invoke-ITGlueRequest -Method PATCH -ResourceURI $ResourceUri -QueryParams $query_params -Data $Data
+            return Invoke-ITGlueRequest -Method PATCH -ResourceURI $ResourceUri -UriFilter $UriParameters -Data $Data
         }
 
     }

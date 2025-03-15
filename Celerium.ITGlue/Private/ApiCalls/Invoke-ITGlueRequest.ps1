@@ -8,7 +8,7 @@ function Invoke-ITGlueRequest {
 
         This is an internal function that is used by all public functions
 
-    .PARAMETER method
+    .PARAMETER Method
         Defines the type of API method to use
 
         Allowed values:
@@ -17,7 +17,7 @@ function Invoke-ITGlueRequest {
     .PARAMETER ResourceURI
         Defines the resource uri (url) to use when creating the API call
 
-    .PARAMETER QueryParams
+    .PARAMETER UriFilter
         Hashtable of values to combine a functions parameters with
         the ResourceUri parameter
 
@@ -35,12 +35,12 @@ function Invoke-ITGlueRequest {
         Returns all items from an endpoint
 
     .EXAMPLE
-        Invoke-ITGlueRequest -method GET -ResourceURI '/passwords' -QueryParams $QueryParams
+        Invoke-ITGlueRequest -Method GET -ResourceURI '/passwords' -UriFilter $UriFilter
 
         Invoke a rest method against the defined resource using the provided parameters
 
         Example HashTable:
-            $query_params = @{
+            $UriParameters = @{
                 'filter[id]']               = 123456789
                 'filter[organization_id]']  = 12345
             }
@@ -50,13 +50,9 @@ function Invoke-ITGlueRequest {
 
     .LINK
         https://celerium.github.io/Celerium.ITGlue/site/Internal/Invoke-ITGlueRequest.html
-
-    .LINK
-        https://github.com/Celerium/Celerium.ITGlue
-
 #>
 
-    [CmdletBinding(SupportsShouldProcess)]
+    [CmdletBinding(DefaultParameterSetName = 'Invoke', SupportsShouldProcess)]
     param (
         [Parameter()]
         [ValidateSet('GET', 'POST', 'PATCH', 'DELETE')]
@@ -66,7 +62,7 @@ function Invoke-ITGlueRequest {
         [string]$ResourceURI,
 
         [Parameter()]
-        [hashtable]$QueryParams,
+        [hashtable]$UriFilter,
 
         [Parameter()]
         [ValidateNotNullOrEmpty()]
@@ -93,16 +89,16 @@ function Invoke-ITGlueRequest {
 
         Write-Verbose "[ $FunctionName ] - Running the [ $($PSCmdlet.ParameterSetName) ] parameterSet"
 
-        $result = @{}
+        $Result = @{}
 
         switch ([bool]$Data) {
-            $true   { $body = @{'data'=$Data} | ConvertTo-Json -Depth $ITGlueModuleJSONConversionDepth }
-            $false  { $body = $null }
+            $true   { $Body = @{'data'=$Data} | ConvertTo-Json -Depth $ITGlueModuleJSONConversionDepth }
+            $false  { $Body = $null }
         }
 
         try {
 
-            $headers = @{ 'x-api-key' = Get-ITGlueAPIKey -AsPlainText }
+            $Headers = @{ 'x-api-key' = Get-ITGlueAPIKey -AsPlainText }
 
             $page = 0
 
@@ -111,20 +107,20 @@ function Invoke-ITGlueRequest {
                 $page++
 
                 if($AllResults) {
-                    if(-not $QueryParams) { $QueryParams = @{} }
-                    $QueryParams['page[number]'] = $page
+                    if(-not $UriFilter) { $UriFilter = @{} }
+                    $UriFilter['page[number]'] = $page
                 }
 
-                if ($QueryParams) {
-                    $query_string = ConvertTo-ITGlueQueryString -QueryParams $QueryParams
-                    Set-Variable -Name $QueryParameterName -Value $query_string -Scope Global -Force -Confirm:$false
+                if ($UriFilter) {
+                    $QueryString = ConvertTo-ITGlueQueryString -UriFilter $UriFilter
+                    Set-Variable -Name $QueryParameterName -Value $QueryString -Scope Global -Force -Confirm:$false
                 }
 
                 $parameters = @{
                     'Method'    = $Method
-                    'Uri'       = $ITGlueModuleBaseURI + $ResourceURI + $query_string
-                    'Headers'   = $headers
-                    'Body'      = $body
+                    'Uri'       = $ITGlueModuleBaseURI + $ResourceURI + $QueryString
+                    'Headers'   = $Headers
+                    'Body'      = $Body
                 }
 
                 if($Method -ne 'GET') {
@@ -133,33 +129,33 @@ function Invoke-ITGlueRequest {
 
                 Set-Variable -Name $ParameterName -Value $parameters -Scope Global -Force -Confirm:$false
 
-                $api_response = Invoke-RestMethod @parameters -ErrorAction Stop
+                $ApiResponse = Invoke-RestMethod @parameters -ErrorAction Stop
 
-                Write-Verbose "[ $page ] of [ $($api_response.meta.'total-pages') ] pages"
+                Write-Verbose "[ $page ] of [ $($ApiResponse.meta.'total-pages') ] pages"
 
                 switch ($AllResults) {
-                    $true   { $result.data += $api_response.data }
-                    $false  { $result = $api_response }
+                    $true   { $Result.data += $ApiResponse.data }
+                    $false  { $Result = $ApiResponse }
                 }
 
-            } while($AllResults -and $api_response.meta.'total-pages' -and $page -lt ($api_response.meta.'total-pages'))
+            } while($AllResults -and $ApiResponse.meta.'total-pages' -and $page -lt ($ApiResponse.meta.'total-pages'))
 
-            if($AllResults -and $api_response.meta) {
-                $result.meta = $api_response.meta
-                if($result.meta.'current-page') { $result.meta.'current-page'   = 1 }
-                if($result.meta.'next-page')    { $result.meta.'next-page'      = '' }
-                if($result.meta.'prev-page')    { $result.meta.'prev-page'      = '' }
-                if($result.meta.'total-pages')  { $result.meta.'total-pages'    = 1 }
-                if($result.meta.'total-count')  { $result.meta.'total-count'    = $result.data.count }
+            if($AllResults -and $ApiResponse.meta) {
+                $Result.meta = $ApiResponse.meta
+                if($Result.meta.'current-page') { $Result.meta.'current-page'   = 1 }
+                if($Result.meta.'next-page')    { $Result.meta.'next-page'      = '' }
+                if($Result.meta.'prev-page')    { $Result.meta.'prev-page'      = '' }
+                if($Result.meta.'total-pages')  { $Result.meta.'total-pages'    = 1 }
+                if($Result.meta.'total-count')  { $Result.meta.'total-count'    = $Result.data.count }
             }
 
         }
         catch {
 
-            $exceptionError = $_.Exception.Message
+            $ExceptionError = $_.Exception.Message
             Write-Warning 'The [ Invoke_ITGlueRequest_Parameters, Invoke_ITGlueRequest_ParametersQuery, & CmdletName_Parameters ] variables can provide extra details'
 
-            switch -Wildcard ($exceptionError) {
+            switch -Wildcard ($ExceptionError) {
                 '*404*' { Write-Error "Invoke-ITGlueRequest : URI not found - [ $ResourceURI ]" }
                 '*429*' { Write-Error 'Invoke-ITGlueRequest : API rate limited' }
                 '*504*' { Write-Error "Invoke-ITGlueRequest : Gateway Timeout" }
@@ -173,7 +169,7 @@ function Invoke-ITGlueRequest {
 
         }
 
-        return $result
+        return $Result
 
     }
 

@@ -137,86 +137,86 @@ function Get-ITGlueOrganization {
     [CmdletBinding(DefaultParameterSetName = 'Index')]
     Param (
         [Parameter(ParameterSetName = 'Index')]
-        [Parameter(ParameterSetName = 'Index_PSA')]
+        [Parameter(ParameterSetName = 'IndexPSA')]
         [int64]$FilterID,
 
         [Parameter(ParameterSetName = 'Index')]
-        [Parameter(ParameterSetName = 'Index_PSA')]
+        [Parameter(ParameterSetName = 'IndexPSA')]
         [string]$FilterName,
 
         [Parameter(ParameterSetName = 'Index')]
-        [Parameter(ParameterSetName = 'Index_PSA')]
+        [Parameter(ParameterSetName = 'IndexPSA')]
         [int64]$FilterOrganizationTypeID,
 
         [Parameter(ParameterSetName = 'Index')]
-        [Parameter(ParameterSetName = 'Index_PSA')]
+        [Parameter(ParameterSetName = 'IndexPSA')]
         [int64]$FilterOrganizationStatusID,
 
         [Parameter(ParameterSetName = 'Index')]
-        [Parameter(ParameterSetName = 'Index_PSA')]
+        [Parameter(ParameterSetName = 'IndexPSA')]
         [string]$FilterCreatedAt,
 
         [Parameter(ParameterSetName = 'Index')]
-        [Parameter(ParameterSetName = 'Index_PSA')]
+        [Parameter(ParameterSetName = 'IndexPSA')]
         [string]$FilterUpdatedAt,
 
         [Parameter(ParameterSetName = 'Index')]
-        [Parameter(ParameterSetName = 'Index_PSA')]
+        [Parameter(ParameterSetName = 'IndexPSA')]
         [int64]$FilterMyGlueAccountID,
 
-        [Parameter(ParameterSetName = 'Index_PSA')]
+        [Parameter(ParameterSetName = 'IndexPSA')]
         [string]$FilterPsaID,
 
         [Parameter(ParameterSetName = 'Index')]
-        [Parameter(ParameterSetName = 'Index_PSA', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'IndexPSA', Mandatory = $true)]
         [ValidateSet( 'manage', 'autotask', 'tigerpaw', 'kaseya-bms', 'pulseway-psa', 'vorex')]
         [string]$FilterPsaIntegrationType,
 
         [Parameter(ParameterSetName = 'Index')]
-        [Parameter(ParameterSetName = 'Index_PSA')]
+        [Parameter(ParameterSetName = 'IndexPSA')]
         [int64]$FilterGroupID,
 
         [Parameter(ParameterSetName = 'Index')]
-        [Parameter(ParameterSetName = 'Index_PSA')]
+        [Parameter(ParameterSetName = 'IndexPSA')]
         [ValidateSet( 'true', 'false')]
         [string]$FilterPrimary,
 
         [Parameter(ParameterSetName = 'Index')]
-        [Parameter(ParameterSetName = 'Index_PSA')]
+        [Parameter(ParameterSetName = 'IndexPSA')]
         [int64]$FilterExcludeID,
 
         [Parameter(ParameterSetName = 'Index')]
-        [Parameter(ParameterSetName = 'Index_PSA')]
+        [Parameter(ParameterSetName = 'IndexPSA')]
         [string]$FilterExcludeName,
 
         [Parameter(ParameterSetName = 'Index')]
-        [Parameter(ParameterSetName = 'Index_PSA')]
+        [Parameter(ParameterSetName = 'IndexPSA')]
         [int64]$FilterExcludeOrganizationTypeID,
 
         [Parameter(ParameterSetName = 'Index')]
-        [Parameter(ParameterSetName = 'Index_PSA')]
+        [Parameter(ParameterSetName = 'IndexPSA')]
         [int64]$FilterExcludeOrganizationStatusID,
 
         [Parameter(ParameterSetName = 'Index')]
-        [Parameter(ParameterSetName = 'Index_PSA')]
+        [Parameter(ParameterSetName = 'IndexPSA')]
         [string]$FilterRange,
 
         [Parameter(ParameterSetName = 'Index')]
-        [Parameter(ParameterSetName = 'Index_PSA')]
+        [Parameter(ParameterSetName = 'IndexPSA')]
         [int64]$FilterRangeMyGlueAccountID,
 
         [Parameter(ParameterSetName = 'Index')]
-        [Parameter(ParameterSetName = 'Index_PSA')]
+        [Parameter(ParameterSetName = 'IndexPSA')]
         [ValidateSet( 'name', 'id', 'updated_at', 'organization_status_name', 'organization_type_name', 'created_at', 'short_name', 'my_glue_account_id',
                 '-name', '-id', '-updated_at', '-organization_status_name', '-organization_type_name', '-created_at', '-short_name', '-my_glue_account_id')]
         [string]$Sort,
 
         [Parameter(ParameterSetName = 'Index')]
-        [Parameter(ParameterSetName = 'Index_PSA')]
+        [Parameter(ParameterSetName = 'IndexPSA')]
         [int64]$PageNumber,
 
         [Parameter(ParameterSetName = 'Index')]
-        [Parameter(ParameterSetName = 'Index_PSA')]
+        [Parameter(ParameterSetName = 'IndexPSA')]
         [ValidateRange(1,1000)]
         [int]$PageSize,
 
@@ -224,13 +224,13 @@ function Get-ITGlueOrganization {
         [int64]$ID,
 
         [Parameter(ParameterSetName = 'Index')]
-        [Parameter(ParameterSetName = 'Index_PSA')]
+        [Parameter(ParameterSetName = 'IndexPSA')]
         [Parameter(ParameterSetName = 'Show')]
         [ValidateSet( 'adapters_resources', 'attachments', 'rmm_companies' )]
         [string]$Include,
 
         [Parameter(ParameterSetName = 'Index')]
-        [Parameter(ParameterSetName = 'Index_PSA')]
+        [Parameter(ParameterSetName = 'IndexPSA')]
         [switch]$AllResults
     )
 
@@ -251,45 +251,45 @@ function Get-ITGlueOrganization {
             'Show'      { $ResourceUri = "/organizations/$ID" }
         }
 
-        $query_params = @{}
+        $UriParameters = @{}
 
         #Region     [ Parameter Translation ]
 
         if ($PSCmdlet.ParameterSetName -like 'Index*') {
-            if ($FilterID)                          { $query_params['filter[id]']                               = $FilterID }
-            if ($FilterName)                        { $query_params['filter[name]']                             = $FilterName }
-            if ($FilterOrganizationTypeID)          { $query_params['filter[organization_type_id]']             = $FilterOrganizationTypeID }
-            if ($FilterOrganizationStatusID)        { $query_params['filter[organization_status_id]']           = $FilterOrganizationStatusID }
-            if ($FilterCreatedAt)                   { $query_params['filter[created_at]']                       = $FilterCreatedAt }
-            if ($FilterUpdatedAt)                   { $query_params['filter[updated_at]']                       = $FilterUpdatedAt }
-            if ($FilterMyGlueAccountID)             { $query_params['filter[my_glue_account_id]']               = $FilterMyGlueAccountID }
-            if ($FilterPsaIntegrationType)          { $query_params['filter[psa_integration_type]']             = $FilterPsaIntegrationType }
-            if ($FilterGroupID)                     { $query_params['filter[group_id]']                         = $FilterGroupID }
-            if ($FilterPrimary)                     { $query_params['filter[primary]']                          = $FilterPrimary }
-            if ($FilterExcludeID)                   { $query_params['filter[exclude][id]']                      = $FilterExcludeID }
-            if ($FilterExcludeName)                 { $query_params['filter[exclude][name]']                    = $FilterExcludeName }
-            if ($FilterExcludeOrganizationTypeID)   { $query_params['filter[exclude][organization_type_id]']    = $FilterExcludeOrganizationTypeID }
-            if ($FilterExcludeOrganizationStatusID) { $query_params['filter[exclude][organization_status_id]']  = $FilterExcludeOrganizationStatusID }
-            if ($FilterRange)                       { $query_params['filter[range]']                            = $FilterRange }
-            if ($FilterRangeMyGlueAccountID)        { $query_params['filter[range][my_glue_account_id]']        = $FilterRangeMyGlueAccountID }
-            if ($Sort)                              { $query_params['sort']                                     = $Sort }
-            if ($PageNumber)                        { $query_params['page[number]']                             = $PageNumber }
-            if ($PageSize)                          { $query_params['page[size]']                               = $PageSize }
+            if ($FilterID)                          { $UriParameters['filter[id]']                               = $FilterID }
+            if ($FilterName)                        { $UriParameters['filter[name]']                             = $FilterName }
+            if ($FilterOrganizationTypeID)          { $UriParameters['filter[organization_type_id]']             = $FilterOrganizationTypeID }
+            if ($FilterOrganizationStatusID)        { $UriParameters['filter[organization_status_id]']           = $FilterOrganizationStatusID }
+            if ($FilterCreatedAt)                   { $UriParameters['filter[created_at]']                       = $FilterCreatedAt }
+            if ($FilterUpdatedAt)                   { $UriParameters['filter[updated_at]']                       = $FilterUpdatedAt }
+            if ($FilterMyGlueAccountID)             { $UriParameters['filter[my_glue_account_id]']               = $FilterMyGlueAccountID }
+            if ($FilterPsaIntegrationType)          { $UriParameters['filter[psa_integration_type]']             = $FilterPsaIntegrationType }
+            if ($FilterGroupID)                     { $UriParameters['filter[group_id]']                         = $FilterGroupID }
+            if ($FilterPrimary)                     { $UriParameters['filter[primary]']                          = $FilterPrimary }
+            if ($FilterExcludeID)                   { $UriParameters['filter[exclude][id]']                      = $FilterExcludeID }
+            if ($FilterExcludeName)                 { $UriParameters['filter[exclude][name]']                    = $FilterExcludeName }
+            if ($FilterExcludeOrganizationTypeID)   { $UriParameters['filter[exclude][organization_type_id]']    = $FilterExcludeOrganizationTypeID }
+            if ($FilterExcludeOrganizationStatusID) { $UriParameters['filter[exclude][organization_status_id]']  = $FilterExcludeOrganizationStatusID }
+            if ($FilterRange)                       { $UriParameters['filter[range]']                            = $FilterRange }
+            if ($FilterRangeMyGlueAccountID)        { $UriParameters['filter[range][my_glue_account_id]']        = $FilterRangeMyGlueAccountID }
+            if ($Sort)                              { $UriParameters['sort']                                     = $Sort }
+            if ($PageNumber)                        { $UriParameters['page[number]']                             = $PageNumber }
+            if ($PageSize)                          { $UriParameters['page[size]']                               = $PageSize }
         }
 
-        if ($PSCmdlet.ParameterSetName -eq 'Index_PSA') {
-            if ($FilterPsaID) { $query_params['filter[psa_id]'] = $FilterPsaID }
+        if ($PSCmdlet.ParameterSetName -eq 'IndexPSA') {
+            if ($FilterPsaID) { $UriParameters['filter[psa_id]'] = $FilterPsaID }
         }
 
         #Shared Parameters
-        if($Include) { $query_params['include'] = $Include }
+        if($Include) { $UriParameters['include'] = $Include }
 
         #EndRegion  [ Parameter Translation ]
 
         Set-Variable -Name $ParameterName -Value $PSBoundParameters -Scope Global -Force -Confirm:$false
-        Set-Variable -Name $QueryParameterName -Value $query_params -Scope Global -Force -Confirm:$false
+        Set-Variable -Name $QueryParameterName -Value $UriParameters -Scope Global -Force -Confirm:$false
 
-        return Invoke-ITGlueRequest -Method GET -ResourceURI $ResourceUri -QueryParams $query_params -AllResults:$AllResults
+        return Invoke-ITGlueRequest -Method GET -ResourceURI $ResourceUri -UriFilter $UriParameters -AllResults:$AllResults
 
     }
 

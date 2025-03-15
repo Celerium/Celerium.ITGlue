@@ -63,7 +63,7 @@ function Get-ITGlueCountry {
         N/A
 
     .LINK
-        https://celerium.github.io/Celerium.ITGlue/site/Countires/Get-ITGlueCountry.html
+        https://celerium.github.io/Celerium.ITGlue/site/Countries/Get-ITGlueCountry.html
 
     .LINK
         https://api.itglue.com/developer/#countries-index
@@ -112,24 +112,24 @@ function Get-ITGlueCountry {
             'Show'  { $ResourceUri = "/countries/$ID" }
         }
 
-        $query_params = @{}
+        $UriParameters = @{}
 
         #Region     [ Parameter Translation ]
 
         if ($PSCmdlet.ParameterSetName -eq 'Index') {
-            if ($FilterName)    { $query_params['filter[name]'] = $FilterName }
-            if ($FilterISO)     { $query_params['filter[iso]']  = $FilterISO }
-            if ($Sort)          { $query_params['sort']         = $Sort }
-            if ($PageNumber)    { $query_params["page[number]"] = $PageNumber }
-            if ($PageSize)      { $query_params["page[size]"]   = $PageSize }
+            if ($FilterName)    { $UriParameters['filter[name]'] = $FilterName }
+            if ($FilterISO)     { $UriParameters['filter[iso]']  = $FilterISO }
+            if ($Sort)          { $UriParameters['sort']         = $Sort }
+            if ($PageNumber)    { $UriParameters["page[number]"] = $PageNumber }
+            if ($PageSize)      { $UriParameters["page[size]"]   = $PageSize }
         }
 
         #EndRegion  [ Parameter Translation ]
 
         Set-Variable -Name $ParameterName -Value $PSBoundParameters -Scope Global -Force -Confirm:$false
-        Set-Variable -Name $QueryParameterName -Value $query_params -Scope Global -Force -Confirm:$false
+        Set-Variable -Name $QueryParameterName -Value $UriParameters -Scope Global -Force -Confirm:$false
 
-        return Invoke-ITGlueRequest -Method GET -ResourceURI $ResourceUri -QueryParams $query_params -AllResults:$AllResults
+        return Invoke-ITGlueRequest -Method GET -ResourceURI $ResourceUri -UriFilter $UriParameters -AllResults:$AllResults
 
     }
 

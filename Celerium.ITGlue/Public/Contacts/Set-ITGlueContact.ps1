@@ -82,7 +82,7 @@ function Set-ITGlueContact {
         https://api.itglue.com/developer/#contacts-update
 #>
 
-    [CmdletBinding(DefaultParameterSetName = 'Bulk_Update', SupportsShouldProcess, ConfirmImpact = 'Medium')]
+    [CmdletBinding(DefaultParameterSetName = 'BulkUpdate', SupportsShouldProcess, ConfirmImpact = 'Medium')]
     Param (
         [Parameter(ParameterSetName = 'Update')]
         [int64]$OrganizationID,
@@ -90,50 +90,50 @@ function Set-ITGlueContact {
         [Parameter(ParameterSetName = 'Update', Mandatory = $true)]
         [int64]$ID,
 
-        [Parameter(ParameterSetName = 'Bulk_Update_ByFilter')]
-        [Parameter(ParameterSetName = 'Bulk_Update_ByFilter_PSA')]
+        [Parameter(ParameterSetName = 'BulkUpdateByFilter')]
+        [Parameter(ParameterSetName = 'BulkUpdateByFilterPSA')]
         [int64]$FilterID,
 
-        [Parameter(ParameterSetName = 'Bulk_Update_ByFilter')]
-        [Parameter(ParameterSetName = 'Bulk_Update_ByFilter_PSA')]
+        [Parameter(ParameterSetName = 'BulkUpdateByFilter')]
+        [Parameter(ParameterSetName = 'BulkUpdateByFilterPSA')]
         [string]$FilterFirstName,
 
-        [Parameter(ParameterSetName = 'Bulk_Update_ByFilter')]
-        [Parameter(ParameterSetName = 'Bulk_Update_ByFilter_PSA')]
+        [Parameter(ParameterSetName = 'BulkUpdateByFilter')]
+        [Parameter(ParameterSetName = 'BulkUpdateByFilterPSA')]
         [string]$FilterLastName,
 
-        [Parameter(ParameterSetName = 'Bulk_Update_ByFilter')]
-        [Parameter(ParameterSetName = 'Bulk_Update_ByFilter_PSA')]
+        [Parameter(ParameterSetName = 'BulkUpdateByFilter')]
+        [Parameter(ParameterSetName = 'BulkUpdateByFilterPSA')]
         [string]$FilterTitle,
 
-        [Parameter(ParameterSetName = 'Bulk_Update_ByFilter')]
-        [Parameter(ParameterSetName = 'Bulk_Update_ByFilter_PSA')]
+        [Parameter(ParameterSetName = 'BulkUpdateByFilter')]
+        [Parameter(ParameterSetName = 'BulkUpdateByFilterPSA')]
         [int64]$FilterContactTypeID,
 
-        [Parameter(ParameterSetName = 'Bulk_Update_ByFilter')]
-        [Parameter(ParameterSetName = 'Bulk_Update_ByFilter_PSA')]
+        [Parameter(ParameterSetName = 'BulkUpdateByFilter')]
+        [Parameter(ParameterSetName = 'BulkUpdateByFilterPSA')]
         [switch]$FilterImportant,
 
-        [Parameter(ParameterSetName = 'Bulk_Update_ByFilter')]
-        [Parameter(ParameterSetName = 'Bulk_Update_ByFilter_PSA')]
+        [Parameter(ParameterSetName = 'BulkUpdateByFilter')]
+        [Parameter(ParameterSetName = 'BulkUpdateByFilterPSA')]
         [string]$FilterPrimaryEmail,
 
-        [Parameter(ParameterSetName = 'Bulk_Update_ByFilter')]
-        [Parameter(ParameterSetName = 'Bulk_Update_ByFilter_PSA')]
+        [Parameter(ParameterSetName = 'BulkUpdateByFilter')]
+        [Parameter(ParameterSetName = 'BulkUpdateByFilterPSA')]
         [string]$FilterOrganizationID,
 
-        [Parameter(ParameterSetName = 'Bulk_Update_ByFilter_PSA')]
+        [Parameter(ParameterSetName = 'BulkUpdateByFilterPSA')]
         [string]$FilterPsaID,
 
-        [Parameter(ParameterSetName = 'Bulk_Update_ByFilter')]
-        [Parameter(ParameterSetName = 'Bulk_Update_ByFilter_PSA', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'BulkUpdateByFilter')]
+        [Parameter(ParameterSetName = 'BulkUpdateByFilterPSA', Mandatory = $true)]
         [ValidateSet('manage', 'autotask', 'tigerpaw', 'kaseya-bms', 'pulseway-psa', 'vorex')]
         [string]$FilterPsaIntegrationType,
 
         [Parameter(ParameterSetName = 'Update', Mandatory = $true)]
-        [Parameter(ParameterSetName = 'Bulk_Update', Mandatory = $true)]
-        [Parameter(ParameterSetName = 'Bulk_Update_ByFilter', Mandatory = $true)]
-        [Parameter(ParameterSetName = 'Bulk_Update_ByFilter_PSA', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'BulkUpdate', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'BulkUpdateByFilter', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'BulkUpdateByFilterPSA', Mandatory = $true)]
         $Data
 
     )
@@ -159,39 +159,39 @@ function Set-ITGlueContact {
                 }
 
             }
-            'Bulk_Update'   { $ResourceUri = "/contacts" }
+            'BulkUpdate'   { $ResourceUri = "/contacts" }
         }
 
-        $query_params = @{}
+        $UriParameters = @{}
 
         #Region     [ Parameter Translation ]
 
         if ($PSCmdlet.ParameterSetName -like "Bulk_Update_*") {
-            if ($FilterID)              { $query_params['filter[id]']               = $FilterID }
-            if ($FilterFirstName)       { $query_params['filter[first_name]']       = $FilterFirstName }
-            if ($FilterLastName)        { $query_params['filter[last_name]']        = $FilterLastName }
-            if ($FilterTitle)           { $query_params['filter[title]']            = $FilterTitle }
-            if ($FilterContactTypeID)   { $query_params['filter[contact_type_id]']  = $FilterContactTypeID }
+            if ($FilterID)              { $UriParameters['filter[id]']               = $FilterID }
+            if ($FilterFirstName)       { $UriParameters['filter[first_name]']       = $FilterFirstName }
+            if ($FilterLastName)        { $UriParameters['filter[last_name]']        = $FilterLastName }
+            if ($FilterTitle)           { $UriParameters['filter[title]']            = $FilterTitle }
+            if ($FilterContactTypeID)   { $UriParameters['filter[contact_type_id]']  = $FilterContactTypeID }
 
-            if ($FilterImportant -eq $true)         { $query_params['filter[important]'] = '1' }
-            elseif ($FilterImportant -eq $false)    { $query_params['filter[important]'] = '0'}
+            if ($FilterImportant -eq $true)         { $UriParameters['filter[important]'] = '1' }
+            elseif ($FilterImportant -eq $false)    { $UriParameters['filter[important]'] = '0'}
 
-            if ($FilterPrimaryEmail)        { $query_params['filter[primary_email]']        = $FilterPrimaryEmail }
-            if ($FilterOrganizationID)      { $query_params['filter[organization_id]']      = $FilterOrganizationID }
-            if ($FilterPsaIntegrationType)  { $query_params['filter[psa_integration_type]'] = $FilterPsaIntegrationType }
+            if ($FilterPrimaryEmail)        { $UriParameters['filter[primary_email]']        = $FilterPrimaryEmail }
+            if ($FilterOrganizationID)      { $UriParameters['filter[organization_id]']      = $FilterOrganizationID }
+            if ($FilterPsaIntegrationType)  { $UriParameters['filter[psa_integration_type]'] = $FilterPsaIntegrationType }
         }
 
-        if ($PSCmdlet.ParameterSetName -eq 'Bulk_Update_ByFilter_PSA') {
-            if($FilterPsaID) { $query_params['filter[psa_id]'] = $FilterPsaID }
+        if ($PSCmdlet.ParameterSetName -eq 'BulkUpdateByFilterPSA') {
+            if($FilterPsaID) { $UriParameters['filter[psa_id]'] = $FilterPsaID }
         }
 
         #EndRegion  [ Parameter Translation ]
 
         Set-Variable -Name $ParameterName -Value $PSBoundParameters -Scope Global -Force -Confirm:$false
-        Set-Variable -Name $QueryParameterName -Value $query_params -Scope Global -Force -Confirm:$false
+        Set-Variable -Name $QueryParameterName -Value $UriParameters -Scope Global -Force -Confirm:$false
 
         if ($PSCmdlet.ShouldProcess($ResourceUri)) {
-            return Invoke-ITGlueRequest -Method PATCH -ResourceURI $ResourceUri -QueryParams $query_params -Data $Data
+            return Invoke-ITGlueRequest -Method PATCH -ResourceURI $ResourceUri -UriFilter $UriParameters -Data $Data
         }
 
     }

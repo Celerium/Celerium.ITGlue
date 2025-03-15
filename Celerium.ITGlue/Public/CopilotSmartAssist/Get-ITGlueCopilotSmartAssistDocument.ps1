@@ -101,23 +101,23 @@ function Get-ITGlueCopilotSmartAssistDocument {
             $false  { $ResourceUri = "/copilot_smart_assist/documents" }
         }
 
-        $query_params = @{}
+        $UriParameters = @{}
 
         #Region     [ Parameter Translation ]
 
         if ($PSCmdlet.ParameterSetName -eq 'Index') {
-            if ($FilterType)            { $query_params['filter[type]']             = $FilterID }
-            if ($FilterOrganizationID)  { $query_params['filter[organization_id]']  = $FilterOrganizationID}
-            if ($PageNumber)            { $query_params['page[number]']             = $PageNumber }
-            if ($PageSize)              { $query_params['page[size]']               = $PageSize }
+            if ($FilterType)            { $UriParameters['filter[type]']             = $FilterID }
+            if ($FilterOrganizationID)  { $UriParameters['filter[organization_id]']  = $FilterOrganizationID}
+            if ($PageNumber)            { $UriParameters['page[number]']             = $PageNumber }
+            if ($PageSize)              { $UriParameters['page[size]']               = $PageSize }
         }
 
         #EndRegion  [ Parameter Translation ]
 
         Set-Variable -Name $ParameterName -Value $PSBoundParameters -Scope Global -Force -Confirm:$false
-        Set-Variable -Name $QueryParameterName -Value $query_params -Scope Global -Force -Confirm:$false
+        Set-Variable -Name $QueryParameterName -Value $UriParameters -Scope Global -Force -Confirm:$false
 
-        return Invoke-ITGlueRequest -Method GET -ResourceURI $ResourceUri -QueryParams $query_params -AllResults:$AllResults
+        return Invoke-ITGlueRequest -Method GET -ResourceURI $ResourceUri -UriFilter $UriParameters -AllResults:$AllResults
 
     }
 

@@ -15,7 +15,7 @@ Updates one or more organizations
 
 ## SYNTAX
 
-### Bulk_Update (Default)
+### BulkUpdate (Default)
 ```powershell
 Set-ITGlueOrganization [-FilterID <Int64>] [-FilterName <String>] [-FilterOrganizationTypeID <Int64>]
  [-FilterOrganizationStatusID <Int64>] [-FilterCreatedAt <String>] [-FilterUpdatedAt <String>]
@@ -30,7 +30,7 @@ Set-ITGlueOrganization [-FilterID <Int64>] [-FilterName <String>] [-FilterOrgani
 Set-ITGlueOrganization -ID <Int64> -Data <Object> [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
-### Bulk_Update_PSA
+### BulkUpdatePSA
 ```powershell
 Set-ITGlueOrganization [-FilterID <Int64>] [-FilterName <String>] [-FilterOrganizationTypeID <Int64>]
  [-FilterOrganizationStatusID <Int64>] [-FilterCreatedAt <String>] [-FilterUpdatedAt <String>]
@@ -90,7 +90,7 @@ Filter by an organization id
 
 ```yaml
 Type: Int64
-Parameter Sets: Bulk_Update, Bulk_Update_PSA
+Parameter Sets: BulkUpdate, BulkUpdatePSA
 Aliases:
 
 Required: False
@@ -105,7 +105,7 @@ Filter by an organization name
 
 ```yaml
 Type: String
-Parameter Sets: Bulk_Update, Bulk_Update_PSA
+Parameter Sets: BulkUpdate, BulkUpdatePSA
 Aliases:
 
 Required: False
@@ -120,7 +120,7 @@ Filter by an organization type id
 
 ```yaml
 Type: Int64
-Parameter Sets: Bulk_Update, Bulk_Update_PSA
+Parameter Sets: BulkUpdate, BulkUpdatePSA
 Aliases:
 
 Required: False
@@ -135,7 +135,7 @@ Filter by an organization status id
 
 ```yaml
 Type: Int64
-Parameter Sets: Bulk_Update, Bulk_Update_PSA
+Parameter Sets: BulkUpdate, BulkUpdatePSA
 Aliases:
 
 Required: False
@@ -150,7 +150,7 @@ Filter by when an organization created
 
 ```yaml
 Type: String
-Parameter Sets: Bulk_Update, Bulk_Update_PSA
+Parameter Sets: BulkUpdate, BulkUpdatePSA
 Aliases:
 
 Required: False
@@ -165,7 +165,7 @@ Filter by when an organization updated
 
 ```yaml
 Type: String
-Parameter Sets: Bulk_Update, Bulk_Update_PSA
+Parameter Sets: BulkUpdate, BulkUpdatePSA
 Aliases:
 
 Required: False
@@ -180,7 +180,7 @@ Filter by a MyGlue id
 
 ```yaml
 Type: Int64
-Parameter Sets: Bulk_Update, Bulk_Update_PSA
+Parameter Sets: BulkUpdate, BulkUpdatePSA
 Aliases:
 
 Required: False
@@ -195,7 +195,7 @@ Filter by a PSA id
 
 ```yaml
 Type: String
-Parameter Sets: Bulk_Update_PSA
+Parameter Sets: BulkUpdatePSA
 Aliases:
 
 Required: False
@@ -213,7 +213,7 @@ Allowed values:
 
 ```yaml
 Type: String
-Parameter Sets: Bulk_Update
+Parameter Sets: BulkUpdate
 Aliases:
 
 Required: False
@@ -225,7 +225,7 @@ Accept wildcard characters: False
 
 ```yaml
 Type: String
-Parameter Sets: Bulk_Update_PSA
+Parameter Sets: BulkUpdatePSA
 Aliases:
 
 Required: True
@@ -240,7 +240,7 @@ Filter by a group id
 
 ```yaml
 Type: Int64
-Parameter Sets: Bulk_Update, Bulk_Update_PSA
+Parameter Sets: BulkUpdate, BulkUpdatePSA
 Aliases:
 
 Required: False
@@ -258,7 +258,7 @@ Allowed values:
 
 ```yaml
 Type: String
-Parameter Sets: Bulk_Update, Bulk_Update_PSA
+Parameter Sets: BulkUpdate, BulkUpdatePSA
 Aliases:
 
 Required: False
@@ -273,7 +273,7 @@ Filter to excluded a certain organization id
 
 ```yaml
 Type: Int64
-Parameter Sets: Bulk_Update, Bulk_Update_PSA
+Parameter Sets: BulkUpdate, BulkUpdatePSA
 Aliases:
 
 Required: False
@@ -288,7 +288,7 @@ Filter to excluded a certain organization name
 
 ```yaml
 Type: String
-Parameter Sets: Bulk_Update, Bulk_Update_PSA
+Parameter Sets: BulkUpdate, BulkUpdatePSA
 Aliases:
 
 Required: False
@@ -303,7 +303,7 @@ Filter to excluded a certain organization type id
 
 ```yaml
 Type: Int64
-Parameter Sets: Bulk_Update, Bulk_Update_PSA
+Parameter Sets: BulkUpdate, BulkUpdatePSA
 Aliases:
 
 Required: False
@@ -318,7 +318,7 @@ Filter to excluded a certain organization status id
 
 ```yaml
 Type: Int64
-Parameter Sets: Bulk_Update, Bulk_Update_PSA
+Parameter Sets: BulkUpdate, BulkUpdatePSA
 Aliases:
 
 Required: False

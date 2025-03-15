@@ -209,6 +209,25 @@ Describe "Testing the [ $buildTarget ] version of [ $moduleName ] with [ $pester
                 $help_Function.relatedLinks.navigationLink.uri| Should -Not -BeNullOrEmpty
             }
 
+            It "[ $functionName ] link should return 200" {
+
+                $FunctionUris = $help_Function.relatedLinks.navigationLink.uri
+
+                foreach ($Uri in $FunctionUris) {
+
+                    try {
+                        $Link = Invoke-WebRequest -Uri $Uri -UseBasicParsing -ErrorAction SilentlyContinue
+                    }
+                    catch [System.Net.WebException] {
+                        Write-Warning "Bad Uri - [ $Uri ]"
+                        $Link = $_.Exception.Response.StatusCode.Value__
+                    }
+
+                    $Link.StatusCode | Should -Be '200'
+                }
+
+            }
+
         <#
             # This will be skipped for compiled commands ($help_Ast.Ast will be $null)
             It "[ $functionName ] has a help entry for all parameters" -Skip:(-not ($help_Parameters -and $help_Ast.Ast) ) {

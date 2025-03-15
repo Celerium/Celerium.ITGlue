@@ -117,27 +117,27 @@ function Get-ITGlueExport {
             'Show'  { $ResourceUri = "/exports/$ID" }
         }
 
-        $query_params = @{}
+        $UriParameters = @{}
 
         #Region     [ Parameter Translation ]
 
         if ($PSCmdlet.ParameterSetName -eq 'Index') {
-            if ($FilterID)      { $query_params['filter[id]']   = $FilterID }
-            if ($Sort)          { $query_params['sort']         = $Sort }
-            if ($PageNumber)    { $query_params['page[number]'] = $PageNumber }
-            if ($PageSize)      { $query_params['page[size]']   = $PageSize }
+            if ($FilterID)      { $UriParameters['filter[id]']   = $FilterID }
+            if ($Sort)          { $UriParameters['sort']         = $Sort }
+            if ($PageNumber)    { $UriParameters['page[number]'] = $PageNumber }
+            if ($PageSize)      { $UriParameters['page[size]']   = $PageSize }
         }
 
         if ($PSCmdlet.ParameterSetName -eq 'Show') {
-            if ($Include) { $query_params['include'] = $Include }
+            if ($Include) { $UriParameters['include'] = $Include }
         }
 
         #EndRegion  [ Parameter Translation ]
 
         Set-Variable -Name $ParameterName -Value $PSBoundParameters -Scope Global -Force -Confirm:$false
-        Set-Variable -Name $QueryParameterName -Value $query_params -Scope Global -Force -Confirm:$false
+        Set-Variable -Name $QueryParameterName -Value $UriParameters -Scope Global -Force -Confirm:$false
 
-        return Invoke-ITGlueRequest -Method GET -ResourceURI $ResourceUri -QueryParams $query_params -AllResults:$AllResults
+        return Invoke-ITGlueRequest -Method GET -ResourceURI $ResourceUri -UriFilter $UriParameters -AllResults:$AllResults
 
     }
 

@@ -26,7 +26,7 @@ Get-ITGlueOrganization [-FilterID <Int64>] [-FilterName <String>] [-FilterOrgani
  [-PageSize <Int32>] [-Include <String>] [-AllResults] [<CommonParameters>]
 ```
 
-### Index_PSA
+### IndexPSA
 ```powershell
 Get-ITGlueOrganization [-FilterID <Int64>] [-FilterName <String>] [-FilterOrganizationTypeID <Int64>]
  [-FilterOrganizationStatusID <Int64>] [-FilterCreatedAt <String>] [-FilterUpdatedAt <String>]
@@ -82,7 +82,7 @@ Filter by an organization id
 
 ```yaml
 Type: Int64
-Parameter Sets: Index, Index_PSA
+Parameter Sets: Index, IndexPSA
 Aliases:
 
 Required: False
@@ -97,7 +97,7 @@ Filter by an organization name
 
 ```yaml
 Type: String
-Parameter Sets: Index, Index_PSA
+Parameter Sets: Index, IndexPSA
 Aliases:
 
 Required: False
@@ -112,7 +112,7 @@ Filter by an organization type id
 
 ```yaml
 Type: Int64
-Parameter Sets: Index, Index_PSA
+Parameter Sets: Index, IndexPSA
 Aliases:
 
 Required: False
@@ -127,7 +127,7 @@ Filter by an organization status id
 
 ```yaml
 Type: Int64
-Parameter Sets: Index, Index_PSA
+Parameter Sets: Index, IndexPSA
 Aliases:
 
 Required: False
@@ -142,7 +142,7 @@ Filter by when an organization created
 
 ```yaml
 Type: String
-Parameter Sets: Index, Index_PSA
+Parameter Sets: Index, IndexPSA
 Aliases:
 
 Required: False
@@ -157,7 +157,7 @@ Filter by when an organization updated
 
 ```yaml
 Type: String
-Parameter Sets: Index, Index_PSA
+Parameter Sets: Index, IndexPSA
 Aliases:
 
 Required: False
@@ -172,7 +172,7 @@ Filter by a MyGlue id
 
 ```yaml
 Type: Int64
-Parameter Sets: Index, Index_PSA
+Parameter Sets: Index, IndexPSA
 Aliases:
 
 Required: False
@@ -187,7 +187,7 @@ Filter by a PSA id
 
 ```yaml
 Type: String
-Parameter Sets: Index_PSA
+Parameter Sets: IndexPSA
 Aliases:
 
 Required: False
@@ -217,7 +217,7 @@ Accept wildcard characters: False
 
 ```yaml
 Type: String
-Parameter Sets: Index_PSA
+Parameter Sets: IndexPSA
 Aliases:
 
 Required: True
@@ -232,7 +232,7 @@ Filter by a group id
 
 ```yaml
 Type: Int64
-Parameter Sets: Index, Index_PSA
+Parameter Sets: Index, IndexPSA
 Aliases:
 
 Required: False
@@ -250,7 +250,7 @@ Allowed values:
 
 ```yaml
 Type: String
-Parameter Sets: Index, Index_PSA
+Parameter Sets: Index, IndexPSA
 Aliases:
 
 Required: False
@@ -265,7 +265,7 @@ Filter to excluded a certain organization id
 
 ```yaml
 Type: Int64
-Parameter Sets: Index, Index_PSA
+Parameter Sets: Index, IndexPSA
 Aliases:
 
 Required: False
@@ -280,7 +280,7 @@ Filter to excluded a certain organization name
 
 ```yaml
 Type: String
-Parameter Sets: Index, Index_PSA
+Parameter Sets: Index, IndexPSA
 Aliases:
 
 Required: False
@@ -295,7 +295,7 @@ Filter to excluded a certain organization type id
 
 ```yaml
 Type: Int64
-Parameter Sets: Index, Index_PSA
+Parameter Sets: Index, IndexPSA
 Aliases:
 
 Required: False
@@ -310,7 +310,7 @@ Filter to excluded a certain organization status id
 
 ```yaml
 Type: Int64
-Parameter Sets: Index, Index_PSA
+Parameter Sets: Index, IndexPSA
 Aliases:
 
 Required: False
@@ -325,7 +325,7 @@ Filter organizations by range
 
 ```yaml
 Type: String
-Parameter Sets: Index, Index_PSA
+Parameter Sets: Index, IndexPSA
 Aliases:
 
 Required: False
@@ -340,7 +340,7 @@ Filter MyGLue organization id range
 
 ```yaml
 Type: Int64
-Parameter Sets: Index, Index_PSA
+Parameter Sets: Index, IndexPSA
 Aliases:
 
 Required: False
@@ -361,7 +361,7 @@ Allowed values:
 
 ```yaml
 Type: String
-Parameter Sets: Index, Index_PSA
+Parameter Sets: Index, IndexPSA
 Aliases:
 
 Required: False
@@ -376,7 +376,7 @@ Return results starting from the defined number
 
 ```yaml
 Type: Int64
-Parameter Sets: Index, Index_PSA
+Parameter Sets: Index, IndexPSA
 Aliases:
 
 Required: False
@@ -394,7 +394,7 @@ requested is 1000
 
 ```yaml
 Type: Int32
-Parameter Sets: Index, Index_PSA
+Parameter Sets: Index, IndexPSA
 Aliases:
 
 Required: False
@@ -451,7 +451,7 @@ sequential requests to the API
 
 ```yaml
 Type: SwitchParameter
-Parameter Sets: Index, Index_PSA
+Parameter Sets: Index, IndexPSA
 Aliases:
 
 Required: False

@@ -188,7 +188,7 @@ N/A
 
 ## RELATED LINKS
 
-[https://celerium.github.io/Celerium.ITGlue/site/Countires/Get-ITGlueCountry.html](https://celerium.github.io/Celerium.ITGlue/site/Countires/Get-ITGlueCountry.html)
+[https://celerium.github.io/Celerium.ITGlue/site/Countries/Get-ITGlueCountry.html](https://celerium.github.io/Celerium.ITGlue/site/Countries/Get-ITGlueCountry.html)
 
 [https://api.itglue.com/developer/#countries-index](https://api.itglue.com/developer/#countries-index)
 

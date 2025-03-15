@@ -17,24 +17,20 @@ function Remove-ITGlueAPIKey {
 
     .LINK
         https://celerium.github.io/Celerium.ITGlue/site/Internal/Remove-ITGlueAPIKey.html
-
-    .LINK
-        https://github.com/Celerium/Celerium.ITGlue
-
 #>
 
-    [CmdletBinding(SupportsShouldProcess, ConfirmImpact = 'None')]
+    [CmdletBinding(DefaultParameterSetName = 'Destroy', SupportsShouldProcess, ConfirmImpact = 'None')]
     Param ()
 
     begin {}
 
     process {
 
-        switch ([bool]$ITGlueModuleAPIKey) {
+        switch ([bool]$ITGlueModuleApiKey) {
 
             $true   {
-                if ($PSCmdlet.ShouldProcess('ITGlueModuleAPIKey')) {
-                    Remove-Variable -Name "ITGlueModuleAPIKey" -Scope global -Force
+                if ($PSCmdlet.ShouldProcess('ITGlueModuleApiKey')) {
+                    Remove-Variable -Name "ITGlueModuleApiKey" -Scope global -Force
                 }
             }
 

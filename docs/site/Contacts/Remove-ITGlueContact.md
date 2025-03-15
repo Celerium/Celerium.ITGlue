@@ -15,12 +15,12 @@ Deletes one or more contacts
 
 ## SYNTAX
 
-### Bulk_Destroy (Default)
+### BulkDestroy (Default)
 ```powershell
 Remove-ITGlueContact [-OrganizationID <Int64>] -Data <Object> [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
-### Bulk_Destroy_ByFilter_PSA
+### BulkDestroyByFilterPSA
 ```powershell
 Remove-ITGlueContact [-OrganizationID <Int64>] [-FilterID <Int64>] [-FilterFirstName <String>]
  [-FilterLastName <String>] [-FilterTitle <String>] [-FilterContactTypeID <Int64>] [-FilterImportant]
@@ -28,7 +28,7 @@ Remove-ITGlueContact [-OrganizationID <Int64>] [-FilterID <Int64>] [-FilterFirst
  -FilterPsaIntegrationType <String> [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
-### Bulk_Destroy_ByFilter
+### BulkDestroyByFilter
 ```powershell
 Remove-ITGlueContact [-OrganizationID <Int64>] [-FilterID <Int64>] [-FilterFirstName <String>]
  [-FilterLastName <String>] [-FilterTitle <String>] [-FilterContactTypeID <Int64>] [-FilterImportant]
@@ -81,7 +81,7 @@ Filter by contact id
 
 ```yaml
 Type: Int64
-Parameter Sets: Bulk_Destroy_ByFilter_PSA, Bulk_Destroy_ByFilter
+Parameter Sets: BulkDestroyByFilterPSA, BulkDestroyByFilter
 Aliases:
 
 Required: False
@@ -96,7 +96,7 @@ Filter by contact first name
 
 ```yaml
 Type: String
-Parameter Sets: Bulk_Destroy_ByFilter_PSA, Bulk_Destroy_ByFilter
+Parameter Sets: BulkDestroyByFilterPSA, BulkDestroyByFilter
 Aliases:
 
 Required: False
@@ -111,7 +111,7 @@ Filter by contact last name
 
 ```yaml
 Type: String
-Parameter Sets: Bulk_Destroy_ByFilter_PSA, Bulk_Destroy_ByFilter
+Parameter Sets: BulkDestroyByFilterPSA, BulkDestroyByFilter
 Aliases:
 
 Required: False
@@ -126,7 +126,7 @@ Filter by contact title
 
 ```yaml
 Type: String
-Parameter Sets: Bulk_Destroy_ByFilter_PSA, Bulk_Destroy_ByFilter
+Parameter Sets: BulkDestroyByFilterPSA, BulkDestroyByFilter
 Aliases:
 
 Required: False
@@ -141,7 +141,7 @@ Filter by contact type id
 
 ```yaml
 Type: Int64
-Parameter Sets: Bulk_Destroy_ByFilter_PSA, Bulk_Destroy_ByFilter
+Parameter Sets: BulkDestroyByFilterPSA, BulkDestroyByFilter
 Aliases:
 
 Required: False
@@ -156,7 +156,7 @@ Filter by if contact is important
 
 ```yaml
 Type: SwitchParameter
-Parameter Sets: Bulk_Destroy_ByFilter_PSA, Bulk_Destroy_ByFilter
+Parameter Sets: BulkDestroyByFilterPSA, BulkDestroyByFilter
 Aliases:
 
 Required: False
@@ -171,7 +171,7 @@ Filter by contact primary email address
 
 ```yaml
 Type: String
-Parameter Sets: Bulk_Destroy_ByFilter_PSA, Bulk_Destroy_ByFilter
+Parameter Sets: BulkDestroyByFilterPSA, BulkDestroyByFilter
 Aliases:
 
 Required: False
@@ -186,7 +186,7 @@ Filter by an organization ID
 
 ```yaml
 Type: String
-Parameter Sets: Bulk_Destroy_ByFilter_PSA, Bulk_Destroy_ByFilter
+Parameter Sets: BulkDestroyByFilterPSA, BulkDestroyByFilter
 Aliases:
 
 Required: False
@@ -203,7 +203,7 @@ This must be accompanied by the filter for FilterPsaIntegrationType
 
 ```yaml
 Type: String
-Parameter Sets: Bulk_Destroy_ByFilter_PSA
+Parameter Sets: BulkDestroyByFilterPSA
 Aliases:
 
 Required: False
@@ -221,7 +221,7 @@ Allowed values:
 
 ```yaml
 Type: String
-Parameter Sets: Bulk_Destroy_ByFilter_PSA
+Parameter Sets: BulkDestroyByFilterPSA
 Aliases:
 
 Required: True
@@ -233,7 +233,7 @@ Accept wildcard characters: False
 
 ```yaml
 Type: String
-Parameter Sets: Bulk_Destroy_ByFilter
+Parameter Sets: BulkDestroyByFilter
 Aliases:
 
 Required: False
@@ -251,7 +251,7 @@ by the Invoke-ITGlueRequest function
 
 ```yaml
 Type: Object
-Parameter Sets: Bulk_Destroy
+Parameter Sets: BulkDestroy
 Aliases:
 
 Required: True
