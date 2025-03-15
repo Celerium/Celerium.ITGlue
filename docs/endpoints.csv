@@ -102,7 +102,6 @@ Internal,,DELETE,,Remove-ITGlueAPIKey,N/A,YES,
 Internal,,DELETE,,Remove-ITGlueBaseURI,N/A,YES,
 Internal,,DELETE,,Remove-ITGlueModuleSettings,N/A,YES,
 Internal,,GET,,Test-ITGlueAPIKey,N/A,YES,
-Internal,,POST,,New-ITGlueAESSecret,N/A,YES,
 Locations,/locations,GET,Index,Get-ITGlueLocation,Invoke-ExampleITGlueLocation,KINDA,The resourcese uri with OrganiztionID & ID does appear to function correctly
 Locations,/organizations/:organization_id/relationships/locations,GET,Index,Get-ITGlueLocation,Invoke-ExampleITGlueLocation,KINDA,The resourcese uri with OrganiztionID & ID does appear to function correctly
 Locations,/locations/:id,GET,Show,Get-ITGlueLocation,Invoke-ExampleITGlueLocation,KINDA,The resourcese uri with OrganiztionID & ID does appear to function correctly

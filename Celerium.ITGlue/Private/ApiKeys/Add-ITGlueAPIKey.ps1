@@ -19,12 +19,6 @@ function Add-ITGlueAPIKey {
     .PARAMETER ApiKeySecureString
         Input a SecureString object containing the API key
 
-    .PARAMETER EncryptedStandardAPIKeyPath
-        Path to the AES standard encrypted API key file
-
-    .PARAMETER EncryptedStandardAESKeyPath
-        Path to the AES key file
-
     .EXAMPLE
         Add-ITGlueAPIKey
 
