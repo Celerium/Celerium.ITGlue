@@ -246,7 +246,7 @@ $StepNumber++
                     archived    = $ExampleAssetIsArchived
                     traits      = @{
                         'example-field-name'    = $ExampleFlexibleAssetName
-                        'example-notes'         = "Updated example notes for this flexible asset - $(Get-Date -Format 'yyyy-MM-dd-HH:mm:ss')"
+                        'example-notes'         = "Updated example notes for this flexible asset - $(Get-Date -Format 'yyyy-MM-dd-HH:mm:ss') - Special Characters [ Ä Ö Ü ä ö ü ß ]"
                     }
                 }
             }
@@ -262,7 +262,7 @@ $StepNumber++
                     "flexible-asset-type-id"    = $CurrentFlexibleAssetType.id
                     traits = @{
                         'example-field-name'    = $ExampleFlexibleAssetName
-                        'example-notes'         = 'Example notes for this flexible asset'
+                        'example-notes'         = 'Example notes for this flexible asset - Special Characters [ Ä Ö Ü ä ö ü ß ]'
                     }
                 }
             }
