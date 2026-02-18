@@ -1,7 +1,7 @@
 ---
 parent: Home 
 Module Name: Celerium.ITGlue
-Module Guid: ce707f0f-1969-4192-a08b-80f62be28f2f ce707f0f-1969-4192-a08b-80f62be28f2f
+Module Guid: ce707f0f-1969-4192-a08b-80f62be28f2f
 Download Help Link: https://celerium.github.io/Celerium.ITGlue/docs/cab
 Help Version: 1.0.0.0
 Locale: en-US
@@ -53,9 +53,6 @@ List or show all contacts
 
 ### [Get-ITGlueContactType](site/ContactTypes/Get-ITGlueContactType.md)
 List or show all contact types
-
-### [Get-ITGlueCopilotSmartAssistDocument](site/CopilotSmartAssist/Get-ITGlueCopilotSmartAssistDocument.md)
-Gets one or more documents found in the ITGlue Copilot Smart Assist
 
 ### [Get-ITGlueCountry](site/Countries/Get-ITGlueCountry.md)
 Returns a list of supported countries
@@ -241,9 +238,6 @@ Deletes one or more configurations
 ### [Remove-ITGlueContact](site/Contacts/Remove-ITGlueContact.md)
 Deletes one or more contacts
 
-### [Remove-ITGlueCopilotSmartAssistDocument](site/CopilotSmartAssist/Remove-ITGlueCopilotSmartAssistDocument.md)
-Deletes one or more documents found in the ITGlue Copilot Smart Assist
-
 ### [Remove-ITGlueDocument](site/Documents/Remove-ITGlueDocument.md)
 Deletes a new document
 
@@ -306,9 +300,6 @@ Updates one or more contacts
 
 ### [Set-ITGlueContactType](site/ContactTypes/Set-ITGlueContactType.md)
 Updates a contact type
-
-### [Set-ITGlueCopilotSmartAssistDocument](site/CopilotSmartAssist/Set-ITGlueCopilotSmartAssistDocument.md)
-Updates one or more documents found in the ITGlue Copilot Smart Assist
 
 ### [Set-ITGlueDocument](site/Documents/Set-ITGlueDocument.md)
 Updates one or more documents

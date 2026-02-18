@@ -5723,9 +5723,9 @@ function Set-ITGlueDocumentSection {
         A PATCH request does not require all attributes - only those you want to update.
         Any attributes you don't specify will remain unchanged
 
-        IMPORTANT: The â€œrendered-contentâ€ attribute is READ-ONLY and automatically generated.
+        IMPORTANT: The "rendered-content" attribute is READ-ONLY and automatically generated.
         Do not attempt to include it in your update requests - it will be ignored. When updating content,
-        use only the â€œcontentâ€ attribute with your HTML, and the â€œrendered-contentâ€ will be automatically
+        use only the "content" attribute with your HTML, and the "rendered-content" will be automatically
         regenerated with processed inline image URLs
 
         The resource_type attribute determines which type of section is created and
@@ -7849,7 +7849,7 @@ function Set-ITGlueGroup {
         The Set-ITGlueGroup cmdlet updates a group or a list of
         groups in bulk
 
-        It accepts a partial representation of each groupâ€”only the
+        It accepts a partial representation of each group-only the
         attributes you provide will be updated; all others remain unchanged
 
     .PARAMETER Id
