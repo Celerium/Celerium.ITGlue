@@ -33,9 +33,6 @@ Bulk updates using a nested relationships route are not supported
 
 Returns 422 Bad Request error if trying to update an externally synced record
 
-Examples of JSON objects can be found under ITGlues developer documentation
-    https://api.itglue.com/developer
-
 ## EXAMPLES
 
 ### EXAMPLE 1
@@ -155,5 +152,5 @@ N/A
 
 [https://celerium.github.io/Celerium.ITGlue/site/Models/Get-ITGlueModel.html](https://celerium.github.io/Celerium.ITGlue/site/Models/Get-ITGlueModel.html)
 
-[https://api.itglue.com/developer/#models-update](https://api.itglue.com/developer/#models-update)
+[https://api.itglue.com/developer/#models](https://api.itglue.com/developer/#models)
 

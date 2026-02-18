@@ -30,11 +30,6 @@ Get-ITGlueExport -ID <Int64> [-Include <String>] [<CommonParameters>]
 The Get-ITGlueExport cmdlet returns a list of exports
 or the details of a single export in your account
 
-This function can call the following endpoints:
-    Index = /exports
-
-    Show =  /exports/:id
-
 ## EXAMPLES
 
 ### EXAMPLE 1
@@ -193,5 +188,5 @@ N/A
 
 [https://celerium.github.io/Celerium.ITGlue/site/Exports/Get-ITGlueExport.html](https://celerium.github.io/Celerium.ITGlue/site/Exports/Get-ITGlueExport.html)
 
-[https://api.itglue.com/developer/#exports-index](https://api.itglue.com/developer/#exports-index)
+[https://api.itglue.com/developer/#exports](https://api.itglue.com/developer/#exports)
 

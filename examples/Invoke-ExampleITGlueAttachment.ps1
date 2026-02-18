@@ -136,10 +136,13 @@
 #Region     [ Find Existing Data ]
 
     #Check if examples are present
-    $CurrentPasswords   = (Get-ITGluePassword -OrganizationID $OrganizationID -Include attachments -AllResults).data | Where-Object {$_.attributes.name -like "$ExampleName*"}
+    $CurrentPasswords   = (Get-ITGluePassword -OrganizationID $OrganizationID -AllResults).data | Where-Object {$_.attributes.name -like "$ExampleName*"}
     $CurrentAttachments = foreach ($Password in $CurrentPasswords) {
-        if ($null -ne $($Password.Relationships.attachments.data)) {
-            Get-ITGluePassword -ID $Password.Id -Include attachments
+
+        $Attachments = (Get-ITGlueAttachment -ResourceType passwords -ResourceId $Password.Id)
+
+        if ($null -ne $Attachments.id) {
+            Write-Verbose " -       - $(Get-Date -Format MM-dd-HH:mm) - No existing attachments found for - [ $($Password.attributes.name) ]"
         }
     }
 

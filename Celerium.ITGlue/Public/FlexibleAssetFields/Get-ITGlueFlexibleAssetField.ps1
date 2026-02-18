@@ -7,12 +7,6 @@ function Get-ITGlueFlexibleAssetField {
         The Get-ITGlueFlexibleAssetField cmdlet lists or shows all flexible asset fields
         for a particular flexible asset type
 
-        This function can call the following endpoints:
-            Index = /flexible_asset_types/:flexible_asset_type_id/relationships/flexible_asset_fields
-
-            Show =  /flexible_asset_fields/:id
-                    /flexible_asset_types/:flexible_asset_type_id/relationships/flexible_asset_fields/:id
-
     .PARAMETER FlexibleAssetTypeID
         A valid Flexible asset Id in your Account
 
@@ -73,7 +67,7 @@ function Get-ITGlueFlexibleAssetField {
         https://celerium.github.io/Celerium.ITGlue/site/FlexibleAssetFields/Get-ITGlueFlexibleAssetField.html
 
     .LINK
-        https://api.itglue.com/developer/#flexible-asset-fields-index
+        https://api.itglue.com/developer/#flexible-asset-fields
 #>
 
     [CmdletBinding(DefaultParameterSetName = 'Index')]

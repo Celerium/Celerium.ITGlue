@@ -6,9 +6,6 @@ function New-ITGlueConfigurationType {
     .DESCRIPTION
         The New-ITGlueConfigurationType cmdlet creates a new configuration type
 
-        Examples of JSON objects can be found under ITGlues developer documentation
-            https://api.itglue.com/developer
-
     .PARAMETER Data
         JSON body depending on bulk changes or not
 
@@ -27,7 +24,7 @@ function New-ITGlueConfigurationType {
         https://celerium.github.io/Celerium.ITGlue/site/ConfigurationTypes/New-ITGlueConfigurationType.html
 
     .LINK
-        https://api.itglue.com/developer/#configuration-types-create
+        https://api.itglue.com/developer/#configuration-types
 #>
 
     [CmdletBinding(DefaultParameterSetName = 'Create', SupportsShouldProcess, ConfirmImpact = 'Low')]

@@ -30,7 +30,7 @@ function Remove-ITGlueAPIKey {
 
             $true   {
                 if ($PSCmdlet.ShouldProcess('ITGlueModuleApiKey')) {
-                    Remove-Variable -Name "ITGlueModuleApiKey" -Scope global -Force
+                    Remove-Variable -Name "ITGlueModuleApiKey" -Scope Global -Force
                 }
             }
 

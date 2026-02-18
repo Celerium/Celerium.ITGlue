@@ -37,9 +37,6 @@ Can also be used to bulk update flexible asset fields
 Returns 422 error if trying to change the kind attribute of fields that
 are already in use
 
-Examples of JSON objects can be found under ITGlues developer documentation
-    https://api.itglue.com/developer
-
 ## EXAMPLES
 
 ### EXAMPLE 1
@@ -160,5 +157,5 @@ N/A
 
 [https://celerium.github.io/Celerium.ITGlue/site/FlexibleAssetFields/Set-ITGlueFlexibleAssetField.html](https://celerium.github.io/Celerium.ITGlue/site/FlexibleAssetFields/Set-ITGlueFlexibleAssetField.html)
 
-[https://api.itglue.com/developer/#flexible-asset-fields-update](https://api.itglue.com/developer/#flexible-asset-fields-update)
+[https://api.itglue.com/developer/#flexible-asset-fields](https://api.itglue.com/developer/#flexible-asset-fields)
 

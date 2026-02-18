@@ -7,9 +7,6 @@ function New-ITGlueFlexibleAssetType {
         The New-ITGlueFlexibleAssetType cmdlet creates one or
         more flexible asset types
 
-        Examples of JSON objects can be found under ITGlues developer documentation
-            https://api.itglue.com/developer
-
     .PARAMETER Data
         JSON body depending on bulk changes or not
 
@@ -28,7 +25,7 @@ function New-ITGlueFlexibleAssetType {
         https://celerium.github.io/Celerium.ITGlue/site/FlexibleAssetTypes/New-ITGlueFlexibleAssetType.html
 
     .LINK
-        https://api.itglue.com/developer/#flexible-asset-types-create
+        https://api.itglue.com/developer/#flexible-asset-types
 #>
 
     [CmdletBinding(DefaultParameterSetName = 'Create', SupportsShouldProcess, ConfirmImpact = 'Low')]

@@ -23,9 +23,6 @@ New-ITGlueFlexibleAssetType [-Data] <Object> [-WhatIf] [-Confirm] [<CommonParame
 The New-ITGlueFlexibleAssetType cmdlet creates one or
 more flexible asset types
 
-Examples of JSON objects can be found under ITGlues developer documentation
-    https://api.itglue.com/developer
-
 ## EXAMPLES
 
 ### EXAMPLE 1
@@ -100,5 +97,5 @@ N/A
 
 [https://celerium.github.io/Celerium.ITGlue/site/FlexibleAssetTypes/New-ITGlueFlexibleAssetType.html](https://celerium.github.io/Celerium.ITGlue/site/FlexibleAssetTypes/New-ITGlueFlexibleAssetType.html)
 
-[https://api.itglue.com/developer/#flexible-asset-types-create](https://api.itglue.com/developer/#flexible-asset-types-create)
+[https://api.itglue.com/developer/#flexible-asset-types](https://api.itglue.com/developer/#flexible-asset-types)
 

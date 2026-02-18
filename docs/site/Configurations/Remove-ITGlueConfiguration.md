@@ -56,9 +56,6 @@ Remove-ITGlueConfiguration [-FilterID <Int64>] [-FilterName <String>] [-FilterOr
 The Remove-ITGlueConfiguration cmdlet deletes one or
 more specified configurations
 
-Examples of JSON objects can be found under ITGlues developer documentation
-    https://api.itglue.com/developer
-
 ## EXAMPLES
 
 ### EXAMPLE 1
@@ -394,5 +391,5 @@ N/A
 
 [https://celerium.github.io/Celerium.ITGlue/site/Configurations/Remove-ITGlueConfiguration.html](https://celerium.github.io/Celerium.ITGlue/site/Configurations/Remove-ITGlueConfiguration.html)
 
-[https://api.itglue.com/developer/#configurations-bulk-destroy](https://api.itglue.com/developer/#configurations-bulk-destroy)
+[https://api.itglue.com/developer/#configurations](https://api.itglue.com/developer/#configurations)
 

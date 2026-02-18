@@ -31,9 +31,6 @@ The Set-ITGlueFlexibleAsset cmdlet updates one or more flexible assets
 Any traits you don't specify will be deleted
 Passing a null value will also delete a trait's value
 
-Examples of JSON objects can be found under ITGlues developer documentation
-    https://api.itglue.com/developer
-
 ## EXAMPLES
 
 ### EXAMPLE 1
@@ -123,5 +120,5 @@ N/A
 
 [https://celerium.github.io/Celerium.ITGlue/site/FlexibleAssets/Set-ITGlueFlexibleAsset.html](https://celerium.github.io/Celerium.ITGlue/site/FlexibleAssets/Set-ITGlueFlexibleAsset.html)
 
-[https://api.itglue.com/developer/#flexible-assets-update](https://api.itglue.com/developer/#flexible-assets-update)
+[https://api.itglue.com/developer/#flexible-assets](https://api.itglue.com/developer/#flexible-assets)
 

@@ -23,9 +23,6 @@ New-ITGlueLocation [-OrganizationID] <Int64> [-Data] <Object> [-WhatIf] [-Confir
 The New-ITGlueLocation cmdlet creates one or more
 locations for specified organization
 
-Examples of JSON objects can be found under ITGlues developer documentation
-    https://api.itglue.com/developer
-
 ## EXAMPLES
 
 ### EXAMPLE 1
@@ -116,5 +113,5 @@ N/A
 
 [https://celerium.github.io/Celerium.ITGlue/site/Locations/New-ITGlueLocation.html](https://celerium.github.io/Celerium.ITGlue/site/Locations/New-ITGlueLocation.html)
 
-[https://api.itglue.com/developer/#locations-create](https://api.itglue.com/developer/#locations-create)
+[https://api.itglue.com/developer/#locations](https://api.itglue.com/developer/#locations)
 

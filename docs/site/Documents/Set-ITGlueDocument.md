@@ -31,15 +31,6 @@ The Set-ITGlueDocument cmdlet updates one or more existing documents
 
 Any attributes you don't specify will remain unchanged
 
-This function can call the following endpoints:
-    Update =    /documents/:id
-                /organizations/:organization_id/relationships/documents/:id
-
-    Bulk_Update =  /documents
-
-Examples of JSON objects can be found under ITGlues developer documentation
-    https://api.itglue.com/developer
-
 ## EXAMPLES
 
 ### EXAMPLE 1
@@ -144,5 +135,5 @@ N/A
 
 [https://celerium.github.io/Celerium.ITGlue/site/Documents/Set-ITGlueDocument.html](https://celerium.github.io/Celerium.ITGlue/site/Documents/Set-ITGlueDocument.html)
 
-[https://api.itglue.com/developer/#documents-update](https://api.itglue.com/developer/#documents-update)
+[https://api.itglue.com/developer/#documents](https://api.itglue.com/developer/#documents)
 

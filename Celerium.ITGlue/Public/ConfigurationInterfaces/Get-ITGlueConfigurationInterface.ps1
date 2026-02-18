@@ -7,12 +7,6 @@ function Get-ITGlueConfigurationInterface {
         The Get-ITGlueConfigurationInterface cmdlet retrieves a
         configuration(s) interface(s)
 
-        This function can call the following endpoints:
-            Index = /configurations/:conf_id/relationships/configuration_interfaces
-
-            Show =  /configuration_interfaces/:id
-                    /configurations/:id/relationships/configuration_interfaces/:id
-
     .PARAMETER ConfigurationID
         A valid configuration ID in your account
 
@@ -73,7 +67,7 @@ function Get-ITGlueConfigurationInterface {
         https://celerium.github.io/Celerium.ITGlue/site/ConfigurationInterfaces/Get-ITGlueConfigurationInterface.html
 
     .LINK
-        https://api.itglue.com/developer/#configuration-interfaces-index
+        https://api.itglue.com/developer/#configuration-interfaces
 #>
 
     [CmdletBinding(DefaultParameterSetName = 'Index')]

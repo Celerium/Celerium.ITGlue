@@ -30,11 +30,6 @@ Get-ITGlueGroup -ID <Int64> [-Include <String>] [<CommonParameters>]
 The Get-ITGlueGroup cmdlet returns a list of groups or the
 details of a single group in your account
 
-This function can call the following endpoints:
-    Index = /groups
-
-    Show =  /groups/:id
-
 ## EXAMPLES
 
 ### EXAMPLE 1
@@ -147,7 +142,7 @@ Accept wildcard characters: False
 Include other items with groups
 
 Allowed values:
-'users'
+'users', 'organizations', 'resource_type_restrictions', 'my_glue_account'
 
 ```yaml
 Type: String
@@ -193,5 +188,5 @@ N/A
 
 [https://celerium.github.io/Celerium.ITGlue/site/Groups/Get-ITGlueGroup.html](https://celerium.github.io/Celerium.ITGlue/site/Groups/Get-ITGlueGroup.html)
 
-[https://api.itglue.com/developer/#groups-index](https://api.itglue.com/developer/#groups-index)
+[https://api.itglue.com/developer/#groups](https://api.itglue.com/developer/#groups)
 

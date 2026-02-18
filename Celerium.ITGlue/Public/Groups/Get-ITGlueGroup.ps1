@@ -7,11 +7,6 @@ function Get-ITGlueGroup {
         The Get-ITGlueGroup cmdlet returns a list of groups or the
         details of a single group in your account
 
-        This function can call the following endpoints:
-            Index = /groups
-
-            Show =  /groups/:id
-
     .PARAMETER FilterName
         Filter by a group name
 
@@ -38,7 +33,7 @@ function Get-ITGlueGroup {
         Include other items with groups
 
         Allowed values:
-        'users'
+        'users', 'organizations', 'resource_type_restrictions', 'my_glue_account'
 
     .PARAMETER AllResults
         Returns all items from an endpoint
@@ -69,7 +64,7 @@ function Get-ITGlueGroup {
         https://celerium.github.io/Celerium.ITGlue/site/Groups/Get-ITGlueGroup.html
 
     .LINK
-        https://api.itglue.com/developer/#groups-index
+        https://api.itglue.com/developer/#groups
 #>
 
     [CmdletBinding(DefaultParameterSetName = 'Index')]
@@ -94,7 +89,7 @@ function Get-ITGlueGroup {
 
         [Parameter(ParameterSetName = 'Index')]
         [Parameter(ParameterSetName = 'Show')]
-        [ValidateSet('users')]
+        [ValidateSet('users', 'organizations', 'resource_type_restrictions', 'my_glue_account')]
         [string]$Include,
 
         [Parameter(ParameterSetName = 'Index')]

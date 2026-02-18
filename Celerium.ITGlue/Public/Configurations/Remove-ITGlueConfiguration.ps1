@@ -7,9 +7,6 @@ function Remove-ITGlueConfiguration {
         The Remove-ITGlueConfiguration cmdlet deletes one or
         more specified configurations
 
-        Examples of JSON objects can be found under ITGlues developer documentation
-            https://api.itglue.com/developer
-
     .PARAMETER ID
         A valid configuration Id
 
@@ -88,7 +85,7 @@ function Remove-ITGlueConfiguration {
         https://celerium.github.io/Celerium.ITGlue/site/Configurations/Remove-ITGlueConfiguration.html
 
     .LINK
-        https://api.itglue.com/developer/#configurations-bulk-destroy
+        https://api.itglue.com/developer/#configurations
 #>
 
     [CmdletBinding(DefaultParameterSetName = 'BulkDestroy', SupportsShouldProcess, ConfirmImpact = 'High')]

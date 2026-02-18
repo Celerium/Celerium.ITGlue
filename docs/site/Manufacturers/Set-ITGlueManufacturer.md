@@ -24,9 +24,6 @@ The New-ITGlueManufacturer cmdlet updates a manufacturer
 
 Returns 422 Bad Request error if trying to update an externally synced record
 
-Examples of JSON objects can be found under ITGlues developer documentation
-    https://api.itglue.com/developer
-
 ## EXAMPLES
 
 ### EXAMPLE 1
@@ -116,5 +113,5 @@ N/A
 
 [https://celerium.github.io/Celerium.ITGlue/site/Manufacturers/Set-ITGlueManufacturer.html](https://celerium.github.io/Celerium.ITGlue/site/Manufacturers/Set-ITGlueManufacturer.html)
 
-[https://api.itglue.com/developer/#manufacturers-update](https://api.itglue.com/developer/#manufacturers-update)
+[https://api.itglue.com/developer/#manufacturers](https://api.itglue.com/developer/#manufacturers)
 

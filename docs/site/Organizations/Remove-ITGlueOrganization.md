@@ -42,9 +42,6 @@ specified organization IDs for deletion
 Because it can be a long procedure to delete organizations,
 removal from the system may not happen immediately
 
-Examples of JSON objects can be found under ITGlues developer documentation
-    https://api.itglue.com/developer
-
 ## EXAMPLES
 
 ### EXAMPLE 1
@@ -362,5 +359,5 @@ N/A
 
 [https://celerium.github.io/Celerium.ITGlue/site/Organizations/Remove-ITGlueOrganization.html](https://celerium.github.io/Celerium.ITGlue/site/Organizations/Remove-ITGlueOrganization.html)
 
-[https://api.itglue.com/developer/#organizations-bulk-destroy](https://api.itglue.com/developer/#organizations-bulk-destroy)
+[https://api.itglue.com/developer/#organizations](https://api.itglue.com/developer/#organizations)
 

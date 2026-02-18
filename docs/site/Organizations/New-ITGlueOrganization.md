@@ -22,9 +22,6 @@ New-ITGlueOrganization [-Data] <Object> [-WhatIf] [-Confirm] [<CommonParameters>
 ## DESCRIPTION
 The New-ITGlueOrganization cmdlet creates an organization
 
-Examples of JSON objects can be found under ITGlues developer documentation
-    https://api.itglue.com/developer
-
 ## EXAMPLES
 
 ### EXAMPLE 1
@@ -99,5 +96,5 @@ N/A
 
 [https://celerium.github.io/Celerium.ITGlue/site/Organizations/New-ITGlueOrganization.html](https://celerium.github.io/Celerium.ITGlue/site/Organizations/New-ITGlueOrganization.html)
 
-[https://api.itglue.com/developer/#organizations-create](https://api.itglue.com/developer/#organizations-create)
+[https://api.itglue.com/developer/#organizations](https://api.itglue.com/developer/#organizations)
 

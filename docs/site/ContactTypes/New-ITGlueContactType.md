@@ -23,9 +23,6 @@ New-ITGlueContactType [-Data] <Object> [-WhatIf] [-Confirm] [<CommonParameters>]
 The New-ITGlueContactType cmdlet creates a new contact type in
 your account
 
-Examples of JSON objects can be found under ITGlues developer documentation
-    https://api.itglue.com/developer
-
 ## EXAMPLES
 
 ### EXAMPLE 1
@@ -100,5 +97,5 @@ N/A
 
 [https://celerium.github.io/Celerium.ITGlue/site/ContactTypes/New-ITGlueContactType.html](https://celerium.github.io/Celerium.ITGlue/site/ContactTypes/New-ITGlueContactType.html)
 
-[https://api.itglue.com/developer/#contact-types-create](https://api.itglue.com/developer/#contact-types-create)
+[https://api.itglue.com/developer/#contact-types](https://api.itglue.com/developer/#contact-types)
 

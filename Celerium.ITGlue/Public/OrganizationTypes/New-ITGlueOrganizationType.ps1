@@ -7,9 +7,6 @@ function New-ITGlueOrganizationType {
         The New-ITGlueOrganizationType cmdlet creates a new organization type
         in your account
 
-        Examples of JSON objects can be found under ITGlues developer documentation
-            https://api.itglue.com/developer
-
     .PARAMETER Data
         JSON body depending on bulk changes or not
 
@@ -28,7 +25,7 @@ function New-ITGlueOrganizationType {
         https://celerium.github.io/Celerium.ITGlue/site/OrganizationTypes/New-ITGlueOrganizationType.html
 
     .LINK
-        https://api.itglue.com/developer/#organization-types-create
+        https://api.itglue.com/developer/#organization-types
 #>
 
     [CmdletBinding(DefaultParameterSetName = 'Create', SupportsShouldProcess, ConfirmImpact = 'Low')]

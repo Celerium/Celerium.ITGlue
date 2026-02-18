@@ -135,7 +135,7 @@ Describe "Testing [ $commandName ] function with [ $pester_TestName ]" -Tag @('a
 
         It "If the [ ITGlueModuleApiKey ] is already empty a warning should be thrown" {
             Add-ITGlueAPIKey -ApiKey '12345'
-            Remove-Variable -Name "ITGlueModuleApiKey" -Scope global -Force
+            Remove-Variable -Name "ITGlueModuleApiKey" -Scope Global -Force
 
             Remove-ITGlueAPIKey -WarningAction SilentlyContinue -WarningVariable apiKeyWarning
             $apiKeyWarning | Should -Be "The ITGlue API [ secret ] key is not set. Nothing to remove"

@@ -22,9 +22,6 @@ New-ITGlueConfigurationType [-Data] <Object> [-WhatIf] [-Confirm] [<CommonParame
 ## DESCRIPTION
 The New-ITGlueConfigurationType cmdlet creates a new configuration type
 
-Examples of JSON objects can be found under ITGlues developer documentation
-    https://api.itglue.com/developer
-
 ## EXAMPLES
 
 ### EXAMPLE 1
@@ -99,5 +96,5 @@ N/A
 
 [https://celerium.github.io/Celerium.ITGlue/site/ConfigurationTypes/New-ITGlueConfigurationType.html](https://celerium.github.io/Celerium.ITGlue/site/ConfigurationTypes/New-ITGlueConfigurationType.html)
 
-[https://api.itglue.com/developer/#configuration-types-create](https://api.itglue.com/developer/#configuration-types-create)
+[https://api.itglue.com/developer/#configuration-types](https://api.itglue.com/developer/#configuration-types)
 

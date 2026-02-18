@@ -14,9 +14,6 @@ function New-ITGlueAttachment {
         Note that the name of the attachment will be taken from the file_name attribute
         placed in the JSON body
 
-        Examples of JSON objects can be found under ITGlues developer documentation
-            https://api.itglue.com/developer
-
     .PARAMETER ResourceType
         The resource type of the parent resource
 
@@ -45,7 +42,7 @@ function New-ITGlueAttachment {
         https://celerium.github.io/Celerium.ITGlue/site/Attachments/New-ITGlueAttachment.html
 
     .LINK
-        https://api.itglue.com/developer/#attachments-create
+        https://api.itglue.com/developer/#attachments
 #>
 
     [CmdletBinding(DefaultParameterSetName = 'Create', SupportsShouldProcess, ConfirmImpact = 'Low')]

@@ -33,13 +33,6 @@ Get-ITGlueExpiration [-OrganizationID <Int64>] -ID <Int64> [<CommonParameters>]
 The Get-ITGlueExpiration cmdlet returns a list of expirations
 for all organizations or for a specified organization
 
-This function can call the following endpoints:
-    Index = /expirations
-            /organizations/:organization_id/relationships/expirations
-
-    Show =  /expirations/:id
-            /organizations/:organization_id/relationships/expirations/:id
-
 ## EXAMPLES
 
 ### EXAMPLE 1
@@ -324,5 +317,5 @@ N/A
 
 [https://celerium.github.io/Celerium.ITGlue/site/Expirations/Get-ITGlueExpiration.html](https://celerium.github.io/Celerium.ITGlue/site/Expirations/Get-ITGlueExpiration.html)
 
-[https://api.itglue.com/developer/#expirations-index](https://api.itglue.com/developer/#expirations-index)
+[https://api.itglue.com/developer/#expirations](https://api.itglue.com/developer/#expirations)
 

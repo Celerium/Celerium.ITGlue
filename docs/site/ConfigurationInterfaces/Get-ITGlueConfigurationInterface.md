@@ -30,12 +30,6 @@ Get-ITGlueConfigurationInterface [-ConfigurationID <Int64>] -ID <Int64> [<Common
 The Get-ITGlueConfigurationInterface cmdlet retrieves a
 configuration(s) interface(s)
 
-This function can call the following endpoints:
-    Index = /configurations/:conf_id/relationships/configuration_interfaces
-
-    Show =  /configuration_interfaces/:id
-            /configurations/:id/relationships/configuration_interfaces/:id
-
 ## EXAMPLES
 
 ### EXAMPLE 1
@@ -211,5 +205,5 @@ N/A
 
 [https://celerium.github.io/Celerium.ITGlue/site/ConfigurationInterfaces/Get-ITGlueConfigurationInterface.html](https://celerium.github.io/Celerium.ITGlue/site/ConfigurationInterfaces/Get-ITGlueConfigurationInterface.html)
 
-[https://api.itglue.com/developer/#configuration-interfaces-index](https://api.itglue.com/developer/#configuration-interfaces-index)
+[https://api.itglue.com/developer/#configuration-interfaces](https://api.itglue.com/developer/#configuration-interfaces)
 

@@ -8,9 +8,6 @@ function Remove-ITGlueFlexibleAssetField {
 
         Note that this action will cause data loss if the field is already in use
 
-        Examples of JSON objects can be found under ITGlues developer documentation
-            https://api.itglue.com/developer
-
 
     .PARAMETER ID
         Id of a flexible asset field
@@ -31,7 +28,7 @@ function Remove-ITGlueFlexibleAssetField {
         https://celerium.github.io/Celerium.ITGlue/site/FlexibleAssetFields/Remove-ITGlueFlexibleAssetField.html
 
     .LINK
-        https://api.itglue.com/developer/#flexible-asset-fields-destroy
+        https://api.itglue.com/developer/#flexible-asset-fields
 #>
 
     [CmdletBinding(DefaultParameterSetName = 'Destroy', SupportsShouldProcess, ConfirmImpact = 'High')]

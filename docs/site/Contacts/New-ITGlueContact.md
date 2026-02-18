@@ -25,9 +25,6 @@ under the organization specified
 
 Can also be used create multiple new contacts in bulk
 
-Examples of JSON objects can be found under ITGlues developer documentation
-    https://api.itglue.com/developer
-
 ## EXAMPLES
 
 ### EXAMPLE 1
@@ -118,5 +115,5 @@ N/A
 
 [https://celerium.github.io/Celerium.ITGlue/site/Contacts/New-ITGlueContact.html](https://celerium.github.io/Celerium.ITGlue/site/Contacts/New-ITGlueContact.html)
 
-[https://api.itglue.com/developer/#contacts-create](https://api.itglue.com/developer/#contacts-create)
+[https://api.itglue.com/developer/#contacts](https://api.itglue.com/developer/#contacts)
 

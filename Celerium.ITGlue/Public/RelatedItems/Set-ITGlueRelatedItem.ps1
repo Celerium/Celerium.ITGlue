@@ -10,9 +10,6 @@ function Set-ITGlueRelatedItem {
         Only the related item notes that are displayed on the
         asset view screen can be changed
 
-        Examples of JSON objects can be found under ITGlues developer documentation
-            https://api.itglue.com/developer
-
     .PARAMETER ResourceType
         The resource type of the parent resource
 
@@ -46,7 +43,7 @@ function Set-ITGlueRelatedItem {
         https://celerium.github.io/Celerium.ITGlue/site/RelatedItems/Set-ITGlueRelatedItem.html
 
     .LINK
-        https://api.itglue.com/developer/#related-items-update
+        https://api.itglue.com/developer/#related-items
 #>
 
     [CmdletBinding(DefaultParameterSetName = 'Update', SupportsShouldProcess, ConfirmImpact = 'Medium')]

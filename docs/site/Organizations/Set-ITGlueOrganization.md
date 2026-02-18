@@ -49,9 +49,6 @@ Any attributes you don't specify will remain unchanged
 Returns 422 Bad Request error if trying to update an externally synced record on
 attributes other than: alert, description, quick_notes
 
-Examples of JSON objects can be found under ITGlues developer documentation
-    https://api.itglue.com/developer
-
 ## EXAMPLES
 
 ### EXAMPLE 1
@@ -391,5 +388,5 @@ N/A
 
 [https://celerium.github.io/Celerium.ITGlue/site/Organizations/Set-ITGlueOrganization.html](https://celerium.github.io/Celerium.ITGlue/site/Organizations/Set-ITGlueOrganization.html)
 
-[https://api.itglue.com/developer/#organizations-update](https://api.itglue.com/developer/#organizations-update)
+[https://api.itglue.com/developer/#organizations](https://api.itglue.com/developer/#organizations)
 

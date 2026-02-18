@@ -120,6 +120,7 @@ function Invoke-ITGlueRequest {
                     'Method'    = $Method
                     'Uri'       = $ITGlueModuleBaseURI + $ResourceURI + $QueryString
                     'Headers'   = $Headers
+                    'UserAgent' = $ITGlueModuleUserAgent
                     'Body'      = $Body
                 }
 

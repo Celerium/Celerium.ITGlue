@@ -18,20 +18,28 @@
     .PARAMETER ID
         ID of the group
 
-    .PARAMETER IncludeMembers
-        Show members of the defined group id
+    .PARAMETER BulkEdit
+        Defines if the example data should be modified in bulk
+
+    .PARAMETER RemoveExamples
+        Defines if the example data should be deleted
+
+    .PARAMETER RemoveExamplesConfirm
+        Defines if the example data should be deleted only when prompted
 
     .EXAMPLE
         .\Invoke-ExampleITGlueGroup.ps1
 
-        Show a random groups information, no members are included
+        Creates or updates 5 example groups using 5 API calls & the groups
+        are NOT deleted when done
 
         No progress information is sent to the console while the script is running
 
     .EXAMPLE
-        .\Invoke-ExampleITGlueGroup.ps1 -ID 12345 -IncludeMembers -Verbose
+        .\Invoke-ExampleITGlueGroup.ps1 -BulkEdit -RemoveExamples -RemoveExamplesConfirm
 
-        Show the defined group information included its associated members
+        Creates or updates 5 example groups using 1 API call & the groups
+        are prompted to be deleted when done
 
         Progress information is sent to the console while the script is running
 
@@ -62,18 +70,23 @@
     [CmdletBinding()]
     param (
         [Parameter()]
-        [ValidateNotNullOrEmpty()]
         [string]$APIKey,
 
         [Parameter()]
-        [ValidateNotNullOrEmpty()]
         [string]$APIUri,
 
         [Parameter()]
-        [int64]$ID,
+        [switch]$BulkEdit,
 
         [Parameter()]
-        [switch]$IncludeMembers
+        [switch]$RemoveExamples,
+
+        [Parameter()]
+        [switch]$RemoveExamplesConfirm,
+
+        [Parameter()]
+        [ValidateRange(1, 100)]
+        [int64]$ExamplesToMake = 5
 
     )
 
@@ -82,19 +95,20 @@
     Write-Verbose ''
     Write-Verbose "START - $(Get-Date -Format yyyy-MM-dd-HH:mm) - Using the [ $($PSCmdlet.ParameterSetName) ] parameterSet"
     Write-Verbose ''
-    Write-Verbose " - (0/3) - $(Get-Date -Format MM-dd-HH:mm) - Setting up prerequisites"
+    Write-Verbose " - (0/4) - $(Get-Date -Format MM-dd-HH:mm) - Setting up prerequisites"
 
 #Region     [ Prerequisites ]
 
     $FunctionName   = $MyInvocation.MyCommand.Name -replace '.ps1' -replace '-','_'
     $StepNumber     = 1
+    $ExampleName    = 'ExampleGroup'
 
-    Import-Module Celerium.ITGlue -Verbose:$false
+    #Import-Module Celerium.ITGlue -Verbose:$false
 
-    #Setting up ITGlue APIKey, BaseURI & Validate "UserIcons" folder Path
+    #Setting up ITGlue APIKey & BaseURI
     try {
 
-        if ($APIKey) { Add-ITGlueAPIKey $APIKey }
+        if ($APIKey) { Add-ITGlueAPIKey -ApiKey $APIKey }
         if([bool]$(Get-ITGlueAPIKey -WarningAction SilentlyContinue) -eq $false) {
             Throw "The ITGlue API [ secret ] key is not set. Run Add-ITGlueAPIKey to set the API key."
         }
@@ -111,104 +125,148 @@
         exit 1
     }
 
+
 #EndRegion  [ Prerequisites ]
 
-    Write-Verbose " - ($StepNumber/3) - $(Get-Date -Format MM-dd-HH:mm) - Finding Group"
+    Write-Verbose " - ($StepNumber/4) - $(Get-Date -Format MM-dd-HH:mm) - Find existing examples"
     $StepNumber++
 
-#Region     [ Find Existing User ]
+#Region     [ Find Existing Data ]
 
-try {
+    #Check if examples are present
+    $CurrentGroups = (Get-ITGlueGroup -AllResults).data | Where-Object {$_.attributes.name -like "$ExampleName*"}
+    if ($CurrentGroups) {
+        Write-Verbose " -       - $(Get-Date -Format MM-dd-HH:mm) - Found [ $(($CurrentGroups| Measure-Object).Count) ] existing groups"
+    }
 
-    if ($ID) {
+#EndRegion  [ Find Existing Data ]
 
-        switch ($IncludeMembers) {
-            $true   { $ITGlueGroup = (Get-ITGlueGroup -ID $ID -Include users) }
-            $false  { $ITGlueGroup = (Get-ITGlueGroup -ID $ID) }
+Write-Verbose " - ($StepNumber/4) - $(Get-Date -Format MM-dd-HH:mm) - Populate examples"
+$StepNumber++
+
+#Region     [ Example Code ]
+
+    #Example values
+    $ExampleNumber      = 1
+
+    #Stage array lists to store example data
+    $ExampleReturnData      = [System.Collections.Generic.List[object]]::new()
+    if ($BulkEdit) {
+        $ExampleUpdatedData = [System.Collections.Generic.List[object]]::new()
+    }
+
+    #Loop to create example data
+    while($ExampleNumber -le $ExamplesToMake) {
+
+        $ExampleGroupName = "$ExampleName-$ExampleNumber"
+
+        $ExistingGroup = $CurrentGroups | Where-Object {$_.attributes.name -eq $ExampleGroupName}
+
+        if ($ExistingGroup) {
+
+            #Simple group field updates
+            $UpdateGroupHashTable = @{
+                type        = 'groups'
+                attributes = @{
+                    id                      = $ExistingGroup.id
+                    name                    = $ExampleGroupName
+                    description             = "Here is an example group description [ $ExampleNumber ] - Updated at $(Get-Date -Format MM-dd-HH:mm)"
+                    'hide_from_my_glue'     = 'true','false' | Get-Random -Count 1
+                }
+            }
+
+        }
+        else {
+
+            #Example Hashtable with new group information
+            $NewGroupHashTable = @{
+                type = 'groups'
+                attributes = @{
+                    name                    = $ExampleGroupName
+                    description             = "Here is an example group description [ $ExampleNumber ]"
+                    'hide_from_my_glue'     = 'true','false' | Get-Random -Count 1
+                }
+            }
+
+            Write-Host "Creating example group          [ $ExampleGroupName ]" -ForegroundColor Green
+            $ITGlueGroupReturn = New-ITGlueGroup -Data $NewGroupHashTable
+
         }
 
-        if ($null -eq $ITGlueGroup.data.id) {
-            Throw "No group found with an ID of [ $ID ], please verify group ID and try again"
+        switch ($BulkEdit) {
+            $true   {
+
+                #If bulk editing then add hashtable into an array list to be used later outside the loop
+                if ($UpdateGroupHashTable) {
+                    $ExampleUpdatedData.Add($UpdateGroupHashTable)
+                }
+
+            }
+            $false  {
+
+                #Non bulk modifications make multiple API calls
+                if ($UpdateGroupHashTable) {
+                    Write-Host "Updating example group [ $ExampleGroupName ]" -ForegroundColor Yellow
+                    $ITGlueGroupReturn = Set-ITGlueGroup -Data $UpdateGroupHashTable
+                }
+
+                #Add return to object list
+                if ($ITGlueGroupReturn) {
+                    $ExampleReturnData.Add($ITGlueGroupReturn)
+                }
+
+            }
+        }
+
+        #Clear hashtable's for the next loop
+        $UpdateGroupHashTable    = $null
+        $NewGroupHashTable       = $null
+
+        $ExampleNumber++
+
+    }
+    #End of Loop
+
+    #Bulk modifications make a single API call using the array list populated inside the loop
+    if ($BulkEdit) {
+
+        if ($ExampleUpdatedData) {
+            Write-Verbose " -       - $(Get-Date -Format MM-dd-HH:mm) - Bulk updating [ $( ($ExampleUpdatedData | Measure-Object).Count) ] groups"
+            $ExampleReturnData = Set-ITGlueGroup -Data $ExampleUpdatedData
         }
 
     }
     else{
 
-        $RandomGroup = (Get-ITGlueGroup -AllResults).data | Get-Random -Count 1
-
-        switch ($IncludeMembers) {
-            $true   { $ITGlueGroup = Get-ITGlueGroup -ID $RandomGroup.id -Include users }
-            $false  { $ITGlueGroup = (Get-ITGlueGroup -ID $RandomGroup.id) }
-        }
-
-        if ($null -eq $ITGlueGroup.data.id) {
-            Throw "No groups found, please create an ITGlue group first and try again"
-        }
-
     }
 
-    Write-Verbose " -       - $(Get-Date -Format MM-dd-HH:mm) - Found group [ $($ITGlueGroup.data.attributes.name) - $($ITGlueGroup.data.id) ]"
+#EndRegion  [ Example Code ]
 
-}
-catch {
-    Write-Error $_
-    exit 1
-}
+#Region     [ Example Cleanup ]
 
-#EndRegion  [ Find Existing Data ]
+if ($RemoveExamples -and $ExampleReturnData) {
 
-Write-Verbose " - ($StepNumber/3) - $(Get-Date -Format MM-dd-HH:mm) - Getting group information"
-$StepNumber++
+    Write-Verbose " - ($StepNumber/4) - $(Get-Date -Format MM-dd-HH:mm) - Deleting examples"
+    $StepNumber++
 
-#Region     [ Group Information ]
+    if ($RemoveExamplesConfirm) { Read-Host "Press enter to delete [ $( ($ExampleReturnData.data | Measure-Object).Count) ] groups" }
 
-    switch ([bool]$IncludeMembers) {
-        $true   {
-
-            if ($null -eq $ITGlueGroup.included.id) {
-
-                Write-Verbose " -       - $(Get-Date -Format MM-dd-HH:mm) - No members found in [ $($ITGlueGroup.data.attributes.name) - $($ITGlueGroup.data.id) ]"
-                $ExampleReturnData = $ITGlueGroup.data.attributes
-
-            }
-            else {
-
-                $ExampleReturnData = [System.Collections.Generic.List[object]]::new()
-
-                Write-Verbose " -       - $(Get-Date -Format MM-dd-HH:mm) - [ $( ($ITGlueGroup.included.id | Measure-Object).Count ) ] members found in [ $($ITGlueGroup.data.attributes.name) - $($ITGlueGroup.data.id) ]"
-
-                foreach ($User in $ITGlueGroup.included.attributes) {
-                    $data = [PSCustomObject]@{
-                        GroupName           = $ITGlueGroup.data.attributes.Name
-                        GroupID             = $ITGlueGroup.data.id
-                        GroupDescription    = $ITGlueGroup.data.attributes.description
-                        UserName            = $User.name
-                        UserRole            = $User.'role-name'
-                        UserCurrentSignIn   = $User.'current-sign-in-at'
-                        UserLastSignIn      = $User.'last-sign-in-at'
-                    }
-                    $ExampleReturnData.Add($data) > $null
-                }
-
-            }
-
-        }
-        $false  {
-
-            $ExampleReturnData = $ITGlueGroup.data.attributes
-
-        }
-
+    foreach ($Group in $ExampleReturnData.data) {
+        Write-Verbose " -       - $(Get-Date -Format MM-dd-HH:mm) - Deleting group [ $($Group.attributes.name) ]"
+        $DeletedData = Remove-ITGlueGroup -ID $Group.id -Confirm:$false
     }
+
+}
 
     #Helpful global troubleshooting variable
     Set-Variable -Name "$($FunctionName)_Return" -Value $ExampleReturnData -Scope Global -Force
 
     $ExampleReturnData
 
-#EndRegion  [ Group Information ]
+    Write-Verbose " - ($StepNumber/4) - $(Get-Date -Format MM-dd-HH:mm) - Done"
 
-Write-Verbose " - ($StepNumber/3) - $(Get-Date -Format MM-dd-HH:mm) - Done"
+
+#EndRegion  [ Example Cleanup ]
 
 Write-Verbose ''
 Write-Verbose "END - $(Get-Date -Format yyyy-MM-dd-HH:mm)"

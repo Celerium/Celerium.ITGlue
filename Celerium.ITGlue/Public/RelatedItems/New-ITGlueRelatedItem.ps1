@@ -13,9 +13,6 @@ function New-ITGlueRelatedItem {
         The destination item(s) are the items that match the destination_type
         and destination_id in the JSON object
 
-        Examples of JSON objects can be found under ITGlues developer documentation
-            https://api.itglue.com/developer
-
     .PARAMETER ResourceType
         The resource type of the parent resource
 
@@ -46,7 +43,7 @@ function New-ITGlueRelatedItem {
         https://celerium.github.io/Celerium.ITGlue/site/RelatedItems/New-ITGlueRelatedItem.html
 
     .LINK
-        https://api.itglue.com/developer/#related-items-create
+        https://api.itglue.com/developer/#related-items
 #>
 
     [CmdletBinding(DefaultParameterSetName = 'Create', SupportsShouldProcess, ConfirmImpact = 'Low')]

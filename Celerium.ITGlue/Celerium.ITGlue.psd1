@@ -30,7 +30,7 @@
     CompanyName = 'Celerium'
 
     # Description of the functionality provided by this module
-    Description = 'This module provides a PowerShell wrapper for the ITGlue API. The IT Glue API is a powerful tool for automation and getting data from external sources into your IT Glue account. It provides a direct, machine-friendly way of accessing your data, so that you can pull it into your own applications or integrate with third-party tools that we dont currently integrate with.'
+    Description = 'This module provides a PowerShell wrapper for the ITGlue API. The IT Glue API is a powerful tool for automation and getting data from external sources into your IT Glue account. It provides a direct, machine-friendly way of accessing your data, so that you can pull it into your own applications or integrate with third-party tools'
 
     # Copyright information of this module
     Copyright = 'https://github.com/Celerium/Celerium.ITGlue/blob/master/LICENSE'
@@ -87,9 +87,14 @@
                     'Private/ModuleSettings/Initialize-ITGlueModuleSettings.ps1',
                     'Private/ModuleSettings/Remove-ITGlueModuleSettings.ps1',
 
+                    'Public/Attachments/Get-ITGlueAttachment.ps1',
                     'Public/Attachments/New-ITGlueAttachment.ps1',
                     'Public/Attachments/Remove-ITGlueAttachment.ps1',
                     'Public/Attachments/Set-ITGlueAttachment.ps1',
+
+                    'Public/Checklists/Get-ITGlueChecklist.ps1',
+                    'Public/Checklists/Remove-ITGlueChecklist.ps1',
+                    'Public/Checklists/Set-ITGlueChecklist.ps1',
 
                     'Public/ConfigurationInterfaces/Get-ITGlueConfigurationInterface.ps1',
                     'Public/ConfigurationInterfaces/New-ITGlueConfigurationInterface.ps1',
@@ -117,12 +122,23 @@
                     'Public/Contacts/Remove-ITGlueContact.ps1',
                     'Public/Contacts/Set-ITGlueContact.ps1',
 
-                    'Public/CopilotSmartAssist/Get-ITGlueCopilotSmartAssistDocument.ps1',
-                    'Public/CopilotSmartAssist/Remove-ITGlueCopilotSmartAssistDocument.ps1',
-                    'Public/CopilotSmartAssist/Set-ITGlueCopilotSmartAssistDocument.ps1',
-
                     'Public/Countries/Get-ITGlueCountry.ps1',
+
+                    'Public/Documents/Get-ITGlueDocument.ps1',
+                    'Public/Documents/New-ITGlueDocument.ps1',
+                    'Public/Documents/Publish-ITGlueDocument.ps1',
+                    'Public/Documents/Remove-ITGlueDocument.ps1',
                     'Public/Documents/Set-ITGlueDocument.ps1',
+
+                    'Public/DocumentSections/Get-ITGlueDocumentSection.ps1',
+                    'Public/DocumentSections/New-ITGlueDocumentSection.ps1',
+                    'Public/DocumentSections/Remove-ITGlueDocumentSection.ps1',
+                    'Public/DocumentSections/Set-ITGlueDocumentSection.ps1',
+
+                    'Public/DocumentImages/Get-ITGlueDocumentImage.ps1',
+                    'Public/DocumentImages/New-ITGlueDocumentImage.ps1',
+                    'Public/DocumentImages/Remove-ITGlueDocumentImage.ps1',
+
                     'Public/Domains/Get-ITGlueDomain.ps1',
 
                     'Public/Expirations/Get-ITGlueExpiration.ps1',
@@ -146,6 +162,9 @@
                     'Public/FlexibleAssets/Set-ITGlueFlexibleAsset.ps1',
 
                     'Public/Groups/Get-ITGlueGroup.ps1',
+                    'Public/Groups/New-ITGlueGroup.ps1',
+                    'Public/Groups/Remove-ITGlueGroup.ps1',
+                    'Public/Groups/Set-ITGlueGroup.ps1',
 
                     'Public/Locations/Get-ITGlueLocation.ps1',
                     'Public/Locations/New-ITGlueLocation.ps1',
@@ -180,6 +199,11 @@
                     'Public/PasswordCategories/Get-ITGluePasswordCategory.ps1',
                     'Public/PasswordCategories/New-ITGluePasswordCategory.ps1',
                     'Public/PasswordCategories/Set-ITGluePasswordCategory.ps1',
+
+                    'Public/PasswordFolders/Get-ITGluePasswordFolder.ps1',
+                    'Public/PasswordFolders/New-ITGluePasswordFolder.ps1',
+                    'Public/PasswordFolders/Remove-ITGluePasswordFolder.ps1',
+                    'Public/PasswordFolders/Set-ITGluePasswordFolder.ps1',
 
                     'Public/Passwords/Get-ITGluePassword.ps1',
                     'Public/Passwords/New-ITGluePassword.ps1',

@@ -9,9 +9,6 @@ function Set-ITGlueLocation {
 
         Any attributes you don't specify will remain unchanged
 
-        Examples of JSON objects can be found under ITGlues developer documentation
-            https://api.itglue.com/developer
-
     .PARAMETER ID
         Get a location by id
 
@@ -63,7 +60,7 @@ function Set-ITGlueLocation {
         https://celerium.github.io/Celerium.ITGlue/site/Locations/Set-ITGlueLocation.html
 
     .LINK
-        https://api.itglue.com/developer/#locations-update
+        https://api.itglue.com/developer/#locations
 #>
 
     [CmdletBinding(DefaultParameterSetName = 'BulkUpdate', SupportsShouldProcess, ConfirmImpact = 'Medium')]

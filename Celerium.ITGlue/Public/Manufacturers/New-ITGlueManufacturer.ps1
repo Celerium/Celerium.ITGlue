@@ -6,9 +6,6 @@ function New-ITGlueManufacturer {
     .DESCRIPTION
         The New-ITGlueManufacturer cmdlet creates a new manufacturer
 
-        Examples of JSON objects can be found under ITGlues developer documentation
-            https://api.itglue.com/developer
-
     .PARAMETER Data
         JSON body depending on bulk changes or not
 
@@ -27,7 +24,7 @@ function New-ITGlueManufacturer {
         https://celerium.github.io/Celerium.ITGlue/site/Manufacturers/New-ITGlueManufacturer.html
 
     .LINK
-        https://api.itglue.com/developer/#manufacturers-create
+        https://api.itglue.com/developer/#manufacturers
 #>
 
     [CmdletBinding(DefaultParameterSetName = 'Create', SupportsShouldProcess, ConfirmImpact = 'Low')]

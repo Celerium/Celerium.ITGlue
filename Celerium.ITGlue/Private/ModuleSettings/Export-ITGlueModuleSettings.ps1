@@ -76,6 +76,7 @@ function Export-ITGlueModuleSettings {
         ITGlueModuleBaseURI             = '$ITGlueModuleBaseURI'
         ITGlueModuleApiKey              = '$SecureString'
         ITGlueModuleJSONConversionDepth = '$ITGlueModuleJSONConversionDepth'
+        ITGlueModuleUserAgent           = '$ITGlueModuleUserAgent'
     }
 "@ | Out-File -FilePath $ITGlueConfig -Force
         }

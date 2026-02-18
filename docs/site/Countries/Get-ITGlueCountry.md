@@ -30,11 +30,6 @@ Get-ITGlueCountry -ID <Int64> [<CommonParameters>]
 The Get-ITGlueCountry cmdlet returns a list of supported countries
 as well or details of one of the supported countries
 
-This function can call the following endpoints:
-    Index = /countries
-
-    Show =  /countries/:id
-
 ## EXAMPLES
 
 ### EXAMPLE 1
@@ -190,5 +185,5 @@ N/A
 
 [https://celerium.github.io/Celerium.ITGlue/site/Countries/Get-ITGlueCountry.html](https://celerium.github.io/Celerium.ITGlue/site/Countries/Get-ITGlueCountry.html)
 
-[https://api.itglue.com/developer/#countries-index](https://api.itglue.com/developer/#countries-index)
+[https://api.itglue.com/developer/#countries](https://api.itglue.com/developer/#countries)
 

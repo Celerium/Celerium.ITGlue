@@ -23,9 +23,6 @@ New-ITGlueModel [[-ManufacturerID] <Int64>] [-Data] <Object> [-WhatIf] [-Confirm
 The New-ITGlueModel cmdlet creates one or more models
 in your account or for a particular manufacturer
 
-Examples of JSON objects can be found under ITGlues developer documentation
-    https://api.itglue.com/developer
-
 ## EXAMPLES
 
 ### EXAMPLE 1
@@ -123,5 +120,5 @@ N/A
 
 [https://celerium.github.io/Celerium.ITGlue/site/Models/Get-ITGlueModel.html](https://celerium.github.io/Celerium.ITGlue/site/Models/Get-ITGlueModel.html)
 
-[https://api.itglue.com/developer/#models-create](https://api.itglue.com/developer/#models-create)
+[https://api.itglue.com/developer/#models](https://api.itglue.com/developer/#models)
 

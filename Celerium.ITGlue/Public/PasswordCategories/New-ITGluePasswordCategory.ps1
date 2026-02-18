@@ -7,9 +7,6 @@ function New-ITGluePasswordCategory {
         The New-ITGluePasswordCategory cmdlet creates a new password category
         in your account
 
-        Examples of JSON objects can be found under ITGlues developer documentation
-            https://api.itglue.com/developer
-
     .PARAMETER Data
         JSON body depending on bulk changes or not
 
@@ -28,7 +25,7 @@ function New-ITGluePasswordCategory {
         https://celerium.github.io/Celerium.ITGlue/site/PasswordCategories/New-ITGluePasswordCategory.html
 
     .LINK
-        https://api.itglue.com/developer/#password-categories-create
+        https://api.itglue.com/developer/#password-categories
 #>
 
     [CmdletBinding(DefaultParameterSetName = 'Create', SupportsShouldProcess, ConfirmImpact = 'Low')]

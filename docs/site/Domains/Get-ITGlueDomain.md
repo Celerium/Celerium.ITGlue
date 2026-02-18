@@ -24,10 +24,6 @@ Get-ITGlueDomain [-OrganizationID <Int64>] [-FilterID <Int64>] [-FilterOrganizat
 The Get-ITGlueDomain cmdlet list or show all domains in
 your account or from a specified organization
 
-This function can call the following endpoints:
-    Index = /domains
-            /organizations/:organization_id/relationships/domains
-
 ## EXAMPLES
 
 ### EXAMPLE 1
@@ -201,5 +197,5 @@ N/A
 
 [https://celerium.github.io/Celerium.ITGlue/site/Domains/Get-ITGlueDomain.html](https://celerium.github.io/Celerium.ITGlue/site/Domains/Get-ITGlueDomain.html)
 
-[https://api.itglue.com/developer/#domains-index](https://api.itglue.com/developer/#domains-index)
+[https://api.itglue.com/developer/#domains](https://api.itglue.com/developer/#domains)
 

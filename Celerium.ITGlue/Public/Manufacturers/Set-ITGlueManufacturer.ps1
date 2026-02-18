@@ -8,9 +8,6 @@ function Set-ITGlueManufacturer {
 
         Returns 422 Bad Request error if trying to update an externally synced record
 
-        Examples of JSON objects can be found under ITGlues developer documentation
-            https://api.itglue.com/developer
-
     .PARAMETER ID
         The id of the manufacturer to update
 
@@ -32,7 +29,7 @@ function Set-ITGlueManufacturer {
         https://celerium.github.io/Celerium.ITGlue/site/Manufacturers/Set-ITGlueManufacturer.html
 
     .LINK
-        https://api.itglue.com/developer/#manufacturers-update
+        https://api.itglue.com/developer/#manufacturers
 #>
 
     [CmdletBinding(DefaultParameterSetName = 'Update', SupportsShouldProcess, ConfirmImpact = 'Medium')]

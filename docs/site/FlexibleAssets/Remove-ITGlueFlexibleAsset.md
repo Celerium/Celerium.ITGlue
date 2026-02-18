@@ -125,5 +125,5 @@ N/A
 
 [https://celerium.github.io/Celerium.ITGlue/site/FlexibleAssets/Remove-ITGlueFlexibleAsset.html](https://celerium.github.io/Celerium.ITGlue/site/FlexibleAssets/Remove-ITGlueFlexibleAsset.html)
 
-[https://api.itglue.com/developer/#flexible-assets-destroy](https://api.itglue.com/developer/#flexible-assets-destroy)
+[https://api.itglue.com/developer/#flexible-assets](https://api.itglue.com/developer/#flexible-assets)
 

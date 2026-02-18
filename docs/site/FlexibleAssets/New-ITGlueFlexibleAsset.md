@@ -32,9 +32,6 @@ flexible assets
 If there are any required fields in the flexible asset type,
 they will need to be included in the request
 
-Examples of JSON objects can be found under ITGlues developer documentation
-    https://api.itglue.com/developer
-
 ## EXAMPLES
 
 ### EXAMPLE 1
@@ -125,5 +122,5 @@ N/A
 
 [https://celerium.github.io/Celerium.ITGlue/site/FlexibleAssets/New-ITGlueFlexibleAsset.html](https://celerium.github.io/Celerium.ITGlue/site/FlexibleAssets/New-ITGlueFlexibleAsset.html)
 
-[https://api.itglue.com/developer/#flexible-assets-create](https://api.itglue.com/developer/#flexible-assets-create)
+[https://api.itglue.com/developer/#flexible-assets](https://api.itglue.com/developer/#flexible-assets)
 

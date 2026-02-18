@@ -7,9 +7,6 @@ function Remove-ITGluePassword {
         The Remove-ITGluePassword cmdlet destroys one or more
         passwords specified by ID
 
-        Examples of JSON objects can be found under ITGlues developer documentation
-            https://api.itglue.com/developer
-
     .PARAMETER OrganizationID
         A valid organization Id in your account
 
@@ -58,7 +55,7 @@ function Remove-ITGluePassword {
         https://celerium.github.io/Celerium.ITGlue/site/Passwords/Remove-ITGluePassword.html
 
     .LINK
-        https://api.itglue.com/developer/#passwords-destroy
+        https://api.itglue.com/developer/#passwords
 #>
 
     [CmdletBinding(DefaultParameterSetName = 'Destroy', SupportsShouldProcess, ConfirmImpact = 'High')]

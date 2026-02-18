@@ -30,13 +30,6 @@ Get-ITGlueRegion [-CountryID <Int64>] -ID <Int64> [<CommonParameters>]
 The Get-ITGlueRegion cmdlet returns a list of supported regions
 or the details of a single support region
 
-This function can call the following endpoints:
-    Index = /regions
-            /countries/:id/relationships/regions
-
-    Show =  /regions/:id
-            /countries/:country_id/relationships/regions/:id
-
 ## EXAMPLES
 
 ### EXAMPLE 1
@@ -223,5 +216,5 @@ function at this time for either parameter set
 
 [https://celerium.github.io/Celerium.ITGlue/site/Regions/Get-ITGlueRegion.html](https://celerium.github.io/Celerium.ITGlue/site/Regions/Get-ITGlueRegion.html)
 
-[https://api.itglue.com/developer/#regions-index](https://api.itglue.com/developer/#regions-index)
+[https://api.itglue.com/developer/#regions](https://api.itglue.com/developer/#regions)
 

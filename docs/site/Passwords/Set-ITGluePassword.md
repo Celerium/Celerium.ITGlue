@@ -34,9 +34,6 @@ To show passwords your API key needs to have the "Password Access" permission
 
 Any attributes you don't specify will remain unchanged
 
-Examples of JSON objects can be found under ITGlues developer documentation
-    https://api.itglue.com/developer
-
 ## EXAMPLES
 
 ### EXAMPLE 1
@@ -172,5 +169,5 @@ N/A
 
 [https://celerium.github.io/Celerium.ITGlue/site/Passwords/Set-ITGluePassword.html](https://celerium.github.io/Celerium.ITGlue/site/Passwords/Set-ITGluePassword.html)
 
-[https://api.itglue.com/developer/#passwords-update](https://api.itglue.com/developer/#passwords-update)
+[https://api.itglue.com/developer/#passwords](https://api.itglue.com/developer/#passwords)
 

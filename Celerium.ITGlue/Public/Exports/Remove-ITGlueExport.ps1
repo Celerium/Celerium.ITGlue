@@ -21,7 +21,7 @@ function Remove-ITGlueExport {
         https://celerium.github.io/Celerium.ITGlue/site/Exports/Remove-ITGlueExport.html
 
     .LINK
-        https://api.itglue.com/developer/#exports-destroy
+        https://api.itglue.com/developer/#exports
 #>
 
     [CmdletBinding(DefaultParameterSetName = 'Destroy', SupportsShouldProcess, ConfirmImpact = 'Medium')]

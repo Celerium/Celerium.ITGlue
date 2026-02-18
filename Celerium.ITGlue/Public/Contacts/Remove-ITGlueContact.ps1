@@ -6,9 +6,6 @@ function Remove-ITGlueContact {
     .DESCRIPTION
         The Remove-ITGlueContact cmdlet deletes one or more specified contacts
 
-        Examples of JSON objects can be found under ITGlues developer documentation
-            https://api.itglue.com/developer
-
     .PARAMETER OrganizationID
         A valid organization Id in your account
 
@@ -71,7 +68,7 @@ function Remove-ITGlueContact {
         https://celerium.github.io/Celerium.ITGlue/site/Contacts/Remove-ITGlueContact.html
 
     .LINK
-        https://api.itglue.com/developer/#contacts-bulk-destroy
+        https://api.itglue.com/developer/#contacts
 #>
 
     [CmdletBinding(DefaultParameterSetName = 'BulkDestroy', SupportsShouldProcess, ConfirmImpact = 'High')]

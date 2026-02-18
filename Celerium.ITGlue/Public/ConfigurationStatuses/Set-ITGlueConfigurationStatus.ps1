@@ -9,9 +9,6 @@ function Set-ITGlueConfigurationStatus {
 
         Returns 422 Bad Request error if trying to update an externally synced record
 
-        Examples of JSON objects can be found under ITGlues developer documentation
-            https://api.itglue.com/developer
-
     .PARAMETER ID
         Get a configuration status by id
 
@@ -33,7 +30,7 @@ function Set-ITGlueConfigurationStatus {
         https://celerium.github.io/Celerium.ITGlue/site/ConfigurationStatuses/Set-ITGlueConfigurationStatus.html
 
     .LINK
-        https://api.itglue.com/developer/#configuration-statuses-update
+        https://api.itglue.com/developer/#configuration-statuses
 #>
 
     [CmdletBinding(DefaultParameterSetName = 'Update', SupportsShouldProcess, ConfirmImpact = 'Medium')]

@@ -7,11 +7,6 @@ function Get-ITGlueOrganizationType {
         The Get-ITGlueOrganizationType cmdlet returns a list of organization types
         or the details of a single organization type in your account
 
-        This function can call the following endpoints:
-            Index = /organization_types
-
-            Show =  /organization_types/:id
-
     .PARAMETER FilterName
         Filter by organization type name
 
@@ -63,7 +58,7 @@ function Get-ITGlueOrganizationType {
         https://celerium.github.io/Celerium.ITGlue/site/OrganizationTypes/Get-ITGlueOrganizationType.html
 
     .LINK
-        https://api.itglue.com/developer/#organization-types-index
+        https://api.itglue.com/developer/#organization-types
 #>
 
     [CmdletBinding(DefaultParameterSetName = 'Index')]

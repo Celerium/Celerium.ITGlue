@@ -34,9 +34,6 @@ the password is a general password
 If the resource-id and resource-type attributes are provided, IT Glue assumes
 the password is an embedded password
 
-Examples of JSON objects can be found under ITGlues developer documentation
-    https://api.itglue.com/developer
-
 ## EXAMPLES
 
 ### EXAMPLE 1
@@ -157,5 +154,5 @@ N/A
 
 [https://celerium.github.io/Celerium.ITGlue/site/Passwords/New-ITGluePassword.html](https://celerium.github.io/Celerium.ITGlue/site/Passwords/New-ITGluePassword.html)
 
-[https://api.itglue.com/developer/#passwords-create](https://api.itglue.com/developer/#passwords-create)
+[https://api.itglue.com/developer/#passwords](https://api.itglue.com/developer/#passwords)
 

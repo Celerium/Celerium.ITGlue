@@ -7,9 +7,6 @@ function New-ITGlueConfigurationStatus {
         The New-ITGlueConfigurationStatus cmdlet creates a new configuration
         status in your account
 
-        Examples of JSON objects can be found under ITGlues developer documentation
-            https://api.itglue.com/developer
-
     .PARAMETER Data
         JSON body depending on bulk changes or not
 
@@ -28,7 +25,7 @@ function New-ITGlueConfigurationStatus {
         https://celerium.github.io/Celerium.ITGlue/site/ConfigurationStatuses/New-ITGlueConfigurationStatus.html
 
     .LINK
-        https://api.itglue.com/developer/#configuration-statuses-create
+        https://api.itglue.com/developer/#configuration-statuses
 #>
 
     [CmdletBinding(DefaultParameterSetName = 'Create', SupportsShouldProcess, ConfirmImpact = 'Low')]

@@ -7,11 +7,6 @@ function Get-ITGlueConfigurationStatus {
         The Get-ITGlueConfigurationStatus cmdlet lists all or shows a
         defined configuration(s) status
 
-        This function can call the following endpoints:
-            Index = /configuration_statuses
-
-            Show =  /configuration_statuses/:id
-
     .PARAMETER FilterName
         Filter by configuration status name
 
@@ -63,7 +58,7 @@ function Get-ITGlueConfigurationStatus {
         https://celerium.github.io/Celerium.ITGlue/site/ConfigurationStatuses/Get-ITGlueConfigurationStatus.html
 
     .LINK
-        https://api.itglue.com/developer/#configuration-statuses-index
+        https://api.itglue.com/developer/#configuration-statuses
 #>
 
     [CmdletBinding(DefaultParameterSetName = 'Index')]

@@ -11,9 +11,6 @@ function Set-ITGlueModel {
 
         Returns 422 Bad Request error if trying to update an externally synced record
 
-        Examples of JSON objects can be found under ITGlues developer documentation
-            https://api.itglue.com/developer
-
     .PARAMETER ManufacturerID
         Update models under the defined manufacturer id
 
@@ -41,7 +38,7 @@ function Set-ITGlueModel {
         https://celerium.github.io/Celerium.ITGlue/site/Models/Get-ITGlueModel.html
 
     .LINK
-        https://api.itglue.com/developer/#models-update
+        https://api.itglue.com/developer/#models
 #>
 
     [CmdletBinding(DefaultParameterSetName = 'BulkUpdate', SupportsShouldProcess, ConfirmImpact = 'Low')]

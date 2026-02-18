@@ -3,7 +3,7 @@ external help file: Celerium.ITGlue-help.xml
 grand_parent: Attachments
 Module Name: Celerium.ITGlue
 online version: https://celerium.github.io/Celerium.ITGlue/site/Attachments/New-ITGlueAttachment.html
-parent: POST
+parent: System.Object[]
 schema: 2.0.0
 title: New-ITGlueAttachment
 ---
@@ -31,9 +31,6 @@ direct upload, in which case the file has to be strict encoded
 
 Note that the name of the attachment will be taken from the file_name attribute
 placed in the JSON body
-
-Examples of JSON objects can be found under ITGlues developer documentation
-    https://api.itglue.com/developer
 
 ## EXAMPLES
 
@@ -143,5 +140,5 @@ N/A
 
 [https://celerium.github.io/Celerium.ITGlue/site/Attachments/New-ITGlueAttachment.html](https://celerium.github.io/Celerium.ITGlue/site/Attachments/New-ITGlueAttachment.html)
 
-[https://api.itglue.com/developer/#attachments-create](https://api.itglue.com/developer/#attachments-create)
+[https://api.itglue.com/developer/#attachments](https://api.itglue.com/developer/#attachments)
 

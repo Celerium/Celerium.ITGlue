@@ -30,11 +30,6 @@ Get-ITGlueManufacturer -ID <Int64> [<CommonParameters>]
 The Get-ITGlueManufacturer cmdlet returns a manufacturer name
 or a list of manufacturers in your account
 
-This function can call the following endpoints:
-    Index = /manufacturers
-
-    Show =  /manufacturers/:id
-
 ## EXAMPLES
 
 ### EXAMPLE 1
@@ -175,5 +170,5 @@ N/A
 
 [https://celerium.github.io/Celerium.ITGlue/site/Manufacturers/Get-ITGlueManufacturer.html](https://celerium.github.io/Celerium.ITGlue/site/Manufacturers/Get-ITGlueManufacturer.html)
 
-[https://api.itglue.com/developer/#manufacturers-index](https://api.itglue.com/developer/#manufacturers-index)
+[https://api.itglue.com/developer/#manufacturers](https://api.itglue.com/developer/#manufacturers)
 

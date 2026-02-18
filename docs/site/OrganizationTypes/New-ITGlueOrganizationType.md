@@ -23,9 +23,6 @@ New-ITGlueOrganizationType [-Data] <Object> [-WhatIf] [-Confirm] [<CommonParamet
 The New-ITGlueOrganizationType cmdlet creates a new organization type
 in your account
 
-Examples of JSON objects can be found under ITGlues developer documentation
-    https://api.itglue.com/developer
-
 ## EXAMPLES
 
 ### EXAMPLE 1
@@ -100,5 +97,5 @@ N/A
 
 [https://celerium.github.io/Celerium.ITGlue/site/OrganizationTypes/New-ITGlueOrganizationType.html](https://celerium.github.io/Celerium.ITGlue/site/OrganizationTypes/New-ITGlueOrganizationType.html)
 
-[https://api.itglue.com/developer/#organization-types-create](https://api.itglue.com/developer/#organization-types-create)
+[https://api.itglue.com/developer/#organization-types](https://api.itglue.com/developer/#organization-types)
 

@@ -7,13 +7,6 @@ function Get-ITGlueConfiguration {
         The Get-ITGlueConfiguration cmdlet lists all configurations
         in an account or organization
 
-        This function can call the following endpoints:
-            Index = /configurations
-                    /organizations/:organization_id/relationships/configurations
-
-            Show =  /configurations/:id
-                    /organizations/:organization_id/relationships/configurations/:id
-
     .PARAMETER OrganizationID
         A valid organization Id in your account
 
@@ -137,7 +130,7 @@ function Get-ITGlueConfiguration {
         https://celerium.github.io/Celerium.ITGlue/site/Configurations/Get-ITGlueConfiguration.html
 
     .LINK
-        https://api.itglue.com/developer/#configurations-index
+        https://api.itglue.com/developer/#configurations
 #>
 
     [CmdletBinding(DefaultParameterSetName = 'Index')]

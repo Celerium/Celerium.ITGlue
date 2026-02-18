@@ -7,9 +7,6 @@ function Remove-ITGlueRelatedItem {
         The Remove-ITGlueRelatedItem cmdlet deletes one or more specified
         related items
 
-        Examples of JSON objects can be found under ITGlues developer documentation
-            https://api.itglue.com/developer
-
     .PARAMETER ResourceType
         The resource type of the parent resource
 
@@ -40,7 +37,7 @@ function Remove-ITGlueRelatedItem {
         https://celerium.github.io/Celerium.ITGlue/site/RelatedItems/Remove-ITGlueRelatedItem.html
 
     .LINK
-        https://api.itglue.com/developer/#related-items-bulk-destroy
+        https://api.itglue.com/developer/#related-items
 #>
 
     [CmdletBinding(DefaultParameterSetName = 'Destroy', SupportsShouldProcess, ConfirmImpact = 'High')]

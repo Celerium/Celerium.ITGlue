@@ -10,9 +10,6 @@ function New-ITGlueFlexibleAsset {
         If there are any required fields in the flexible asset type,
         they will need to be included in the request
 
-        Examples of JSON objects can be found under ITGlues developer documentation
-            https://api.itglue.com/developer
-
     .PARAMETER OrganizationID
         The organization id to create the flexible asset in
 
@@ -35,7 +32,7 @@ function New-ITGlueFlexibleAsset {
         https://celerium.github.io/Celerium.ITGlue/site/FlexibleAssets/New-ITGlueFlexibleAsset.html
 
     .LINK
-        https://api.itglue.com/developer/#flexible-assets-create
+        https://api.itglue.com/developer/#flexible-assets
 #>
 
     [CmdletBinding(DefaultParameterSetName = 'Create', SupportsShouldProcess, ConfirmImpact = 'Low')]

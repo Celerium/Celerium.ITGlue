@@ -69,15 +69,6 @@ of one or more existing configurations
 
 Any attributes you don't specify will remain unchanged
 
-This function can call the following endpoints:
-    Update = /configurations/:id
-            /organizations/:organization_id/relationships/configurations/:id
-
-    Bulk_Update =  /configurations
-
-Examples of JSON objects can be found under ITGlues developer documentation
-    https://api.itglue.com/developer
-
 ## EXAMPLES
 
 ### EXAMPLE 1
@@ -429,5 +420,5 @@ N/A
 
 [https://celerium.github.io/Celerium.ITGlue/site/Configurations/Set-ITGlueConfiguration.html](https://celerium.github.io/Celerium.ITGlue/site/Configurations/Set-ITGlueConfiguration.html)
 
-[https://api.itglue.com/developer/#configurations-update](https://api.itglue.com/developer/#configurations-update)
+[https://api.itglue.com/developer/#configurations](https://api.itglue.com/developer/#configurations)
 

@@ -69,18 +69,18 @@ function Add-ITGlueAPIKey {
                 if ($ApiKey) {
                     $SecureString = ConvertTo-SecureString $ApiKey -AsPlainText -Force
 
-                    Set-Variable -Name "ITGlueModuleApiKey" -Value $SecureString -Option ReadOnly -Scope global -Force
+                    Set-Variable -Name "ITGlueModuleApiKey" -Value $SecureString -Option ReadOnly -Scope Global -Force
                 }
                 else {
                     Write-Output "Please enter your API key:"
                     $SecureString = Read-Host -AsSecureString
 
-                    Set-Variable -Name "ITGlueModuleApiKey" -Value $SecureString -Option ReadOnly -Scope global -Force
+                    Set-Variable -Name "ITGlueModuleApiKey" -Value $SecureString -Option ReadOnly -Scope Global -Force
                 }
 
             }
 
-            'SecureString' { Set-Variable -Name "ITGlueModuleApiKey" -Value $ApiKeySecureString -Option ReadOnly -Scope global -Force }
+            'SecureString' { Set-Variable -Name "ITGlueModuleApiKey" -Value $ApiKeySecureString -Option ReadOnly -Scope Global -Force }
 
         }
 

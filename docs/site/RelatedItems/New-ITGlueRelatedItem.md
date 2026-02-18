@@ -30,9 +30,6 @@ The source item is the item that matches the resource_type and resource_id in th
 The destination item(s) are the items that match the destination_type
 and destination_id in the JSON object
 
-Examples of JSON objects can be found under ITGlues developer documentation
-    https://api.itglue.com/developer
-
 ## EXAMPLES
 
 ### EXAMPLE 1
@@ -143,5 +140,5 @@ N/A
 
 [https://celerium.github.io/Celerium.ITGlue/site/RelatedItems/New-ITGlueRelatedItem.html](https://celerium.github.io/Celerium.ITGlue/site/RelatedItems/New-ITGlueRelatedItem.html)
 
-[https://api.itglue.com/developer/#related-items-create](https://api.itglue.com/developer/#related-items-create)
+[https://api.itglue.com/developer/#related-items](https://api.itglue.com/developer/#related-items)
 

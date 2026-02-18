@@ -7,9 +7,6 @@ function New-ITGlueLocation {
         The New-ITGlueLocation cmdlet creates one or more
         locations for specified organization
 
-        Examples of JSON objects can be found under ITGlues developer documentation
-            https://api.itglue.com/developer
-
     .PARAMETER OrganizationID
         The valid organization id in your account
 
@@ -32,7 +29,7 @@ function New-ITGlueLocation {
         https://celerium.github.io/Celerium.ITGlue/site/Locations/New-ITGlueLocation.html
 
     .LINK
-        https://api.itglue.com/developer/#locations-create
+        https://api.itglue.com/developer/#locations
 #>
 
     [CmdletBinding(DefaultParameterSetName = 'Create', SupportsShouldProcess, ConfirmImpact = 'Low')]

@@ -24,9 +24,6 @@ New-ITGlueFlexibleAssetField [[-FlexibleAssetTypeID] <Int64>] [-Data] <Object> [
 The New-ITGlueFlexibleAssetField cmdlet creates one or more
 flexible asset field for a particular flexible asset type
 
-Examples of JSON objects can be found under ITGlues developer documentation
-    https://api.itglue.com/developer
-
 ## EXAMPLES
 
 ### EXAMPLE 1
@@ -117,5 +114,5 @@ N/A
 
 [https://celerium.github.io/Celerium.ITGlue/site/FlexibleAssetFields/New-ITGlueFlexibleAssetField.html](https://celerium.github.io/Celerium.ITGlue/site/FlexibleAssetFields/New-ITGlueFlexibleAssetField.html)
 
-[https://api.itglue.com/developer/#flexible-asset-fields-create](https://api.itglue.com/developer/#flexible-asset-fields-create)
+[https://api.itglue.com/developer/#flexible-asset-fields](https://api.itglue.com/developer/#flexible-asset-fields)
 

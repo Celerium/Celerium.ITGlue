@@ -59,7 +59,15 @@ function Test-ITGlueAPIKey {
             $Headers = @{}
             $Headers.Add('x-api-key', $(Get-ITGlueAPIKey -AsPlainText) )
 
-            $rest_output = Invoke-WebRequest -Method Get -Uri ($BaseUri + $ResourceUri) -Headers $Headers -ErrorAction Stop
+            $Parameters = @{
+                'Method'        = 'GET'
+                'Uri'           = $BaseUri + $ResourceUri
+                'Headers'       = $Headers
+                'UserAgent'     = $ITGlueModuleUserAgent
+                UseBasicParsing = $true
+            }
+
+            $rest_output = Invoke-WebRequest @Parameters -ErrorAction Stop
         }
         catch {
 

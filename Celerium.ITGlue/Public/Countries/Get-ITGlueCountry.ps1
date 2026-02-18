@@ -7,11 +7,6 @@ function Get-ITGlueCountry {
         The Get-ITGlueCountry cmdlet returns a list of supported countries
         as well or details of one of the supported countries
 
-        This function can call the following endpoints:
-            Index = /countries
-
-            Show =  /countries/:id
-
     .PARAMETER FilterName
         Filter by country name
 
@@ -66,7 +61,7 @@ function Get-ITGlueCountry {
         https://celerium.github.io/Celerium.ITGlue/site/Countries/Get-ITGlueCountry.html
 
     .LINK
-        https://api.itglue.com/developer/#countries-index
+        https://api.itglue.com/developer/#countries
 #>
 
     [CmdletBinding(DefaultParameterSetName = 'Index')]

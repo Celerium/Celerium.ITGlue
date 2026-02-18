@@ -9,9 +9,6 @@ function Set-ITGlueOrganizationStatus {
 
         Returns 422 Bad Request error if trying to update an externally synced record
 
-        Examples of JSON objects can be found under ITGlues developer documentation
-            https://api.itglue.com/developer
-
     .PARAMETER ID
         Update an organization status by id
 
@@ -34,7 +31,7 @@ function Set-ITGlueOrganizationStatus {
         https://celerium.github.io/Celerium.ITGlue/site/OrganizationStatuses/Set-ITGlueOrganizationStatus.html
 
     .LINK
-        https://api.itglue.com/developer/#organization-statuses-update
+        https://api.itglue.com/developer/#organization-statuses
 #>
 
     [CmdletBinding(DefaultParameterSetName = 'Update', SupportsShouldProcess, ConfirmImpact = 'Medium')]

@@ -24,9 +24,6 @@ Remove-ITGlueAttachment [-ResourceType] <String> [-ResourceID] <Int64> [-Data] <
 The Remove-ITGlueAttachment cmdlet deletes one
 or more specified attachments
 
-Examples of JSON objects can be found under ITGlues developer documentation
-    https://api.itglue.com/developer
-
 ## EXAMPLES
 
 ### EXAMPLE 1
@@ -136,5 +133,5 @@ N/A
 
 [https://celerium.github.io/Celerium.ITGlue/site/Attachments/Remove-ITGlueAttachment.html](https://celerium.github.io/Celerium.ITGlue/site/Attachments/Remove-ITGlueAttachment.html)
 
-[https://api.itglue.com/developer/#attachments-bulk-destroy](https://api.itglue.com/developer/#attachments-bulk-destroy)
+[https://api.itglue.com/developer/#attachments](https://api.itglue.com/developer/#attachments)
 

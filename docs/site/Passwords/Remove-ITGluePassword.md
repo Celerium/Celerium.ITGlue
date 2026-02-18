@@ -32,9 +32,6 @@ Remove-ITGluePassword [-ID <Int64>] [-OrganizationID <Int64>] [-FilterID <Int64>
 The Remove-ITGluePassword cmdlet destroys one or more
 passwords specified by ID
 
-Examples of JSON objects can be found under ITGlues developer documentation
-    https://api.itglue.com/developer
-
 ## EXAMPLES
 
 ### EXAMPLE 1
@@ -259,5 +256,5 @@ N/A
 
 [https://celerium.github.io/Celerium.ITGlue/site/Passwords/Remove-ITGluePassword.html](https://celerium.github.io/Celerium.ITGlue/site/Passwords/Remove-ITGluePassword.html)
 
-[https://api.itglue.com/developer/#passwords-destroy](https://api.itglue.com/developer/#passwords-destroy)
+[https://api.itglue.com/developer/#passwords](https://api.itglue.com/developer/#passwords)
 

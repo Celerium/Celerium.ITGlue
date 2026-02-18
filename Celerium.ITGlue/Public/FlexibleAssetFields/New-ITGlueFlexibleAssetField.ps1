@@ -7,9 +7,6 @@ function New-ITGlueFlexibleAssetField {
         The New-ITGlueFlexibleAssetField cmdlet creates one or more
         flexible asset field for a particular flexible asset type
 
-        Examples of JSON objects can be found under ITGlues developer documentation
-            https://api.itglue.com/developer
-
     .PARAMETER FlexibleAssetTypeID
         The flexible asset type id to create a new field in
 
@@ -32,7 +29,7 @@ function New-ITGlueFlexibleAssetField {
         https://celerium.github.io/Celerium.ITGlue/site/FlexibleAssetFields/New-ITGlueFlexibleAssetField.html
 
     .LINK
-        https://api.itglue.com/developer/#flexible-asset-fields-create
+        https://api.itglue.com/developer/#flexible-asset-fields
 #>
 
     [CmdletBinding(DefaultParameterSetName = 'Create', SupportsShouldProcess, ConfirmImpact = 'Low')]

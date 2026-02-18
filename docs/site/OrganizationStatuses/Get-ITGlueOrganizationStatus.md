@@ -30,11 +30,6 @@ Get-ITGlueOrganizationStatus -ID <Int64> [<CommonParameters>]
 The Get-ITGlueOrganizationStatus cmdlet returns a list of organization
 statuses or the details of a single organization status in your account
 
-This function can call the following endpoints:
-    Index = /organization_statuses
-
-    Show =  /organization_statuses/:id
-
 ## EXAMPLES
 
 ### EXAMPLE 1
@@ -175,5 +170,5 @@ N/A
 
 [https://celerium.github.io/Celerium.ITGlue/site/OrganizationStatuses/Get-ITGlueOrganizationStatus.html](https://celerium.github.io/Celerium.ITGlue/site/OrganizationStatuses/Get-ITGlueOrganizationStatus.html)
 
-[https://api.itglue.com/developer/#organization-statuses-index](https://api.itglue.com/developer/#organization-statuses-index)
+[https://api.itglue.com/developer/#organization-statuses](https://api.itglue.com/developer/#organization-statuses)
 

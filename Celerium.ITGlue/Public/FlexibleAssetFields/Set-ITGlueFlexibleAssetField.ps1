@@ -14,9 +14,6 @@ function Set-ITGlueFlexibleAssetField {
         Returns 422 error if trying to change the kind attribute of fields that
         are already in use
 
-        Examples of JSON objects can be found under ITGlues developer documentation
-            https://api.itglue.com/developer
-
     .PARAMETER FlexibleAssetTypeID
         A valid Flexible asset Id in your Account
 
@@ -45,7 +42,7 @@ function Set-ITGlueFlexibleAssetField {
         https://celerium.github.io/Celerium.ITGlue/site/FlexibleAssetFields/Set-ITGlueFlexibleAssetField.html
 
     .LINK
-        https://api.itglue.com/developer/#flexible-asset-fields-update
+        https://api.itglue.com/developer/#flexible-asset-fields
 #>
 
     [CmdletBinding(DefaultParameterSetName = 'BulkUpdate', SupportsShouldProcess, ConfirmImpact = 'Medium')]

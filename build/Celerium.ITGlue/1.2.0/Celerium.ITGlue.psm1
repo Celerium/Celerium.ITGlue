@@ -188,6 +188,7 @@ function Invoke-ITGlueRequest {
                     'Method'    = $Method
                     'Uri'       = $ITGlueModuleBaseURI + $ResourceURI + $QueryString
                     'Headers'   = $Headers
+                    'UserAgent' = $ITGlueModuleUserAgent
                     'Body'      = $Body
                 }
 
@@ -244,7 +245,7 @@ function Invoke-ITGlueRequest {
     end {}
 
 }
-#EndRegion '.\Private\ApiCalls\Invoke-ITGlueRequest.ps1' 179
+#EndRegion '.\Private\ApiCalls\Invoke-ITGlueRequest.ps1' 180
 #Region '.\Private\ApiKeys\Add-ITGlueAPIKey.ps1' -1
 
 function Add-ITGlueAPIKey {
@@ -318,18 +319,18 @@ function Add-ITGlueAPIKey {
                 if ($ApiKey) {
                     $SecureString = ConvertTo-SecureString $ApiKey -AsPlainText -Force
 
-                    Set-Variable -Name "ITGlueModuleApiKey" -Value $SecureString -Option ReadOnly -Scope global -Force
+                    Set-Variable -Name "ITGlueModuleApiKey" -Value $SecureString -Option ReadOnly -Scope Global -Force
                 }
                 else {
                     Write-Output "Please enter your API key:"
                     $SecureString = Read-Host -AsSecureString
 
-                    Set-Variable -Name "ITGlueModuleApiKey" -Value $SecureString -Option ReadOnly -Scope global -Force
+                    Set-Variable -Name "ITGlueModuleApiKey" -Value $SecureString -Option ReadOnly -Scope Global -Force
                 }
 
             }
 
-            'SecureString' { Set-Variable -Name "ITGlueModuleApiKey" -Value $ApiKeySecureString -Option ReadOnly -Scope global -Force }
+            'SecureString' { Set-Variable -Name "ITGlueModuleApiKey" -Value $ApiKeySecureString -Option ReadOnly -Scope Global -Force }
 
         }
 
@@ -447,7 +448,7 @@ function Remove-ITGlueAPIKey {
 
             $true   {
                 if ($PSCmdlet.ShouldProcess('ITGlueModuleApiKey')) {
-                    Remove-Variable -Name "ITGlueModuleApiKey" -Scope global -Force
+                    Remove-Variable -Name "ITGlueModuleApiKey" -Scope Global -Force
                 }
             }
 
@@ -524,7 +525,15 @@ function Test-ITGlueAPIKey {
             $Headers = @{}
             $Headers.Add('x-api-key', $(Get-ITGlueAPIKey -AsPlainText) )
 
-            $rest_output = Invoke-WebRequest -Method Get -Uri ($BaseUri + $ResourceUri) -Headers $Headers -ErrorAction Stop
+            $Parameters = @{
+                'Method'        = 'GET'
+                'Uri'           = $BaseUri + $ResourceUri
+                'Headers'       = $Headers
+                'UserAgent'     = $ITGlueModuleUserAgent
+                UseBasicParsing = $true
+            }
+
+            $rest_output = Invoke-WebRequest @Parameters -ErrorAction Stop
         }
         catch {
 
@@ -556,7 +565,7 @@ function Test-ITGlueAPIKey {
     end {}
 
 }
-#EndRegion '.\Private\ApiKeys\Test-ITGlueAPIKey.ps1' 94
+#EndRegion '.\Private\ApiKeys\Test-ITGlueAPIKey.ps1' 102
 #Region '.\Private\BaseUri\Add-ITGlueBaseURI.ps1' -1
 
 function Add-ITGlueBaseURI {
@@ -635,7 +644,7 @@ function Add-ITGlueBaseURI {
             Default {}
         }
 
-        Set-Variable -Name "ITGlueModuleBaseURI" -Value $BaseUri -Option ReadOnly -Scope global -Force
+        Set-Variable -Name "ITGlueModuleBaseURI" -Value $BaseUri -Option ReadOnly -Scope Global -Force
 
     }
 
@@ -716,7 +725,7 @@ function Remove-ITGlueBaseURI {
 
             $true   {
                 if ($PSCmdlet.ShouldProcess('ITGlueModuleBaseURI')) {
-                    Remove-Variable -Name "ITGlueModuleBaseURI" -Scope global -Force
+                    Remove-Variable -Name "ITGlueModuleBaseURI" -Scope Global -Force
                 }
             }
             $false  { Write-Warning "The ITGlue base URI variable is not set. Nothing to remove" }
@@ -809,6 +818,7 @@ function Export-ITGlueModuleSettings {
         ITGlueModuleBaseURI             = '$ITGlueModuleBaseURI'
         ITGlueModuleApiKey              = '$SecureString'
         ITGlueModuleJSONConversionDepth = '$ITGlueModuleJSONConversionDepth'
+        ITGlueModuleUserAgent           = '$ITGlueModuleUserAgent'
     }
 "@ | Out-File -FilePath $ITGlueConfig -Force
         }
@@ -823,7 +833,7 @@ function Export-ITGlueModuleSettings {
     end {}
 
 }
-#EndRegion '.\Private\ModuleSettings\Export-ITGlueModuleSettings.ps1' 93
+#EndRegion '.\Private\ModuleSettings\Export-ITGlueModuleSettings.ps1' 94
 #Region '.\Private\ModuleSettings\Get-ITGlueModuleSettings.ps1' -1
 
 function Get-ITGlueModuleSettings {
@@ -977,6 +987,13 @@ function Import-ITGlueModuleSettings {
 
     begin {
         $ITGlueConfig = Join-Path -Path $ITGlueConfigPath -ChildPath $ITGlueConfigFile
+
+        switch ($PSVersionTable.PSEdition){
+            'Core'      { $UserAgent = "Celerium.ITGlue/1.2.0 - PowerShell/$($PSVersionTable.PSVersion) ($($PSVersionTable.Platform) $($PSVersionTable.OS))" }
+            'Desktop'   { $UserAgent = "Celerium.ITGlue/1.2.0 - WindowsPowerShell/$($PSVersionTable.PSVersion) ($($PSVersionTable.BuildVersion))" }
+            default     { $UserAgent = "Celerium.ITGlue/1.2.0 - $([Microsoft.PowerShell.Commands.PSUserAgent].GetMembers('Static, NonPublic').Where{$_.Name -eq 'UserAgent'}.GetValue($null,$null))" }
+        }
+
     }
 
     process {
@@ -989,9 +1006,9 @@ function Import-ITGlueModuleSettings {
 
             $TempConfig.ITGlueModuleApiKey = ConvertTo-SecureString $TempConfig.ITGlueModuleApiKey
 
-            Set-Variable -Name "ITGlueModuleApiKey" -Value $TempConfig.ITGlueModuleApiKey -Option ReadOnly -Scope global -Force
-
-            Set-Variable -Name "ITGlueModuleJSONConversionDepth" -Value $TempConfig.ITGlueModuleJSONConversionDepth -Scope global -Force
+            Set-Variable -Name "ITGlueModuleApiKey" -Value $TempConfig.ITGlueModuleApiKey -Option ReadOnly -Scope Global -Force
+            Set-Variable -Name "ITGlueModuleUserAgent" -Value $TempConfig.ITGlueModuleUserAgent -Option ReadOnly -Scope Global -Force
+            Set-Variable -Name "ITGlueModuleJSONConversionDepth" -Value $TempConfig.ITGlueModuleJSONConversionDepth  -Option ReadOnly -Scope Global -Force
 
             Write-Verbose "Celerium.ITGlue Module configuration loaded successfully from [ $ITGlueConfig ]"
 
@@ -1003,8 +1020,9 @@ function Import-ITGlueModuleSettings {
 
             Add-ITGlueBaseURI
 
-            Set-Variable -Name "ITGlueModuleBaseURI" -Value $(Get-ITGlueBaseURI) -Option ReadOnly -Scope global -Force
-            Set-Variable -Name "ITGlueModuleJSONConversionDepth" -Value 100 -Scope global -Force
+            Set-Variable -Name "ITGlueModuleBaseURI" -Value $(Get-ITGlueBaseURI) -Option ReadOnly -Scope Global -Force
+            Set-Variable -Name "ITGlueModuleUserAgent" -Value $UserAgent -Option ReadOnly -Scope Global -Force
+            Set-Variable -Name "ITGlueModuleJSONConversionDepth" -Value 100 -Option ReadOnly -Scope Global -Force
         }
 
     }
@@ -1012,7 +1030,7 @@ function Import-ITGlueModuleSettings {
     end {}
 
 }
-#EndRegion '.\Private\ModuleSettings\Import-ITGlueModuleSettings.ps1' 96
+#EndRegion '.\Private\ModuleSettings\Import-ITGlueModuleSettings.ps1' 104
 #Region '.\Private\ModuleSettings\Initialize-ITGlueModuleSettings.ps1' -1
 
 #Used to auto load either baseline settings or saved configurations when the module is imported
@@ -1111,6 +1129,94 @@ function Remove-ITGlueModuleSettings {
 
 }
 #EndRegion '.\Private\ModuleSettings\Remove-ITGlueModuleSettings.ps1' 91
+#Region '.\Public\Attachments\Get-ITGlueAttachment.ps1' -1
+
+function Get-ITGlueAttachment {
+<#
+    .SYNOPSIS
+        List or show attachments for a resource
+
+    .DESCRIPTION
+        The Get-ITGlueAttachment cmdlet returns a list and or
+        shows attachments for a resource
+
+    .PARAMETER ResourceType
+        The resource type of the parent resource
+
+        Allowed Values:
+        'checklists', 'checklist_templates', 'configurations', 'contacts',
+        'documents', 'domains', 'locations', 'passwords', 'ssl_certificates',
+        'flexible_assets', 'tickets
+
+    .PARAMETER ResourceId
+        The resource id of the parent resource
+
+    .PARAMETER Id
+        Attachment id
+
+    .EXAMPLE
+        Get-ITGlueAttachment -ResourceType 'checklists' -ResourceId 12345
+
+        Returns the defined attachments for the parent resource
+
+    .EXAMPLE
+        Get-ITGlueAttachment -ResourceType 'checklists' -ResourceId 12345 -Id 8765309
+
+        Returns the defined attachment for the parent resource
+
+    .NOTES
+        N/A
+
+    .LINK
+        https://celerium.github.io/Celerium.ITGlue/site/Attachments/Get-ITGlueAttachment.html
+
+    .LINK
+        https://api.itglue.com/developer/#attachments
+#>
+
+    [CmdletBinding(DefaultParameterSetName = 'Index')]
+    Param (
+        [Parameter(ParameterSetName = 'Index', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'Show', Mandatory = $true)]
+        [ValidateSet(   'checklists', 'checklist_templates', 'configurations', 'contacts',
+                        'documents', 'domains', 'locations', 'passwords', 'ssl_certificates',
+                        'flexible_assets', 'tickets')]
+        [string]$ResourceType,
+
+        [Parameter(ParameterSetName = 'Index', ValueFromPipeline = $true , Mandatory = $true)]
+        [Parameter(ParameterSetName = 'Show', ValueFromPipeline = $true , Mandatory = $true)]
+        [int64]$ResourceId,
+
+        [Parameter(ParameterSetName = 'Show', Mandatory = $true)]
+        [int64]$Id
+    )
+
+    begin {
+
+        $FunctionName       = $MyInvocation.InvocationName
+        $ParameterName      = $functionName + '_Parameters'      -replace '-','_'
+
+    }
+
+    process {
+
+        Write-Verbose "[ $FunctionName ] - Running the [ $($PSCmdlet.ParameterSetName) ] parameterSet"
+
+        switch ($PSCmdlet.ParameterSetName) {
+            'Index' { $ResourceUri = "/$ResourceType/$ResourceId/relationships/attachments" }
+            'Show'  { $ResourceUri = "/$ResourceType/$ResourceId/relationships/attachments/$Id" }
+        }
+
+        Set-Variable -Name $ParameterName -Value $PSBoundParameters -Scope Global -Force -Confirm:$false
+
+        return Invoke-ITGlueRequest -Method GET -ResourceURI $ResourceUri
+
+    }
+
+    end {}
+
+}
+#EndRegion '.\Public\Attachments\Get-ITGlueAttachment.ps1' 86
 #Region '.\Public\Attachments\New-ITGlueAttachment.ps1' -1
 
 function New-ITGlueAttachment {
@@ -1128,9 +1234,6 @@ function New-ITGlueAttachment {
 
         Note that the name of the attachment will be taken from the file_name attribute
         placed in the JSON body
-
-        Examples of JSON objects can be found under ITGlues developer documentation
-            https://api.itglue.com/developer
 
     .PARAMETER ResourceType
         The resource type of the parent resource
@@ -1160,7 +1263,7 @@ function New-ITGlueAttachment {
         https://celerium.github.io/Celerium.ITGlue/site/Attachments/New-ITGlueAttachment.html
 
     .LINK
-        https://api.itglue.com/developer/#attachments-create
+        https://api.itglue.com/developer/#attachments
 #>
 
     [CmdletBinding(DefaultParameterSetName = 'Create', SupportsShouldProcess, ConfirmImpact = 'Low')]
@@ -1203,7 +1306,7 @@ function New-ITGlueAttachment {
     end{}
 
 }
-#EndRegion '.\Public\Attachments\New-ITGlueAttachment.ps1' 91
+#EndRegion '.\Public\Attachments\New-ITGlueAttachment.ps1' 88
 #Region '.\Public\Attachments\Remove-ITGlueAttachment.ps1' -1
 
 function Remove-ITGlueAttachment {
@@ -1214,9 +1317,6 @@ function Remove-ITGlueAttachment {
     .DESCRIPTION
         The Remove-ITGlueAttachment cmdlet deletes one
         or more specified attachments
-
-        Examples of JSON objects can be found under ITGlues developer documentation
-            https://api.itglue.com/developer
 
     .PARAMETER ResourceType
         The resource type of the parent resource
@@ -1247,7 +1347,7 @@ function Remove-ITGlueAttachment {
         https://celerium.github.io/Celerium.ITGlue/site/Attachments/Remove-ITGlueAttachment.html
 
     .LINK
-        https://api.itglue.com/developer/#attachments-bulk-destroy
+        https://api.itglue.com/developer/#attachments
 #>
 
     [CmdletBinding(DefaultParameterSetName = 'Destroy', SupportsShouldProcess, ConfirmImpact = 'High')]
@@ -1290,7 +1390,7 @@ function Remove-ITGlueAttachment {
     end{}
 
 }
-#EndRegion '.\Public\Attachments\Remove-ITGlueAttachment.ps1' 85
+#EndRegion '.\Public\Attachments\Remove-ITGlueAttachment.ps1' 82
 #Region '.\Public\Attachments\Set-ITGlueAttachment.ps1' -1
 
 function Set-ITGlueAttachment {
@@ -1306,9 +1406,6 @@ function Set-ITGlueAttachment {
         screen can be changed
 
         The original file_name can't be changed
-
-        Examples of JSON objects can be found under ITGlues developer documentation
-            https://api.itglue.com/developer
 
     .PARAMETER ResourceType
         The resource type of the parent resource
@@ -1341,7 +1438,7 @@ function Set-ITGlueAttachment {
         https://celerium.github.io/Celerium.ITGlue/site/Attachments/Set-ITGlueAttachment.html
 
     .LINK
-        https://api.itglue.com/developer/#attachments-update
+        https://api.itglue.com/developer/#attachments
 #>
 
     [CmdletBinding(DefaultParameterSetName = 'Update', SupportsShouldProcess, ConfirmImpact = 'Medium')]
@@ -1385,7 +1482,374 @@ function Set-ITGlueAttachment {
     end{}
 
 }
-#EndRegion '.\Public\Attachments\Set-ITGlueAttachment.ps1' 93
+#EndRegion '.\Public\Attachments\Set-ITGlueAttachment.ps1' 90
+#Region '.\Public\Checklists\Get-ITGlueChecklist.ps1' -1
+
+function Get-ITGlueChecklist {
+<#
+    .SYNOPSIS
+        List or show all checklists in your account
+
+    .DESCRIPTION
+        The Get-ITGlueChecklist cmdlet returns a list and or
+        shows all checklists in your account or a specific organization
+
+    .PARAMETER OrganizationID
+        A valid organization Id in your account
+
+    .PARAMETER ID
+        A valid checklist id
+
+    .PARAMETER FilterID
+        Filter by checklists id
+
+    .PARAMETER FilterOrganizationID
+        Filter organization by id
+
+    .PARAMETER Sort
+        Sort results by a defined value
+
+        Allowed values:
+        'completed', 'created_at', 'updated_at',
+        '-completed', '-created_at', '-updated_at'
+
+    .PARAMETER PageNumber
+        Return results starting from the defined number
+
+    .PARAMETER PageSize
+        Number of results to return per page
+
+        The maximum number of page results that can be
+        requested is 1000
+
+    .PARAMETER Include
+        Include additional items from a checklist
+
+        Allowed values: Index endpoint
+        attachments, checklist_tasks, user_resource_accesses, group_resource_accesses
+
+        Allowed values: Show endpoint
+        attachments, checklist_tasks, user_resource_accesses, group_resource_accesses,
+        recent_versions, related_items, authorized_users
+
+    .PARAMETER AllResults
+        Returns all items from an endpoint
+
+        This can be used in unison with -PageSize to limit the number of
+        sequential requests to the API
+
+    .EXAMPLE
+        Get-ITGlueChecklist
+
+        Returns the first 50 checklists results from your ITGlue account
+
+    .EXAMPLE
+        Get-ITGlueChecklist -ID 8765309
+
+        Returns the checklists with the defined id
+
+    .EXAMPLE
+        Get-ITGlueChecklist -PageNumber 2 -PageSize 10
+
+        Returns the first 10 results from the second page for checklists
+        in your ITGlue account
+
+    .NOTES
+        N/A
+
+    .LINK
+        https://celerium.github.io/Celerium.ITGlue/site/Checklists/Get-ITGlueChecklist.html
+
+    .LINK
+        https://api.itglue.com/developer/#checklists
+#>
+
+    [CmdletBinding(DefaultParameterSetName = 'Index')]
+    Param (
+        [Parameter(ParameterSetName = 'Index')]
+        [Parameter(ParameterSetName = 'Show')]
+        [int64]$OrganizationID,
+
+        [Parameter(ParameterSetName = 'Show', ValueFromPipeline = $true , Mandatory = $true)]
+        [int64]$ID,
+
+        [Parameter(ParameterSetName = 'Index')]
+        [int64]$FilterID,
+
+        [Parameter(ParameterSetName = 'Index')]
+        [int64]$FilterOrganizationID,
+
+        [Parameter(ParameterSetName = 'Index')]
+        [ValidateSet(   'completed', 'created_at', 'updated_at',
+                        '-completed', '-created_at', '-updated_at')]
+        [string]$Sort,
+
+        [Parameter(ParameterSetName = 'Index')]
+        [int64]$PageNumber,
+
+        [Parameter(ParameterSetName = 'Index')]
+        [ValidateRange(1,1000)]
+        [int]$PageSize,
+
+        [Parameter(ParameterSetName = 'Index')]
+        [Parameter(ParameterSetName = 'Show')]
+        [ValidateSet(   'attachments', 'checklist_tasks', 'user_resource_accesses',
+                        'group_resource_accesses', 'recent_versions', 'related_items', 'authorized_users')]
+        [string]$Include,
+
+        [Parameter(ParameterSetName = 'Index')]
+        [switch]$AllResults
+    )
+
+    begin {
+
+        $FunctionName       = $MyInvocation.InvocationName
+        $ParameterName      = $functionName + '_Parameters'      -replace '-','_'
+        $QueryParameterName = $functionName + '_ParametersQuery' -replace '-','_'
+
+    }
+
+    process {
+
+        Write-Verbose "[ $FunctionName ] - Running the [ $($PSCmdlet.ParameterSetName) ] parameterSet"
+
+        switch ($PSCmdlet.ParameterSetName) {
+            'Index' {
+
+                switch ([bool]$OrganizationID){
+                    $true   { $ResourceUri = "/organizations/$OrganizationID/relationships/checklists" }
+                    $false  { $ResourceUri = "/checklists" }
+                }
+
+            }
+            'Show' {
+
+                switch ([bool]$OrganizationID){
+                    $true   { $ResourceUri = "/organizations/$OrganizationID/relationships/checklists/$ID" }
+                    $false  { $ResourceUri = "/checklists/$ID" }
+                }
+
+            }
+        }
+
+        $UriParameters = @{}
+
+        #Region     [ Parameter Translation ]
+
+        if ($PSCmdlet.ParameterSetName -eq 'Index') {
+            if ($FilterID)              { $UriParameters['filter[id]']   = $FilterID }
+            if ($FilterOrganizationID)  { $UriParameters['filter[organization_id]']   = $FilterOrganizationID }
+            if ($Sort)                  { $UriParameters['sort']         = $Sort }
+            if ($PageNumber)            { $UriParameters['page[number]'] = $PageNumber }
+            if ($PageSize)              { $UriParameters['page[size]']   = $PageSize }
+        }
+
+        if($Include) { $UriParameters['include'] = $Include }
+
+        #EndRegion  [ Parameter Translation ]
+
+        Set-Variable -Name $ParameterName -Value $PSBoundParameters -Scope Global -Force -Confirm:$false
+        Set-Variable -Name $QueryParameterName -Value $UriParameters -Scope Global -Force -Confirm:$false
+
+        return Invoke-ITGlueRequest -Method GET -ResourceURI $ResourceUri -UriFilter $UriParameters -AllResults:$AllResults
+
+    }
+
+    end {}
+
+}
+#EndRegion '.\Public\Checklists\Get-ITGlueChecklist.ps1' 174
+#Region '.\Public\Checklists\Remove-ITGlueChecklist.ps1' -1
+
+function Remove-ITGlueChecklist {
+<#
+    .SYNOPSIS
+        Deletes one or more checklists
+
+    .DESCRIPTION
+        The Remove-ITGlueChecklist cmdlet deletes one or
+        more specified checklists
+
+    .PARAMETER OrganizationID
+        A valid organization Id in your account
+
+    .PARAMETER ID
+        A valid checklist id
+
+    .PARAMETER Data
+        JSON body depending on bulk changes or not
+
+        Do NOT include the "Data" property in the JSON object as this is handled
+        by the Invoke-ITGlueRequest function
+
+        .EXAMPLE
+        Remove-ITGlueChecklist -OrganizationID 12345 -ID 8765309
+
+        Deletes the defined checklist
+
+        .EXAMPLE
+        Remove-ITGlueChecklist -OrganizationID 12345 -Data $JsonBody
+
+        Deletes the defined checklist with the specified JSON body
+
+    .NOTES
+        N/A
+
+    .LINK
+        https://celerium.github.io/Celerium.ITGlue/site/Checklists/Remove-ITGlueChecklist.html
+
+    .LINK
+        https://api.itglue.com/developer/#checklists
+#>
+
+    [CmdletBinding(DefaultParameterSetName = 'BulkDestroy', SupportsShouldProcess, ConfirmImpact = 'High')]
+    Param (
+        [Parameter(ParameterSetName = 'Destroy')]
+        [Parameter(ParameterSetName = 'BulkDestroy')]
+        [int64]$OrganizationID,
+
+        [Parameter(ParameterSetName = 'Destroy', Mandatory = $true)]
+        [int64]$ID,
+
+        [Parameter(ParameterSetName = 'BulkDestroy', Mandatory = $true)]
+        $Data
+    )
+
+    begin {
+
+        $FunctionName       = $MyInvocation.InvocationName
+        $ParameterName      = $functionName + '_Parameters'      -replace '-','_'
+        $QueryParameterName = $functionName + '_ParametersQuery' -replace '-','_'
+
+    }
+
+    process {
+
+        Write-Verbose "[ $FunctionName ] - Running the [ $($PSCmdlet.ParameterSetName) ] parameterSet"
+
+        switch ([bool]$OrganizationID) {
+            $true   { $ResourceUri = "/organizations/$OrganizationID/relationships/checklists" }
+            $false  { $ResourceUri = "/checklists" }
+        }
+
+        if ($PSCmdlet.ParameterSetName -eq 'Destroy') {
+            $Data = @{
+                type        = 'checklists'
+                attributes  = @{
+                    id = $ID
+                }
+            }
+        }
+
+        Set-Variable -Name $ParameterName -Value $PSBoundParameters -Scope Global -Force -Confirm:$false
+        Set-Variable -Name $QueryParameterName -Value $UriParameters -Scope Global -Force -Confirm:$false
+
+        if ($PSCmdlet.ShouldProcess($ResourceUri)) {
+            return Invoke-ITGlueRequest -Method DELETE -ResourceURI $ResourceUri -Data $Data
+        }
+
+    }
+
+    end {}
+
+}
+
+#EndRegion '.\Public\Checklists\Remove-ITGlueChecklist.ps1' 94
+#Region '.\Public\Checklists\Set-ITGlueChecklist.ps1' -1
+
+function Set-ITGlueChecklist {
+<#
+    .SYNOPSIS
+        Update a single checklist or multiple checklists
+
+    .DESCRIPTION
+        The Set-ITGlueChecklist cmdlet updates one or
+        more specified checklists
+
+    .PARAMETER OrganizationID
+        A valid organization Id in your account
+
+    .PARAMETER ID
+        A valid checklist id
+
+    .PARAMETER Data
+        JSON body depending on bulk changes or not
+
+        Do NOT include the "Data" property in the JSON object as this is handled
+        by the Invoke-ITGlueRequest function
+
+    .EXAMPLE
+        Set-ITGlueChecklist -id 8675309 -Data $JsonBody
+
+        Updates the defined checklist with the specified JSON body
+
+    .NOTES
+        N/A
+
+    .LINK
+        https://celerium.github.io/Celerium.ITGlue/site/Checklists/Set-ITGlueChecklist.html
+
+    .LINK
+        https://api.itglue.com/developer/#checklists
+#>
+
+    [CmdletBinding(DefaultParameterSetName = 'BulkUpdate', SupportsShouldProcess, ConfirmImpact = 'Low')]
+    Param (
+        [Parameter(ParameterSetName = 'Update')]
+        [Parameter(ParameterSetName = 'BulkUpdate')]
+        [int64]$OrganizationID,
+
+        [Parameter(ParameterSetName = 'Update', Mandatory = $true)]
+        [int64]$ID,
+
+        [Parameter(ParameterSetName = 'Update', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'BulkUpdate', Mandatory = $true)]
+        $Data
+    )
+
+    begin {
+
+        $FunctionName       = $MyInvocation.InvocationName
+        $ParameterName      = $functionName + '_Parameters'      -replace '-','_'
+
+    }
+
+    process {
+
+        Write-Verbose "[ $FunctionName ] - Running the [ $($PSCmdlet.ParameterSetName) ] parameterSet"
+
+        switch ($PSCmdlet.ParameterSetName) {
+            'Update'        {
+
+                switch ([bool]$OrganizationID) {
+                    $true   { $ResourceUri = "/organizations/$OrganizationID/relationships/checklists/$ID" }
+                    $false  { $ResourceUri = "/checklists/$ID" }
+                }
+
+            }
+            'BulkUpdate'   {
+
+                switch ([bool]$OrganizationID) {
+                    $true   { $ResourceUri = "/organizations/$OrganizationID/relationships/checklists" }
+                    $false  { $ResourceUri = "/checklists" }
+                }
+
+            }
+        }
+
+        Set-Variable -Name $ParameterName -Value $PSBoundParameters -Scope Global -Force -Confirm:$false
+
+        if ($PSCmdlet.ShouldProcess($ResourceUri)) {
+            return Invoke-ITGlueRequest -Method PATCH -ResourceURI $ResourceUri -Data $Data
+        }
+
+    }
+
+    end {}
+
+}
+
+#EndRegion '.\Public\Checklists\Set-ITGlueChecklist.ps1' 93
 #Region '.\Public\ConfigurationInterfaces\Get-ITGlueConfigurationInterface.ps1' -1
 
 function Get-ITGlueConfigurationInterface {
@@ -1396,12 +1860,6 @@ function Get-ITGlueConfigurationInterface {
     .DESCRIPTION
         The Get-ITGlueConfigurationInterface cmdlet retrieves a
         configuration(s) interface(s)
-
-        This function can call the following endpoints:
-            Index = /configurations/:conf_id/relationships/configuration_interfaces
-
-            Show =  /configuration_interfaces/:id
-                    /configurations/:id/relationships/configuration_interfaces/:id
 
     .PARAMETER ConfigurationID
         A valid configuration ID in your account
@@ -1463,7 +1921,7 @@ function Get-ITGlueConfigurationInterface {
         https://celerium.github.io/Celerium.ITGlue/site/ConfigurationInterfaces/Get-ITGlueConfigurationInterface.html
 
     .LINK
-        https://api.itglue.com/developer/#configuration-interfaces-index
+        https://api.itglue.com/developer/#configuration-interfaces
 #>
 
     [CmdletBinding(DefaultParameterSetName = 'Index')]
@@ -1552,7 +2010,7 @@ function Get-ITGlueConfigurationInterface {
     end {}
 
 }
-#EndRegion '.\Public\ConfigurationInterfaces\Get-ITGlueConfigurationInterface.ps1' 165
+#EndRegion '.\Public\ConfigurationInterfaces\Get-ITGlueConfigurationInterface.ps1' 159
 #Region '.\Public\ConfigurationInterfaces\New-ITGlueConfigurationInterface.ps1' -1
 
 function New-ITGlueConfigurationInterface {
@@ -1564,13 +2022,8 @@ function New-ITGlueConfigurationInterface {
         The New-ITGlueConfigurationInterface cmdlet creates one or more configuration
         interfaces for a particular configuration(s)
 
-        Examples of JSON objects can be found under ITGlues developer documentation
-            https://api.itglue.com/developer
-
     .PARAMETER ConfigurationID
         A valid configuration ID in your account
-
-
 
     .PARAMETER Data
         JSON body depending on bulk changes or not
@@ -1590,7 +2043,7 @@ function New-ITGlueConfigurationInterface {
         https://celerium.github.io/Celerium.ITGlue/site/ConfigurationInterfaces/New-ITGlueConfigurationInterface.html
 
     .LINK
-        https://api.itglue.com/developer/#configuration-interfaces-create
+        https://api.itglue.com/developer/#configuration-interfaces
 #>
 
     [CmdletBinding(DefaultParameterSetName = 'Create', SupportsShouldProcess, ConfirmImpact = 'Low')]
@@ -1629,7 +2082,7 @@ function New-ITGlueConfigurationInterface {
     end {}
 
 }
-#EndRegion '.\Public\ConfigurationInterfaces\New-ITGlueConfigurationInterface.ps1' 75
+#EndRegion '.\Public\ConfigurationInterfaces\New-ITGlueConfigurationInterface.ps1' 70
 #Region '.\Public\ConfigurationInterfaces\Set-ITGlueConfigurationInterface.ps1' -1
 
 function Set-ITGlueConfigurationInterface {
@@ -1643,16 +2096,6 @@ function Set-ITGlueConfigurationInterface {
 
         Any attributes you don't specify will remain unchanged
 
-        This function can call the following endpoints:
-            Update =    /configuration_interfaces/:id
-                        /configurations/:conf_id/relationships/configuration_interfaces/:id
-
-            Bulk_Update =   /configuration_interfaces
-                            /configurations/:conf_id/relationships/configuration_interfaces/:id
-
-        Examples of JSON objects can be found under ITGlues developer documentation
-            https://api.itglue.com/developer
-
     .PARAMETER ID
         A valid configuration interface ID in your account
 
@@ -1661,12 +2104,8 @@ function Set-ITGlueConfigurationInterface {
     .PARAMETER ConfigurationID
         A valid configuration ID in your account
 
-
-
     .PARAMETER FilterID
         Configuration id to filter by
-
-
 
     .PARAMETER FilterIPAddress
         Filter by an IP4 or IP6 address
@@ -1696,7 +2135,7 @@ function Set-ITGlueConfigurationInterface {
         https://celerium.github.io/Celerium.ITGlue/site/ConfigurationInterfaces/Set-ITGlueConfigurationInterface.html
 
     .LINK
-        https://api.itglue.com/developer/#configuration-interfaces-update
+        https://api.itglue.com/developer/#configuration-interfaces
 #>
 
     [CmdletBinding(DefaultParameterSetName = 'BulkUpdate', SupportsShouldProcess, ConfirmImpact = 'Medium')]
@@ -1765,7 +2204,7 @@ function Set-ITGlueConfigurationInterface {
     end {}
 
 }
-#EndRegion '.\Public\ConfigurationInterfaces\Set-ITGlueConfigurationInterface.ps1' 134
+#EndRegion '.\Public\ConfigurationInterfaces\Set-ITGlueConfigurationInterface.ps1' 120
 #Region '.\Public\Configurations\Get-ITGlueConfiguration.ps1' -1
 
 function Get-ITGlueConfiguration {
@@ -1776,13 +2215,6 @@ function Get-ITGlueConfiguration {
     .DESCRIPTION
         The Get-ITGlueConfiguration cmdlet lists all configurations
         in an account or organization
-
-        This function can call the following endpoints:
-            Index = /configurations
-                    /organizations/:organization_id/relationships/configurations
-
-            Show =  /configurations/:id
-                    /organizations/:organization_id/relationships/configurations/:id
 
     .PARAMETER OrganizationID
         A valid organization Id in your account
@@ -1907,7 +2339,7 @@ function Get-ITGlueConfiguration {
         https://celerium.github.io/Celerium.ITGlue/site/Configurations/Get-ITGlueConfiguration.html
 
     .LINK
-        https://api.itglue.com/developer/#configurations-index
+        https://api.itglue.com/developer/#configurations
 #>
 
     [CmdletBinding(DefaultParameterSetName = 'Index')]
@@ -2125,7 +2557,7 @@ function Get-ITGlueConfiguration {
 
     end {}
 }
-#EndRegion '.\Public\Configurations\Get-ITGlueConfiguration.ps1' 358
+#EndRegion '.\Public\Configurations\Get-ITGlueConfiguration.ps1' 351
 #Region '.\Public\Configurations\New-ITGlueConfiguration.ps1' -1
 
 function New-ITGlueConfiguration {
@@ -2136,9 +2568,6 @@ function New-ITGlueConfiguration {
     .DESCRIPTION
         The New-ITGlueConfiguration cmdlet creates one or more
         configurations under a defined organization
-
-        Examples of JSON objects can be found under ITGlues developer documentation
-            https://api.itglue.com/developer
 
     .PARAMETER OrganizationID
         A valid organization Id in your Account
@@ -2162,7 +2591,7 @@ function New-ITGlueConfiguration {
         https://celerium.github.io/Celerium.ITGlue/site/Configurations/New-ITGlueConfiguration.html
 
     .LINK
-        https://api.itglue.com/developer/#configurations-create
+        https://api.itglue.com/developer/#configurations
 #>
 
     [CmdletBinding(DefaultParameterSetName = 'Create', SupportsShouldProcess, ConfirmImpact = 'Low')]
@@ -2201,7 +2630,7 @@ function New-ITGlueConfiguration {
     end {}
 
 }
-#EndRegion '.\Public\Configurations\New-ITGlueConfiguration.ps1' 74
+#EndRegion '.\Public\Configurations\New-ITGlueConfiguration.ps1' 71
 #Region '.\Public\Configurations\Remove-ITGlueConfiguration.ps1' -1
 
 function Remove-ITGlueConfiguration {
@@ -2212,9 +2641,6 @@ function Remove-ITGlueConfiguration {
     .DESCRIPTION
         The Remove-ITGlueConfiguration cmdlet deletes one or
         more specified configurations
-
-        Examples of JSON objects can be found under ITGlues developer documentation
-            https://api.itglue.com/developer
 
     .PARAMETER ID
         A valid configuration Id
@@ -2294,7 +2720,7 @@ function Remove-ITGlueConfiguration {
         https://celerium.github.io/Celerium.ITGlue/site/Configurations/Remove-ITGlueConfiguration.html
 
     .LINK
-        https://api.itglue.com/developer/#configurations-bulk-destroy
+        https://api.itglue.com/developer/#configurations
 #>
 
     [CmdletBinding(DefaultParameterSetName = 'BulkDestroy', SupportsShouldProcess, ConfirmImpact = 'High')]
@@ -2452,7 +2878,7 @@ function Remove-ITGlueConfiguration {
     end {}
 
 }
-#EndRegion '.\Public\Configurations\Remove-ITGlueConfiguration.ps1' 249
+#EndRegion '.\Public\Configurations\Remove-ITGlueConfiguration.ps1' 246
 #Region '.\Public\Configurations\Set-ITGlueConfiguration.ps1' -1
 
 function Set-ITGlueConfiguration {
@@ -2465,15 +2891,6 @@ function Set-ITGlueConfiguration {
         of one or more existing configurations
 
         Any attributes you don't specify will remain unchanged
-
-        This function can call the following endpoints:
-            Update = /configurations/:id
-                    /organizations/:organization_id/relationships/configurations/:id
-
-            Bulk_Update =  /configurations
-
-        Examples of JSON objects can be found under ITGlues developer documentation
-            https://api.itglue.com/developer
 
     .PARAMETER ID
         A valid configuration Id
@@ -2554,7 +2971,7 @@ function Set-ITGlueConfiguration {
         https://celerium.github.io/Celerium.ITGlue/site/Configurations/Set-ITGlueConfiguration.html
 
     .LINK
-        https://api.itglue.com/developer/#configurations-update
+        https://api.itglue.com/developer/#configurations
 #>
 
     [CmdletBinding(DefaultParameterSetName = 'BulkUpdate', SupportsShouldProcess, ConfirmImpact = 'Medium')]
@@ -2714,7 +3131,7 @@ function Set-ITGlueConfiguration {
     end {}
 
 }
-#EndRegion '.\Public\Configurations\Set-ITGlueConfiguration.ps1' 260
+#EndRegion '.\Public\Configurations\Set-ITGlueConfiguration.ps1' 251
 #Region '.\Public\ConfigurationStatuses\Get-ITGlueConfigurationStatus.ps1' -1
 
 function Get-ITGlueConfigurationStatus {
@@ -2725,11 +3142,6 @@ function Get-ITGlueConfigurationStatus {
     .DESCRIPTION
         The Get-ITGlueConfigurationStatus cmdlet lists all or shows a
         defined configuration(s) status
-
-        This function can call the following endpoints:
-            Index = /configuration_statuses
-
-            Show =  /configuration_statuses/:id
 
     .PARAMETER FilterName
         Filter by configuration status name
@@ -2782,7 +3194,7 @@ function Get-ITGlueConfigurationStatus {
         https://celerium.github.io/Celerium.ITGlue/site/ConfigurationStatuses/Get-ITGlueConfigurationStatus.html
 
     .LINK
-        https://api.itglue.com/developer/#configuration-statuses-index
+        https://api.itglue.com/developer/#configuration-statuses
 #>
 
     [CmdletBinding(DefaultParameterSetName = 'Index')]
@@ -2849,7 +3261,7 @@ function Get-ITGlueConfigurationStatus {
     end {}
 
 }
-#EndRegion '.\Public\ConfigurationStatuses\Get-ITGlueConfigurationStatus.ps1' 133
+#EndRegion '.\Public\ConfigurationStatuses\Get-ITGlueConfigurationStatus.ps1' 128
 #Region '.\Public\ConfigurationStatuses\New-ITGlueConfigurationStatus.ps1' -1
 
 function New-ITGlueConfigurationStatus {
@@ -2860,9 +3272,6 @@ function New-ITGlueConfigurationStatus {
     .DESCRIPTION
         The New-ITGlueConfigurationStatus cmdlet creates a new configuration
         status in your account
-
-        Examples of JSON objects can be found under ITGlues developer documentation
-            https://api.itglue.com/developer
 
     .PARAMETER Data
         JSON body depending on bulk changes or not
@@ -2882,7 +3291,7 @@ function New-ITGlueConfigurationStatus {
         https://celerium.github.io/Celerium.ITGlue/site/ConfigurationStatuses/New-ITGlueConfigurationStatus.html
 
     .LINK
-        https://api.itglue.com/developer/#configuration-statuses-create
+        https://api.itglue.com/developer/#configuration-statuses
 #>
 
     [CmdletBinding(DefaultParameterSetName = 'Create', SupportsShouldProcess, ConfirmImpact = 'Low')]
@@ -2915,7 +3324,7 @@ function New-ITGlueConfigurationStatus {
     end {}
 
 }
-#EndRegion '.\Public\ConfigurationStatuses\New-ITGlueConfigurationStatus.ps1' 64
+#EndRegion '.\Public\ConfigurationStatuses\New-ITGlueConfigurationStatus.ps1' 61
 #Region '.\Public\ConfigurationStatuses\Set-ITGlueConfigurationStatus.ps1' -1
 
 function Set-ITGlueConfigurationStatus {
@@ -2928,9 +3337,6 @@ function Set-ITGlueConfigurationStatus {
         status in your account
 
         Returns 422 Bad Request error if trying to update an externally synced record
-
-        Examples of JSON objects can be found under ITGlues developer documentation
-            https://api.itglue.com/developer
 
     .PARAMETER ID
         Get a configuration status by id
@@ -2953,7 +3359,7 @@ function Set-ITGlueConfigurationStatus {
         https://celerium.github.io/Celerium.ITGlue/site/ConfigurationStatuses/Set-ITGlueConfigurationStatus.html
 
     .LINK
-        https://api.itglue.com/developer/#configuration-statuses-update
+        https://api.itglue.com/developer/#configuration-statuses
 #>
 
     [CmdletBinding(DefaultParameterSetName = 'Update', SupportsShouldProcess, ConfirmImpact = 'Medium')]
@@ -2989,7 +3395,7 @@ function Set-ITGlueConfigurationStatus {
     end {}
 
 }
-#EndRegion '.\Public\ConfigurationStatuses\Set-ITGlueConfigurationStatus.ps1' 72
+#EndRegion '.\Public\ConfigurationStatuses\Set-ITGlueConfigurationStatus.ps1' 69
 #Region '.\Public\ConfigurationTypes\Get-ITGlueConfigurationType.ps1' -1
 
 function Get-ITGlueConfigurationType {
@@ -3000,11 +3406,6 @@ function Get-ITGlueConfigurationType {
     .DESCRIPTION
         The Get-ITGlueConfigurationType cmdlet lists all or a single
         configuration type(s)
-
-        This function can call the following endpoints:
-            Index =  /configuration_types
-
-            Show =   /configuration_types/:id
 
     .PARAMETER FilterName
         Filter by configuration type name
@@ -3057,7 +3458,7 @@ function Get-ITGlueConfigurationType {
         https://celerium.github.io/Celerium.ITGlue/site/ConfigurationTypes/Get-ITGlueConfigurationType.html
 
     .LINK
-        https://api.itglue.com/developer/#configuration-types-index
+        https://api.itglue.com/developer/#configuration-types
 #>
 
     [CmdletBinding(DefaultParameterSetName = 'Index')]
@@ -3124,7 +3525,7 @@ function Get-ITGlueConfigurationType {
     end {}
 
 }
-#EndRegion '.\Public\ConfigurationTypes\Get-ITGlueConfigurationType.ps1' 133
+#EndRegion '.\Public\ConfigurationTypes\Get-ITGlueConfigurationType.ps1' 128
 #Region '.\Public\ConfigurationTypes\New-ITGlueConfigurationType.ps1' -1
 
 function New-ITGlueConfigurationType {
@@ -3134,9 +3535,6 @@ function New-ITGlueConfigurationType {
 
     .DESCRIPTION
         The New-ITGlueConfigurationType cmdlet creates a new configuration type
-
-        Examples of JSON objects can be found under ITGlues developer documentation
-            https://api.itglue.com/developer
 
     .PARAMETER Data
         JSON body depending on bulk changes or not
@@ -3156,7 +3554,7 @@ function New-ITGlueConfigurationType {
         https://celerium.github.io/Celerium.ITGlue/site/ConfigurationTypes/New-ITGlueConfigurationType.html
 
     .LINK
-        https://api.itglue.com/developer/#configuration-types-create
+        https://api.itglue.com/developer/#configuration-types
 #>
 
     [CmdletBinding(DefaultParameterSetName = 'Create', SupportsShouldProcess, ConfirmImpact = 'Low')]
@@ -3189,7 +3587,7 @@ function New-ITGlueConfigurationType {
     end {}
 
 }
-#EndRegion '.\Public\ConfigurationTypes\New-ITGlueConfigurationType.ps1' 63
+#EndRegion '.\Public\ConfigurationTypes\New-ITGlueConfigurationType.ps1' 60
 #Region '.\Public\ConfigurationTypes\Set-ITGlueConfigurationType.ps1' -1
 
 function Set-ITGlueConfigurationType {
@@ -3202,9 +3600,6 @@ function Set-ITGlueConfigurationType {
         in your account
 
         Returns 422 Bad Request error if trying to update an externally synced record
-
-        Examples of JSON objects can be found under ITGlues developer documentation
-            https://api.itglue.com/developer
 
     .PARAMETER ID
         Define the configuration type by id
@@ -3228,7 +3623,7 @@ function Set-ITGlueConfigurationType {
         https://celerium.github.io/Celerium.ITGlue/site/ConfigurationTypes/Set-ITGlueConfigurationType.html
 
     .LINK
-        https://api.itglue.com/developer/#configuration-types-update
+        https://api.itglue.com/developer/#configuration-types
 #>
 
     [CmdletBinding(DefaultParameterSetName = 'Update', SupportsShouldProcess, ConfirmImpact = 'Medium')]
@@ -3264,7 +3659,7 @@ function Set-ITGlueConfigurationType {
     end {}
 
 }
-#EndRegion '.\Public\ConfigurationTypes\Set-ITGlueConfigurationType.ps1' 73
+#EndRegion '.\Public\ConfigurationTypes\Set-ITGlueConfigurationType.ps1' 70
 #Region '.\Public\Contacts\Get-ITGlueContact.ps1' -1
 
 function Get-ITGlueContact {
@@ -3275,13 +3670,6 @@ function Get-ITGlueContact {
     .DESCRIPTION
         The Get-ITGlueContact cmdlet lists all or a single contact(s)
         from your account or a defined organization
-
-        This function can call the following endpoints:
-            Index = /contacts
-                    /organizations/:organization_id/relationships/contacts
-
-            Show =   /contacts/:id
-                    /organizations/:organization_id/relationships/contacts/:id
 
     .PARAMETER OrganizationID
         A valid organization Id in your account
@@ -3386,7 +3774,7 @@ function Get-ITGlueContact {
         https://celerium.github.io/Celerium.ITGlue/site/Contacts/Get-ITGlueContact.html
 
     .LINK
-        https://api.itglue.com/developer/#contacts-index
+        https://api.itglue.com/developer/#contacts
 #>
 
     [CmdletBinding(DefaultParameterSetName = 'Index')]
@@ -3536,7 +3924,7 @@ function Get-ITGlueContact {
     end {}
 
 }
-#EndRegion '.\Public\Contacts\Get-ITGlueContact.ps1' 270
+#EndRegion '.\Public\Contacts\Get-ITGlueContact.ps1' 263
 #Region '.\Public\Contacts\New-ITGlueContact.ps1' -1
 
 function New-ITGlueContact {
@@ -3549,9 +3937,6 @@ function New-ITGlueContact {
         under the organization specified
 
         Can also be used create multiple new contacts in bulk
-
-        Examples of JSON objects can be found under ITGlues developer documentation
-            https://api.itglue.com/developer
 
     .PARAMETER OrganizationID
         The organization id to create the contact(s) in
@@ -3575,7 +3960,7 @@ function New-ITGlueContact {
         https://celerium.github.io/Celerium.ITGlue/site/Contacts/New-ITGlueContact.html
 
     .LINK
-        https://api.itglue.com/developer/#contacts-create
+        https://api.itglue.com/developer/#contacts
 #>
 
     [CmdletBinding(DefaultParameterSetName = 'Create', SupportsShouldProcess, ConfirmImpact = 'Low')]
@@ -3616,7 +4001,7 @@ function New-ITGlueContact {
     end {}
 
 }
-#EndRegion '.\Public\Contacts\New-ITGlueContact.ps1' 78
+#EndRegion '.\Public\Contacts\New-ITGlueContact.ps1' 75
 #Region '.\Public\Contacts\Remove-ITGlueContact.ps1' -1
 
 function Remove-ITGlueContact {
@@ -3626,9 +4011,6 @@ function Remove-ITGlueContact {
 
     .DESCRIPTION
         The Remove-ITGlueContact cmdlet deletes one or more specified contacts
-
-        Examples of JSON objects can be found under ITGlues developer documentation
-            https://api.itglue.com/developer
 
     .PARAMETER OrganizationID
         A valid organization Id in your account
@@ -3692,7 +4074,7 @@ function Remove-ITGlueContact {
         https://celerium.github.io/Celerium.ITGlue/site/Contacts/Remove-ITGlueContact.html
 
     .LINK
-        https://api.itglue.com/developer/#contacts-bulk-destroy
+        https://api.itglue.com/developer/#contacts
 #>
 
     [CmdletBinding(DefaultParameterSetName = 'BulkDestroy', SupportsShouldProcess, ConfirmImpact = 'High')]
@@ -3800,7 +4182,7 @@ function Remove-ITGlueContact {
     end {}
 
 }
-#EndRegion '.\Public\Contacts\Remove-ITGlueContact.ps1' 182
+#EndRegion '.\Public\Contacts\Remove-ITGlueContact.ps1' 179
 #Region '.\Public\Contacts\Set-ITGlueContact.ps1' -1
 
 function Set-ITGlueContact {
@@ -3815,15 +4197,6 @@ function Set-ITGlueContact {
         Returns 422 Bad Request error if trying to update an externally synced record
 
         Any attributes you don't specify will remain unchanged
-
-        This function can call the following endpoints:
-            Update = /contacts/:id
-                    /organizations/:organization_id/relationships/contacts/:id
-
-            Bulk_Update =  /contacts
-
-        Examples of JSON objects can be found under ITGlues developer documentation
-            https://api.itglue.com/developer
 
     .PARAMETER OrganizationID
         A valid organization Id in your account
@@ -3884,7 +4257,7 @@ function Set-ITGlueContact {
         https://celerium.github.io/Celerium.ITGlue/site/Contacts/Set-ITGlueContact.html
 
     .LINK
-        https://api.itglue.com/developer/#contacts-update
+        https://api.itglue.com/developer/#contacts
 #>
 
     [CmdletBinding(DefaultParameterSetName = 'BulkUpdate', SupportsShouldProcess, ConfirmImpact = 'Medium')]
@@ -4004,7 +4377,7 @@ function Set-ITGlueContact {
     end {}
 
 }
-#EndRegion '.\Public\Contacts\Set-ITGlueContact.ps1' 202
+#EndRegion '.\Public\Contacts\Set-ITGlueContact.ps1' 193
 #Region '.\Public\ContactTypes\Get-ITGlueContactType.ps1' -1
 
 function Get-ITGlueContactType {
@@ -4015,11 +4388,6 @@ function Get-ITGlueContactType {
     .DESCRIPTION
         The Get-ITGlueContactType cmdlet returns a list of contacts types
         in your account
-
-        This function can call the following endpoints:
-            Index = /contact_types
-
-            Show =  /contact_types/:id
 
     .PARAMETER FilterName
         Filter by a contact type name
@@ -4072,7 +4440,7 @@ function Get-ITGlueContactType {
         https://celerium.github.io/Celerium.ITGlue/site/ContactTypes/Get-ITGlueContactType.html
 
     .LINK
-        https://api.itglue.com/developer/#contact-types-index
+        https://api.itglue.com/developer/#contact-types
 #>
 
     [CmdletBinding(DefaultParameterSetName = 'Index')]
@@ -4139,7 +4507,7 @@ function Get-ITGlueContactType {
     end {}
 
 }
-#EndRegion '.\Public\ContactTypes\Get-ITGlueContactType.ps1' 133
+#EndRegion '.\Public\ContactTypes\Get-ITGlueContactType.ps1' 128
 #Region '.\Public\ContactTypes\New-ITGlueContactType.ps1' -1
 
 function New-ITGlueContactType {
@@ -4150,9 +4518,6 @@ function New-ITGlueContactType {
     .DESCRIPTION
         The New-ITGlueContactType cmdlet creates a new contact type in
         your account
-
-        Examples of JSON objects can be found under ITGlues developer documentation
-            https://api.itglue.com/developer
 
     .PARAMETER Data
         JSON body depending on bulk changes or not
@@ -4172,7 +4537,7 @@ function New-ITGlueContactType {
         https://celerium.github.io/Celerium.ITGlue/site/ContactTypes/New-ITGlueContactType.html
 
     .LINK
-        https://api.itglue.com/developer/#contact-types-create
+        https://api.itglue.com/developer/#contact-types
 #>
 
     [CmdletBinding(DefaultParameterSetName = 'Create', SupportsShouldProcess, ConfirmImpact = 'Low')]
@@ -4205,7 +4570,7 @@ function New-ITGlueContactType {
     end {}
 
 }
-#EndRegion '.\Public\ContactTypes\New-ITGlueContactType.ps1' 64
+#EndRegion '.\Public\ContactTypes\New-ITGlueContactType.ps1' 61
 #Region '.\Public\ContactTypes\Set-ITGlueContactType.ps1' -1
 
 function Set-ITGlueContactType {
@@ -4218,9 +4583,6 @@ function Set-ITGlueContactType {
         in your account
 
         Returns 422 Bad Request error if trying to update an externally synced record
-
-        Examples of JSON objects can be found under ITGlues developer documentation
-            https://api.itglue.com/developer
 
     .PARAMETER ID
         Define the contact type id to update
@@ -4243,7 +4605,7 @@ function Set-ITGlueContactType {
         https://celerium.github.io/Celerium.ITGlue/site/ContactTypes/Set-ITGlueContactType.html
 
     .LINK
-        https://api.itglue.com/developer/#contact-types-update
+        https://api.itglue.com/developer/#contact-types
 #>
 
     [CmdletBinding(DefaultParameterSetName = 'Update', SupportsShouldProcess, ConfirmImpact = 'Medium')]
@@ -4279,346 +4641,7 @@ function Set-ITGlueContactType {
     end {}
 
 }
-#EndRegion '.\Public\ContactTypes\Set-ITGlueContactType.ps1' 72
-#Region '.\Public\CopilotSmartAssist\Get-ITGlueCopilotSmartAssistDocument.ps1' -1
-
-function Get-ITGlueCopilotSmartAssistDocument {
-<#
-    .SYNOPSIS
-        Gets one or more documents found in the ITGlue Copilot Smart Assist
-
-    .DESCRIPTION
-        The Get-ITGlueCopilotSmartAssistDocument cmdlet gets one or more documents found
-        in the ITGlue Copilot Smart Assist such as 'Documents not viewed in X amount of time',
-        'Documents that were never viewed', 'Documents that are expired', and 'Duplicate documents'
-
-        Present a list of 'Most Used' documents to facilitate best practices across organizations
-        (when filter by type is not provided)
-
-        This function can call the following endpoints:
-            Index = /copilot_smart_assist/documents
-
-    .PARAMETER FilterType
-        Filter by type
-
-        Allowed values:
-        'stale', 'not_viewed', 'expired'
-
-    .PARAMETER FilterOrganizationID
-        Filter by an organization ID
-
-    .PARAMETER PageNumber
-        Return results starting from the defined number
-
-    .PARAMETER PageSize
-        Number of results to return per page
-
-        The maximum number of page results that can be
-        requested is 1000
-
-    .PARAMETER AllResults
-        Returns all items from an endpoint
-
-        This can be used in unison with -PageSize to limit the number of
-        sequential requests to the API
-
-    .EXAMPLE
-        Get-ITGlueCopilotSmartAssistDocument
-
-        Returns the first 50 documents from your ITGlue account
-
-    .EXAMPLE
-        Get-ITGlueCopilotSmartAssistDocument -OrganizationID 8765309
-
-        Returns the first 50 documents from the defined organization
-
-    .EXAMPLE
-        Get-ITGlueCopilotSmartAssistDocument -PageNumber 2 -PageSize 10
-
-        Returns the first 10 results from the second page for documents
-        in your ITGlue account
-
-    .NOTES
-        N/A
-
-    .LINK
-        https://celerium.github.io/Celerium.ITGlue/site/CopilotSmartAssist/Get-ITGlueCopilotSmartAssistDocument.html
-
-    .LINK
-        https://api.itglue.com/developer#copilot-smart-assist-documents
-#>
-
-    [CmdletBinding(DefaultParameterSetName = 'Index')]
-    Param (
-        [Parameter(ParameterSetName = 'Index')]
-        [ValidateSet( 'stale', 'not_viewed', 'expired', 'duplicate' )]
-        [string]$FilterType,
-
-        [Parameter(ParameterSetName = 'Index')]
-        [int64]$FilterOrganizationID,
-
-        [Parameter(ParameterSetName = 'Index')]
-        [int64]$PageNumber,
-
-        [Parameter(ParameterSetName = 'Index')]
-        [ValidateRange(1,1000)]
-        [int]$PageSize,
-
-        [Parameter(ParameterSetName = 'Index')]
-        [switch]$AllResults
-    )
-
-    begin {
-
-        $FunctionName       = $MyInvocation.InvocationName
-        $ParameterName      = $functionName + '_Parameters'      -replace '-','_'
-        $QueryParameterName = $functionName + '_ParametersQuery' -replace '-','_'
-
-    }
-
-    process {
-
-        Write-Verbose "[ $FunctionName ] - Running the [ $($PSCmdlet.ParameterSetName) ] parameterSet"
-
-        switch ([bool]$OrganizationID) {
-            $true   { $ResourceUri = "/organizations/$OrganizationID/copilot_smart_assist/documents" }
-            $false  { $ResourceUri = "/copilot_smart_assist/documents" }
-        }
-
-        $UriParameters = @{}
-
-        #Region     [ Parameter Translation ]
-
-        if ($PSCmdlet.ParameterSetName -eq 'Index') {
-            if ($FilterType)            { $UriParameters['filter[type]']             = $FilterID }
-            if ($FilterOrganizationID)  { $UriParameters['filter[organization_id]']  = $FilterOrganizationID}
-            if ($PageNumber)            { $UriParameters['page[number]']             = $PageNumber }
-            if ($PageSize)              { $UriParameters['page[size]']               = $PageSize }
-        }
-
-        #EndRegion  [ Parameter Translation ]
-
-        Set-Variable -Name $ParameterName -Value $PSBoundParameters -Scope Global -Force -Confirm:$false
-        Set-Variable -Name $QueryParameterName -Value $UriParameters -Scope Global -Force -Confirm:$false
-
-        return Invoke-ITGlueRequest -Method GET -ResourceURI $ResourceUri -UriFilter $UriParameters -AllResults:$AllResults
-
-    }
-
-    end {}
-
-}
-#EndRegion '.\Public\CopilotSmartAssist\Get-ITGlueCopilotSmartAssistDocument.ps1' 127
-#Region '.\Public\CopilotSmartAssist\Remove-ITGlueCopilotSmartAssistDocument.ps1' -1
-
-function Remove-ITGlueCopilotSmartAssistDocument {
-<#
-    .SYNOPSIS
-        Deletes one or more documents found in the ITGlue Copilot Smart Assist
-
-    .DESCRIPTION
-        The Remove-ITGlueCopilotSmartAssistDocument cmdlet deletes one or more documents
-        found in the ITGlue Copilot Smart Assist
-
-        Any attributes you don't specify will remain unchanged
-
-        This function can call the following endpoints:
-            Bulk_Destroy =  /copilot_smart_assist/documents
-                            /organizations/:organization_id/copilot_smart_assist/documents
-
-        Examples of JSON objects can be found under ITGlues developer documentation
-            https://api.itglue.com/developer
-
-    .PARAMETER FilterType
-        Filter by type
-
-        Allowed values:
-        'stale', 'not_viewed', 'expired'
-
-    .PARAMETER FilterOrganizationID
-        Filter by an organization ID
-
-    .PARAMETER Data
-        JSON body depending on bulk changes or not
-
-        Do NOT include the "Data" property in the JSON object as this is handled
-        by the Invoke-ITGlueRequest function
-
-    .EXAMPLE
-        Remove-ITGlueCopilotSmartAssistDocument -Data $JsonBody
-
-        Deletes the defined document with the specified JSON body
-
-    .NOTES
-        N/A
-
-    .LINK
-        https://celerium.github.io/Celerium.ITGlue/site/CopilotSmartAssist/Remove-ITGlueCopilotSmartAssistDocument.html
-
-    .LINK
-        https://api.itglue.com/developer#copilot-smart-assist-bulk-destroy
-#>
-
-    [CmdletBinding(DefaultParameterSetName = 'BulkDestroy', SupportsShouldProcess, ConfirmImpact = 'High')]
-    Param (
-        [Parameter(ParameterSetName = 'BulkDestroy')]
-        [ValidateSet( 'stale', 'not_viewed', 'expired', 'duplicate' )]
-        [string]$FilterType,
-
-        [Parameter(ParameterSetName = 'BulkDestroy')]
-        [int64]$FilterOrganizationID,
-
-        [Parameter(ParameterSetName = 'BulkDestroy', Mandatory = $true)]
-        $Data
-
-    )
-
-    begin {
-
-        $FunctionName       = $MyInvocation.InvocationName
-        $ParameterName      = $functionName + '_Parameters'      -replace '-','_'
-        $QueryParameterName = $functionName + '_ParametersQuery' -replace '-','_'
-
-    }
-
-    process {
-
-        Write-Verbose "[ $FunctionName ] - Running the [ $($PSCmdlet.ParameterSetName) ] parameterSet"
-
-        switch ([bool]$OrganizationID) {
-            $true   { $ResourceUri = "/organizations/$OrganizationID/copilot_smart_assist/documents" }
-            $false  { $ResourceUri = "/copilot_smart_assist/documents" }
-        }
-
-        $UriParameters = @{}
-
-        #Region     [ Parameter Translation ]
-
-        if ($PSCmdlet.ParameterSetName -eq "Bulk_Destroy") {
-            if ($FilterType)            { $UriParameters['filter[type]']             = $FilterID }
-            if ($FilterOrganizationID)  { $UriParameters['filter[organization_id]']  = $FilterOrganizationID}
-        }
-
-        #EndRegion  [ Parameter Translation ]
-
-        Set-Variable -Name $ParameterName -Value $PSBoundParameters -Scope Global -Force -Confirm:$false
-        Set-Variable -Name $QueryParameterName -Value $UriParameters -Scope Global -Force -Confirm:$false
-
-        if ($PSCmdlet.ShouldProcess($ResourceUri)) {
-            return Invoke-ITGlueRequest -Method DELETE -ResourceURI $ResourceUri -UriFilter $UriParameters -Data $Data
-        }
-
-    }
-
-    end {}
-
-}
-#EndRegion '.\Public\CopilotSmartAssist\Remove-ITGlueCopilotSmartAssistDocument.ps1' 103
-#Region '.\Public\CopilotSmartAssist\Set-ITGlueCopilotSmartAssistDocument.ps1' -1
-
-function Set-ITGlueCopilotSmartAssistDocument {
-<#
-    .SYNOPSIS
-        Updates one or more documents found in the ITGlue Copilot Smart Assist
-
-    .DESCRIPTION
-        The Set-ITGlueCopilotSmartAssistDocument cmdlet updates (archives) one or more documents
-        found in the ITGlue Copilot Smart Assist
-
-        Any attributes you don't specify will remain unchanged
-
-        This function can call the following endpoints:
-            Bulk_Update =   /copilot_smart_assist/documents
-                            /organizations/:organization_id/copilot_smart_assist/documents
-
-        Examples of JSON objects can be found under ITGlues developer documentation
-            https://api.itglue.com/developer
-
-    .PARAMETER FilterType
-        Filter by type
-
-        Allowed values:
-        'stale', 'not_viewed', 'expired'
-
-    .PARAMETER FilterOrganizationID
-        Filter by an organization ID
-
-    .PARAMETER Data
-        JSON body depending on bulk changes or not
-
-        Do NOT include the "Data" property in the JSON object as this is handled
-        by the Invoke-ITGlueRequest function
-
-    .EXAMPLE
-        Set-ITGlueCopilotSmartAssistDocument -Data $JsonBody
-
-        Updates the defined document with the specified JSON body
-
-    .NOTES
-        N/A
-
-    .LINK
-        https://celerium.github.io/Celerium.ITGlue/site/CopilotSmartAssist/Set-ITGlueCopilotSmartAssistDocument.html
-
-    .LINK
-        https://api.itglue.com/developer#copilot-smart-assist-bulk-update
-#>
-
-    [CmdletBinding(DefaultParameterSetName = 'BulkUpdate', SupportsShouldProcess, ConfirmImpact = 'Medium')]
-    Param (
-        [Parameter(ParameterSetName = 'BulkUpdate')]
-        [ValidateSet( 'stale', 'not_viewed', 'expired', 'duplicate' )]
-        [string]$FilterType,
-
-        [Parameter(ParameterSetName = 'BulkUpdate')]
-        [int64]$FilterOrganizationID,
-
-        [Parameter(ParameterSetName = 'BulkUpdate', Mandatory = $true)]
-        $Data
-
-    )
-
-    begin {
-
-        $FunctionName       = $MyInvocation.InvocationName
-        $ParameterName      = $functionName + '_Parameters'      -replace '-','_'
-        $QueryParameterName = $functionName + '_ParametersQuery' -replace '-','_'
-
-    }
-
-    process {
-
-        Write-Verbose "[ $FunctionName ] - Running the [ $($PSCmdlet.ParameterSetName) ] parameterSet"
-
-        switch ([bool]$OrganizationID) {
-            $true   { $ResourceUri = "/organizations/$OrganizationID/copilot_smart_assist/documents" }
-            $false  { $ResourceUri = "/copilot_smart_assist/documents" }
-        }
-
-        $UriParameters = @{}
-
-        #Region     [ Parameter Translation ]
-
-        if ($PSCmdlet.ParameterSetName -eq "Bulk_Update") {
-            if ($FilterType)            { $UriParameters['filter[type]']             = $FilterID }
-            if ($FilterOrganizationID)  { $UriParameters['filter[organization_id]']  = $FilterOrganizationID}
-        }
-
-        #EndRegion  [ Parameter Translation ]
-
-        Set-Variable -Name $ParameterName -Value $PSBoundParameters -Scope Global -Force -Confirm:$false
-        Set-Variable -Name $QueryParameterName -Value $UriParameters -Scope Global -Force -Confirm:$false
-
-        if ($PSCmdlet.ShouldProcess($ResourceUri)) {
-            return Invoke-ITGlueRequest -Method PATCH -ResourceURI $ResourceUri -UriFilter $UriParameters -Data $Data
-        }
-
-    }
-
-    end {}
-
-}
-#EndRegion '.\Public\CopilotSmartAssist\Set-ITGlueCopilotSmartAssistDocument.ps1' 103
+#EndRegion '.\Public\ContactTypes\Set-ITGlueContactType.ps1' 69
 #Region '.\Public\Countries\Get-ITGlueCountry.ps1' -1
 
 function Get-ITGlueCountry {
@@ -4629,11 +4652,6 @@ function Get-ITGlueCountry {
     .DESCRIPTION
         The Get-ITGlueCountry cmdlet returns a list of supported countries
         as well or details of one of the supported countries
-
-        This function can call the following endpoints:
-            Index = /countries
-
-            Show =  /countries/:id
 
     .PARAMETER FilterName
         Filter by country name
@@ -4689,7 +4707,7 @@ function Get-ITGlueCountry {
         https://celerium.github.io/Celerium.ITGlue/site/Countries/Get-ITGlueCountry.html
 
     .LINK
-        https://api.itglue.com/developer/#countries-index
+        https://api.itglue.com/developer/#countries
 #>
 
     [CmdletBinding(DefaultParameterSetName = 'Index')]
@@ -4759,7 +4777,579 @@ function Get-ITGlueCountry {
     end {}
 
 }
-#EndRegion '.\Public\Countries\Get-ITGlueCountry.ps1' 139
+#EndRegion '.\Public\Countries\Get-ITGlueCountry.ps1' 134
+#Region '.\Public\DocumentImages\Get-ITGlueDocumentImage.ps1' -1
+
+function Get-ITGlueDocumentImage {
+<#
+    .SYNOPSIS
+        Returns details of a specific document image including URLs
+        for all size variants
+
+    .DESCRIPTION
+        The Get-ITGlueDocumentImage cmdlet returns details of a specific
+        document image including URLs for all size variants
+
+    .PARAMETER ID
+        Image id
+
+    .EXAMPLE
+        Get-ITGlueDocumentImage -Id 8765309
+
+        Returns details of a specific document image including URLs for all size variants
+
+    .NOTES
+        N/A
+
+    .LINK
+        https://celerium.github.io/Celerium.ITGlue/site/DocumentImages/Get-ITGlueDocumentImage.html
+
+    .LINK
+        https://api.itglue.com/developer/#documentimages
+#>
+
+    [CmdletBinding(DefaultParameterSetName = 'Show')]
+    Param (
+        [Parameter(ParameterSetName = 'Show', ValueFromPipeline = $true , Mandatory = $true)]
+        [int64]$Id
+    )
+
+    begin {
+
+        $FunctionName       = $MyInvocation.InvocationName
+        $ParameterName      = $functionName + '_Parameters'      -replace '-','_'
+
+    }
+
+    process {
+
+        Write-Verbose "[ $FunctionName ] - Running the [ $($PSCmdlet.ParameterSetName) ] parameterSet"
+
+        $ResourceUri = "/document_images/$Id"
+
+        Set-Variable -Name $ParameterName -Value $PSBoundParameters -Scope Global -Force -Confirm:$false
+
+        return Invoke-ITGlueRequest -Method GET -ResourceURI $ResourceUri
+
+    }
+
+    end {}
+
+}
+#EndRegion '.\Public\DocumentImages\Get-ITGlueDocumentImage.ps1' 57
+#Region '.\Public\DocumentImages\New-ITGlueDocumentImage.ps1' -1
+
+function New-ITGlueDocumentImage {
+<#
+    .SYNOPSIS
+        Creates a new document image
+
+    .DESCRIPTION
+        The New-ITGlueDocumentImage cmdlet creates a new document image
+
+        Images are placed using the 'target' attribute which specifies whether the
+        image is for a gallery or inline in a document
+
+        The image must be uploaded as Base64-encoded content with a file name.
+
+        Required attributes:
+        target:             { type: 'gallery'|'document', id: integer }
+        image.content:      Base64-encoded image data
+        image.file-name:    Original filename with extension
+
+    .PARAMETER Data
+        JSON body depending on bulk changes or not
+
+        Do NOT include the "Data" property in the JSON object as this is handled
+        by the Invoke-ITGlueRequest function
+
+    .EXAMPLE
+        New-ITGlueDocumentImage -Data $JsonBody
+
+        Creates a new image with the structured JSON object
+
+    .NOTES
+        N/A
+
+    .LINK
+        https://celerium.github.io/Celerium.ITGlue/site/DocumentImages/New-ITGlueDocumentImage.html
+
+    .LINK
+        https://api.itglue.com/developer/#documentimages
+#>
+
+    [CmdletBinding(DefaultParameterSetName = 'Create', SupportsShouldProcess, ConfirmImpact = 'Low')]
+    Param (
+        [Parameter(ParameterSetName = 'Create', ValueFromPipeline = $true , Mandatory = $true)]
+        $Data
+    )
+
+    begin {
+
+        $FunctionName       = $MyInvocation.InvocationName
+        $ParameterName      = $functionName + '_Parameters'      -replace '-','_'
+
+    }
+
+    process {
+
+        Write-Verbose "[ $FunctionName ] - Running the [ $($PSCmdlet.ParameterSetName) ] parameterSet"
+
+        $ResourceUri = "/document_images"
+
+        Set-Variable -Name $ParameterName -Value $PSBoundParameters -Scope Global -Force -Confirm:$false
+
+        return Invoke-ITGlueRequest -Method POST -ResourceURI $ResourceUri -Data $Data
+
+    }
+
+    end {}
+
+}
+#EndRegion '.\Public\DocumentImages\New-ITGlueDocumentImage.ps1' 68
+#Region '.\Public\DocumentImages\Remove-ITGlueDocumentImage.ps1' -1
+
+function Remove-ITGlueDocumentImage {
+<#
+    .SYNOPSIS
+        Deletes the specified document image and all its size variants
+
+    .DESCRIPTION
+        The Remove-ITGlueDocumentImage cmdlet deletes the specified document image
+        and all its size variants
+
+        Deleting an image that is referenced in document content (as an inline image) will not
+        automatically remove the <img> tags from the content
+        The inline image validation will remove broken image references on the next content save
+
+    .PARAMETER ID
+        Image id
+
+    .EXAMPLE
+        Remove-ITGlueDocumentImage -ID 12345
+
+        Deletes the image with the specified ID
+
+    .NOTES
+        N/A
+
+    .LINK
+        https://celerium.github.io/Celerium.ITGlue/site/DocumentImages/Remove-ITGlueDocumentImage.html
+
+    .LINK
+        https://api.itglue.com/developer/#documentimages
+#>
+
+    [CmdletBinding(DefaultParameterSetName = 'Destroy', SupportsShouldProcess, ConfirmImpact = 'High')]
+    Param (
+        [Parameter(ParameterSetName = 'Destroy', ValueFromPipeline = $true , Mandatory = $true)]
+        [int64]$Id
+    )
+
+    begin {
+
+        $FunctionName       = $MyInvocation.InvocationName
+        $ParameterName      = $functionName + '_Parameters'      -replace '-','_'
+
+    }
+
+    process {
+
+        Write-Verbose "[ $FunctionName ] - Running the [ $($PSCmdlet.ParameterSetName) ] parameterSet"
+
+        $ResourceUri = "/document_images/$Id"
+
+        Set-Variable -Name $ParameterName -Value $PSBoundParameters -Scope Global -Force -Confirm:$false
+
+        return Invoke-ITGlueRequest -Method DELETE -ResourceURI $ResourceUri
+
+    }
+
+    end {}
+
+}
+#EndRegion '.\Public\DocumentImages\Remove-ITGlueDocumentImage.ps1' 60
+#Region '.\Public\Documents\Get-ITGlueDocument.ps1' -1
+
+function Get-ITGlueDocument {
+<#
+    .SYNOPSIS
+        Returns a list of documents
+
+    .DESCRIPTION
+        The Get-ITGlueDocument cmdlet returns a list of documents
+        or return complete information of a document including its sections
+
+        Index
+        Returns only root level documents when document_folder_id is not specified
+
+    .PARAMETER OrganizationID
+        A valid organization Id in your account
+
+    .PARAMETER FilterDocumentFolderId
+        Filter document folder id
+
+    .PARAMETER PageNumber
+        Return results starting from the defined number
+
+    .PARAMETER PageSize
+        Number of results to return per page
+
+        The maximum number of page results that can be
+        requested is 1000
+
+    .PARAMETER ID
+        Get a document by id
+
+    .PARAMETER Include
+        Include additional values
+
+        Allowed values:
+        'attachments', 'related_items'
+
+    .PARAMETER AllResults
+        Returns all items from an endpoint
+
+        This can be used in unison with -PageSize to limit the number of
+        sequential requests to the API
+
+    .EXAMPLE
+        Get-ITGlueDocument
+
+        Returns the first 50 document results from your ITGlue account
+
+    .EXAMPLE
+        Get-ITGlueDocument -ID 8765309
+
+        Returns the document with the defined id
+
+    .EXAMPLE
+        Get-ITGlueDocument -PageNumber 2 -PageSize 10
+
+        Returns the first 10 results from the second page for documents
+        in your ITGlue account
+
+    .NOTES
+        N/A
+
+    .LINK
+        https://celerium.github.io/Celerium.ITGlue/site/Documents/Get-ITGlueDocument.html
+
+    .LINK
+        https://api.itglue.com/developer/#documents
+#>
+
+    [CmdletBinding(DefaultParameterSetName = 'Index')]
+    Param (
+        [Parameter(ParameterSetName = 'Index', ValueFromPipeline = $true , Mandatory = $true)]
+        [Parameter(ParameterSetName = 'Show')]
+        [int64]$OrganizationID,
+
+        [Parameter(ParameterSetName = 'Index')]
+        [int64]$FilterDocumentFolderId,
+
+        [Parameter(ParameterSetName = 'Index')]
+        [int64]$PageNumber,
+
+        [Parameter(ParameterSetName = 'Index')]
+        [ValidateRange(1,1000)]
+        [int]$PageSize,
+
+        [Parameter(ParameterSetName = 'Show', ValueFromPipeline = $true , Mandatory = $true)]
+        [int64]$ID,
+
+        [Parameter(ParameterSetName = 'Show')]
+        [ValidateSet('attachments', 'related_items')]
+        [int64]$Include,
+
+        [Parameter(ParameterSetName = 'Index')]
+        [switch]$AllResults
+    )
+
+    begin {
+
+        $FunctionName       = $MyInvocation.InvocationName
+        $ParameterName      = $functionName + '_Parameters'      -replace '-','_'
+        $QueryParameterName = $functionName + '_ParametersQuery' -replace '-','_'
+
+    }
+
+    process {
+
+        Write-Verbose "[ $FunctionName ] - Running the [ $($PSCmdlet.ParameterSetName) ] parameterSet"
+
+        switch ($PSCmdlet.ParameterSetName) {
+            'Index' { $ResourceUri = "/organizations/$OrganizationID/relationships/documents" }
+            'Show'  {
+
+                switch ([bool]$OrganizationID) {
+                    $true   { $ResourceUri = "/organizations/$OrganizationID/relationships/documents/$ID" }
+                    $false  { $ResourceUri = "/documents/$ID" }
+                }
+
+            }
+        }
+
+        $UriParameters = @{}
+
+        #Region     [ Parameter Translation ]
+
+        if ($PSCmdlet.ParameterSetName -eq 'Index') {
+            if ($FilterDocumentFolderId)    { $UriParameters['filter[document_folder_id]']  = $FilterDocumentFolderId }
+            if ($Sort)                      { $UriParameters['sort']                        = $Sort }
+            if ($PageNumber)                { $UriParameters['page[number]']                = $PageNumber }
+            if ($PageSize)                  { $UriParameters['page[size]']                  = $PageSize }
+        }
+
+        if ($PSCmdlet.ParameterSetName -eq 'Show') {
+            if ($Include) { $UriParameters['include']   = $Include }
+        }
+
+        #EndRegion  [ Parameter Translation ]
+
+        Set-Variable -Name $ParameterName -Value $PSBoundParameters -Scope Global -Force -Confirm:$false
+        Set-Variable -Name $QueryParameterName -Value $UriParameters -Scope Global -Force -Confirm:$false
+
+        return Invoke-ITGlueRequest -Method GET -ResourceURI $ResourceUri -UriFilter $UriParameters -AllResults:$AllResults
+
+    }
+
+    end {}
+
+}
+#EndRegion '.\Public\Documents\Get-ITGlueDocument.ps1' 147
+#Region '.\Public\Documents\New-ITGlueDocument.ps1' -1
+
+function New-ITGlueDocument {
+<#
+    .SYNOPSIS
+        Creates a new document
+
+    .DESCRIPTION
+        The New-ITGlueDocument cmdlet creates a new document
+
+    .PARAMETER OrganizationID
+        The organization id to create the flexible asset in
+
+    .PARAMETER Data
+        JSON body depending on bulk changes or not
+
+        Do NOT include the "Data" property in the JSON object as this is handled
+        by the Invoke-ITGlueRequest function
+
+    .EXAMPLE
+        New-ITGlueDocument -OrganizationID 8675309 -Data $JsonBody
+
+        Creates a new flexible asset in the defined organization with the structured
+        JSON object
+
+    .NOTES
+        N/A
+
+    .LINK
+        https://celerium.github.io/Celerium.ITGlue/site/Documents/New-ITGlueDocument.html
+
+    .LINK
+        https://api.itglue.com/developer/#documents
+#>
+
+    [CmdletBinding(DefaultParameterSetName = 'Create', SupportsShouldProcess, ConfirmImpact = 'Low')]
+    Param (
+        [Parameter(ParameterSetName = 'Create')]
+        [int64]$OrganizationID,
+
+        [Parameter(ParameterSetName = 'Create', Mandatory = $true)]
+        $Data
+    )
+
+    begin {
+
+        $FunctionName       = $MyInvocation.InvocationName
+        $ParameterName      = $functionName + '_Parameters'      -replace '-','_'
+
+    }
+
+    process {
+
+        Write-Verbose "[ $FunctionName ] - Running the [ $($PSCmdlet.ParameterSetName) ] parameterSet"
+
+        switch ([bool]$OrganizationID) {
+            $true   { $ResourceUri = "/organizations/$OrganizationID/relationships/documents" }
+            $false  { $ResourceUri = '/documents' }
+        }
+
+        Set-Variable -Name $ParameterName -Value $PSBoundParameters -Scope Global -Force -Confirm:$false
+
+        if ($PSCmdlet.ShouldProcess($ResourceUri)) {
+            return Invoke-ITGlueRequest -Method POST -ResourceURI $ResourceUri -Data $Data
+        }
+
+    }
+
+    end {}
+
+}
+#EndRegion '.\Public\Documents\New-ITGlueDocument.ps1' 70
+#Region '.\Public\Documents\Publish-ITGlueDocument.ps1' -1
+
+function Publish-ITGlueDocument {
+<#
+    .SYNOPSIS
+        Publishes a document
+
+    .DESCRIPTION
+        The Publish-ITGlueDocument cmdlet publishes a document
+
+    .PARAMETER OrganizationID
+        The organization id to create the document in
+
+    .PARAMETER ID
+        Document ID
+
+    .EXAMPLE
+        Publish-ITGlueDocument -ID 8675309
+
+        Publishes the defined document
+
+    .NOTES
+        N/A
+
+    .LINK
+        https://celerium.github.io/Celerium.ITGlue/site/Documents/Publish-ITGlueDocument.html
+
+    .LINK
+        https://api.itglue.com/developer/#documents
+#>
+
+    [CmdletBinding(DefaultParameterSetName = 'Publish', SupportsShouldProcess, ConfirmImpact = 'Low')]
+    Param (
+        [Parameter(ParameterSetName = 'Publish')]
+        [int64]$OrganizationID,
+
+        [Parameter(ParameterSetName = 'Publish', Mandatory = $true)]
+        [int64]$ID
+    )
+
+    begin {
+
+        $FunctionName       = $MyInvocation.InvocationName
+        $ParameterName      = $functionName + '_Parameters'      -replace '-','_'
+
+    }
+
+    process {
+
+        Write-Verbose "[ $FunctionName ] - Running the [ $($PSCmdlet.ParameterSetName) ] parameterSet"
+
+        switch ([bool]$OrganizationID) {
+            $true   { $ResourceUri = "/organizations/$OrganizationID/relationships/documents/$ID/publish" }
+            $false  { $ResourceUri = "/documents/$ID/publish" }
+        }
+
+        Set-Variable -Name $ParameterName -Value $PSBoundParameters -Scope Global -Force -Confirm:$false
+
+        if ($PSCmdlet.ShouldProcess($ResourceUri)) {
+            return Invoke-ITGlueRequest -Method PATCH -ResourceURI $ResourceUri
+        }
+
+    }
+
+    end {}
+
+}
+#EndRegion '.\Public\Documents\Publish-ITGlueDocument.ps1' 66
+#Region '.\Public\Documents\Remove-ITGlueDocument.ps1' -1
+
+function Remove-ITGlueDocument {
+<#
+    .SYNOPSIS
+        Deletes a new document
+
+    .DESCRIPTION
+        The Remove-ITGlueDocument cmdlet deletes a new document
+
+    .PARAMETER OrganizationID
+        The organization id to create the document in
+
+    .PARAMETER ID
+        Document ID
+
+    .PARAMETER Data
+        JSON body depending on bulk changes or not
+
+        Do NOT include the "Data" property in the JSON object as this is handled
+        by the Invoke-ITGlueRequest function
+
+    .EXAMPLE
+        Remove-ITGlueDocument -ID 8675309
+
+        Deletes the defined document
+
+    .EXAMPLE
+        Remove-ITGlueDocument -OrganizationID 8675309 -Data $JsonBody
+
+        Deletes the defined document in the specified organization with the structured
+        JSON object
+
+    .NOTES
+        N/A
+
+    .LINK
+        https://celerium.github.io/Celerium.ITGlue/site/Documents/Remove-ITGlueDocument.html
+
+    .LINK
+        https://api.itglue.com/developer/#documents
+#>
+
+    [CmdletBinding(DefaultParameterSetName = 'Bulk_Destroy', SupportsShouldProcess, ConfirmImpact = 'High')]
+    Param (
+        [Parameter(ParameterSetName = 'Bulk_Destroy')]
+        [int64]$OrganizationID,
+
+        [Parameter(ParameterSetName = 'Destroy', Mandatory = $true)]
+        [int64]$ID,
+
+        [Parameter(ParameterSetName = 'Bulk_Destroy', Mandatory = $true)]
+        $Data
+    )
+
+    begin {
+
+        $FunctionName       = $MyInvocation.InvocationName
+        $ParameterName      = $functionName + '_Parameters'      -replace '-','_'
+
+    }
+
+    process {
+
+        Write-Verbose "[ $FunctionName ] - Running the [ $($PSCmdlet.ParameterSetName) ] parameterSet"
+
+        switch ([bool]$OrganizationID) {
+            $true   { $ResourceUri = "/organizations/$OrganizationID/relationships/documents" }
+            $false  { $ResourceUri = '/documents' }
+        }
+
+        if ($PSCmdlet.ParameterSetName -eq 'Destroy') {
+            $Data = @{
+                type        = 'documents'
+                attributes  = @{
+                    id = $ID
+                }
+            }
+        }
+
+        Set-Variable -Name $ParameterName -Value $PSBoundParameters -Scope Global -Force -Confirm:$false
+
+        if ($PSCmdlet.ShouldProcess($ResourceUri)) {
+            return Invoke-ITGlueRequest -Method DELETE -ResourceURI $ResourceUri -Data $Data
+        }
+
+    }
+
+    end {}
+
+}
+#EndRegion '.\Public\Documents\Remove-ITGlueDocument.ps1' 90
 #Region '.\Public\Documents\Set-ITGlueDocument.ps1' -1
 
 function Set-ITGlueDocument {
@@ -4771,15 +5361,6 @@ function Set-ITGlueDocument {
         The Set-ITGlueDocument cmdlet updates one or more existing documents
 
         Any attributes you don't specify will remain unchanged
-
-        This function can call the following endpoints:
-            Update =    /documents/:id
-                        /organizations/:organization_id/relationships/documents/:id
-
-            Bulk_Update =  /documents
-
-        Examples of JSON objects can be found under ITGlues developer documentation
-            https://api.itglue.com/developer
 
     .PARAMETER OrganizationID
         A valid organization Id in your Account
@@ -4805,7 +5386,7 @@ function Set-ITGlueDocument {
         https://celerium.github.io/Celerium.ITGlue/site/Documents/Set-ITGlueDocument.html
 
     .LINK
-        https://api.itglue.com/developer/#documents-update
+        https://api.itglue.com/developer/#documents
 #>
 
     [CmdletBinding(DefaultParameterSetName = 'BulkUpdate', SupportsShouldProcess, ConfirmImpact = 'Medium')]
@@ -4859,7 +5440,362 @@ function Set-ITGlueDocument {
     end {}
 
 }
-#EndRegion '.\Public\Documents\Set-ITGlueDocument.ps1' 98
+#EndRegion '.\Public\Documents\Set-ITGlueDocument.ps1' 89
+#Region '.\Public\DocumentSections\Get-ITGlueDocumentSection.ps1' -1
+
+function Get-ITGlueDocumentSection {
+<#
+    .SYNOPSIS
+        Returns a list of sections for the specified document
+
+    .DESCRIPTION
+        The Get-ITGlueDocumentSection cmdlet returns a list of sections
+        for the specified document, ordered by sort
+
+        Sections are polymorphic and contain different attributes based on resource_type
+
+    .PARAMETER DocumentId
+        A document ID
+
+    .PARAMETER FilterId
+        Filter section ID
+
+    .PARAMETER FilterResourceType
+        Filter document ID
+
+        Document::Text - Rich text content
+        Document::Heading - Heading with level (1-6)
+        Document::Gallery - Image gallery container
+        Document::Step - Procedural step with optional duration and gallery
+
+    .PARAMETER FilterDocumentId
+        Filter document ID
+
+    .PARAMETER Sort
+        Sort sections
+
+        Allowed values:
+        'sort', 'id', 'created_at', 'updated_at'
+        '-sort', '-id', '-created_at', '-updated_at'
+
+    .PARAMETER ID
+        Get a document by id
+
+    .EXAMPLE
+        Get-ITGlueDocumentSection -DocumentId 8765309
+
+        Returns all the document sections for the document with the defined id
+
+    .EXAMPLE
+        Get-ITGlueDocumentSection -DocumentId 123456 -ID 8765309
+
+        Returns the defined document sections for the document with the defined id
+
+    .NOTES
+        N/A
+
+    .LINK
+        https://celerium.github.io/Celerium.ITGlue/site/DocumentSections/Get-ITGlueDocumentSection.html
+
+    .LINK
+        https://api.itglue.com/developer/#documentsections
+#>
+
+    [CmdletBinding(DefaultParameterSetName = 'Index')]
+    Param (
+        [Parameter(ParameterSetName = 'Index', ValueFromPipeline = $true, Mandatory = $true)]
+        [Parameter(ParameterSetName = 'Show', ValueFromPipeline = $true, Mandatory = $true)]
+        [int64]$DocumentId,
+
+        [Parameter(ParameterSetName = 'Index')]
+        [int64]$FilterId,
+
+        [Parameter(ParameterSetName = 'Index')]
+        [string]$FilterResourceType,
+
+        [Parameter(ParameterSetName = 'Index')]
+        [int64]$FilterDocumentID,
+
+        [Parameter(ParameterSetName = 'Index')]
+        [ValidateSet(   'sort', 'id', 'created_at', 'updated_at',
+                        '-sort', '-id', '-created_at', '-updated_at'
+        )]
+        [string]$Sort,
+
+        [Parameter(ParameterSetName = 'Show', ValueFromPipeline = $true , Mandatory = $true)]
+        [int64]$Id
+    )
+
+    begin {
+
+        $FunctionName       = $MyInvocation.InvocationName
+        $ParameterName      = $functionName + '_Parameters'      -replace '-','_'
+        $QueryParameterName = $functionName + '_ParametersQuery' -replace '-','_'
+
+    }
+
+    process {
+
+        Write-Verbose "[ $FunctionName ] - Running the [ $($PSCmdlet.ParameterSetName) ] parameterSet"
+
+        switch ($PSCmdlet.ParameterSetName) {
+            'Index' { $ResourceUri = "/documents/$DocumentId/relationships/sections" }
+            'Show'  { $ResourceUri = "/documents/$DocumentId/relationships/sections/$Id" }
+        }
+
+        $UriParameters = @{}
+
+        #Region     [ Parameter Translation ]
+
+        if ($PSCmdlet.ParameterSetName -eq 'Index') {
+            if ($FilterId)              { $UriParameters['filter[id]']              = $FilterId }
+            if ($FilterResourceType)    { $UriParameters['filter[resource_type]']   = $FilterResourceType }
+            if ($FilterDocumentId)      { $UriParameters['filter[document_id]']     = $FilterDocumentId }
+            if ($Sort)                  { $UriParameters['sort']                    = $Sort }
+        }
+
+        #EndRegion  [ Parameter Translation ]
+
+        Set-Variable -Name $ParameterName -Value $PSBoundParameters -Scope Global -Force -Confirm:$false
+        Set-Variable -Name $QueryParameterName -Value $UriParameters -Scope Global -Force -Confirm:$false
+
+        return Invoke-ITGlueRequest -Method GET -ResourceURI $ResourceUri -UriFilter $UriParameters
+
+    }
+
+    end {}
+
+}
+#EndRegion '.\Public\DocumentSections\Get-ITGlueDocumentSection.ps1' 124
+#Region '.\Public\DocumentSections\New-ITGlueDocumentSection.ps1' -1
+
+function New-ITGlueDocumentSection {
+<#
+    .SYNOPSIS
+        Creates a new document section
+
+    .DESCRIPTION
+        The New-ITGlueDocumentSection cmdlet creates a new section in the specified document
+
+        The resource_type attribute determines which type of section is created and
+        which additional attributes are required
+
+    .PARAMETER DocumentId
+        The document id to create the section in
+
+    .PARAMETER Data
+        JSON body depending on bulk changes or not
+
+        Do NOT include the "Data" property in the JSON object as this is handled
+        by the Invoke-ITGlueRequest function
+
+    .EXAMPLE
+        New-ITGlueDocumentSection -DocumentId 8675309 -Data $JsonBody
+
+        Creates a new section in the defined document with the structured
+        JSON object
+
+    .NOTES
+        N/A
+
+    .LINK
+        https://celerium.github.io/Celerium.ITGlue/site/DocumentSections/New-ITGlueDocumentSection.html
+
+    .LINK
+        https://api.itglue.com/developer/#documentsections
+#>
+
+    [CmdletBinding(DefaultParameterSetName = 'Create', SupportsShouldProcess, ConfirmImpact = 'Low')]
+    Param (
+        [Parameter(ParameterSetName = 'Create', ValueFromPipeline = $true , Mandatory = $true)]
+        [int64]$DocumentId,
+
+        [Parameter(ParameterSetName = 'Create', Mandatory = $true)]
+        $Data
+    )
+
+    begin {
+
+        $FunctionName       = $MyInvocation.InvocationName
+        $ParameterName      = $functionName + '_Parameters'      -replace '-','_'
+
+    }
+
+    process {
+
+        Write-Verbose "[ $FunctionName ] - Running the [ $($PSCmdlet.ParameterSetName) ] parameterSet"
+
+        $ResourceUri = "/documents/$DocumentId/relationships/sections"
+
+        Set-Variable -Name $ParameterName -Value $PSBoundParameters -Scope Global -Force -Confirm:$false
+
+        if ($PSCmdlet.ShouldProcess($ResourceUri)) {
+            return Invoke-ITGlueRequest -Method POST -ResourceURI $ResourceUri -Data $Data
+        }
+
+    }
+
+    end {}
+
+}
+#EndRegion '.\Public\DocumentSections\New-ITGlueDocumentSection.ps1' 70
+#Region '.\Public\DocumentSections\Remove-ITGlueDocumentSection.ps1' -1
+
+function Remove-ITGlueDocumentSection {
+<#
+    .SYNOPSIS
+        Deletes the specified section and its associated polymorphic resource
+
+    .DESCRIPTION
+        The Remove-ITGlueDocumentSection cmdlet deletes the specified section
+        and its associated polymorphic resource
+
+        Deleting a Gallery or Step section will also delete all associated images
+
+    .PARAMETER DocumentId
+        The document id
+
+    .PARAMETER Id
+        The id of the section
+
+    .EXAMPLE
+        Remove-ITGlueDocumentSection -DocumentId 8675309 -Id 12345 -Data $JsonBody
+
+        Deletes the specified section in the defined document
+
+    .NOTES
+        N/A
+
+    .LINK
+        https://celerium.github.io/Celerium.ITGlue/site/DocumentSections/Remove-ITGlueDocumentSection.html
+
+    .LINK
+        https://api.itglue.com/developer/#documentsections
+#>
+
+    [CmdletBinding(DefaultParameterSetName = 'Destroy', SupportsShouldProcess, ConfirmImpact = 'High')]
+    Param (
+        [Parameter(ParameterSetName = 'Destroy', ValueFromPipeline = $true , Mandatory = $true)]
+        [int64]$DocumentId,
+
+        [Parameter(ParameterSetName = 'Destroy', ValueFromPipeline = $true , Mandatory = $true)]
+        [int64]$Id
+    )
+
+    begin {
+
+        $FunctionName       = $MyInvocation.InvocationName
+        $ParameterName      = $functionName + '_Parameters'      -replace '-','_'
+
+    }
+
+    process {
+
+        Write-Verbose "[ $FunctionName ] - Running the [ $($PSCmdlet.ParameterSetName) ] parameterSet"
+
+        $ResourceUri = "/documents/$DocumentId/relationships/sections/$Id"
+
+        Set-Variable -Name $ParameterName -Value $PSBoundParameters -Scope Global -Force -Confirm:$false
+
+        if ($PSCmdlet.ShouldProcess($ResourceUri)) {
+            return Invoke-ITGlueRequest -Method DELETE -ResourceURI $ResourceUri
+        }
+
+    }
+
+    end {}
+
+}
+#EndRegion '.\Public\DocumentSections\Remove-ITGlueDocumentSection.ps1' 66
+#Region '.\Public\DocumentSections\Set-ITGlueDocumentSection.ps1' -1
+
+function Set-ITGlueDocumentSection {
+<#
+    .SYNOPSIS
+        Updates an existing section
+
+    .DESCRIPTION
+        The Set-ITGlueDocumentSection cmdlet updates an existing section
+
+        Only attributes specific to the section's resource_type can be updated.
+        The resource_type itself cannot be changed
+
+        A PATCH request does not require all attributes - only those you want to update.
+        Any attributes you don't specify will remain unchanged
+
+        IMPORTANT: The â€œrendered-contentâ€ attribute is READ-ONLY and automatically generated.
+        Do not attempt to include it in your update requests - it will be ignored. When updating content,
+        use only the â€œcontentâ€ attribute with your HTML, and the â€œrendered-contentâ€ will be automatically
+        regenerated with processed inline image URLs
+
+        The resource_type attribute determines which type of section is created and
+        which additional attributes are required
+
+    .PARAMETER DocumentId
+        The document id
+
+    .PARAMETER Id
+        The id of the section
+
+    .PARAMETER Data
+        JSON body depending on bulk changes or not
+
+        Do NOT include the "Data" property in the JSON object as this is handled
+        by the Invoke-ITGlueRequest function
+
+    .EXAMPLE
+        Set-ITGlueDocumentSection -DocumentId 8675309 -Id 12345 -Data $JsonBody
+
+        Creates a new section in the defined document with the structured
+        JSON object
+
+    .NOTES
+        N/A
+
+    .LINK
+        https://celerium.github.io/Celerium.ITGlue/site/DocumentSections/Set-ITGlueDocumentSection.html
+
+    .LINK
+        https://api.itglue.com/developer/#documentsections
+#>
+
+    [CmdletBinding(DefaultParameterSetName = 'Update', SupportsShouldProcess, ConfirmImpact = 'Medium')]
+    Param (
+        [Parameter(ParameterSetName = 'Update', ValueFromPipeline = $true , Mandatory = $true)]
+        [int64]$DocumentId,
+
+        [Parameter(ParameterSetName = 'Update', ValueFromPipeline = $true , Mandatory = $true)]
+        [int64]$Id,
+
+        [Parameter(ParameterSetName = 'Update', Mandatory = $true)]
+        $Data
+    )
+
+    begin {
+
+        $FunctionName       = $MyInvocation.InvocationName
+        $ParameterName      = $functionName + '_Parameters'      -replace '-','_'
+
+    }
+
+    process {
+
+        Write-Verbose "[ $FunctionName ] - Running the [ $($PSCmdlet.ParameterSetName) ] parameterSet"
+
+        $ResourceUri = "/documents/$DocumentId/relationships/sections/$Id"
+
+        Set-Variable -Name $ParameterName -Value $PSBoundParameters -Scope Global -Force -Confirm:$false
+
+        if ($PSCmdlet.ShouldProcess($ResourceUri)) {
+            return Invoke-ITGlueRequest -Method PATCH -ResourceURI $ResourceUri -Data $Data
+        }
+
+    }
+
+    end {}
+
+}
+#EndRegion '.\Public\DocumentSections\Set-ITGlueDocumentSection.ps1' 87
 #Region '.\Public\Domains\Get-ITGlueDomain.ps1' -1
 
 function Get-ITGlueDomain {
@@ -4870,10 +5806,6 @@ function Get-ITGlueDomain {
     .DESCRIPTION
         The Get-ITGlueDomain cmdlet list or show all domains in
         your account or from a specified organization
-
-        This function can call the following endpoints:
-            Index = /domains
-                    /organizations/:organization_id/relationships/domains
 
     .PARAMETER OrganizationID
         A valid organization Id in your Account
@@ -4935,7 +5867,7 @@ function Get-ITGlueDomain {
         https://celerium.github.io/Celerium.ITGlue/site/Domains/Get-ITGlueDomain.html
 
     .LINK
-        https://api.itglue.com/developer/#domains-index
+        https://api.itglue.com/developer/#domains
 #>
 
     [CmdletBinding(DefaultParameterSetName = 'Index')]
@@ -5011,7 +5943,7 @@ function Get-ITGlueDomain {
     end {}
 
 }
-#EndRegion '.\Public\Domains\Get-ITGlueDomain.ps1' 150
+#EndRegion '.\Public\Domains\Get-ITGlueDomain.ps1' 146
 #Region '.\Public\Expirations\Get-ITGlueExpiration.ps1' -1
 
 function Get-ITGlueExpiration {
@@ -5022,13 +5954,6 @@ function Get-ITGlueExpiration {
     .DESCRIPTION
         The Get-ITGlueExpiration cmdlet returns a list of expirations
         for all organizations or for a specified organization
-
-        This function can call the following endpoints:
-            Index = /expirations
-                    /organizations/:organization_id/relationships/expirations
-
-            Show =  /expirations/:id
-                    /organizations/:organization_id/relationships/expirations/:id
 
     .PARAMETER OrganizationID
         A valid organization Id in your account
@@ -5117,7 +6042,7 @@ function Get-ITGlueExpiration {
         https://celerium.github.io/Celerium.ITGlue/site/Expirations/Get-ITGlueExpiration.html
 
     .LINK
-        https://api.itglue.com/developer/#expirations-index
+        https://api.itglue.com/developer/#expirations
 #>
 
     [CmdletBinding(DefaultParameterSetName = 'Index')]
@@ -5233,7 +6158,7 @@ function Get-ITGlueExpiration {
     end {}
 
 }
-#EndRegion '.\Public\Expirations\Get-ITGlueExpiration.ps1' 220
+#EndRegion '.\Public\Expirations\Get-ITGlueExpiration.ps1' 213
 #Region '.\Public\Exports\Get-ITGlueExport.ps1' -1
 
 function Get-ITGlueExport {
@@ -5244,11 +6169,6 @@ function Get-ITGlueExport {
     .DESCRIPTION
         The Get-ITGlueExport cmdlet returns a list of exports
         or the details of a single export in your account
-
-        This function can call the following endpoints:
-            Index = /exports
-
-            Show =  /exports/:id
 
     .PARAMETER FilterID
         Filter by a export id
@@ -5307,7 +6227,7 @@ function Get-ITGlueExport {
         https://celerium.github.io/Celerium.ITGlue/site/Exports/Get-ITGlueExport.html
 
     .LINK
-        https://api.itglue.com/developer/#exports-index
+        https://api.itglue.com/developer/#exports
 #>
 
     [CmdletBinding(DefaultParameterSetName = 'Index')]
@@ -5382,7 +6302,7 @@ function Get-ITGlueExport {
     end {}
 
 }
-#EndRegion '.\Public\Exports\Get-ITGlueExport.ps1' 147
+#EndRegion '.\Public\Exports\Get-ITGlueExport.ps1' 142
 #Region '.\Public\Exports\New-ITGlueExport.ps1' -1
 
 function New-ITGlueExport {
@@ -5399,9 +6319,6 @@ function New-ITGlueExport {
 
         The actual export attachment will be created later after the export record is created
         Please check back using show endpoint, you will see a downloadable url when the record shows done
-
-        Examples of JSON objects can be found under ITGlues developer documentation
-            https://api.itglue.com/developer
 
     .PARAMETER OrganizationID
         A valid organization Id in your account
@@ -5432,7 +6349,7 @@ function New-ITGlueExport {
         https://celerium.github.io/Celerium.ITGlue/site/Exports/New-ITGlueExport.html
 
     .LINK
-        https://api.itglue.com/developer/#exports-create
+        https://api.itglue.com/developer/#exports
 #>
 
     [CmdletBinding(DefaultParameterSetName = 'Create',SupportsShouldProcess, ConfirmImpact = 'Low')]
@@ -5493,7 +6410,7 @@ function New-ITGlueExport {
     end{}
 
 }
-#EndRegion '.\Public\Exports\New-ITGlueExport.ps1' 109
+#EndRegion '.\Public\Exports\New-ITGlueExport.ps1' 106
 #Region '.\Public\Exports\Remove-ITGlueExport.ps1' -1
 
 function Remove-ITGlueExport {
@@ -5519,7 +6436,7 @@ function Remove-ITGlueExport {
         https://celerium.github.io/Celerium.ITGlue/site/Exports/Remove-ITGlueExport.html
 
     .LINK
-        https://api.itglue.com/developer/#exports-destroy
+        https://api.itglue.com/developer/#exports
 #>
 
     [CmdletBinding(DefaultParameterSetName = 'Destroy', SupportsShouldProcess, ConfirmImpact = 'Medium')]
@@ -5563,12 +6480,6 @@ function Get-ITGlueFlexibleAssetField {
     .DESCRIPTION
         The Get-ITGlueFlexibleAssetField cmdlet lists or shows all flexible asset fields
         for a particular flexible asset type
-
-        This function can call the following endpoints:
-            Index = /flexible_asset_types/:flexible_asset_type_id/relationships/flexible_asset_fields
-
-            Show =  /flexible_asset_fields/:id
-                    /flexible_asset_types/:flexible_asset_type_id/relationships/flexible_asset_fields/:id
 
     .PARAMETER FlexibleAssetTypeID
         A valid Flexible asset Id in your Account
@@ -5630,7 +6541,7 @@ function Get-ITGlueFlexibleAssetField {
         https://celerium.github.io/Celerium.ITGlue/site/FlexibleAssetFields/Get-ITGlueFlexibleAssetField.html
 
     .LINK
-        https://api.itglue.com/developer/#flexible-asset-fields-index
+        https://api.itglue.com/developer/#flexible-asset-fields
 #>
 
     [CmdletBinding(DefaultParameterSetName = 'Index')]
@@ -5713,7 +6624,7 @@ function Get-ITGlueFlexibleAssetField {
     end {}
 
 }
-#EndRegion '.\Public\FlexibleAssetFields\Get-ITGlueFlexibleAssetField.ps1' 159
+#EndRegion '.\Public\FlexibleAssetFields\Get-ITGlueFlexibleAssetField.ps1' 153
 #Region '.\Public\FlexibleAssetFields\New-ITGlueFlexibleAssetField.ps1' -1
 
 function New-ITGlueFlexibleAssetField {
@@ -5724,9 +6635,6 @@ function New-ITGlueFlexibleAssetField {
     .DESCRIPTION
         The New-ITGlueFlexibleAssetField cmdlet creates one or more
         flexible asset field for a particular flexible asset type
-
-        Examples of JSON objects can be found under ITGlues developer documentation
-            https://api.itglue.com/developer
 
     .PARAMETER FlexibleAssetTypeID
         The flexible asset type id to create a new field in
@@ -5750,7 +6658,7 @@ function New-ITGlueFlexibleAssetField {
         https://celerium.github.io/Celerium.ITGlue/site/FlexibleAssetFields/New-ITGlueFlexibleAssetField.html
 
     .LINK
-        https://api.itglue.com/developer/#flexible-asset-fields-create
+        https://api.itglue.com/developer/#flexible-asset-fields
 #>
 
     [CmdletBinding(DefaultParameterSetName = 'Create', SupportsShouldProcess, ConfirmImpact = 'Low')]
@@ -5789,7 +6697,7 @@ function New-ITGlueFlexibleAssetField {
     end {}
 
 }
-#EndRegion '.\Public\FlexibleAssetFields\New-ITGlueFlexibleAssetField.ps1' 74
+#EndRegion '.\Public\FlexibleAssetFields\New-ITGlueFlexibleAssetField.ps1' 71
 #Region '.\Public\FlexibleAssetFields\Remove-ITGlueFlexibleAssetField.ps1' -1
 
 function Remove-ITGlueFlexibleAssetField {
@@ -5801,9 +6709,6 @@ function Remove-ITGlueFlexibleAssetField {
         The Remove-ITGlueFlexibleAssetField cmdlet deletes a flexible asset field
 
         Note that this action will cause data loss if the field is already in use
-
-        Examples of JSON objects can be found under ITGlues developer documentation
-            https://api.itglue.com/developer
 
 
     .PARAMETER ID
@@ -5825,7 +6730,7 @@ function Remove-ITGlueFlexibleAssetField {
         https://celerium.github.io/Celerium.ITGlue/site/FlexibleAssetFields/Remove-ITGlueFlexibleAssetField.html
 
     .LINK
-        https://api.itglue.com/developer/#flexible-asset-fields-destroy
+        https://api.itglue.com/developer/#flexible-asset-fields
 #>
 
     [CmdletBinding(DefaultParameterSetName = 'Destroy', SupportsShouldProcess, ConfirmImpact = 'High')]
@@ -5864,7 +6769,7 @@ function Remove-ITGlueFlexibleAssetField {
     end {}
 
 }
-#EndRegion '.\Public\FlexibleAssetFields\Remove-ITGlueFlexibleAssetField.ps1' 73
+#EndRegion '.\Public\FlexibleAssetFields\Remove-ITGlueFlexibleAssetField.ps1' 70
 #Region '.\Public\FlexibleAssetFields\Set-ITGlueFlexibleAssetField.ps1' -1
 
 function Set-ITGlueFlexibleAssetField {
@@ -5882,9 +6787,6 @@ function Set-ITGlueFlexibleAssetField {
 
         Returns 422 error if trying to change the kind attribute of fields that
         are already in use
-
-        Examples of JSON objects can be found under ITGlues developer documentation
-            https://api.itglue.com/developer
 
     .PARAMETER FlexibleAssetTypeID
         A valid Flexible asset Id in your Account
@@ -5914,7 +6816,7 @@ function Set-ITGlueFlexibleAssetField {
         https://celerium.github.io/Celerium.ITGlue/site/FlexibleAssetFields/Set-ITGlueFlexibleAssetField.html
 
     .LINK
-        https://api.itglue.com/developer/#flexible-asset-fields-update
+        https://api.itglue.com/developer/#flexible-asset-fields
 #>
 
     [CmdletBinding(DefaultParameterSetName = 'BulkUpdate', SupportsShouldProcess, ConfirmImpact = 'Medium')]
@@ -5980,7 +6882,7 @@ function Set-ITGlueFlexibleAssetField {
     end {}
 
 }
-#EndRegion '.\Public\FlexibleAssetFields\Set-ITGlueFlexibleAssetField.ps1' 114
+#EndRegion '.\Public\FlexibleAssetFields\Set-ITGlueFlexibleAssetField.ps1' 111
 #Region '.\Public\FlexibleAssets\Get-ITGlueFlexibleAsset.ps1' -1
 
 function Get-ITGlueFlexibleAsset {
@@ -5992,11 +6894,6 @@ function Get-ITGlueFlexibleAsset {
         The Get-ITGlueFlexibleAsset cmdlet returns a list of flexible assets or
         the details of a single flexible assets based on the unique ID of the
         flexible asset type
-
-        This function can call the following endpoints:
-            Index = /flexible_assets
-
-            Show =  /flexible_assets/:id
 
     .PARAMETER FilterFlexibleAssetTypeID
         Filter by a flexible asset id
@@ -6065,7 +6962,7 @@ function Get-ITGlueFlexibleAsset {
         https://celerium.github.io/Celerium.ITGlue/site/FlexibleAssets/Get-ITGlueFlexibleAsset.html
 
     .LINK
-        https://api.itglue.com/developer/#flexible-assets-index
+        https://api.itglue.com/developer/#flexible-assets
 #>
 
     [CmdletBinding(DefaultParameterSetName = 'Index')]
@@ -6151,7 +7048,7 @@ function Get-ITGlueFlexibleAsset {
     end {}
 
 }
-#EndRegion '.\Public\FlexibleAssets\Get-ITGlueFlexibleAsset.ps1' 169
+#EndRegion '.\Public\FlexibleAssets\Get-ITGlueFlexibleAsset.ps1' 164
 #Region '.\Public\FlexibleAssets\New-ITGlueFlexibleAsset.ps1' -1
 
 function New-ITGlueFlexibleAsset {
@@ -6165,9 +7062,6 @@ function New-ITGlueFlexibleAsset {
 
         If there are any required fields in the flexible asset type,
         they will need to be included in the request
-
-        Examples of JSON objects can be found under ITGlues developer documentation
-            https://api.itglue.com/developer
 
     .PARAMETER OrganizationID
         The organization id to create the flexible asset in
@@ -6191,7 +7085,7 @@ function New-ITGlueFlexibleAsset {
         https://celerium.github.io/Celerium.ITGlue/site/FlexibleAssets/New-ITGlueFlexibleAsset.html
 
     .LINK
-        https://api.itglue.com/developer/#flexible-assets-create
+        https://api.itglue.com/developer/#flexible-assets
 #>
 
     [CmdletBinding(DefaultParameterSetName = 'Create', SupportsShouldProcess, ConfirmImpact = 'Low')]
@@ -6231,7 +7125,7 @@ function New-ITGlueFlexibleAsset {
     end {}
 
 }
-#EndRegion '.\Public\FlexibleAssets\New-ITGlueFlexibleAsset.ps1' 78
+#EndRegion '.\Public\FlexibleAssets\New-ITGlueFlexibleAsset.ps1' 75
 #Region '.\Public\FlexibleAssets\Remove-ITGlueFlexibleAsset.ps1' -1
 
 function Remove-ITGlueFlexibleAsset {
@@ -6269,7 +7163,7 @@ function Remove-ITGlueFlexibleAsset {
         https://celerium.github.io/Celerium.ITGlue/site/FlexibleAssets/Remove-ITGlueFlexibleAsset.html
 
     .LINK
-        https://api.itglue.com/developer/#flexible-assets-destroy
+        https://api.itglue.com/developer/#flexible-assets
 #>
 
     [CmdletBinding(DefaultParameterSetName = 'Destroy', SupportsShouldProcess, ConfirmImpact = 'High')]
@@ -6322,9 +7216,6 @@ function Set-ITGlueFlexibleAsset {
         Any traits you don't specify will be deleted
         Passing a null value will also delete a trait's value
 
-        Examples of JSON objects can be found under ITGlues developer documentation
-            https://api.itglue.com/developer
-
     .PARAMETER ID
         The flexible asset id to update
 
@@ -6346,7 +7237,7 @@ function Set-ITGlueFlexibleAsset {
         https://celerium.github.io/Celerium.ITGlue/site/FlexibleAssets/Set-ITGlueFlexibleAsset.html
 
     .LINK
-        https://api.itglue.com/developer/#flexible-assets-update
+        https://api.itglue.com/developer/#flexible-assets
 #>
 
     [CmdletBinding(DefaultParameterSetName = 'BulkUpdate', SupportsShouldProcess, ConfirmImpact = 'Medium')]
@@ -6386,7 +7277,7 @@ function Set-ITGlueFlexibleAsset {
     end {}
 
 }
-#EndRegion '.\Public\FlexibleAssets\Set-ITGlueFlexibleAsset.ps1' 76
+#EndRegion '.\Public\FlexibleAssets\Set-ITGlueFlexibleAsset.ps1' 73
 #Region '.\Public\FlexibleAssetTypes\Get-ITGlueFlexibleAssetType.ps1' -1
 
 function Get-ITGlueFlexibleAssetType {
@@ -6397,11 +7288,6 @@ function Get-ITGlueFlexibleAssetType {
     .DESCRIPTION
         The Get-ITGlueFlexibleAssetType cmdlet returns details on a flexible asset type
         or a list of flexible asset types in your account
-
-        This function can call the following endpoints:
-            Index = /flexible_asset_types
-
-            Show =  /flexible_asset_types/:id
 
     .PARAMETER FilterID
         Filter by a flexible asset id
@@ -6469,7 +7355,7 @@ function Get-ITGlueFlexibleAssetType {
         https://celerium.github.io/Celerium.ITGlue/site/FlexibleAssetTypes/Get-ITGlueFlexibleAssetType.html
 
     .LINK
-        https://api.itglue.com/developer/#flexible-asset-types-index
+        https://api.itglue.com/developer/#flexible-asset-types
 #>
 
     [CmdletBinding(DefaultParameterSetName = 'Index')]
@@ -6555,7 +7441,7 @@ function Get-ITGlueFlexibleAssetType {
     end {}
 
 }
-#EndRegion '.\Public\FlexibleAssetTypes\Get-ITGlueFlexibleAssetType.ps1' 167
+#EndRegion '.\Public\FlexibleAssetTypes\Get-ITGlueFlexibleAssetType.ps1' 162
 #Region '.\Public\FlexibleAssetTypes\New-ITGlueFlexibleAssetType.ps1' -1
 
 function New-ITGlueFlexibleAssetType {
@@ -6566,9 +7452,6 @@ function New-ITGlueFlexibleAssetType {
     .DESCRIPTION
         The New-ITGlueFlexibleAssetType cmdlet creates one or
         more flexible asset types
-
-        Examples of JSON objects can be found under ITGlues developer documentation
-            https://api.itglue.com/developer
 
     .PARAMETER Data
         JSON body depending on bulk changes or not
@@ -6588,7 +7471,7 @@ function New-ITGlueFlexibleAssetType {
         https://celerium.github.io/Celerium.ITGlue/site/FlexibleAssetTypes/New-ITGlueFlexibleAssetType.html
 
     .LINK
-        https://api.itglue.com/developer/#flexible-asset-types-create
+        https://api.itglue.com/developer/#flexible-asset-types
 #>
 
     [CmdletBinding(DefaultParameterSetName = 'Create', SupportsShouldProcess, ConfirmImpact = 'Low')]
@@ -6621,7 +7504,7 @@ function New-ITGlueFlexibleAssetType {
     end {}
 
 }
-#EndRegion '.\Public\FlexibleAssetTypes\New-ITGlueFlexibleAssetType.ps1' 64
+#EndRegion '.\Public\FlexibleAssetTypes\New-ITGlueFlexibleAssetType.ps1' 61
 #Region '.\Public\FlexibleAssetTypes\Set-ITGlueFlexibleAssetType.ps1' -1
 
 function Set-ITGlueFlexibleAssetType {
@@ -6634,9 +7517,6 @@ function Set-ITGlueFlexibleAssetType {
         existing flexible asset type in your account
 
         Any attributes you don't specify will remain unchanged
-
-        Examples of JSON objects can be found under ITGlues developer documentation
-            https://api.itglue.com/developer
 
     .PARAMETER ID
         A valid flexible asset id in your account
@@ -6659,7 +7539,7 @@ function Set-ITGlueFlexibleAssetType {
         https://celerium.github.io/Celerium.ITGlue/site/FlexibleAssetTypes/Set-ITGlueFlexibleAssetType.html
 
     .LINK
-        https://api.itglue.com/developer/#flexible-asset-types-update
+        https://api.itglue.com/developer/#flexible-asset-types
 #>
 
     [CmdletBinding(DefaultParameterSetName = 'Update', SupportsShouldProcess, ConfirmImpact = 'Medium')]
@@ -6695,7 +7575,7 @@ function Set-ITGlueFlexibleAssetType {
     end {}
 
 }
-#EndRegion '.\Public\FlexibleAssetTypes\Set-ITGlueFlexibleAssetType.ps1' 72
+#EndRegion '.\Public\FlexibleAssetTypes\Set-ITGlueFlexibleAssetType.ps1' 69
 #Region '.\Public\Groups\Get-ITGlueGroup.ps1' -1
 
 function Get-ITGlueGroup {
@@ -6706,11 +7586,6 @@ function Get-ITGlueGroup {
     .DESCRIPTION
         The Get-ITGlueGroup cmdlet returns a list of groups or the
         details of a single group in your account
-
-        This function can call the following endpoints:
-            Index = /groups
-
-            Show =  /groups/:id
 
     .PARAMETER FilterName
         Filter by a group name
@@ -6738,7 +7613,7 @@ function Get-ITGlueGroup {
         Include other items with groups
 
         Allowed values:
-        'users'
+        'users', 'organizations', 'resource_type_restrictions', 'my_glue_account'
 
     .PARAMETER AllResults
         Returns all items from an endpoint
@@ -6769,7 +7644,7 @@ function Get-ITGlueGroup {
         https://celerium.github.io/Celerium.ITGlue/site/Groups/Get-ITGlueGroup.html
 
     .LINK
-        https://api.itglue.com/developer/#groups-index
+        https://api.itglue.com/developer/#groups
 #>
 
     [CmdletBinding(DefaultParameterSetName = 'Index')]
@@ -6794,7 +7669,7 @@ function Get-ITGlueGroup {
 
         [Parameter(ParameterSetName = 'Index')]
         [Parameter(ParameterSetName = 'Show')]
-        [ValidateSet('users')]
+        [ValidateSet('users', 'organizations', 'resource_type_restrictions', 'my_glue_account')]
         [string]$Include,
 
         [Parameter(ParameterSetName = 'Index')]
@@ -6844,7 +7719,205 @@ function Get-ITGlueGroup {
     end {}
 
 }
-#EndRegion '.\Public\Groups\Get-ITGlueGroup.ps1' 147
+#EndRegion '.\Public\Groups\Get-ITGlueGroup.ps1' 142
+#Region '.\Public\Groups\New-ITGlueGroup.ps1' -1
+
+function New-ITGlueGroup {
+<#
+    .SYNOPSIS
+        Creates a group
+
+    .DESCRIPTION
+        The New-ITGlueGroup cmdlet creates a group
+
+    .PARAMETER Data
+        JSON body depending on bulk changes or not
+
+        Do NOT include the "Data" property in the JSON object as this is handled
+        by the Invoke-ITGlueRequest function
+
+    .EXAMPLE
+        New-ITGlueGroup -Data $JsonBody
+
+        Creates a new group with the structured JSON object
+
+    .NOTES
+        N/A
+
+    .LINK
+        https://celerium.github.io/Celerium.ITGlue/site/Groups/New-ITGlueGroup.html
+
+    .LINK
+        https://api.itglue.com/developer/#groups
+#>
+
+    [CmdletBinding(DefaultParameterSetName = 'Create', SupportsShouldProcess, ConfirmImpact = 'Low')]
+    Param (
+        [Parameter(ParameterSetName = 'Create', ValueFromPipeline = $true , Mandatory = $true)]
+        $Data
+    )
+
+    begin {
+
+        $FunctionName       = $MyInvocation.InvocationName
+        $ParameterName      = $functionName + '_Parameters'      -replace '-','_'
+
+    }
+
+    process {
+
+        Write-Verbose "[ $FunctionName ] - Running the [ $($PSCmdlet.ParameterSetName) ] parameterSet"
+
+        $ResourceUri = "/groups"
+
+        Set-Variable -Name $ParameterName -Value $PSBoundParameters -Scope Global -Force -Confirm:$false
+
+        return Invoke-ITGlueRequest -Method POST -ResourceURI $ResourceUri -Data $Data
+
+    }
+
+    end {}
+
+}
+#EndRegion '.\Public\Groups\New-ITGlueGroup.ps1' 58
+#Region '.\Public\Groups\Remove-ITGlueGroup.ps1' -1
+
+function Remove-ITGlueGroup {
+<#
+    .SYNOPSIS
+        Deletes a group
+
+    .DESCRIPTION
+        The Remove-ITGlueGroup cmdlet deletes a group
+
+    .PARAMETER Id
+        Group id
+
+    .EXAMPLE
+        Remove-ITGlueGroup -Id 12345
+
+        Deletes the group with the specified id
+
+    .NOTES
+        N/A
+
+    .LINK
+        https://celerium.github.io/Celerium.ITGlue/site/Groups/Remove-ITGlueGroup.html
+
+    .LINK
+        https://api.itglue.com/developer/#groups
+#>
+
+    [CmdletBinding(DefaultParameterSetName = 'Destroy', SupportsShouldProcess, ConfirmImpact = 'High')]
+    Param (
+        [Parameter(ParameterSetName = 'Destroy', ValueFromPipeline = $true , Mandatory = $true)]
+        $Id
+    )
+
+    begin {
+
+        $FunctionName       = $MyInvocation.InvocationName
+        $ParameterName      = $functionName + '_Parameters'      -replace '-','_'
+
+    }
+
+    process {
+
+        Write-Verbose "[ $FunctionName ] - Running the [ $($PSCmdlet.ParameterSetName) ] parameterSet"
+
+        $ResourceUri = "/groups/$Id"
+
+        Set-Variable -Name $ParameterName -Value $PSBoundParameters -Scope Global -Force -Confirm:$false
+
+        return Invoke-ITGlueRequest -Method DELETE -ResourceURI $ResourceUri
+
+
+    }
+
+    end {}
+
+}
+#EndRegion '.\Public\Groups\Remove-ITGlueGroup.ps1' 56
+#Region '.\Public\Groups\Set-ITGlueGroup.ps1' -1
+
+function Set-ITGlueGroup {
+<#
+    .SYNOPSIS
+        Updates a group or a list of groups in bulk
+
+    .DESCRIPTION
+        The Set-ITGlueGroup cmdlet updates a group or a list of
+        groups in bulk
+
+        It accepts a partial representation of each groupâ€”only the
+        attributes you provide will be updated; all others remain unchanged
+
+    .PARAMETER Id
+        Group id
+
+    .PARAMETER Data
+        JSON body depending on bulk changes or not
+
+        Do NOT include the "Data" property in the JSON object as this is handled
+        by the Invoke-ITGlueRequest function
+
+    .EXAMPLE
+        Set-ITGlueGroup -Id 12345 -Data $JsonBody
+
+        Updates the group with the specified id using the structured JSON object
+
+    .EXAMPLE
+        Set-ITGlueGroup -Data $JsonBody
+
+        Updates a group or a list of groups with the structured JSON object
+
+    .NOTES
+        N/A
+
+    .LINK
+        https://celerium.github.io/Celerium.ITGlue/site/Groups/Set-ITGlueGroup.html
+
+    .LINK
+        https://api.itglue.com/developer/#groups
+#>
+
+    [CmdletBinding(DefaultParameterSetName = 'BulkUpdate', SupportsShouldProcess, ConfirmImpact = 'Medium')]
+    Param (
+        [Parameter(ParameterSetName = 'Update', ValueFromPipeline = $true , Mandatory = $true)]
+        $Id,
+
+        [Parameter(ParameterSetName = 'Update', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'BulkUpdate', Mandatory = $true)]
+        $Data
+    )
+
+    begin {
+
+        $FunctionName       = $MyInvocation.InvocationName
+        $ParameterName      = $functionName + '_Parameters'      -replace '-','_'
+
+    }
+
+    process {
+
+        Write-Verbose "[ $FunctionName ] - Running the [ $($PSCmdlet.ParameterSetName) ] parameterSet"
+
+        switch ($PSCmdlet.ParameterSetName) {
+            'Update'        { $ResourceUri = "/groups/$Id" }
+            'BulkUpdate'    { $ResourceUri = "/groups" }
+        }
+
+        Set-Variable -Name $ParameterName -Value $PSBoundParameters -Scope Global -Force -Confirm:$false
+
+        return Invoke-ITGlueRequest -Method PATCH -ResourceURI $ResourceUri -Data $Data
+
+
+    }
+
+    end {}
+
+}
+#EndRegion '.\Public\Groups\Set-ITGlueGroup.ps1' 78
 #Region '.\Public\Locations\Get-ITGlueLocation.ps1' -1
 
 function Get-ITGlueLocation {
@@ -6855,13 +7928,6 @@ function Get-ITGlueLocation {
     .DESCRIPTION
         The Get-ITGlueLocation cmdlet returns a list of locations for
         all organizations or for a specified organization
-
-        This function can call the following endpoints:
-            Index = /locations
-                    /organizations/:$OrganizationID/relationships/locations
-
-            Show =  /locations/:id
-                    /organizations/:id/relationships/locations/:id
 
     .PARAMETER OrganizationID
         The valid organization id in your account
@@ -6954,7 +8020,7 @@ function Get-ITGlueLocation {
         https://celerium.github.io/Celerium.ITGlue/site/Locations/Get-ITGlueLocation.html
 
     .LINK
-        https://api.itglue.com/developer/#locations-index
+        https://api.itglue.com/developer/#locations
 #>
 
     [CmdletBinding(DefaultParameterSetName = 'Index')]
@@ -7096,7 +8162,7 @@ function Get-ITGlueLocation {
     end {}
 
 }
-#EndRegion '.\Public\Locations\Get-ITGlueLocation.ps1' 250
+#EndRegion '.\Public\Locations\Get-ITGlueLocation.ps1' 243
 #Region '.\Public\Locations\New-ITGlueLocation.ps1' -1
 
 function New-ITGlueLocation {
@@ -7107,9 +8173,6 @@ function New-ITGlueLocation {
     .DESCRIPTION
         The New-ITGlueLocation cmdlet creates one or more
         locations for specified organization
-
-        Examples of JSON objects can be found under ITGlues developer documentation
-            https://api.itglue.com/developer
 
     .PARAMETER OrganizationID
         The valid organization id in your account
@@ -7133,7 +8196,7 @@ function New-ITGlueLocation {
         https://celerium.github.io/Celerium.ITGlue/site/Locations/New-ITGlueLocation.html
 
     .LINK
-        https://api.itglue.com/developer/#locations-create
+        https://api.itglue.com/developer/#locations
 #>
 
     [CmdletBinding(DefaultParameterSetName = 'Create', SupportsShouldProcess, ConfirmImpact = 'Low')]
@@ -7172,7 +8235,7 @@ function New-ITGlueLocation {
     end {}
 
 }
-#EndRegion '.\Public\Locations\New-ITGlueLocation.ps1' 74
+#EndRegion '.\Public\Locations\New-ITGlueLocation.ps1' 71
 #Region '.\Public\Locations\Remove-ITGlueLocation.ps1' -1
 
 function Remove-ITGlueLocation {
@@ -7183,9 +8246,6 @@ function Remove-ITGlueLocation {
     .DESCRIPTION
         The Set-ITGlueLocation cmdlet deletes one or more
         specified locations
-
-        Examples of JSON objects can be found under ITGlues developer documentation
-            https://api.itglue.com/developer
 
     .PARAMETER OrganizationID
         The valid organization id in your account
@@ -7243,7 +8303,7 @@ function Remove-ITGlueLocation {
         https://celerium.github.io/Celerium.ITGlue/site/Locations/Remove-ITGlueLocation.html
 
     .LINK
-        https://api.itglue.com/developer/#locations-bulk-destroy
+        https://api.itglue.com/developer/#locations
 #>
 
     [CmdletBinding(DefaultParameterSetName = 'BulkDestroy', SupportsShouldProcess, ConfirmImpact = 'High')]
@@ -7342,7 +8402,7 @@ function Remove-ITGlueLocation {
     end {}
 
 }
-#EndRegion '.\Public\Locations\Remove-ITGlueLocation.ps1' 168
+#EndRegion '.\Public\Locations\Remove-ITGlueLocation.ps1' 165
 #Region '.\Public\Locations\Set-ITGlueLocation.ps1' -1
 
 function Set-ITGlueLocation {
@@ -7355,9 +8415,6 @@ function Set-ITGlueLocation {
         an existing location or locations
 
         Any attributes you don't specify will remain unchanged
-
-        Examples of JSON objects can be found under ITGlues developer documentation
-            https://api.itglue.com/developer
 
     .PARAMETER ID
         Get a location by id
@@ -7410,7 +8467,7 @@ function Set-ITGlueLocation {
         https://celerium.github.io/Celerium.ITGlue/site/Locations/Set-ITGlueLocation.html
 
     .LINK
-        https://api.itglue.com/developer/#locations-update
+        https://api.itglue.com/developer/#locations
 #>
 
     [CmdletBinding(DefaultParameterSetName = 'BulkUpdate', SupportsShouldProcess, ConfirmImpact = 'Medium')]
@@ -7515,7 +8572,7 @@ function Set-ITGlueLocation {
     end {}
 
 }
-#EndRegion '.\Public\Locations\Set-ITGlueLocation.ps1' 171
+#EndRegion '.\Public\Locations\Set-ITGlueLocation.ps1' 168
 #Region '.\Public\Logs\Get-ITGlueLog.ps1' -1
 
 function Get-ITGlueLog {
@@ -7668,11 +8725,6 @@ function Get-ITGlueManufacturer {
         The Get-ITGlueManufacturer cmdlet returns a manufacturer name
         or a list of manufacturers in your account
 
-        This function can call the following endpoints:
-            Index = /manufacturers
-
-            Show =  /manufacturers/:id
-
     .PARAMETER FilterName
         Filter by a manufacturers name
 
@@ -7724,7 +8776,7 @@ function Get-ITGlueManufacturer {
         https://celerium.github.io/Celerium.ITGlue/site/Manufacturers/Get-ITGlueManufacturer.html
 
     .LINK
-        https://api.itglue.com/developer/#manufacturers-index
+        https://api.itglue.com/developer/#manufacturers
 #>
 
     [CmdletBinding(DefaultParameterSetName = 'Index')]
@@ -7791,7 +8843,7 @@ function Get-ITGlueManufacturer {
     end {}
 
 }
-#EndRegion '.\Public\Manufacturers\Get-ITGlueManufacturer.ps1' 133
+#EndRegion '.\Public\Manufacturers\Get-ITGlueManufacturer.ps1' 128
 #Region '.\Public\Manufacturers\New-ITGlueManufacturer.ps1' -1
 
 function New-ITGlueManufacturer {
@@ -7801,9 +8853,6 @@ function New-ITGlueManufacturer {
 
     .DESCRIPTION
         The New-ITGlueManufacturer cmdlet creates a new manufacturer
-
-        Examples of JSON objects can be found under ITGlues developer documentation
-            https://api.itglue.com/developer
 
     .PARAMETER Data
         JSON body depending on bulk changes or not
@@ -7823,7 +8872,7 @@ function New-ITGlueManufacturer {
         https://celerium.github.io/Celerium.ITGlue/site/Manufacturers/New-ITGlueManufacturer.html
 
     .LINK
-        https://api.itglue.com/developer/#manufacturers-create
+        https://api.itglue.com/developer/#manufacturers
 #>
 
     [CmdletBinding(DefaultParameterSetName = 'Create', SupportsShouldProcess, ConfirmImpact = 'Low')]
@@ -7855,7 +8904,7 @@ function New-ITGlueManufacturer {
 
     end {}
 }
-#EndRegion '.\Public\Manufacturers\New-ITGlueManufacturer.ps1' 62
+#EndRegion '.\Public\Manufacturers\New-ITGlueManufacturer.ps1' 59
 #Region '.\Public\Manufacturers\Set-ITGlueManufacturer.ps1' -1
 
 function Set-ITGlueManufacturer {
@@ -7867,9 +8916,6 @@ function Set-ITGlueManufacturer {
         The New-ITGlueManufacturer cmdlet updates a manufacturer
 
         Returns 422 Bad Request error if trying to update an externally synced record
-
-        Examples of JSON objects can be found under ITGlues developer documentation
-            https://api.itglue.com/developer
 
     .PARAMETER ID
         The id of the manufacturer to update
@@ -7892,7 +8938,7 @@ function Set-ITGlueManufacturer {
         https://celerium.github.io/Celerium.ITGlue/site/Manufacturers/Set-ITGlueManufacturer.html
 
     .LINK
-        https://api.itglue.com/developer/#manufacturers-update
+        https://api.itglue.com/developer/#manufacturers
 #>
 
     [CmdletBinding(DefaultParameterSetName = 'Update', SupportsShouldProcess, ConfirmImpact = 'Medium')]
@@ -7928,7 +8974,7 @@ function Set-ITGlueManufacturer {
     end {}
 
 }
-#EndRegion '.\Public\Manufacturers\Set-ITGlueManufacturer.ps1' 71
+#EndRegion '.\Public\Manufacturers\Set-ITGlueManufacturer.ps1' 68
 #Region '.\Public\Models\Get-ITGlueModel.ps1' -1
 
 function Get-ITGlueModel {
@@ -7939,11 +8985,6 @@ function Get-ITGlueModel {
     .DESCRIPTION
         The Get-ITGlueModel cmdlet returns a list of model names for all
         manufacturers or for a specified manufacturer
-
-        This function can call the following endpoints:
-            Index = /models
-
-            Show =  /manufacturers/:id/relationships/models
 
     .PARAMETER ManufacturerID
         Get models under the defined manufacturer id
@@ -7999,7 +9040,7 @@ function Get-ITGlueModel {
         https://celerium.github.io/Celerium.ITGlue/site/Models/Get-ITGlueModel.html
 
     .LINK
-        https://api.itglue.com/developer/#models-index
+        https://api.itglue.com/developer/#models
 #>
 
     [CmdletBinding(DefaultParameterSetName = 'Index')]
@@ -8051,7 +9092,7 @@ function Get-ITGlueModel {
                 else{$ResourceUri = "/models"}
 
             }
-            'False' {
+            'Show' {
 
                 if ($ManufacturerID) {
                     $ResourceUri = "/manufacturers/$ManufacturerID/relationships/models/$ID"
@@ -8084,7 +9125,7 @@ function Get-ITGlueModel {
     end {}
 
 }
-#EndRegion '.\Public\Models\Get-ITGlueModel.ps1' 154
+#EndRegion '.\Public\Models\Get-ITGlueModel.ps1' 149
 #Region '.\Public\Models\New-ITGlueModel.ps1' -1
 
 function New-ITGlueModel {
@@ -8095,9 +9136,6 @@ function New-ITGlueModel {
     .DESCRIPTION
         The New-ITGlueModel cmdlet creates one or more models
         in your account or for a particular manufacturer
-
-        Examples of JSON objects can be found under ITGlues developer documentation
-            https://api.itglue.com/developer
 
     .PARAMETER ManufacturerID
         The manufacturer id to create the model under
@@ -8126,7 +9164,7 @@ function New-ITGlueModel {
         https://celerium.github.io/Celerium.ITGlue/site/Models/Get-ITGlueModel.html
 
     .LINK
-        https://api.itglue.com/developer/#models-create
+        https://api.itglue.com/developer/#models
 #>
 
     [CmdletBinding(DefaultParameterSetName = 'Create', SupportsShouldProcess, ConfirmImpact = 'Low')]
@@ -8165,7 +9203,7 @@ function New-ITGlueModel {
     end {}
 
 }
-#EndRegion '.\Public\Models\New-ITGlueModel.ps1' 79
+#EndRegion '.\Public\Models\New-ITGlueModel.ps1' 76
 #Region '.\Public\Models\Set-ITGlueModel.ps1' -1
 
 function Set-ITGlueModel {
@@ -8180,9 +9218,6 @@ function Set-ITGlueModel {
         Bulk updates using a nested relationships route are not supported
 
         Returns 422 Bad Request error if trying to update an externally synced record
-
-        Examples of JSON objects can be found under ITGlues developer documentation
-            https://api.itglue.com/developer
 
     .PARAMETER ManufacturerID
         Update models under the defined manufacturer id
@@ -8211,7 +9246,7 @@ function Set-ITGlueModel {
         https://celerium.github.io/Celerium.ITGlue/site/Models/Get-ITGlueModel.html
 
     .LINK
-        https://api.itglue.com/developer/#models-update
+        https://api.itglue.com/developer/#models
 #>
 
     [CmdletBinding(DefaultParameterSetName = 'BulkUpdate', SupportsShouldProcess, ConfirmImpact = 'Low')]
@@ -8277,7 +9312,7 @@ function Set-ITGlueModel {
     end {}
 
 }
-#EndRegion '.\Public\Models\Set-ITGlueModel.ps1' 110
+#EndRegion '.\Public\Models\Set-ITGlueModel.ps1' 107
 #Region '.\Public\OperatingSystems\Get-ITGlueOperatingSystem.ps1' -1
 
 function Get-ITGlueOperatingSystem {
@@ -8288,11 +9323,6 @@ function Get-ITGlueOperatingSystem {
     .DESCRIPTION
         The Get-ITGlueOperatingSystem cmdlet returns a list of supported operating systems
         or the details of a defined operating system
-
-        This function can call the following endpoints:
-            Index = /operating_systems
-
-            Show =  /operating_systems/:id
 
     .PARAMETER FilterName
         Filter by operating system name
@@ -8345,7 +9375,7 @@ function Get-ITGlueOperatingSystem {
         https://celerium.github.io/Celerium.ITGlue/site/OperatingSystems/Get-ITGlueOperatingSystem.html
 
     .LINK
-        https://api.itglue.com/developer/#operating-systems-index
+        https://api.itglue.com/developer/#operating-systems
 #>
 
     [CmdletBinding(DefaultParameterSetName = 'Index')]
@@ -8412,7 +9442,7 @@ function Get-ITGlueOperatingSystem {
     end {}
 
 }
-#EndRegion '.\Public\OperatingSystems\Get-ITGlueOperatingSystem.ps1' 133
+#EndRegion '.\Public\OperatingSystems\Get-ITGlueOperatingSystem.ps1' 128
 #Region '.\Public\Organizations\Get-ITGlueOrganization.ps1' -1
 
 function Get-ITGlueOrganization {
@@ -8423,11 +9453,6 @@ function Get-ITGlueOrganization {
     .DESCRIPTION
         The Get-ITGlueOrganization cmdlet returns a list of organizations
         or details for a single organization in your account
-
-        This function can call the following endpoints:
-            Index = /organizations
-
-            Show =  /organizations/:id
 
     .PARAMETER FilterID
         Filter by an organization id
@@ -8548,7 +9573,7 @@ function Get-ITGlueOrganization {
         https://celerium.github.io/Celerium.ITGlue/site/Organizations/Get-ITGlueOrganization.html
 
     .LINK
-        https://api.itglue.com/developer/#organizations-index
+        https://api.itglue.com/developer/#organizations
 #>
 
     [CmdletBinding(DefaultParameterSetName = 'Index')]
@@ -8713,7 +9738,7 @@ function Get-ITGlueOrganization {
     end {}
 
 }
-#EndRegion '.\Public\Organizations\Get-ITGlueOrganization.ps1' 299
+#EndRegion '.\Public\Organizations\Get-ITGlueOrganization.ps1' 294
 #Region '.\Public\Organizations\New-ITGlueOrganization.ps1' -1
 
 function New-ITGlueOrganization {
@@ -8723,9 +9748,6 @@ function New-ITGlueOrganization {
 
     .DESCRIPTION
         The New-ITGlueOrganization cmdlet creates an organization
-
-        Examples of JSON objects can be found under ITGlues developer documentation
-            https://api.itglue.com/developer
 
     .PARAMETER Data
         JSON body depending on bulk changes or not
@@ -8745,7 +9767,7 @@ function New-ITGlueOrganization {
         https://celerium.github.io/Celerium.ITGlue/site/Organizations/New-ITGlueOrganization.html
 
     .LINK
-        https://api.itglue.com/developer/#organizations-create
+        https://api.itglue.com/developer/#organizations
 #>
 
     [CmdletBinding(DefaultParameterSetName = 'Create', SupportsShouldProcess, ConfirmImpact = 'Low')]
@@ -8778,7 +9800,7 @@ function New-ITGlueOrganization {
     end {}
 
 }
-#EndRegion '.\Public\Organizations\New-ITGlueOrganization.ps1' 63
+#EndRegion '.\Public\Organizations\New-ITGlueOrganization.ps1' 60
 #Region '.\Public\Organizations\Remove-ITGlueOrganization.ps1' -1
 
 function Remove-ITGlueOrganization {
@@ -8792,9 +9814,6 @@ function Remove-ITGlueOrganization {
 
         Because it can be a long procedure to delete organizations,
         removal from the system may not happen immediately
-
-        Examples of JSON objects can be found under ITGlues developer documentation
-            https://api.itglue.com/developer
 
     .PARAMETER FilterID
         Filter by an organization id
@@ -8865,7 +9884,7 @@ function Remove-ITGlueOrganization {
         https://celerium.github.io/Celerium.ITGlue/site/Organizations/Remove-ITGlueOrganization.html
 
     .LINK
-        https://api.itglue.com/developer/#organizations-bulk-destroy
+        https://api.itglue.com/developer/#organizations
 #>
 
     [CmdletBinding(DefaultParameterSetName = 'BulkDestroy', SupportsShouldProcess, ConfirmImpact = 'High')]
@@ -8990,7 +10009,7 @@ function Remove-ITGlueOrganization {
     end {}
 
 }
-#EndRegion '.\Public\Organizations\Remove-ITGlueOrganization.ps1' 210
+#EndRegion '.\Public\Organizations\Remove-ITGlueOrganization.ps1' 207
 #Region '.\Public\Organizations\Set-ITGlueOrganization.ps1' -1
 
 function Set-ITGlueOrganization {
@@ -9006,9 +10025,6 @@ function Set-ITGlueOrganization {
 
         Returns 422 Bad Request error if trying to update an externally synced record on
         attributes other than: alert, description, quick_notes
-
-        Examples of JSON objects can be found under ITGlues developer documentation
-            https://api.itglue.com/developer
 
     .PARAMETER ID
         Update an organization by id
@@ -9087,7 +10103,7 @@ function Set-ITGlueOrganization {
         https://celerium.github.io/Celerium.ITGlue/site/Organizations/Set-ITGlueOrganization.html
 
     .LINK
-        https://api.itglue.com/developer/#organizations-update
+        https://api.itglue.com/developer/#organizations
 #>
 
     [CmdletBinding(DefaultParameterSetName = 'BulkUpdate', SupportsShouldProcess, ConfirmImpact = 'Medium')]
@@ -9219,7 +10235,7 @@ function Set-ITGlueOrganization {
     end {}
 
 }
-#EndRegion '.\Public\Organizations\Set-ITGlueOrganization.ps1' 227
+#EndRegion '.\Public\Organizations\Set-ITGlueOrganization.ps1' 224
 #Region '.\Public\OrganizationStatuses\Get-ITGlueOrganizationStatus.ps1' -1
 
 function Get-ITGlueOrganizationStatus {
@@ -9230,11 +10246,6 @@ function Get-ITGlueOrganizationStatus {
     .DESCRIPTION
         The Get-ITGlueOrganizationStatus cmdlet returns a list of organization
         statuses or the details of a single organization status in your account
-
-        This function can call the following endpoints:
-            Index = /organization_statuses
-
-            Show =  /organization_statuses/:id
 
     .PARAMETER FilterName
         Filter by organization status name
@@ -9287,7 +10298,7 @@ function Get-ITGlueOrganizationStatus {
         https://celerium.github.io/Celerium.ITGlue/site/OrganizationStatuses/Get-ITGlueOrganizationStatus.html
 
     .LINK
-        https://api.itglue.com/developer/#organization-statuses-index
+        https://api.itglue.com/developer/#organization-statuses
 #>
 
     [CmdletBinding(DefaultParameterSetName = 'Index')]
@@ -9354,7 +10365,7 @@ function Get-ITGlueOrganizationStatus {
     end {}
 
 }
-#EndRegion '.\Public\OrganizationStatuses\Get-ITGlueOrganizationStatus.ps1' 133
+#EndRegion '.\Public\OrganizationStatuses\Get-ITGlueOrganizationStatus.ps1' 128
 #Region '.\Public\OrganizationStatuses\New-ITGlueOrganizationStatus.ps1' -1
 
 function New-ITGlueOrganizationStatus {
@@ -9365,9 +10376,6 @@ function New-ITGlueOrganizationStatus {
     .DESCRIPTION
         The New-ITGlueOrganizationStatus cmdlet creates a new organization
         status in your account
-
-        Examples of JSON objects can be found under ITGlues developer documentation
-            https://api.itglue.com/developer
 
     .PARAMETER Data
         JSON body depending on bulk changes or not
@@ -9387,7 +10395,7 @@ function New-ITGlueOrganizationStatus {
         https://celerium.github.io/Celerium.ITGlue/site/OrganizationStatuses/New-ITGlueOrganizationStatus.html
 
     .LINK
-        https://api.itglue.com/developer/#organization-statuses-create
+        https://api.itglue.com/developer/#organization-statuses
 #>
 
     [CmdletBinding(DefaultParameterSetName = 'Create', SupportsShouldProcess, ConfirmImpact = 'Low')]
@@ -9420,7 +10428,7 @@ function New-ITGlueOrganizationStatus {
     end{}
 
 }
-#EndRegion '.\Public\OrganizationStatuses\New-ITGlueOrganizationStatus.ps1' 64
+#EndRegion '.\Public\OrganizationStatuses\New-ITGlueOrganizationStatus.ps1' 61
 #Region '.\Public\OrganizationStatuses\Set-ITGlueOrganizationStatus.ps1' -1
 
 function Set-ITGlueOrganizationStatus {
@@ -9433,9 +10441,6 @@ function Set-ITGlueOrganizationStatus {
         in your account
 
         Returns 422 Bad Request error if trying to update an externally synced record
-
-        Examples of JSON objects can be found under ITGlues developer documentation
-            https://api.itglue.com/developer
 
     .PARAMETER ID
         Update an organization status by id
@@ -9459,7 +10464,7 @@ function Set-ITGlueOrganizationStatus {
         https://celerium.github.io/Celerium.ITGlue/site/OrganizationStatuses/Set-ITGlueOrganizationStatus.html
 
     .LINK
-        https://api.itglue.com/developer/#organization-statuses-update
+        https://api.itglue.com/developer/#organization-statuses
 #>
 
     [CmdletBinding(DefaultParameterSetName = 'Update', SupportsShouldProcess, ConfirmImpact = 'Medium')]
@@ -9495,7 +10500,7 @@ function Set-ITGlueOrganizationStatus {
     end{}
 
 }
-#EndRegion '.\Public\OrganizationStatuses\Set-ITGlueOrganizationStatus.ps1' 73
+#EndRegion '.\Public\OrganizationStatuses\Set-ITGlueOrganizationStatus.ps1' 70
 #Region '.\Public\OrganizationTypes\Get-ITGlueOrganizationType.ps1' -1
 
 function Get-ITGlueOrganizationType {
@@ -9506,11 +10511,6 @@ function Get-ITGlueOrganizationType {
     .DESCRIPTION
         The Get-ITGlueOrganizationType cmdlet returns a list of organization types
         or the details of a single organization type in your account
-
-        This function can call the following endpoints:
-            Index = /organization_types
-
-            Show =  /organization_types/:id
 
     .PARAMETER FilterName
         Filter by organization type name
@@ -9563,7 +10563,7 @@ function Get-ITGlueOrganizationType {
         https://celerium.github.io/Celerium.ITGlue/site/OrganizationTypes/Get-ITGlueOrganizationType.html
 
     .LINK
-        https://api.itglue.com/developer/#organization-types-index
+        https://api.itglue.com/developer/#organization-types
 #>
 
     [CmdletBinding(DefaultParameterSetName = 'Index')]
@@ -9630,7 +10630,7 @@ function Get-ITGlueOrganizationType {
     end{}
 
 }
-#EndRegion '.\Public\OrganizationTypes\Get-ITGlueOrganizationType.ps1' 133
+#EndRegion '.\Public\OrganizationTypes\Get-ITGlueOrganizationType.ps1' 128
 #Region '.\Public\OrganizationTypes\New-ITGlueOrganizationType.ps1' -1
 
 function New-ITGlueOrganizationType {
@@ -9641,9 +10641,6 @@ function New-ITGlueOrganizationType {
     .DESCRIPTION
         The New-ITGlueOrganizationType cmdlet creates a new organization type
         in your account
-
-        Examples of JSON objects can be found under ITGlues developer documentation
-            https://api.itglue.com/developer
 
     .PARAMETER Data
         JSON body depending on bulk changes or not
@@ -9663,7 +10660,7 @@ function New-ITGlueOrganizationType {
         https://celerium.github.io/Celerium.ITGlue/site/OrganizationTypes/New-ITGlueOrganizationType.html
 
     .LINK
-        https://api.itglue.com/developer/#organization-types-create
+        https://api.itglue.com/developer/#organization-types
 #>
 
     [CmdletBinding(DefaultParameterSetName = 'Create', SupportsShouldProcess, ConfirmImpact = 'Low')]
@@ -9696,7 +10693,7 @@ function New-ITGlueOrganizationType {
     end{}
 
 }
-#EndRegion '.\Public\OrganizationTypes\New-ITGlueOrganizationType.ps1' 64
+#EndRegion '.\Public\OrganizationTypes\New-ITGlueOrganizationType.ps1' 61
 #Region '.\Public\OrganizationTypes\Set-ITGlueOrganizationType.ps1' -1
 
 function Set-ITGlueOrganizationType {
@@ -9709,9 +10706,6 @@ function Set-ITGlueOrganizationType {
         in your account
 
         Returns 422 Bad Request error if trying to update an externally synced record
-
-        Examples of JSON objects can be found under ITGlues developer documentation
-            https://api.itglue.com/developer
 
     .PARAMETER ID
         Update an organization type by id
@@ -9734,7 +10728,7 @@ function Set-ITGlueOrganizationType {
         https://celerium.github.io/Celerium.ITGlue/site/OrganizationTypes/Set-ITGlueOrganizationType.html
 
     .LINK
-        https://api.itglue.com/developer/#organization-types-update
+        https://api.itglue.com/developer/#organization-types
 #>
 
     [CmdletBinding(DefaultParameterSetName = 'Update', SupportsShouldProcess, ConfirmImpact = 'Medium')]
@@ -9769,7 +10763,7 @@ function Set-ITGlueOrganizationType {
 
     end{}
 }
-#EndRegion '.\Public\OrganizationTypes\Set-ITGlueOrganizationType.ps1' 71
+#EndRegion '.\Public\OrganizationTypes\Set-ITGlueOrganizationType.ps1' 68
 #Region '.\Public\PasswordCategories\Get-ITGluePasswordCategory.ps1' -1
 
 function Get-ITGluePasswordCategory {
@@ -9780,11 +10774,6 @@ function Get-ITGluePasswordCategory {
     .DESCRIPTION
         The Get-ITGluePasswordCategory cmdlet returns a list of password categories
         or the details of a single password category in your account
-
-        This function can call the following endpoints:
-            Index = /password_categories
-
-            Show =  /password_categories/:id
 
     .PARAMETER FilterName
         Filter by a password category name
@@ -9837,7 +10826,7 @@ function Get-ITGluePasswordCategory {
         https://celerium.github.io/Celerium.ITGlue/site/PasswordCategories/Get-ITGluePasswordCategory.html
 
     .LINK
-        https://api.itglue.com/developer/#password-categories-index
+        https://api.itglue.com/developer/#password-categories
 #>
 
     [CmdletBinding(DefaultParameterSetName = 'Index')]
@@ -9904,7 +10893,7 @@ function Get-ITGluePasswordCategory {
     end {}
 
 }
-#EndRegion '.\Public\PasswordCategories\Get-ITGluePasswordCategory.ps1' 133
+#EndRegion '.\Public\PasswordCategories\Get-ITGluePasswordCategory.ps1' 128
 #Region '.\Public\PasswordCategories\New-ITGluePasswordCategory.ps1' -1
 
 function New-ITGluePasswordCategory {
@@ -9915,9 +10904,6 @@ function New-ITGluePasswordCategory {
     .DESCRIPTION
         The New-ITGluePasswordCategory cmdlet creates a new password category
         in your account
-
-        Examples of JSON objects can be found under ITGlues developer documentation
-            https://api.itglue.com/developer
 
     .PARAMETER Data
         JSON body depending on bulk changes or not
@@ -9937,7 +10923,7 @@ function New-ITGluePasswordCategory {
         https://celerium.github.io/Celerium.ITGlue/site/PasswordCategories/New-ITGluePasswordCategory.html
 
     .LINK
-        https://api.itglue.com/developer/#password-categories-create
+        https://api.itglue.com/developer/#password-categories
 #>
 
     [CmdletBinding(DefaultParameterSetName = 'Create', SupportsShouldProcess, ConfirmImpact = 'Low')]
@@ -9970,7 +10956,7 @@ function New-ITGluePasswordCategory {
     end{}
 
 }
-#EndRegion '.\Public\PasswordCategories\New-ITGluePasswordCategory.ps1' 64
+#EndRegion '.\Public\PasswordCategories\New-ITGluePasswordCategory.ps1' 61
 #Region '.\Public\PasswordCategories\Set-ITGluePasswordCategory.ps1' -1
 
 function Set-ITGluePasswordCategory {
@@ -9981,9 +10967,6 @@ function Set-ITGluePasswordCategory {
     .DESCRIPTION
         The Set-ITGluePasswordCategory cmdlet updates a password category
         in your account
-
-        Examples of JSON objects can be found under ITGlues developer documentation
-            https://api.itglue.com/developer
 
     .PARAMETER ID
         Update a password category by id
@@ -10006,7 +10989,7 @@ function Set-ITGluePasswordCategory {
         https://celerium.github.io/Celerium.ITGlue/site/PasswordCategories/Set-ITGluePasswordCategory.html
 
     .LINK
-        https://api.itglue.com/developer/#password-categories-update
+        https://api.itglue.com/developer/#password-categories
 #>
 
     [CmdletBinding(DefaultParameterSetName = 'Update', SupportsShouldProcess, ConfirmImpact = 'Medium')]
@@ -10042,7 +11025,412 @@ function Set-ITGluePasswordCategory {
     end{}
 
 }
-#EndRegion '.\Public\PasswordCategories\Set-ITGluePasswordCategory.ps1' 70
+#EndRegion '.\Public\PasswordCategories\Set-ITGluePasswordCategory.ps1' 67
+#Region '.\Public\PasswordFolders\Get-ITGluePasswordFolder.ps1' -1
+
+function Get-ITGluePasswordFolder {
+<#
+    .SYNOPSIS
+        List or show password folders
+
+    .DESCRIPTION
+        The Get-ITGluePasswordFolder cmdlet returns list of password folders
+
+    .PARAMETER OrganizationID
+        A valid organization Id in your account
+
+    .PARAMETER FilterID
+        Filter by password folder id
+
+    .PARAMETER Sort
+        Sort results by a defined value
+
+        Allowed values:
+        'created_at', 'updated-at',
+        '-created_at', '-updated-at'
+
+    .PARAMETER PageNumber
+        Return results starting from the defined number
+
+    .PARAMETER PageSize
+        Number of results to return per page
+
+        The maximum number of page results that can be
+        requested is 1000
+
+    .PARAMETER ID
+        Get a password folder by id
+
+    .PARAMETER Include
+        Include specified assets
+
+        Allowed values:
+        'user_resource_accesses', 'group_resource_accesses', 'authorized_users', 'ancestors'
+
+    .PARAMETER AllResults
+        Returns all items from an endpoint
+
+        This can be used in unison with -PageSize to limit the number of
+        sequential requests to the API
+
+    .EXAMPLE
+        Get-ITGluePasswordFolder -OrganizationID 12345
+
+        Returns the first 50 password folder results from your ITGlue account
+
+    .EXAMPLE
+        Get-ITGluePasswordFolder -OrganizationID 12345 -ID 8765309
+
+        Returns the password folder with the defined id
+
+    .EXAMPLE
+        Get-ITGluePasswordFolder -OrganizationID 12345 -PageNumber 2 -PageSize 10
+
+        Returns the first 10 results from the second page for password folders
+        for the defined organization in your ITGlue account
+
+    .NOTES
+        N/A
+
+    .LINK
+        https://celerium.github.io/Celerium.ITGlue/site/PasswordFolders/Get-ITGluePasswordFolder.html
+
+    .LINK
+        https://api.itglue.com/developer/#password-folders
+#>
+
+    [CmdletBinding(DefaultParameterSetName = 'Index')]
+    Param (
+        [Parameter(ParameterSetName = 'Index', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'Show', Mandatory = $true)]
+        [int64]$OrganizationID,
+
+        [Parameter(ParameterSetName = 'Index')]
+        [int64]$FilterID,
+
+        [Parameter(ParameterSetName = 'Index')]
+        [ValidateSet('created_at', 'updated-at','-created_at', '-updated-at')]
+        [string]$Sort,
+
+        [Parameter(ParameterSetName = 'Index')]
+        [int64]$PageNumber,
+
+        [Parameter(ParameterSetName = 'Index')]
+        [int64]$PageSize,
+
+        [Parameter(ParameterSetName = 'Show', ValueFromPipeline = $true , Mandatory = $true)]
+        [int64]$ID,
+
+        [Parameter(ParameterSetName = 'Show')]
+        [ValidateSet('user_resource_accesses', 'group_resource_accesses', 'authorized_users', 'ancestors')]
+        [string]$Include,
+
+        [Parameter(ParameterSetName = 'Index')]
+        [switch]$AllResults
+    )
+
+    begin {
+
+        $FunctionName       = $MyInvocation.InvocationName
+        $ParameterName      = $functionName + '_Parameters'      -replace '-','_'
+        $QueryParameterName = $functionName + '_ParametersQuery' -replace '-','_'
+
+    }
+
+    process {
+
+        Write-Verbose "[ $FunctionName ] - Running the [ $($PSCmdlet.ParameterSetName) ] parameterSet"
+
+        switch ($PSCmdlet.ParameterSetName){
+            'Index' {$ResourceUri = "/organizations/$OrganizationID/relationships/password_folders" }
+            'Show'  {$ResourceUri = "/organizations/$OrganizationID/relationships/password_folders/$ID"}
+        }
+
+        $UriParameters = @{}
+
+        #Region     [ Parameter Translation ]
+
+        if ($PSCmdlet.ParameterSetName -eq 'Index') {
+            if ($FilterID)                  { $UriParameters['filter[id]']                   = $FilterID }
+            if ($Sort)                      { $UriParameters['sort']                         = $Sort }
+            if ($PageNumber)                { $UriParameters['page[number]']                 = $PageNumber }
+            if ($PageSize)                  { $UriParameters['page[size]']                   = $PageSize }
+        }
+
+        if ($PSCmdlet.ParameterSetName -eq 'Show') {
+            if($Include) { $UriParameters['include'] = $Include }
+        }
+
+        #EndRegion  [ Parameter Translation ]
+
+        Set-Variable -Name $ParameterName -Value $PSBoundParameters -Scope Global -Force -Confirm:$false
+        Set-Variable -Name $QueryParameterName -Value $UriParameters -Scope Global -Force -Confirm:$false
+
+        return Invoke-ITGlueRequest -Method GET -ResourceURI $ResourceUri -UriFilter $UriParameters -AllResults:$AllResults
+
+    }
+
+    end {}
+
+}
+#EndRegion '.\Public\PasswordFolders\Get-ITGluePasswordFolder.ps1' 146
+#Region '.\Public\PasswordFolders\New-ITGluePasswordFolder.ps1' -1
+
+function New-ITGluePasswordFolder {
+<#
+    .SYNOPSIS
+        Creates a new password folder
+
+    .DESCRIPTION
+        The New-ITGluePasswordFolder cmdlet creates a new password folder
+        under the organization specified in the ID parameter.
+
+        Returns the created object if successful.
+
+    .PARAMETER OrganizationID
+        A valid organization Id in your account
+
+    .PARAMETER Name
+        The name of the new password folder
+
+    .PARAMETER Restricted
+        Restrict access to the password folder
+
+    .PARAMETER Data
+        JSON body depending on bulk changes or not
+
+        Do NOT include the "Data" property in the JSON object as this is handled
+        by the Invoke-ITGlueRequest function
+
+    .EXAMPLE
+        New-ITGluePasswordFolder -OrganizationID 12345 -Name "New Folder" -Restricted
+
+        Creates a new password folder with the defined name with restricted access
+
+    .EXAMPLE
+        New-ITGluePasswordFolder -OrganizationID 12345 -Data $JsonBody
+
+        Creates a new password folder with the defined JSON object
+
+    .NOTES
+        N/A
+
+    .LINK
+        https://celerium.github.io/Celerium.ITGlue/site/PasswordFolders/New-ITGluePasswordFolder.html
+
+    .LINK
+        https://api.itglue.com/developer/#password-folders
+#>
+
+    [CmdletBinding(DefaultParameterSetName = 'Create', SupportsShouldProcess, ConfirmImpact = 'Medium')]
+    Param (
+        [Parameter(ParameterSetName = 'Create', ValueFromPipeline = $true, Mandatory = $true)]
+        [Parameter(ParameterSetName = 'CreateSimple', ValueFromPipeline = $true, Mandatory = $true)]
+        [int64]$OrganizationID,
+
+        [Parameter(ParameterSetName = 'CreateSimple', Mandatory = $true)]
+        [string]$Name,
+
+        [Parameter(ParameterSetName = 'CreateSimple')]
+        [switch]$Restricted,
+
+        [Parameter(ParameterSetName = 'Create', Mandatory = $true)]
+        $Data
+    )
+
+    begin {
+
+        $FunctionName       = $MyInvocation.InvocationName
+        $ParameterName      = $functionName + '_Parameters'      -replace '-','_'
+
+    }
+
+    process {
+
+        Write-Verbose "[ $FunctionName ] - Running the [ $($PSCmdlet.ParameterSetName) ] parameterSet"
+
+        $ResourceUri = "/organizations/$OrganizationID/relationships/password_folders"
+
+        if ($PSCmdlet.ParameterSetName -eq 'CreateSimple') {
+            $Data = @{
+                type        = 'password_folders'
+                attributes  = @{
+                    name        = $Name
+                    restricted  = if($Restricted) { 'true' } else { 'false' }
+                }
+            }
+        }
+
+        Set-Variable -Name $ParameterName -Value $PSBoundParameters -Scope Global -Force -Confirm:$false
+
+        return Invoke-ITGlueRequest -Method POST -ResourceURI $ResourceUri -Data $Data
+
+    }
+
+    end {}
+
+}
+#EndRegion '.\Public\PasswordFolders\New-ITGluePasswordFolder.ps1' 95
+#Region '.\Public\PasswordFolders\Remove-ITGluePasswordFolder.ps1' -1
+
+function Remove-ITGluePasswordFolder {
+<#
+    .SYNOPSIS
+        Delete multiple password folders for a particular organization
+
+    .DESCRIPTION
+        The Remove-ITGluePasswordFolder cmdlet deletes one or more
+        specified password folders
+
+        Returns the deleted password folders and a 200 status code if successful
+        Returns 422 Unprocessable Entity error if trying to delete a password folder
+        that has dependent folders or passwords.
+
+    .PARAMETER OrganizationID
+        A valid organization Id in your account
+
+    .PARAMETER Data
+        JSON body depending on bulk changes or not
+
+        Do NOT include the "Data" property in the JSON object as this is handled
+        by the Invoke-ITGlueRequest function
+
+    .EXAMPLE
+        Remove-ITGluePasswordFolder -OrganizationID 12345 -Data $JsonBody
+
+        Deletes one or more specified password folders with the defined JSON object
+
+    .NOTES
+        N/A
+
+    .LINK
+        https://celerium.github.io/Celerium.ITGlue/site/PasswordFolders/Remove-ITGluePasswordFolder.html
+
+    .LINK
+        https://api.itglue.com/developer/#password-folders
+#>
+
+    [CmdletBinding(DefaultParameterSetName = 'BulkDestroy', SupportsShouldProcess, ConfirmImpact = 'High')]
+    Param (
+        [Parameter(ParameterSetName = 'BulkDestroy', ValueFromPipeline = $true, Mandatory = $true)]
+        [int64]$OrganizationID,
+
+        [Parameter(ParameterSetName = 'BulkDestroy', Mandatory = $true)]
+        $Data
+    )
+
+    begin {
+
+        $FunctionName       = $MyInvocation.InvocationName
+        $ParameterName      = $functionName + '_Parameters'      -replace '-','_'
+
+    }
+
+    process {
+
+        Write-Verbose "[ $FunctionName ] - Running the [ $($PSCmdlet.ParameterSetName) ] parameterSet"
+
+        $ResourceUri = "/organizations/$OrganizationID/relationships/password_folders"
+
+        Set-Variable -Name $ParameterName -Value $PSBoundParameters -Scope Global -Force -Confirm:$false
+
+        return Invoke-ITGlueRequest -Method DELETE -ResourceURI $ResourceUri -Data $Data
+
+    }
+
+    end {}
+
+}
+#EndRegion '.\Public\PasswordFolders\Remove-ITGluePasswordFolder.ps1' 69
+#Region '.\Public\PasswordFolders\Set-ITGluePasswordFolder.ps1' -1
+
+function Set-ITGluePasswordFolder {
+<#
+    .SYNOPSIS
+        Updates the details of an existing or list of password folders
+
+    .DESCRIPTION
+        The Set-ITGluePasswordFolder cmdlet updates the details of an existing
+        or list of password folders
+
+        Bulk updates using a nested relationships route are NOT supported
+
+        It will accept a partial representation of objects, as long as the required
+        parameters are present.
+
+        Any attributes you don't specify will remain unchanged
+
+    .PARAMETER OrganizationID
+        A valid organization Id in your account
+
+    .PARAMETER Id
+        Password folder id
+
+    .PARAMETER Data
+        JSON body depending on bulk changes or not
+
+        Do NOT include the "Data" property in the JSON object as this is handled
+        by the Invoke-ITGlueRequest function
+
+    .EXAMPLE
+        Set-ITGluePasswordFolder -OrganizationID 12345 -Id 8765309 -Data $JsonBody
+
+        Updates an existing password folder with the defined JSON object
+
+    .EXAMPLE
+        Set-ITGluePasswordFolder -Data $JsonBody
+
+        Updates an existing password folder with the defined JSON object
+
+    .NOTES
+        N/A
+
+    .LINK
+        https://celerium.github.io/Celerium.ITGlue/site/PasswordFolders/Set-ITGluePasswordFolder.html
+
+    .LINK
+        https://api.itglue.com/developer/#password-folders
+#>
+
+    [CmdletBinding(DefaultParameterSetName = 'BulkUpdate', SupportsShouldProcess, ConfirmImpact = 'Medium')]
+    Param (
+        [Parameter(ParameterSetName = 'Update', ValueFromPipeline = $true, Mandatory = $true)]
+        [int64]$OrganizationID,
+
+        [Parameter(ParameterSetName = 'Update', Mandatory = $true)]
+        [int64]$Id,
+
+        [Parameter(ParameterSetName = 'Update', Mandatory = $true)]
+        [Parameter(ParameterSetName = 'BulkUpdate', Mandatory = $true)]
+        $Data
+    )
+
+    begin {
+
+        $FunctionName       = $MyInvocation.InvocationName
+        $ParameterName      = $functionName + '_Parameters'      -replace '-','_'
+
+    }
+
+    process {
+
+        Write-Verbose "[ $FunctionName ] - Running the [ $($PSCmdlet.ParameterSetName) ] parameterSet"
+
+        switch ($PSCmdlet.ParameterSetName) {
+            'Update'        { $ResourceUri = "/organizations/$OrganizationID/relationships/password_folders/$Id" }
+            'BulkUpdate'    { $ResourceUri = "/password_folders" }
+        }
+
+        Set-Variable -Name $ParameterName -Value $PSBoundParameters -Scope Global -Force -Confirm:$false
+
+        return Invoke-ITGlueRequest -Method PATCH -ResourceURI $ResourceUri -Data $Data
+
+    }
+
+    end {}
+
+}
+#EndRegion '.\Public\PasswordFolders\Set-ITGluePasswordFolder.ps1' 87
 #Region '.\Public\Passwords\Get-ITGluePassword.ps1' -1
 
 function Get-ITGluePassword {
@@ -10055,13 +11443,6 @@ function Get-ITGluePassword {
         a specified organization, or the details of a single password
 
         To show passwords, your API key needs to have "Password Access" permission
-
-        This function can call the following endpoints:
-            Index = /passwords
-                    /organizations/:organization_id/relationships/passwords
-
-            Show =  /passwords/:id
-                    /organizations/:organization_id/relationships/passwords/:id
 
     .PARAMETER OrganizationID
         A valid organization Id in your account
@@ -10162,7 +11543,7 @@ function Get-ITGluePassword {
         https://celerium.github.io/Celerium.ITGlue/site/Passwords/Get-ITGluePassword.html
 
     .LINK
-        https://api.itglue.com/developer/#passwords-index
+        https://api.itglue.com/developer/#passwords
 #>
 
     [CmdletBinding(DefaultParameterSetName = 'Index')]
@@ -10294,7 +11675,7 @@ function Get-ITGluePassword {
     end {}
 
 }
-#EndRegion '.\Public\Passwords\Get-ITGluePassword.ps1' 250
+#EndRegion '.\Public\Passwords\Get-ITGluePassword.ps1' 243
 #Region '.\Public\Passwords\New-ITGluePassword.ps1' -1
 
 function New-ITGluePassword {
@@ -10315,9 +11696,6 @@ function New-ITGluePassword {
 
         If the resource-id and resource-type attributes are provided, IT Glue assumes
         the password is an embedded password
-
-        Examples of JSON objects can be found under ITGlues developer documentation
-            https://api.itglue.com/developer
 
     .PARAMETER OrganizationID
         A valid organization Id in your account
@@ -10357,7 +11735,7 @@ function New-ITGluePassword {
         https://celerium.github.io/Celerium.ITGlue/site/Passwords/New-ITGluePassword.html
 
     .LINK
-        https://api.itglue.com/developer/#passwords-create
+        https://api.itglue.com/developer/#passwords
 #>
 
     [CmdletBinding(DefaultParameterSetName = 'Create', SupportsShouldProcess, ConfirmImpact = 'Low')]
@@ -10406,7 +11784,7 @@ function New-ITGluePassword {
     end {}
 
 }
-#EndRegion '.\Public\Passwords\New-ITGluePassword.ps1' 110
+#EndRegion '.\Public\Passwords\New-ITGluePassword.ps1' 107
 #Region '.\Public\Passwords\Remove-ITGluePassword.ps1' -1
 
 function Remove-ITGluePassword {
@@ -10417,9 +11795,6 @@ function Remove-ITGluePassword {
     .DESCRIPTION
         The Remove-ITGluePassword cmdlet destroys one or more
         passwords specified by ID
-
-        Examples of JSON objects can be found under ITGlues developer documentation
-            https://api.itglue.com/developer
 
     .PARAMETER OrganizationID
         A valid organization Id in your account
@@ -10469,7 +11844,7 @@ function Remove-ITGluePassword {
         https://celerium.github.io/Celerium.ITGlue/site/Passwords/Remove-ITGluePassword.html
 
     .LINK
-        https://api.itglue.com/developer/#passwords-destroy
+        https://api.itglue.com/developer/#passwords
 #>
 
     [CmdletBinding(DefaultParameterSetName = 'Destroy', SupportsShouldProcess, ConfirmImpact = 'High')]
@@ -10559,7 +11934,7 @@ function Remove-ITGluePassword {
     end {}
 
 }
-#EndRegion '.\Public\Passwords\Remove-ITGluePassword.ps1' 151
+#EndRegion '.\Public\Passwords\Remove-ITGluePassword.ps1' 148
 #Region '.\Public\Passwords\Set-ITGluePassword.ps1' -1
 
 function Set-ITGluePassword {
@@ -10574,9 +11949,6 @@ function Set-ITGluePassword {
         To show passwords your API key needs to have the "Password Access" permission
 
         Any attributes you don't specify will remain unchanged
-
-        Examples of JSON objects can be found under ITGlues developer documentation
-            https://api.itglue.com/developer
 
     .PARAMETER OrganizationID
         A valid organization Id in your account
@@ -10619,7 +11991,7 @@ function Set-ITGluePassword {
         https://celerium.github.io/Celerium.ITGlue/site/Passwords/Set-ITGluePassword.html
 
     .LINK
-        https://api.itglue.com/developer/#passwords-update
+        https://api.itglue.com/developer/#passwords
 #>
 
     [CmdletBinding(DefaultParameterSetName = 'BulkUpdate', SupportsShouldProcess, ConfirmImpact = 'Medium')]
@@ -10677,7 +12049,7 @@ function Set-ITGluePassword {
     end {}
 
 }
-#EndRegion '.\Public\Passwords\Set-ITGluePassword.ps1' 116
+#EndRegion '.\Public\Passwords\Set-ITGluePassword.ps1' 113
 #Region '.\Public\Platforms\Get-ITGluePlatform.ps1' -1
 
 function Get-ITGluePlatform {
@@ -10688,11 +12060,6 @@ function Get-ITGluePlatform {
     .DESCRIPTION
         The Get-ITGluePlatform cmdlet returns a list of supported platforms
         or the details of a single platform from your account
-
-        This function can call the following endpoints:
-            Index = /platforms
-
-            Show =  /platforms/:id
 
     .PARAMETER FilterName
         Filter by platform name
@@ -10745,7 +12112,7 @@ function Get-ITGluePlatform {
         https://celerium.github.io/Celerium.ITGlue/site/Platforms/Get-ITGluePlatform.html
 
     .LINK
-        https://api.itglue.com/developer/#platforms-index
+        https://api.itglue.com/developer/#platforms
 #>
 
 
@@ -10813,7 +12180,7 @@ function Get-ITGluePlatform {
     end {}
 
 }
-#EndRegion '.\Public\Platforms\Get-ITGluePlatform.ps1' 134
+#EndRegion '.\Public\Platforms\Get-ITGluePlatform.ps1' 129
 #Region '.\Public\Regions\Get-ITGlueRegion.ps1' -1
 
 function Get-ITGlueRegion {
@@ -10824,13 +12191,6 @@ function Get-ITGlueRegion {
     .DESCRIPTION
         The Get-ITGlueRegion cmdlet returns a list of supported regions
         or the details of a single support region
-
-        This function can call the following endpoints:
-            Index = /regions
-                    /countries/:id/relationships/regions
-
-            Show =  /regions/:id
-                    /countries/:country_id/relationships/regions/:id
 
     .PARAMETER CountryID
         Get regions by country id
@@ -10893,7 +12253,7 @@ function Get-ITGlueRegion {
         https://celerium.github.io/Celerium.ITGlue/site/Regions/Get-ITGlueRegion.html
 
     .LINK
-        https://api.itglue.com/developer/#regions-index
+        https://api.itglue.com/developer/#regions
 #>
 
     [CmdletBinding(DefaultParameterSetName = 'Index')]
@@ -10978,7 +12338,7 @@ function Get-ITGlueRegion {
     end {}
 
 }
-#EndRegion '.\Public\Regions\Get-ITGlueRegion.ps1' 163
+#EndRegion '.\Public\Regions\Get-ITGlueRegion.ps1' 156
 #Region '.\Public\RelatedItems\New-ITGlueRelatedItem.ps1' -1
 
 function New-ITGlueRelatedItem {
@@ -10995,9 +12355,6 @@ function New-ITGlueRelatedItem {
 
         The destination item(s) are the items that match the destination_type
         and destination_id in the JSON object
-
-        Examples of JSON objects can be found under ITGlues developer documentation
-            https://api.itglue.com/developer
 
     .PARAMETER ResourceType
         The resource type of the parent resource
@@ -11029,7 +12386,7 @@ function New-ITGlueRelatedItem {
         https://celerium.github.io/Celerium.ITGlue/site/RelatedItems/New-ITGlueRelatedItem.html
 
     .LINK
-        https://api.itglue.com/developer/#related-items-create
+        https://api.itglue.com/developer/#related-items
 #>
 
     [CmdletBinding(DefaultParameterSetName = 'Create', SupportsShouldProcess, ConfirmImpact = 'Low')]
@@ -11071,7 +12428,7 @@ function New-ITGlueRelatedItem {
     end {}
 
 }
-#EndRegion '.\Public\RelatedItems\New-ITGlueRelatedItem.ps1' 91
+#EndRegion '.\Public\RelatedItems\New-ITGlueRelatedItem.ps1' 88
 #Region '.\Public\RelatedItems\Remove-ITGlueRelatedItem.ps1' -1
 
 function Remove-ITGlueRelatedItem {
@@ -11082,9 +12439,6 @@ function Remove-ITGlueRelatedItem {
     .DESCRIPTION
         The Remove-ITGlueRelatedItem cmdlet deletes one or more specified
         related items
-
-        Examples of JSON objects can be found under ITGlues developer documentation
-            https://api.itglue.com/developer
 
     .PARAMETER ResourceType
         The resource type of the parent resource
@@ -11116,7 +12470,7 @@ function Remove-ITGlueRelatedItem {
         https://celerium.github.io/Celerium.ITGlue/site/RelatedItems/Remove-ITGlueRelatedItem.html
 
     .LINK
-        https://api.itglue.com/developer/#related-items-bulk-destroy
+        https://api.itglue.com/developer/#related-items
 #>
 
     [CmdletBinding(DefaultParameterSetName = 'Destroy', SupportsShouldProcess, ConfirmImpact = 'High')]
@@ -11158,7 +12512,7 @@ function Remove-ITGlueRelatedItem {
     end {}
 
 }
-#EndRegion '.\Public\RelatedItems\Remove-ITGlueRelatedItem.ps1' 85
+#EndRegion '.\Public\RelatedItems\Remove-ITGlueRelatedItem.ps1' 82
 #Region '.\Public\RelatedItems\Set-ITGlueRelatedItem.ps1' -1
 
 function Set-ITGlueRelatedItem {
@@ -11172,9 +12526,6 @@ function Set-ITGlueRelatedItem {
 
         Only the related item notes that are displayed on the
         asset view screen can be changed
-
-        Examples of JSON objects can be found under ITGlues developer documentation
-            https://api.itglue.com/developer
 
     .PARAMETER ResourceType
         The resource type of the parent resource
@@ -11209,7 +12560,7 @@ function Set-ITGlueRelatedItem {
         https://celerium.github.io/Celerium.ITGlue/site/RelatedItems/Set-ITGlueRelatedItem.html
 
     .LINK
-        https://api.itglue.com/developer/#related-items-update
+        https://api.itglue.com/developer/#related-items
 #>
 
     [CmdletBinding(DefaultParameterSetName = 'Update', SupportsShouldProcess, ConfirmImpact = 'Medium')]
@@ -11254,7 +12605,7 @@ function Set-ITGlueRelatedItem {
 
     end {}
 }
-#EndRegion '.\Public\RelatedItems\Set-ITGlueRelatedItem.ps1' 94
+#EndRegion '.\Public\RelatedItems\Set-ITGlueRelatedItem.ps1' 91
 #Region '.\Public\UserMetrics\Get-ITGlueUserMetric.ps1' -1
 
 function Get-ITGlueUserMetric {
@@ -11333,7 +12684,7 @@ function Get-ITGlueUserMetric {
         https://celerium.github.io/Celerium.ITGlue/site/UserMetrics/Get-ITGlueUserMetric.html
 
     .LINK
-        https://api.itglue.com/developer/#accounts-user-metrics-daily-index
+        https://api.itglue.com/developer/#accounts-user-metrics-daily
 #>
 
     [CmdletBinding(DefaultParameterSetName = 'Index')]
@@ -11418,11 +12769,6 @@ function Get-ITGlueUser {
         The Get-ITGlueUser cmdlet returns a list of the users
         or the details of a single user in your account
 
-        This function can call the following endpoints:
-            Index = /users
-
-            Show =  /users/:id
-
     .PARAMETER FilterID
         Filter by user ID
 
@@ -11489,7 +12835,7 @@ function Get-ITGlueUser {
         https://celerium.github.io/Celerium.ITGlue/site/Users/Get-ITGlueUser.html
 
     .LINK
-        https://api.itglue.com/developer/#accounts-users-index
+        https://api.itglue.com/developer/#accounts-users
 #>
 
     [CmdletBinding(DefaultParameterSetName = 'Index')]
@@ -11574,7 +12920,7 @@ function Get-ITGlueUser {
     end {}
 
 }
-#EndRegion '.\Public\Users\Get-ITGlueUser.ps1' 166
+#EndRegion '.\Public\Users\Get-ITGlueUser.ps1' 161
 #Region '.\Public\Users\Set-ITGlueUser.ps1' -1
 
 function Set-ITGlueUser {
@@ -11585,9 +12931,6 @@ function Set-ITGlueUser {
     .DESCRIPTION
         The Set-ITGlueUser cmdlet updates the name or profile picture (avatar)
         of an existing user
-
-        Examples of JSON objects can be found under ITGlues developer documentation
-            https://api.itglue.com/developer
 
     .PARAMETER ID
         Update by user id
@@ -11610,7 +12953,7 @@ function Set-ITGlueUser {
         https://celerium.github.io/Celerium.ITGlue/site/Users/Set-ITGlueUser.html
 
     .LINK
-        https://api.itglue.com/developer/#accounts-users-update
+        https://api.itglue.com/developer/#accounts-users
 #>
 
     [CmdletBinding(DefaultParameterSetName = 'Update', SupportsShouldProcess, ConfirmImpact = 'Medium')]
@@ -11646,4 +12989,4 @@ function Set-ITGlueUser {
     end {}
 
 }
-#EndRegion '.\Public\Users\Set-ITGlueUser.ps1' 70
+#EndRegion '.\Public\Users\Set-ITGlueUser.ps1' 67

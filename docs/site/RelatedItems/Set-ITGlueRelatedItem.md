@@ -27,9 +27,6 @@ a particular resource
 Only the related item notes that are displayed on the
 asset view screen can be changed
 
-Examples of JSON objects can be found under ITGlues developer documentation
-    https://api.itglue.com/developer
-
 ## EXAMPLES
 
 ### EXAMPLE 1
@@ -155,5 +152,5 @@ N/A
 
 [https://celerium.github.io/Celerium.ITGlue/site/RelatedItems/Set-ITGlueRelatedItem.html](https://celerium.github.io/Celerium.ITGlue/site/RelatedItems/Set-ITGlueRelatedItem.html)
 
-[https://api.itglue.com/developer/#related-items-update](https://api.itglue.com/developer/#related-items-update)
+[https://api.itglue.com/developer/#related-items](https://api.itglue.com/developer/#related-items)
 

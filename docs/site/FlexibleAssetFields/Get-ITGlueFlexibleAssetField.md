@@ -30,12 +30,6 @@ Get-ITGlueFlexibleAssetField [-FlexibleAssetTypeID <Int64>] -ID <Int64> [<Common
 The Get-ITGlueFlexibleAssetField cmdlet lists or shows all flexible asset fields
 for a particular flexible asset type
 
-This function can call the following endpoints:
-    Index = /flexible_asset_types/:flexible_asset_type_id/relationships/flexible_asset_fields
-
-    Show =  /flexible_asset_fields/:id
-            /flexible_asset_types/:flexible_asset_type_id/relationships/flexible_asset_fields/:id
-
 ## EXAMPLES
 
 ### EXAMPLE 1
@@ -221,5 +215,5 @@ N/A
 
 [https://celerium.github.io/Celerium.ITGlue/site/FlexibleAssetFields/Get-ITGlueFlexibleAssetField.html](https://celerium.github.io/Celerium.ITGlue/site/FlexibleAssetFields/Get-ITGlueFlexibleAssetField.html)
 
-[https://api.itglue.com/developer/#flexible-asset-fields-index](https://api.itglue.com/developer/#flexible-asset-fields-index)
+[https://api.itglue.com/developer/#flexible-asset-fields](https://api.itglue.com/developer/#flexible-asset-fields)
 

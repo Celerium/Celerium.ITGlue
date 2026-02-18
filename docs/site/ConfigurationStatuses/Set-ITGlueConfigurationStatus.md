@@ -25,9 +25,6 @@ status in your account
 
 Returns 422 Bad Request error if trying to update an externally synced record
 
-Examples of JSON objects can be found under ITGlues developer documentation
-    https://api.itglue.com/developer
-
 ## EXAMPLES
 
 ### EXAMPLE 1
@@ -117,5 +114,5 @@ N/A
 
 [https://celerium.github.io/Celerium.ITGlue/site/ConfigurationStatuses/Set-ITGlueConfigurationStatus.html](https://celerium.github.io/Celerium.ITGlue/site/ConfigurationStatuses/Set-ITGlueConfigurationStatus.html)
 
-[https://api.itglue.com/developer/#configuration-statuses-update](https://api.itglue.com/developer/#configuration-statuses-update)
+[https://api.itglue.com/developer/#configuration-statuses](https://api.itglue.com/developer/#configuration-statuses)
 

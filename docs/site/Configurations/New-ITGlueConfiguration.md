@@ -23,9 +23,6 @@ New-ITGlueConfiguration [[-OrganizationID] <Int64>] [-Data] <Object> [-WhatIf] [
 The New-ITGlueConfiguration cmdlet creates one or more
 configurations under a defined organization
 
-Examples of JSON objects can be found under ITGlues developer documentation
-    https://api.itglue.com/developer
-
 ## EXAMPLES
 
 ### EXAMPLE 1
@@ -116,5 +113,5 @@ N/A
 
 [https://celerium.github.io/Celerium.ITGlue/site/Configurations/New-ITGlueConfiguration.html](https://celerium.github.io/Celerium.ITGlue/site/Configurations/New-ITGlueConfiguration.html)
 
-[https://api.itglue.com/developer/#configurations-create](https://api.itglue.com/developer/#configurations-create)
+[https://api.itglue.com/developer/#configurations](https://api.itglue.com/developer/#configurations)
 

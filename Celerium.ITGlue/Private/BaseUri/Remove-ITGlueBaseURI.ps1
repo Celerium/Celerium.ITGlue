@@ -30,7 +30,7 @@ function Remove-ITGlueBaseURI {
 
             $true   {
                 if ($PSCmdlet.ShouldProcess('ITGlueModuleBaseURI')) {
-                    Remove-Variable -Name "ITGlueModuleBaseURI" -Scope global -Force
+                    Remove-Variable -Name "ITGlueModuleBaseURI" -Scope Global -Force
                 }
             }
             $false  { Write-Warning "The ITGlue base URI variable is not set. Nothing to remove" }

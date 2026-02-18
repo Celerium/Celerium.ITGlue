@@ -29,9 +29,6 @@ screen can be changed
 
 The original file_name can't be changed
 
-Examples of JSON objects can be found under ITGlues developer documentation
-    https://api.itglue.com/developer
-
 ## EXAMPLES
 
 ### EXAMPLE 1
@@ -155,5 +152,5 @@ N/A
 
 [https://celerium.github.io/Celerium.ITGlue/site/Attachments/Set-ITGlueAttachment.html](https://celerium.github.io/Celerium.ITGlue/site/Attachments/Set-ITGlueAttachment.html)
 
-[https://api.itglue.com/developer/#attachments-update](https://api.itglue.com/developer/#attachments-update)
+[https://api.itglue.com/developer/#attachments](https://api.itglue.com/developer/#attachments)
 

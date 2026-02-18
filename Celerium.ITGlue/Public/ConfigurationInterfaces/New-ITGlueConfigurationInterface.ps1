@@ -7,13 +7,8 @@ function New-ITGlueConfigurationInterface {
         The New-ITGlueConfigurationInterface cmdlet creates one or more configuration
         interfaces for a particular configuration(s)
 
-        Examples of JSON objects can be found under ITGlues developer documentation
-            https://api.itglue.com/developer
-
     .PARAMETER ConfigurationID
         A valid configuration ID in your account
-
-
 
     .PARAMETER Data
         JSON body depending on bulk changes or not
@@ -33,7 +28,7 @@ function New-ITGlueConfigurationInterface {
         https://celerium.github.io/Celerium.ITGlue/site/ConfigurationInterfaces/New-ITGlueConfigurationInterface.html
 
     .LINK
-        https://api.itglue.com/developer/#configuration-interfaces-create
+        https://api.itglue.com/developer/#configuration-interfaces
 #>
 
     [CmdletBinding(DefaultParameterSetName = 'Create', SupportsShouldProcess, ConfirmImpact = 'Low')]

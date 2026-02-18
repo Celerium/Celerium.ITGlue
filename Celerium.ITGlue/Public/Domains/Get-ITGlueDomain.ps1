@@ -7,10 +7,6 @@ function Get-ITGlueDomain {
         The Get-ITGlueDomain cmdlet list or show all domains in
         your account or from a specified organization
 
-        This function can call the following endpoints:
-            Index = /domains
-                    /organizations/:organization_id/relationships/domains
-
     .PARAMETER OrganizationID
         A valid organization Id in your Account
 
@@ -71,7 +67,7 @@ function Get-ITGlueDomain {
         https://celerium.github.io/Celerium.ITGlue/site/Domains/Get-ITGlueDomain.html
 
     .LINK
-        https://api.itglue.com/developer/#domains-index
+        https://api.itglue.com/developer/#domains
 #>
 
     [CmdletBinding(DefaultParameterSetName = 'Index')]

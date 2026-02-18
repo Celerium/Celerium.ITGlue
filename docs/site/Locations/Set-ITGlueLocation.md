@@ -41,9 +41,6 @@ an existing location or locations
 
 Any attributes you don't specify will remain unchanged
 
-Examples of JSON objects can be found under ITGlues developer documentation
-    https://api.itglue.com/developer
-
 ## EXAMPLES
 
 ### EXAMPLE 1
@@ -283,5 +280,5 @@ N/A
 
 [https://celerium.github.io/Celerium.ITGlue/site/Locations/Set-ITGlueLocation.html](https://celerium.github.io/Celerium.ITGlue/site/Locations/Set-ITGlueLocation.html)
 
-[https://api.itglue.com/developer/#locations-update](https://api.itglue.com/developer/#locations-update)
+[https://api.itglue.com/developer/#locations](https://api.itglue.com/developer/#locations)
 

@@ -12,9 +12,6 @@ function Set-ITGlueOrganization {
         Returns 422 Bad Request error if trying to update an externally synced record on
         attributes other than: alert, description, quick_notes
 
-        Examples of JSON objects can be found under ITGlues developer documentation
-            https://api.itglue.com/developer
-
     .PARAMETER ID
         Update an organization by id
 
@@ -92,7 +89,7 @@ function Set-ITGlueOrganization {
         https://celerium.github.io/Celerium.ITGlue/site/Organizations/Set-ITGlueOrganization.html
 
     .LINK
-        https://api.itglue.com/developer/#organizations-update
+        https://api.itglue.com/developer/#organizations
 #>
 
     [CmdletBinding(DefaultParameterSetName = 'BulkUpdate', SupportsShouldProcess, ConfirmImpact = 'Medium')]

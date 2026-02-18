@@ -39,9 +39,6 @@ Remove-ITGlueContact [-OrganizationID <Int64>] [-FilterID <Int64>] [-FilterFirst
 ## DESCRIPTION
 The Remove-ITGlueContact cmdlet deletes one or more specified contacts
 
-Examples of JSON objects can be found under ITGlues developer documentation
-    https://api.itglue.com/developer
-
 ## EXAMPLES
 
 ### EXAMPLE 1
@@ -306,5 +303,5 @@ N/A
 
 [https://celerium.github.io/Celerium.ITGlue/site/Contacts/Remove-ITGlueContact.html](https://celerium.github.io/Celerium.ITGlue/site/Contacts/Remove-ITGlueContact.html)
 
-[https://api.itglue.com/developer/#contacts-bulk-destroy](https://api.itglue.com/developer/#contacts-bulk-destroy)
+[https://api.itglue.com/developer/#contacts](https://api.itglue.com/developer/#contacts)
 

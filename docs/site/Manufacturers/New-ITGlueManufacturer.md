@@ -22,9 +22,6 @@ New-ITGlueManufacturer [-Data] <Object> [-WhatIf] [-Confirm] [<CommonParameters>
 ## DESCRIPTION
 The New-ITGlueManufacturer cmdlet creates a new manufacturer
 
-Examples of JSON objects can be found under ITGlues developer documentation
-    https://api.itglue.com/developer
-
 ## EXAMPLES
 
 ### EXAMPLE 1
@@ -99,5 +96,5 @@ N/A
 
 [https://celerium.github.io/Celerium.ITGlue/site/Manufacturers/New-ITGlueManufacturer.html](https://celerium.github.io/Celerium.ITGlue/site/Manufacturers/New-ITGlueManufacturer.html)
 
-[https://api.itglue.com/developer/#manufacturers-create](https://api.itglue.com/developer/#manufacturers-create)
+[https://api.itglue.com/developer/#manufacturers](https://api.itglue.com/developer/#manufacturers)
 

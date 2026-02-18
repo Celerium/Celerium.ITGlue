@@ -34,9 +34,6 @@ Remove-ITGlueLocation [-OrganizationID <Int64>] [-ID <Int64>] [-FilterID <Int64>
 The Set-ITGlueLocation cmdlet deletes one or more
 specified locations
 
-Examples of JSON objects can be found under ITGlues developer documentation
-    https://api.itglue.com/developer
-
 ## EXAMPLES
 
 ### EXAMPLE 1
@@ -283,5 +280,5 @@ N/A
 
 [https://celerium.github.io/Celerium.ITGlue/site/Locations/Remove-ITGlueLocation.html](https://celerium.github.io/Celerium.ITGlue/site/Locations/Remove-ITGlueLocation.html)
 
-[https://api.itglue.com/developer/#locations-bulk-destroy](https://api.itglue.com/developer/#locations-bulk-destroy)
+[https://api.itglue.com/developer/#locations](https://api.itglue.com/developer/#locations)
 

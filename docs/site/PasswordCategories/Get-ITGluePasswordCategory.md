@@ -30,11 +30,6 @@ Get-ITGluePasswordCategory -ID <Int64> [<CommonParameters>]
 The Get-ITGluePasswordCategory cmdlet returns a list of password categories
 or the details of a single password category in your account
 
-This function can call the following endpoints:
-    Index = /password_categories
-
-    Show =  /password_categories/:id
-
 ## EXAMPLES
 
 ### EXAMPLE 1
@@ -175,5 +170,5 @@ N/A
 
 [https://celerium.github.io/Celerium.ITGlue/site/PasswordCategories/Get-ITGluePasswordCategory.html](https://celerium.github.io/Celerium.ITGlue/site/PasswordCategories/Get-ITGluePasswordCategory.html)
 
-[https://api.itglue.com/developer/#password-categories-index](https://api.itglue.com/developer/#password-categories-index)
+[https://api.itglue.com/developer/#password-categories](https://api.itglue.com/developer/#password-categories)
 

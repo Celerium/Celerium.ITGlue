@@ -9,9 +9,6 @@ function Set-ITGlueContactType {
 
         Returns 422 Bad Request error if trying to update an externally synced record
 
-        Examples of JSON objects can be found under ITGlues developer documentation
-            https://api.itglue.com/developer
-
     .PARAMETER ID
         Define the contact type id to update
 
@@ -33,7 +30,7 @@ function Set-ITGlueContactType {
         https://celerium.github.io/Celerium.ITGlue/site/ContactTypes/Set-ITGlueContactType.html
 
     .LINK
-        https://api.itglue.com/developer/#contact-types-update
+        https://api.itglue.com/developer/#contact-types
 #>
 
     [CmdletBinding(DefaultParameterSetName = 'Update', SupportsShouldProcess, ConfirmImpact = 'Medium')]

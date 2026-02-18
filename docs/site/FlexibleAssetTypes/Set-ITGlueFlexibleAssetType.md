@@ -25,9 +25,6 @@ existing flexible asset type in your account
 
 Any attributes you don't specify will remain unchanged
 
-Examples of JSON objects can be found under ITGlues developer documentation
-    https://api.itglue.com/developer
-
 ## EXAMPLES
 
 ### EXAMPLE 1
@@ -117,5 +114,5 @@ N/A
 
 [https://celerium.github.io/Celerium.ITGlue/site/FlexibleAssetTypes/Set-ITGlueFlexibleAssetType.html](https://celerium.github.io/Celerium.ITGlue/site/FlexibleAssetTypes/Set-ITGlueFlexibleAssetType.html)
 
-[https://api.itglue.com/developer/#flexible-asset-types-update](https://api.itglue.com/developer/#flexible-asset-types-update)
+[https://api.itglue.com/developer/#flexible-asset-types](https://api.itglue.com/developer/#flexible-asset-types)
 

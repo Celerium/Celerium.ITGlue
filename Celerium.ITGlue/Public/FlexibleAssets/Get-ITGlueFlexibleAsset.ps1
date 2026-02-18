@@ -8,11 +8,6 @@ function Get-ITGlueFlexibleAsset {
         the details of a single flexible assets based on the unique ID of the
         flexible asset type
 
-        This function can call the following endpoints:
-            Index = /flexible_assets
-
-            Show =  /flexible_assets/:id
-
     .PARAMETER FilterFlexibleAssetTypeID
         Filter by a flexible asset id
 
@@ -80,7 +75,7 @@ function Get-ITGlueFlexibleAsset {
         https://celerium.github.io/Celerium.ITGlue/site/FlexibleAssets/Get-ITGlueFlexibleAsset.html
 
     .LINK
-        https://api.itglue.com/developer/#flexible-assets-index
+        https://api.itglue.com/developer/#flexible-assets
 #>
 
     [CmdletBinding(DefaultParameterSetName = 'Index')]

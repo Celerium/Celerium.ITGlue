@@ -30,11 +30,6 @@ Get-ITGlueConfigurationStatus -ID <Int64> [<CommonParameters>]
 The Get-ITGlueConfigurationStatus cmdlet lists all or shows a
 defined configuration(s) status
 
-This function can call the following endpoints:
-    Index = /configuration_statuses
-
-    Show =  /configuration_statuses/:id
-
 ## EXAMPLES
 
 ### EXAMPLE 1
@@ -175,5 +170,5 @@ N/A
 
 [https://celerium.github.io/Celerium.ITGlue/site/ConfigurationStatuses/Get-ITGlueConfigurationStatus.html](https://celerium.github.io/Celerium.ITGlue/site/ConfigurationStatuses/Get-ITGlueConfigurationStatus.html)
 
-[https://api.itglue.com/developer/#configuration-statuses-index](https://api.itglue.com/developer/#configuration-statuses-index)
+[https://api.itglue.com/developer/#configuration-statuses](https://api.itglue.com/developer/#configuration-statuses)
 

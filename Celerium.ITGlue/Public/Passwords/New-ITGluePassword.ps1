@@ -17,9 +17,6 @@ function New-ITGluePassword {
         If the resource-id and resource-type attributes are provided, IT Glue assumes
         the password is an embedded password
 
-        Examples of JSON objects can be found under ITGlues developer documentation
-            https://api.itglue.com/developer
-
     .PARAMETER OrganizationID
         A valid organization Id in your account
 
@@ -58,7 +55,7 @@ function New-ITGluePassword {
         https://celerium.github.io/Celerium.ITGlue/site/Passwords/New-ITGluePassword.html
 
     .LINK
-        https://api.itglue.com/developer/#passwords-create
+        https://api.itglue.com/developer/#passwords
 #>
 
     [CmdletBinding(DefaultParameterSetName = 'Create', SupportsShouldProcess, ConfirmImpact = 'Low')]

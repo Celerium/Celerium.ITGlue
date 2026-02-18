@@ -9,16 +9,6 @@ function Set-ITGlueConfigurationInterface {
 
         Any attributes you don't specify will remain unchanged
 
-        This function can call the following endpoints:
-            Update =    /configuration_interfaces/:id
-                        /configurations/:conf_id/relationships/configuration_interfaces/:id
-
-            Bulk_Update =   /configuration_interfaces
-                            /configurations/:conf_id/relationships/configuration_interfaces/:id
-
-        Examples of JSON objects can be found under ITGlues developer documentation
-            https://api.itglue.com/developer
-
     .PARAMETER ID
         A valid configuration interface ID in your account
 
@@ -27,12 +17,8 @@ function Set-ITGlueConfigurationInterface {
     .PARAMETER ConfigurationID
         A valid configuration ID in your account
 
-
-
     .PARAMETER FilterID
         Configuration id to filter by
-
-
 
     .PARAMETER FilterIPAddress
         Filter by an IP4 or IP6 address
@@ -62,7 +48,7 @@ function Set-ITGlueConfigurationInterface {
         https://celerium.github.io/Celerium.ITGlue/site/ConfigurationInterfaces/Set-ITGlueConfigurationInterface.html
 
     .LINK
-        https://api.itglue.com/developer/#configuration-interfaces-update
+        https://api.itglue.com/developer/#configuration-interfaces
 #>
 
     [CmdletBinding(DefaultParameterSetName = 'BulkUpdate', SupportsShouldProcess, ConfirmImpact = 'Medium')]

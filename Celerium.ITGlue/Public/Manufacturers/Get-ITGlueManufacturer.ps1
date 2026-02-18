@@ -7,11 +7,6 @@ function Get-ITGlueManufacturer {
         The Get-ITGlueManufacturer cmdlet returns a manufacturer name
         or a list of manufacturers in your account
 
-        This function can call the following endpoints:
-            Index = /manufacturers
-
-            Show =  /manufacturers/:id
-
     .PARAMETER FilterName
         Filter by a manufacturers name
 
@@ -63,7 +58,7 @@ function Get-ITGlueManufacturer {
         https://celerium.github.io/Celerium.ITGlue/site/Manufacturers/Get-ITGlueManufacturer.html
 
     .LINK
-        https://api.itglue.com/developer/#manufacturers-index
+        https://api.itglue.com/developer/#manufacturers
 #>
 
     [CmdletBinding(DefaultParameterSetName = 'Index')]

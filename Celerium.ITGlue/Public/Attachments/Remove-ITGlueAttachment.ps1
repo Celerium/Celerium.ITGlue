@@ -7,9 +7,6 @@ function Remove-ITGlueAttachment {
         The Remove-ITGlueAttachment cmdlet deletes one
         or more specified attachments
 
-        Examples of JSON objects can be found under ITGlues developer documentation
-            https://api.itglue.com/developer
-
     .PARAMETER ResourceType
         The resource type of the parent resource
 
@@ -39,7 +36,7 @@ function Remove-ITGlueAttachment {
         https://celerium.github.io/Celerium.ITGlue/site/Attachments/Remove-ITGlueAttachment.html
 
     .LINK
-        https://api.itglue.com/developer/#attachments-bulk-destroy
+        https://api.itglue.com/developer/#attachments
 #>
 
     [CmdletBinding(DefaultParameterSetName = 'Destroy', SupportsShouldProcess, ConfirmImpact = 'High')]

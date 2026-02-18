@@ -9,13 +9,6 @@ function Get-ITGluePassword {
 
         To show passwords, your API key needs to have "Password Access" permission
 
-        This function can call the following endpoints:
-            Index = /passwords
-                    /organizations/:organization_id/relationships/passwords
-
-            Show =  /passwords/:id
-                    /organizations/:organization_id/relationships/passwords/:id
-
     .PARAMETER OrganizationID
         A valid organization Id in your account
 
@@ -115,7 +108,7 @@ function Get-ITGluePassword {
         https://celerium.github.io/Celerium.ITGlue/site/Passwords/Get-ITGluePassword.html
 
     .LINK
-        https://api.itglue.com/developer/#passwords-index
+        https://api.itglue.com/developer/#passwords
 #>
 
     [CmdletBinding(DefaultParameterSetName = 'Index')]

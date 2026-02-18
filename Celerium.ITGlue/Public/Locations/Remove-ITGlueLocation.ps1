@@ -7,9 +7,6 @@ function Remove-ITGlueLocation {
         The Set-ITGlueLocation cmdlet deletes one or more
         specified locations
 
-        Examples of JSON objects can be found under ITGlues developer documentation
-            https://api.itglue.com/developer
-
     .PARAMETER OrganizationID
         The valid organization id in your account
 
@@ -66,7 +63,7 @@ function Remove-ITGlueLocation {
         https://celerium.github.io/Celerium.ITGlue/site/Locations/Remove-ITGlueLocation.html
 
     .LINK
-        https://api.itglue.com/developer/#locations-bulk-destroy
+        https://api.itglue.com/developer/#locations
 #>
 
     [CmdletBinding(DefaultParameterSetName = 'BulkDestroy', SupportsShouldProcess, ConfirmImpact = 'High')]

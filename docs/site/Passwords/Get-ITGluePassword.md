@@ -35,13 +35,6 @@ a specified organization, or the details of a single password
 
 To show passwords, your API key needs to have "Password Access" permission
 
-This function can call the following endpoints:
-    Index = /passwords
-            /organizations/:organization_id/relationships/passwords
-
-    Show =  /passwords/:id
-            /organizations/:organization_id/relationships/passwords/:id
-
 ## EXAMPLES
 
 ### EXAMPLE 1
@@ -350,5 +343,5 @@ N/A
 
 [https://celerium.github.io/Celerium.ITGlue/site/Passwords/Get-ITGluePassword.html](https://celerium.github.io/Celerium.ITGlue/site/Passwords/Get-ITGluePassword.html)
 
-[https://api.itglue.com/developer/#passwords-index](https://api.itglue.com/developer/#passwords-index)
+[https://api.itglue.com/developer/#passwords](https://api.itglue.com/developer/#passwords)
 

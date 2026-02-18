@@ -13,9 +13,6 @@ function New-ITGlueExport {
         The actual export attachment will be created later after the export record is created
         Please check back using show endpoint, you will see a downloadable url when the record shows done
 
-        Examples of JSON objects can be found under ITGlues developer documentation
-            https://api.itglue.com/developer
-
     .PARAMETER OrganizationID
         A valid organization Id in your account
 
@@ -45,7 +42,7 @@ function New-ITGlueExport {
         https://celerium.github.io/Celerium.ITGlue/site/Exports/New-ITGlueExport.html
 
     .LINK
-        https://api.itglue.com/developer/#exports-create
+        https://api.itglue.com/developer/#exports
 #>
 
     [CmdletBinding(DefaultParameterSetName = 'Create',SupportsShouldProcess, ConfirmImpact = 'Low')]

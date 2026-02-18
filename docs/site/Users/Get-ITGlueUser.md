@@ -31,11 +31,6 @@ Get-ITGlueUser -ID <Int64> [<CommonParameters>]
 The Get-ITGlueUser cmdlet returns a list of the users
 or the details of a single user in your account
 
-This function can call the following endpoints:
-    Index = /users
-
-    Show =  /users/:id
-
 ## EXAMPLES
 
 ### EXAMPLE 1
@@ -239,5 +234,5 @@ N/A
 
 [https://celerium.github.io/Celerium.ITGlue/site/Users/Get-ITGlueUser.html](https://celerium.github.io/Celerium.ITGlue/site/Users/Get-ITGlueUser.html)
 
-[https://api.itglue.com/developer/#accounts-users-index](https://api.itglue.com/developer/#accounts-users-index)
+[https://api.itglue.com/developer/#accounts-users](https://api.itglue.com/developer/#accounts-users)
 

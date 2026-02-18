@@ -12,9 +12,6 @@ function Set-ITGlueAttachment {
 
         The original file_name can't be changed
 
-        Examples of JSON objects can be found under ITGlues developer documentation
-            https://api.itglue.com/developer
-
     .PARAMETER ResourceType
         The resource type of the parent resource
 
@@ -46,7 +43,7 @@ function Set-ITGlueAttachment {
         https://celerium.github.io/Celerium.ITGlue/site/Attachments/Set-ITGlueAttachment.html
 
     .LINK
-        https://api.itglue.com/developer/#attachments-update
+        https://api.itglue.com/developer/#attachments
 #>
 
     [CmdletBinding(DefaultParameterSetName = 'Update', SupportsShouldProcess, ConfirmImpact = 'Medium')]

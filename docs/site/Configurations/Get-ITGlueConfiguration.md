@@ -64,13 +64,6 @@ Get-ITGlueConfiguration [-OrganizationID <Int64>] [-FilterID <Int64>] [-FilterNa
 The Get-ITGlueConfiguration cmdlet lists all configurations
 in an account or organization
 
-This function can call the following endpoints:
-    Index = /configurations
-            /organizations/:organization_id/relationships/configurations
-
-    Show =  /configurations/:id
-            /organizations/:organization_id/relationships/configurations/:id
-
 ## EXAMPLES
 
 ### EXAMPLE 1
@@ -487,5 +480,5 @@ N/A
 
 [https://celerium.github.io/Celerium.ITGlue/site/Configurations/Get-ITGlueConfiguration.html](https://celerium.github.io/Celerium.ITGlue/site/Configurations/Get-ITGlueConfiguration.html)
 
-[https://api.itglue.com/developer/#configurations-index](https://api.itglue.com/developer/#configurations-index)
+[https://api.itglue.com/developer/#configurations](https://api.itglue.com/developer/#configurations)
 

@@ -9,9 +9,6 @@ function New-ITGlueContact {
 
         Can also be used create multiple new contacts in bulk
 
-        Examples of JSON objects can be found under ITGlues developer documentation
-            https://api.itglue.com/developer
-
     .PARAMETER OrganizationID
         The organization id to create the contact(s) in
 
@@ -34,7 +31,7 @@ function New-ITGlueContact {
         https://celerium.github.io/Celerium.ITGlue/site/Contacts/New-ITGlueContact.html
 
     .LINK
-        https://api.itglue.com/developer/#contacts-create
+        https://api.itglue.com/developer/#contacts
 #>
 
     [CmdletBinding(DefaultParameterSetName = 'Create', SupportsShouldProcess, ConfirmImpact = 'Low')]

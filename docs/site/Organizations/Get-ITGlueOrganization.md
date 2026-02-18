@@ -46,11 +46,6 @@ Get-ITGlueOrganization -ID <Int64> [-Include <String>] [<CommonParameters>]
 The Get-ITGlueOrganization cmdlet returns a list of organizations
 or details for a single organization in your account
 
-This function can call the following endpoints:
-    Index = /organizations
-
-    Show =  /organizations/:id
-
 ## EXAMPLES
 
 ### EXAMPLE 1
@@ -475,5 +470,5 @@ N/A
 
 [https://celerium.github.io/Celerium.ITGlue/site/Organizations/Get-ITGlueOrganization.html](https://celerium.github.io/Celerium.ITGlue/site/Organizations/Get-ITGlueOrganization.html)
 
-[https://api.itglue.com/developer/#organizations-index](https://api.itglue.com/developer/#organizations-index)
+[https://api.itglue.com/developer/#organizations](https://api.itglue.com/developer/#organizations)
 

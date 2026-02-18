@@ -7,11 +7,6 @@ function Get-ITGluePasswordCategory {
         The Get-ITGluePasswordCategory cmdlet returns a list of password categories
         or the details of a single password category in your account
 
-        This function can call the following endpoints:
-            Index = /password_categories
-
-            Show =  /password_categories/:id
-
     .PARAMETER FilterName
         Filter by a password category name
 
@@ -63,7 +58,7 @@ function Get-ITGluePasswordCategory {
         https://celerium.github.io/Celerium.ITGlue/site/PasswordCategories/Get-ITGluePasswordCategory.html
 
     .LINK
-        https://api.itglue.com/developer/#password-categories-index
+        https://api.itglue.com/developer/#password-categories
 #>
 
     [CmdletBinding(DefaultParameterSetName = 'Index')]

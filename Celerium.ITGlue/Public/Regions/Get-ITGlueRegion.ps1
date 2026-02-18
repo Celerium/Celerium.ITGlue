@@ -7,13 +7,6 @@ function Get-ITGlueRegion {
         The Get-ITGlueRegion cmdlet returns a list of supported regions
         or the details of a single support region
 
-        This function can call the following endpoints:
-            Index = /regions
-                    /countries/:id/relationships/regions
-
-            Show =  /regions/:id
-                    /countries/:country_id/relationships/regions/:id
-
     .PARAMETER CountryID
         Get regions by country id
 
@@ -75,7 +68,7 @@ function Get-ITGlueRegion {
         https://celerium.github.io/Celerium.ITGlue/site/Regions/Get-ITGlueRegion.html
 
     .LINK
-        https://api.itglue.com/developer/#regions-index
+        https://api.itglue.com/developer/#regions
 #>
 
     [CmdletBinding(DefaultParameterSetName = 'Index')]

@@ -30,11 +30,6 @@ Get-ITGlueContactType -ID <Int64> [<CommonParameters>]
 The Get-ITGlueContactType cmdlet returns a list of contacts types
 in your account
 
-This function can call the following endpoints:
-    Index = /contact_types
-
-    Show =  /contact_types/:id
-
 ## EXAMPLES
 
 ### EXAMPLE 1
@@ -175,5 +170,5 @@ N/A
 
 [https://celerium.github.io/Celerium.ITGlue/site/ContactTypes/Get-ITGlueContactType.html](https://celerium.github.io/Celerium.ITGlue/site/ContactTypes/Get-ITGlueContactType.html)
 
-[https://api.itglue.com/developer/#contact-types-index](https://api.itglue.com/developer/#contact-types-index)
+[https://api.itglue.com/developer/#contact-types](https://api.itglue.com/developer/#contact-types)
 

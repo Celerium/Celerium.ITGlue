@@ -30,11 +30,6 @@ Get-ITGluePlatform -ID <Int64> [<CommonParameters>]
 The Get-ITGluePlatform cmdlet returns a list of supported platforms
 or the details of a single platform from your account
 
-This function can call the following endpoints:
-    Index = /platforms
-
-    Show =  /platforms/:id
-
 ## EXAMPLES
 
 ### EXAMPLE 1
@@ -175,5 +170,5 @@ N/A
 
 [https://celerium.github.io/Celerium.ITGlue/site/Platforms/Get-ITGluePlatform.html](https://celerium.github.io/Celerium.ITGlue/site/Platforms/Get-ITGluePlatform.html)
 
-[https://api.itglue.com/developer/#platforms-index](https://api.itglue.com/developer/#platforms-index)
+[https://api.itglue.com/developer/#platforms](https://api.itglue.com/developer/#platforms)
 

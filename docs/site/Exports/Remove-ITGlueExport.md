@@ -93,5 +93,5 @@ N/A
 
 [https://celerium.github.io/Celerium.ITGlue/site/Exports/Remove-ITGlueExport.html](https://celerium.github.io/Celerium.ITGlue/site/Exports/Remove-ITGlueExport.html)
 
-[https://api.itglue.com/developer/#exports-destroy](https://api.itglue.com/developer/#exports-destroy)
+[https://api.itglue.com/developer/#exports](https://api.itglue.com/developer/#exports)
 

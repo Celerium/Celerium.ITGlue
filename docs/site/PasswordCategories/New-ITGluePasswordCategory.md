@@ -23,9 +23,6 @@ New-ITGluePasswordCategory [-Data] <Object> [-WhatIf] [-Confirm] [<CommonParamet
 The New-ITGluePasswordCategory cmdlet creates a new password category
 in your account
 
-Examples of JSON objects can be found under ITGlues developer documentation
-    https://api.itglue.com/developer
-
 ## EXAMPLES
 
 ### EXAMPLE 1
@@ -100,5 +97,5 @@ N/A
 
 [https://celerium.github.io/Celerium.ITGlue/site/PasswordCategories/New-ITGluePasswordCategory.html](https://celerium.github.io/Celerium.ITGlue/site/PasswordCategories/New-ITGluePasswordCategory.html)
 
-[https://api.itglue.com/developer/#password-categories-create](https://api.itglue.com/developer/#password-categories-create)
+[https://api.itglue.com/developer/#password-categories](https://api.itglue.com/developer/#password-categories)
 

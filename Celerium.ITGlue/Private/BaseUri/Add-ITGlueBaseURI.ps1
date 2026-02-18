@@ -74,7 +74,7 @@ function Add-ITGlueBaseURI {
             Default {}
         }
 
-        Set-Variable -Name "ITGlueModuleBaseURI" -Value $BaseUri -Option ReadOnly -Scope global -Force
+        Set-Variable -Name "ITGlueModuleBaseURI" -Value $BaseUri -Option ReadOnly -Scope Global -Force
 
     }
 

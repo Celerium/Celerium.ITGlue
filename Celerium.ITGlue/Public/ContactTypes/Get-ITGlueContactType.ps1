@@ -7,11 +7,6 @@ function Get-ITGlueContactType {
         The Get-ITGlueContactType cmdlet returns a list of contacts types
         in your account
 
-        This function can call the following endpoints:
-            Index = /contact_types
-
-            Show =  /contact_types/:id
-
     .PARAMETER FilterName
         Filter by a contact type name
 
@@ -63,7 +58,7 @@ function Get-ITGlueContactType {
         https://celerium.github.io/Celerium.ITGlue/site/ContactTypes/Get-ITGlueContactType.html
 
     .LINK
-        https://api.itglue.com/developer/#contact-types-index
+        https://api.itglue.com/developer/#contact-types
 #>
 
     [CmdletBinding(DefaultParameterSetName = 'Index')]

@@ -9,9 +9,6 @@ function Set-ITGlueFlexibleAssetType {
 
         Any attributes you don't specify will remain unchanged
 
-        Examples of JSON objects can be found under ITGlues developer documentation
-            https://api.itglue.com/developer
-
     .PARAMETER ID
         A valid flexible asset id in your account
 
@@ -33,7 +30,7 @@ function Set-ITGlueFlexibleAssetType {
         https://celerium.github.io/Celerium.ITGlue/site/FlexibleAssetTypes/Set-ITGlueFlexibleAssetType.html
 
     .LINK
-        https://api.itglue.com/developer/#flexible-asset-types-update
+        https://api.itglue.com/developer/#flexible-asset-types
 #>
 
     [CmdletBinding(DefaultParameterSetName = 'Update', SupportsShouldProcess, ConfirmImpact = 'Medium')]

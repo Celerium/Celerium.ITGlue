@@ -33,16 +33,6 @@ or more configuration interfaces
 
 Any attributes you don't specify will remain unchanged
 
-This function can call the following endpoints:
-    Update =    /configuration_interfaces/:id
-                /configurations/:conf_id/relationships/configuration_interfaces/:id
-
-    Bulk_Update =   /configuration_interfaces
-                    /configurations/:conf_id/relationships/configuration_interfaces/:id
-
-Examples of JSON objects can be found under ITGlues developer documentation
-    https://api.itglue.com/developer
-
 ## EXAMPLES
 
 ### EXAMPLE 1
@@ -188,5 +178,5 @@ N/A
 
 [https://celerium.github.io/Celerium.ITGlue/site/ConfigurationInterfaces/Set-ITGlueConfigurationInterface.html](https://celerium.github.io/Celerium.ITGlue/site/ConfigurationInterfaces/Set-ITGlueConfigurationInterface.html)
 
-[https://api.itglue.com/developer/#configuration-interfaces-update](https://api.itglue.com/developer/#configuration-interfaces-update)
+[https://api.itglue.com/developer/#configuration-interfaces](https://api.itglue.com/developer/#configuration-interfaces)
 

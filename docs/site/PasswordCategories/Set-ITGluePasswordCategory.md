@@ -23,9 +23,6 @@ Set-ITGluePasswordCategory [-ID] <Int64> [-Data] <Object> [-WhatIf] [-Confirm] [
 The Set-ITGluePasswordCategory cmdlet updates a password category
 in your account
 
-Examples of JSON objects can be found under ITGlues developer documentation
-    https://api.itglue.com/developer
-
 ## EXAMPLES
 
 ### EXAMPLE 1
@@ -115,5 +112,5 @@ N/A
 
 [https://celerium.github.io/Celerium.ITGlue/site/PasswordCategories/Set-ITGluePasswordCategory.html](https://celerium.github.io/Celerium.ITGlue/site/PasswordCategories/Set-ITGluePasswordCategory.html)
 
-[https://api.itglue.com/developer/#password-categories-update](https://api.itglue.com/developer/#password-categories-update)
+[https://api.itglue.com/developer/#password-categories](https://api.itglue.com/developer/#password-categories)
 

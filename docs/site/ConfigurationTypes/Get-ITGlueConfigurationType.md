@@ -30,11 +30,6 @@ Get-ITGlueConfigurationType -ID <Int64> [<CommonParameters>]
 The Get-ITGlueConfigurationType cmdlet lists all or a single
 configuration type(s)
 
-This function can call the following endpoints:
-    Index =  /configuration_types
-
-    Show =   /configuration_types/:id
-
 ## EXAMPLES
 
 ### EXAMPLE 1
@@ -175,5 +170,5 @@ N/A
 
 [https://celerium.github.io/Celerium.ITGlue/site/ConfigurationTypes/Get-ITGlueConfigurationType.html](https://celerium.github.io/Celerium.ITGlue/site/ConfigurationTypes/Get-ITGlueConfigurationType.html)
 
-[https://api.itglue.com/developer/#configuration-types-index](https://api.itglue.com/developer/#configuration-types-index)
+[https://api.itglue.com/developer/#configuration-types](https://api.itglue.com/developer/#configuration-types)
 

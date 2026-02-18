@@ -74,7 +74,7 @@ function Get-ITGlueUserMetric {
         https://celerium.github.io/Celerium.ITGlue/site/UserMetrics/Get-ITGlueUserMetric.html
 
     .LINK
-        https://api.itglue.com/developer/#accounts-user-metrics-daily-index
+        https://api.itglue.com/developer/#accounts-user-metrics-daily
 #>
 
     [CmdletBinding(DefaultParameterSetName = 'Index')]

@@ -7,9 +7,6 @@ function Set-ITGluePasswordCategory {
         The Set-ITGluePasswordCategory cmdlet updates a password category
         in your account
 
-        Examples of JSON objects can be found under ITGlues developer documentation
-            https://api.itglue.com/developer
-
     .PARAMETER ID
         Update a password category by id
 
@@ -31,7 +28,7 @@ function Set-ITGluePasswordCategory {
         https://celerium.github.io/Celerium.ITGlue/site/PasswordCategories/Set-ITGluePasswordCategory.html
 
     .LINK
-        https://api.itglue.com/developer/#password-categories-update
+        https://api.itglue.com/developer/#password-categories
 #>
 
     [CmdletBinding(DefaultParameterSetName = 'Update', SupportsShouldProcess, ConfirmImpact = 'Medium')]

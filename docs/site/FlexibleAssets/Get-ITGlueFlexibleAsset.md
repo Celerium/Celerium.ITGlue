@@ -32,11 +32,6 @@ The Get-ITGlueFlexibleAsset cmdlet returns a list of flexible assets or
 the details of a single flexible assets based on the unique ID of the
 flexible asset type
 
-This function can call the following endpoints:
-    Index = /flexible_assets
-
-    Show =  /flexible_assets/:id
-
 ## EXAMPLES
 
 ### EXAMPLE 1
@@ -227,5 +222,5 @@ N/A
 
 [https://celerium.github.io/Celerium.ITGlue/site/FlexibleAssets/Get-ITGlueFlexibleAsset.html](https://celerium.github.io/Celerium.ITGlue/site/FlexibleAssets/Get-ITGlueFlexibleAsset.html)
 
-[https://api.itglue.com/developer/#flexible-assets-index](https://api.itglue.com/developer/#flexible-assets-index)
+[https://api.itglue.com/developer/#flexible-assets](https://api.itglue.com/developer/#flexible-assets)
 

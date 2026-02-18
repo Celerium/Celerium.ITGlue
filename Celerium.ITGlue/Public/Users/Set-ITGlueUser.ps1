@@ -7,9 +7,6 @@ function Set-ITGlueUser {
         The Set-ITGlueUser cmdlet updates the name or profile picture (avatar)
         of an existing user
 
-        Examples of JSON objects can be found under ITGlues developer documentation
-            https://api.itglue.com/developer
-
     .PARAMETER ID
         Update by user id
 
@@ -31,7 +28,7 @@ function Set-ITGlueUser {
         https://celerium.github.io/Celerium.ITGlue/site/Users/Set-ITGlueUser.html
 
     .LINK
-        https://api.itglue.com/developer/#accounts-users-update
+        https://api.itglue.com/developer/#accounts-users
 #>
 
     [CmdletBinding(DefaultParameterSetName = 'Update', SupportsShouldProcess, ConfirmImpact = 'Medium')]

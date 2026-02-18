@@ -7,11 +7,6 @@ function Get-ITGlueConfigurationType {
         The Get-ITGlueConfigurationType cmdlet lists all or a single
         configuration type(s)
 
-        This function can call the following endpoints:
-            Index =  /configuration_types
-
-            Show =   /configuration_types/:id
-
     .PARAMETER FilterName
         Filter by configuration type name
 
@@ -63,7 +58,7 @@ function Get-ITGlueConfigurationType {
         https://celerium.github.io/Celerium.ITGlue/site/ConfigurationTypes/Get-ITGlueConfigurationType.html
 
     .LINK
-        https://api.itglue.com/developer/#configuration-types-index
+        https://api.itglue.com/developer/#configuration-types
 #>
 
     [CmdletBinding(DefaultParameterSetName = 'Index')]

@@ -9,15 +9,6 @@ function Set-ITGlueConfiguration {
 
         Any attributes you don't specify will remain unchanged
 
-        This function can call the following endpoints:
-            Update = /configurations/:id
-                    /organizations/:organization_id/relationships/configurations/:id
-
-            Bulk_Update =  /configurations
-
-        Examples of JSON objects can be found under ITGlues developer documentation
-            https://api.itglue.com/developer
-
     .PARAMETER ID
         A valid configuration Id
 
@@ -97,7 +88,7 @@ function Set-ITGlueConfiguration {
         https://celerium.github.io/Celerium.ITGlue/site/Configurations/Set-ITGlueConfiguration.html
 
     .LINK
-        https://api.itglue.com/developer/#configurations-update
+        https://api.itglue.com/developer/#configurations
 #>
 
     [CmdletBinding(DefaultParameterSetName = 'BulkUpdate', SupportsShouldProcess, ConfirmImpact = 'Medium')]

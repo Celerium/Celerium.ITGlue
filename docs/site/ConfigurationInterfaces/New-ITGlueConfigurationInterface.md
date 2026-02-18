@@ -24,9 +24,6 @@ New-ITGlueConfigurationInterface [[-ConfigurationID] <Int64>] [-Data] <Object> [
 The New-ITGlueConfigurationInterface cmdlet creates one or more configuration
 interfaces for a particular configuration(s)
 
-Examples of JSON objects can be found under ITGlues developer documentation
-    https://api.itglue.com/developer
-
 ## EXAMPLES
 
 ### EXAMPLE 1
@@ -116,5 +113,5 @@ N/A
 
 [https://celerium.github.io/Celerium.ITGlue/site/ConfigurationInterfaces/New-ITGlueConfigurationInterface.html](https://celerium.github.io/Celerium.ITGlue/site/ConfigurationInterfaces/New-ITGlueConfigurationInterface.html)
 
-[https://api.itglue.com/developer/#configuration-interfaces-create](https://api.itglue.com/developer/#configuration-interfaces-create)
+[https://api.itglue.com/developer/#configuration-interfaces](https://api.itglue.com/developer/#configuration-interfaces)
 

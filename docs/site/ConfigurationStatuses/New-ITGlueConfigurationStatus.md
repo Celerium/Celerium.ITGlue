@@ -23,9 +23,6 @@ New-ITGlueConfigurationStatus [-Data] <Object> [-WhatIf] [-Confirm] [<CommonPara
 The New-ITGlueConfigurationStatus cmdlet creates a new configuration
 status in your account
 
-Examples of JSON objects can be found under ITGlues developer documentation
-    https://api.itglue.com/developer
-
 ## EXAMPLES
 
 ### EXAMPLE 1
@@ -100,5 +97,5 @@ N/A
 
 [https://celerium.github.io/Celerium.ITGlue/site/ConfigurationStatuses/New-ITGlueConfigurationStatus.html](https://celerium.github.io/Celerium.ITGlue/site/ConfigurationStatuses/New-ITGlueConfigurationStatus.html)
 
-[https://api.itglue.com/developer/#configuration-statuses-create](https://api.itglue.com/developer/#configuration-statuses-create)
+[https://api.itglue.com/developer/#configuration-statuses](https://api.itglue.com/developer/#configuration-statuses)
 

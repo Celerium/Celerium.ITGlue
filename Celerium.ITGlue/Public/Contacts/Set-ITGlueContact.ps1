@@ -11,15 +11,6 @@ function Set-ITGlueContact {
 
         Any attributes you don't specify will remain unchanged
 
-        This function can call the following endpoints:
-            Update = /contacts/:id
-                    /organizations/:organization_id/relationships/contacts/:id
-
-            Bulk_Update =  /contacts
-
-        Examples of JSON objects can be found under ITGlues developer documentation
-            https://api.itglue.com/developer
-
     .PARAMETER OrganizationID
         A valid organization Id in your account
 
@@ -79,7 +70,7 @@ function Set-ITGlueContact {
         https://celerium.github.io/Celerium.ITGlue/site/Contacts/Set-ITGlueContact.html
 
     .LINK
-        https://api.itglue.com/developer/#contacts-update
+        https://api.itglue.com/developer/#contacts
 #>
 
     [CmdletBinding(DefaultParameterSetName = 'BulkUpdate', SupportsShouldProcess, ConfirmImpact = 'Medium')]

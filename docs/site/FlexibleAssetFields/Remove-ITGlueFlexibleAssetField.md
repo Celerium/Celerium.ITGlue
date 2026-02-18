@@ -25,9 +25,6 @@ The Remove-ITGlueFlexibleAssetField cmdlet deletes a flexible asset field
 
 Note that this action will cause data loss if the field is already in use
 
-Examples of JSON objects can be found under ITGlues developer documentation
-    https://api.itglue.com/developer
-
 ## EXAMPLES
 
 ### EXAMPLE 1
@@ -115,5 +112,5 @@ N/A
 
 [https://celerium.github.io/Celerium.ITGlue/site/FlexibleAssetFields/Remove-ITGlueFlexibleAssetField.html](https://celerium.github.io/Celerium.ITGlue/site/FlexibleAssetFields/Remove-ITGlueFlexibleAssetField.html)
 
-[https://api.itglue.com/developer/#flexible-asset-fields-destroy](https://api.itglue.com/developer/#flexible-asset-fields-destroy)
+[https://api.itglue.com/developer/#flexible-asset-fields](https://api.itglue.com/developer/#flexible-asset-fields)
 

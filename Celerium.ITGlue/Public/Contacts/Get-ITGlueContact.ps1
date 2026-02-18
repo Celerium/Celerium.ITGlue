@@ -7,13 +7,6 @@ function Get-ITGlueContact {
         The Get-ITGlueContact cmdlet lists all or a single contact(s)
         from your account or a defined organization
 
-        This function can call the following endpoints:
-            Index = /contacts
-                    /organizations/:organization_id/relationships/contacts
-
-            Show =   /contacts/:id
-                    /organizations/:organization_id/relationships/contacts/:id
-
     .PARAMETER OrganizationID
         A valid organization Id in your account
 
@@ -117,7 +110,7 @@ function Get-ITGlueContact {
         https://celerium.github.io/Celerium.ITGlue/site/Contacts/Get-ITGlueContact.html
 
     .LINK
-        https://api.itglue.com/developer/#contacts-index
+        https://api.itglue.com/developer/#contacts
 #>
 
     [CmdletBinding(DefaultParameterSetName = 'Index')]

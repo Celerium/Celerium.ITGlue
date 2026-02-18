@@ -41,13 +41,6 @@ Get-ITGlueLocation [-OrganizationID <Int64>] [-FilterID <Int64>] [-FilterName <S
 The Get-ITGlueLocation cmdlet returns a list of locations for
 all organizations or for a specified organization
 
-This function can call the following endpoints:
-    Index = /locations
-            /organizations/:$OrganizationID/relationships/locations
-
-    Show =  /locations/:id
-            /organizations/:id/relationships/locations/:id
-
 ## EXAMPLES
 
 ### EXAMPLE 1
@@ -348,5 +341,5 @@ N/A
 
 [https://celerium.github.io/Celerium.ITGlue/site/Locations/Get-ITGlueLocation.html](https://celerium.github.io/Celerium.ITGlue/site/Locations/Get-ITGlueLocation.html)
 
-[https://api.itglue.com/developer/#locations-index](https://api.itglue.com/developer/#locations-index)
+[https://api.itglue.com/developer/#locations](https://api.itglue.com/developer/#locations)
 

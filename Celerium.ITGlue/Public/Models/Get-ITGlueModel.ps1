@@ -7,11 +7,6 @@ function Get-ITGlueModel {
         The Get-ITGlueModel cmdlet returns a list of model names for all
         manufacturers or for a specified manufacturer
 
-        This function can call the following endpoints:
-            Index = /models
-
-            Show =  /manufacturers/:id/relationships/models
-
     .PARAMETER ManufacturerID
         Get models under the defined manufacturer id
 
@@ -66,7 +61,7 @@ function Get-ITGlueModel {
         https://celerium.github.io/Celerium.ITGlue/site/Models/Get-ITGlueModel.html
 
     .LINK
-        https://api.itglue.com/developer/#models-index
+        https://api.itglue.com/developer/#models
 #>
 
     [CmdletBinding(DefaultParameterSetName = 'Index')]
@@ -118,7 +113,7 @@ function Get-ITGlueModel {
                 else{$ResourceUri = "/models"}
 
             }
-            'False' {
+            'Show' {
 
                 if ($ManufacturerID) {
                     $ResourceUri = "/manufacturers/$ManufacturerID/relationships/models/$ID"

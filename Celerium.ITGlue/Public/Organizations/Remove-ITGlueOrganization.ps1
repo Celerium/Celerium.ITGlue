@@ -10,9 +10,6 @@ function Remove-ITGlueOrganization {
         Because it can be a long procedure to delete organizations,
         removal from the system may not happen immediately
 
-        Examples of JSON objects can be found under ITGlues developer documentation
-            https://api.itglue.com/developer
-
     .PARAMETER FilterID
         Filter by an organization id
 
@@ -82,7 +79,7 @@ function Remove-ITGlueOrganization {
         https://celerium.github.io/Celerium.ITGlue/site/Organizations/Remove-ITGlueOrganization.html
 
     .LINK
-        https://api.itglue.com/developer/#organizations-bulk-destroy
+        https://api.itglue.com/developer/#organizations
 #>
 
     [CmdletBinding(DefaultParameterSetName = 'BulkDestroy', SupportsShouldProcess, ConfirmImpact = 'High')]

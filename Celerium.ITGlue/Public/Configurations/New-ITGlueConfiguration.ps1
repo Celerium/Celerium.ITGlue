@@ -7,9 +7,6 @@ function New-ITGlueConfiguration {
         The New-ITGlueConfiguration cmdlet creates one or more
         configurations under a defined organization
 
-        Examples of JSON objects can be found under ITGlues developer documentation
-            https://api.itglue.com/developer
-
     .PARAMETER OrganizationID
         A valid organization Id in your Account
 
@@ -32,7 +29,7 @@ function New-ITGlueConfiguration {
         https://celerium.github.io/Celerium.ITGlue/site/Configurations/New-ITGlueConfiguration.html
 
     .LINK
-        https://api.itglue.com/developer/#configurations-create
+        https://api.itglue.com/developer/#configurations
 #>
 
     [CmdletBinding(DefaultParameterSetName = 'Create', SupportsShouldProcess, ConfirmImpact = 'Low')]

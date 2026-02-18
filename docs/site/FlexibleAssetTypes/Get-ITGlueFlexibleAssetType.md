@@ -31,11 +31,6 @@ Get-ITGlueFlexibleAssetType -ID <Int64> [<CommonParameters>]
 The Get-ITGlueFlexibleAssetType cmdlet returns details on a flexible asset type
 or a list of flexible asset types in your account
 
-This function can call the following endpoints:
-    Index = /flexible_asset_types
-
-    Show =  /flexible_asset_types/:id
-
 ## EXAMPLES
 
 ### EXAMPLE 1
@@ -239,5 +234,5 @@ N/A
 
 [https://celerium.github.io/Celerium.ITGlue/site/FlexibleAssetTypes/Get-ITGlueFlexibleAssetType.html](https://celerium.github.io/Celerium.ITGlue/site/FlexibleAssetTypes/Get-ITGlueFlexibleAssetType.html)
 
-[https://api.itglue.com/developer/#flexible-asset-types-index](https://api.itglue.com/developer/#flexible-asset-types-index)
+[https://api.itglue.com/developer/#flexible-asset-types](https://api.itglue.com/developer/#flexible-asset-types)
 

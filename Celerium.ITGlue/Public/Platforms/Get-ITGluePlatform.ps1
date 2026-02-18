@@ -7,11 +7,6 @@ function Get-ITGluePlatform {
         The Get-ITGluePlatform cmdlet returns a list of supported platforms
         or the details of a single platform from your account
 
-        This function can call the following endpoints:
-            Index = /platforms
-
-            Show =  /platforms/:id
-
     .PARAMETER FilterName
         Filter by platform name
 
@@ -63,7 +58,7 @@ function Get-ITGluePlatform {
         https://celerium.github.io/Celerium.ITGlue/site/Platforms/Get-ITGluePlatform.html
 
     .LINK
-        https://api.itglue.com/developer/#platforms-index
+        https://api.itglue.com/developer/#platforms
 #>
 
 

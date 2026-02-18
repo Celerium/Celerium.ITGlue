@@ -7,11 +7,6 @@ function Get-ITGlueFlexibleAssetType {
         The Get-ITGlueFlexibleAssetType cmdlet returns details on a flexible asset type
         or a list of flexible asset types in your account
 
-        This function can call the following endpoints:
-            Index = /flexible_asset_types
-
-            Show =  /flexible_asset_types/:id
-
     .PARAMETER FilterID
         Filter by a flexible asset id
 
@@ -78,7 +73,7 @@ function Get-ITGlueFlexibleAssetType {
         https://celerium.github.io/Celerium.ITGlue/site/FlexibleAssetTypes/Get-ITGlueFlexibleAssetType.html
 
     .LINK
-        https://api.itglue.com/developer/#flexible-asset-types-index
+        https://api.itglue.com/developer/#flexible-asset-types
 #>
 
     [CmdletBinding(DefaultParameterSetName = 'Index')]

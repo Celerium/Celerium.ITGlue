@@ -205,5 +205,5 @@ N/A
 
 [https://celerium.github.io/Celerium.ITGlue/site/UserMetrics/Get-ITGlueUserMetric.html](https://celerium.github.io/Celerium.ITGlue/site/UserMetrics/Get-ITGlueUserMetric.html)
 
-[https://api.itglue.com/developer/#accounts-user-metrics-daily-index](https://api.itglue.com/developer/#accounts-user-metrics-daily-index)
+[https://api.itglue.com/developer/#accounts-user-metrics-daily](https://api.itglue.com/developer/#accounts-user-metrics-daily)
 

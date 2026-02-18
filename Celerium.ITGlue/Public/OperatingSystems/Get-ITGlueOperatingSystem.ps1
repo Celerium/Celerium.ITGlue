@@ -7,11 +7,6 @@ function Get-ITGlueOperatingSystem {
         The Get-ITGlueOperatingSystem cmdlet returns a list of supported operating systems
         or the details of a defined operating system
 
-        This function can call the following endpoints:
-            Index = /operating_systems
-
-            Show =  /operating_systems/:id
-
     .PARAMETER FilterName
         Filter by operating system name
 
@@ -63,7 +58,7 @@ function Get-ITGlueOperatingSystem {
         https://celerium.github.io/Celerium.ITGlue/site/OperatingSystems/Get-ITGlueOperatingSystem.html
 
     .LINK
-        https://api.itglue.com/developer/#operating-systems-index
+        https://api.itglue.com/developer/#operating-systems
 #>
 
     [CmdletBinding(DefaultParameterSetName = 'Index')]

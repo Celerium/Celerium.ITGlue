@@ -23,9 +23,6 @@ Set-ITGlueUser [-ID] <Int64> [-Data] <Object> [-WhatIf] [-Confirm] [<CommonParam
 The Set-ITGlueUser cmdlet updates the name or profile picture (avatar)
 of an existing user
 
-Examples of JSON objects can be found under ITGlues developer documentation
-    https://api.itglue.com/developer
-
 ## EXAMPLES
 
 ### EXAMPLE 1
@@ -115,5 +112,5 @@ N/A
 
 [https://celerium.github.io/Celerium.ITGlue/site/Users/Set-ITGlueUser.html](https://celerium.github.io/Celerium.ITGlue/site/Users/Set-ITGlueUser.html)
 
-[https://api.itglue.com/developer/#accounts-users-update](https://api.itglue.com/developer/#accounts-users-update)
+[https://api.itglue.com/developer/#accounts-users](https://api.itglue.com/developer/#accounts-users)
 

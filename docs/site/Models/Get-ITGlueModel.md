@@ -30,11 +30,6 @@ Get-ITGlueModel [-ManufacturerID <Int64>] -ID <Int64> [<CommonParameters>]
 The Get-ITGlueModel cmdlet returns a list of model names for all
 manufacturers or for a specified manufacturer
 
-This function can call the following endpoints:
-    Index = /models
-
-    Show =  /manufacturers/:id/relationships/models
-
 ## EXAMPLES
 
 ### EXAMPLE 1
@@ -190,5 +185,5 @@ N/A
 
 [https://celerium.github.io/Celerium.ITGlue/site/Models/Get-ITGlueModel.html](https://celerium.github.io/Celerium.ITGlue/site/Models/Get-ITGlueModel.html)
 
-[https://api.itglue.com/developer/#models-index](https://api.itglue.com/developer/#models-index)
+[https://api.itglue.com/developer/#models](https://api.itglue.com/developer/#models)
 

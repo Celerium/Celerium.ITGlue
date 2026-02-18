@@ -43,13 +43,6 @@ Get-ITGlueContact [-OrganizationID <Int64>] [-FilterID <Int64>] [-FilterFirstNam
 The Get-ITGlueContact cmdlet lists all or a single contact(s)
 from your account or a defined organization
 
-This function can call the following endpoints:
-    Index = /contacts
-            /organizations/:organization_id/relationships/contacts
-
-    Show =   /contacts/:id
-            /organizations/:organization_id/relationships/contacts/:id
-
 ## EXAMPLES
 
 ### EXAMPLE 1
@@ -386,5 +379,5 @@ N/A
 
 [https://celerium.github.io/Celerium.ITGlue/site/Contacts/Get-ITGlueContact.html](https://celerium.github.io/Celerium.ITGlue/site/Contacts/Get-ITGlueContact.html)
 
-[https://api.itglue.com/developer/#contacts-index](https://api.itglue.com/developer/#contacts-index)
+[https://api.itglue.com/developer/#contacts](https://api.itglue.com/developer/#contacts)
 

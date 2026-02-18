@@ -7,9 +7,6 @@ function New-ITGlueOrganizationStatus {
         The New-ITGlueOrganizationStatus cmdlet creates a new organization
         status in your account
 
-        Examples of JSON objects can be found under ITGlues developer documentation
-            https://api.itglue.com/developer
-
     .PARAMETER Data
         JSON body depending on bulk changes or not
 
@@ -28,7 +25,7 @@ function New-ITGlueOrganizationStatus {
         https://celerium.github.io/Celerium.ITGlue/site/OrganizationStatuses/New-ITGlueOrganizationStatus.html
 
     .LINK
-        https://api.itglue.com/developer/#organization-statuses-create
+        https://api.itglue.com/developer/#organization-statuses
 #>
 
     [CmdletBinding(DefaultParameterSetName = 'Create', SupportsShouldProcess, ConfirmImpact = 'Low')]

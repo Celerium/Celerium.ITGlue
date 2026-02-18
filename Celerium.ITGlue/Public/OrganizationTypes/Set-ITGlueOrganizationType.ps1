@@ -9,9 +9,6 @@ function Set-ITGlueOrganizationType {
 
         Returns 422 Bad Request error if trying to update an externally synced record
 
-        Examples of JSON objects can be found under ITGlues developer documentation
-            https://api.itglue.com/developer
-
     .PARAMETER ID
         Update an organization type by id
 
@@ -33,7 +30,7 @@ function Set-ITGlueOrganizationType {
         https://celerium.github.io/Celerium.ITGlue/site/OrganizationTypes/Set-ITGlueOrganizationType.html
 
     .LINK
-        https://api.itglue.com/developer/#organization-types-update
+        https://api.itglue.com/developer/#organization-types
 #>
 
     [CmdletBinding(DefaultParameterSetName = 'Update', SupportsShouldProcess, ConfirmImpact = 'Medium')]

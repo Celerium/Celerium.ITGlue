@@ -7,9 +7,6 @@ function New-ITGlueModel {
         The New-ITGlueModel cmdlet creates one or more models
         in your account or for a particular manufacturer
 
-        Examples of JSON objects can be found under ITGlues developer documentation
-            https://api.itglue.com/developer
-
     .PARAMETER ManufacturerID
         The manufacturer id to create the model under
 
@@ -37,7 +34,7 @@ function New-ITGlueModel {
         https://celerium.github.io/Celerium.ITGlue/site/Models/Get-ITGlueModel.html
 
     .LINK
-        https://api.itglue.com/developer/#models-create
+        https://api.itglue.com/developer/#models
 #>
 
     [CmdletBinding(DefaultParameterSetName = 'Create', SupportsShouldProcess, ConfirmImpact = 'Low')]

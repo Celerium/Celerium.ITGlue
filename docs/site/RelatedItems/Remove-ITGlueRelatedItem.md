@@ -24,9 +24,6 @@ Remove-ITGlueRelatedItem [-ResourceType] <String> [-ResourceID] <Int64> [-Data] 
 The Remove-ITGlueRelatedItem cmdlet deletes one or more specified
 related items
 
-Examples of JSON objects can be found under ITGlues developer documentation
-    https://api.itglue.com/developer
-
 ## EXAMPLES
 
 ### EXAMPLE 1
@@ -137,5 +134,5 @@ N/A
 
 [https://celerium.github.io/Celerium.ITGlue/site/RelatedItems/Remove-ITGlueRelatedItem.html](https://celerium.github.io/Celerium.ITGlue/site/RelatedItems/Remove-ITGlueRelatedItem.html)
 
-[https://api.itglue.com/developer/#related-items-bulk-destroy](https://api.itglue.com/developer/#related-items-bulk-destroy)
+[https://api.itglue.com/developer/#related-items](https://api.itglue.com/developer/#related-items)
 

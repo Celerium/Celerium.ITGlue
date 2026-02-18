@@ -30,11 +30,6 @@ Get-ITGlueOrganizationType -ID <Int64> [<CommonParameters>]
 The Get-ITGlueOrganizationType cmdlet returns a list of organization types
 or the details of a single organization type in your account
 
-This function can call the following endpoints:
-    Index = /organization_types
-
-    Show =  /organization_types/:id
-
 ## EXAMPLES
 
 ### EXAMPLE 1
@@ -175,5 +170,5 @@ N/A
 
 [https://celerium.github.io/Celerium.ITGlue/site/OrganizationTypes/Get-ITGlueOrganizationType.html](https://celerium.github.io/Celerium.ITGlue/site/OrganizationTypes/Get-ITGlueOrganizationType.html)
 
-[https://api.itglue.com/developer/#organization-types-index](https://api.itglue.com/developer/#organization-types-index)
+[https://api.itglue.com/developer/#organization-types](https://api.itglue.com/developer/#organization-types)
 

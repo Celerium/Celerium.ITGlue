@@ -7,11 +7,6 @@ function Get-ITGlueUser {
         The Get-ITGlueUser cmdlet returns a list of the users
         or the details of a single user in your account
 
-        This function can call the following endpoints:
-            Index = /users
-
-            Show =  /users/:id
-
     .PARAMETER FilterID
         Filter by user ID
 
@@ -78,7 +73,7 @@ function Get-ITGlueUser {
         https://celerium.github.io/Celerium.ITGlue/site/Users/Get-ITGlueUser.html
 
     .LINK
-        https://api.itglue.com/developer/#accounts-users-index
+        https://api.itglue.com/developer/#accounts-users
 #>
 
     [CmdletBinding(DefaultParameterSetName = 'Index')]

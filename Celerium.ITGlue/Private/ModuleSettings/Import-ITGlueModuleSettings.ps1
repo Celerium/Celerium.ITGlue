@@ -58,6 +58,13 @@ function Import-ITGlueModuleSettings {
 
     begin {
         $ITGlueConfig = Join-Path -Path $ITGlueConfigPath -ChildPath $ITGlueConfigFile
+
+        switch ($PSVersionTable.PSEdition){
+            'Core'      { $UserAgent = "Celerium.ITGlue/1.2.0 - PowerShell/$($PSVersionTable.PSVersion) ($($PSVersionTable.Platform) $($PSVersionTable.OS))" }
+            'Desktop'   { $UserAgent = "Celerium.ITGlue/1.2.0 - WindowsPowerShell/$($PSVersionTable.PSVersion) ($($PSVersionTable.BuildVersion))" }
+            default     { $UserAgent = "Celerium.ITGlue/1.2.0 - $([Microsoft.PowerShell.Commands.PSUserAgent].GetMembers('Static, NonPublic').Where{$_.Name -eq 'UserAgent'}.GetValue($null,$null))" }
+        }
+
     }
 
     process {
@@ -70,9 +77,9 @@ function Import-ITGlueModuleSettings {
 
             $TempConfig.ITGlueModuleApiKey = ConvertTo-SecureString $TempConfig.ITGlueModuleApiKey
 
-            Set-Variable -Name "ITGlueModuleApiKey" -Value $TempConfig.ITGlueModuleApiKey -Option ReadOnly -Scope global -Force
-
-            Set-Variable -Name "ITGlueModuleJSONConversionDepth" -Value $TempConfig.ITGlueModuleJSONConversionDepth -Scope global -Force
+            Set-Variable -Name "ITGlueModuleApiKey" -Value $TempConfig.ITGlueModuleApiKey -Option ReadOnly -Scope Global -Force
+            Set-Variable -Name "ITGlueModuleUserAgent" -Value $TempConfig.ITGlueModuleUserAgent -Option ReadOnly -Scope Global -Force
+            Set-Variable -Name "ITGlueModuleJSONConversionDepth" -Value $TempConfig.ITGlueModuleJSONConversionDepth  -Option ReadOnly -Scope Global -Force
 
             Write-Verbose "Celerium.ITGlue Module configuration loaded successfully from [ $ITGlueConfig ]"
 
@@ -84,8 +91,9 @@ function Import-ITGlueModuleSettings {
 
             Add-ITGlueBaseURI
 
-            Set-Variable -Name "ITGlueModuleBaseURI" -Value $(Get-ITGlueBaseURI) -Option ReadOnly -Scope global -Force
-            Set-Variable -Name "ITGlueModuleJSONConversionDepth" -Value 100 -Scope global -Force
+            Set-Variable -Name "ITGlueModuleBaseURI" -Value $(Get-ITGlueBaseURI) -Option ReadOnly -Scope Global -Force
+            Set-Variable -Name "ITGlueModuleUserAgent" -Value $UserAgent -Option ReadOnly -Scope Global -Force
+            Set-Variable -Name "ITGlueModuleJSONConversionDepth" -Value 100 -Option ReadOnly -Scope Global -Force
         }
 
     }

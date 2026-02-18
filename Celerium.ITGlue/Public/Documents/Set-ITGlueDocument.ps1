@@ -8,15 +8,6 @@ function Set-ITGlueDocument {
 
         Any attributes you don't specify will remain unchanged
 
-        This function can call the following endpoints:
-            Update =    /documents/:id
-                        /organizations/:organization_id/relationships/documents/:id
-
-            Bulk_Update =  /documents
-
-        Examples of JSON objects can be found under ITGlues developer documentation
-            https://api.itglue.com/developer
-
     .PARAMETER OrganizationID
         A valid organization Id in your Account
 
@@ -41,7 +32,7 @@ function Set-ITGlueDocument {
         https://celerium.github.io/Celerium.ITGlue/site/Documents/Set-ITGlueDocument.html
 
     .LINK
-        https://api.itglue.com/developer/#documents-update
+        https://api.itglue.com/developer/#documents
 #>
 
     [CmdletBinding(DefaultParameterSetName = 'BulkUpdate', SupportsShouldProcess, ConfirmImpact = 'Medium')]

@@ -7,11 +7,6 @@ function Get-ITGlueOrganization {
         The Get-ITGlueOrganization cmdlet returns a list of organizations
         or details for a single organization in your account
 
-        This function can call the following endpoints:
-            Index = /organizations
-
-            Show =  /organizations/:id
-
     .PARAMETER FilterID
         Filter by an organization id
 
@@ -131,7 +126,7 @@ function Get-ITGlueOrganization {
         https://celerium.github.io/Celerium.ITGlue/site/Organizations/Get-ITGlueOrganization.html
 
     .LINK
-        https://api.itglue.com/developer/#organizations-index
+        https://api.itglue.com/developer/#organizations
 #>
 
     [CmdletBinding(DefaultParameterSetName = 'Index')]

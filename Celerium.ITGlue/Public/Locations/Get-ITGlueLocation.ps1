@@ -7,13 +7,6 @@ function Get-ITGlueLocation {
         The Get-ITGlueLocation cmdlet returns a list of locations for
         all organizations or for a specified organization
 
-        This function can call the following endpoints:
-            Index = /locations
-                    /organizations/:$OrganizationID/relationships/locations
-
-            Show =  /locations/:id
-                    /organizations/:id/relationships/locations/:id
-
     .PARAMETER OrganizationID
         The valid organization id in your account
 
@@ -105,7 +98,7 @@ function Get-ITGlueLocation {
         https://celerium.github.io/Celerium.ITGlue/site/Locations/Get-ITGlueLocation.html
 
     .LINK
-        https://api.itglue.com/developer/#locations-index
+        https://api.itglue.com/developer/#locations
 #>
 
     [CmdletBinding(DefaultParameterSetName = 'Index')]

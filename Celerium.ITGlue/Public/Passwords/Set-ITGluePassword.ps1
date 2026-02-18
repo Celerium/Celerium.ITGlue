@@ -11,9 +11,6 @@ function Set-ITGluePassword {
 
         Any attributes you don't specify will remain unchanged
 
-        Examples of JSON objects can be found under ITGlues developer documentation
-            https://api.itglue.com/developer
-
     .PARAMETER OrganizationID
         A valid organization Id in your account
 
@@ -55,7 +52,7 @@ function Set-ITGluePassword {
         https://celerium.github.io/Celerium.ITGlue/site/Passwords/Set-ITGluePassword.html
 
     .LINK
-        https://api.itglue.com/developer/#passwords-update
+        https://api.itglue.com/developer/#passwords
 #>
 
     [CmdletBinding(DefaultParameterSetName = 'BulkUpdate', SupportsShouldProcess, ConfirmImpact = 'Medium')]

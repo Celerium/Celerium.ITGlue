@@ -7,11 +7,6 @@ function Get-ITGlueOrganizationStatus {
         The Get-ITGlueOrganizationStatus cmdlet returns a list of organization
         statuses or the details of a single organization status in your account
 
-        This function can call the following endpoints:
-            Index = /organization_statuses
-
-            Show =  /organization_statuses/:id
-
     .PARAMETER FilterName
         Filter by organization status name
 
@@ -63,7 +58,7 @@ function Get-ITGlueOrganizationStatus {
         https://celerium.github.io/Celerium.ITGlue/site/OrganizationStatuses/Get-ITGlueOrganizationStatus.html
 
     .LINK
-        https://api.itglue.com/developer/#organization-statuses-index
+        https://api.itglue.com/developer/#organization-statuses
 #>
 
     [CmdletBinding(DefaultParameterSetName = 'Index')]

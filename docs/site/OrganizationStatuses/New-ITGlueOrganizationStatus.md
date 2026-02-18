@@ -23,9 +23,6 @@ New-ITGlueOrganizationStatus [-Data] <Object> [-WhatIf] [-Confirm] [<CommonParam
 The New-ITGlueOrganizationStatus cmdlet creates a new organization
 status in your account
 
-Examples of JSON objects can be found under ITGlues developer documentation
-    https://api.itglue.com/developer
-
 ## EXAMPLES
 
 ### EXAMPLE 1
@@ -100,5 +97,5 @@ N/A
 
 [https://celerium.github.io/Celerium.ITGlue/site/OrganizationStatuses/New-ITGlueOrganizationStatus.html](https://celerium.github.io/Celerium.ITGlue/site/OrganizationStatuses/New-ITGlueOrganizationStatus.html)
 
-[https://api.itglue.com/developer/#organization-statuses-create](https://api.itglue.com/developer/#organization-statuses-create)
+[https://api.itglue.com/developer/#organization-statuses](https://api.itglue.com/developer/#organization-statuses)
 

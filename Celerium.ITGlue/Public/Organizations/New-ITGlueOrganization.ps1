@@ -6,9 +6,6 @@ function New-ITGlueOrganization {
     .DESCRIPTION
         The New-ITGlueOrganization cmdlet creates an organization
 
-        Examples of JSON objects can be found under ITGlues developer documentation
-            https://api.itglue.com/developer
-
     .PARAMETER Data
         JSON body depending on bulk changes or not
 
@@ -27,7 +24,7 @@ function New-ITGlueOrganization {
         https://celerium.github.io/Celerium.ITGlue/site/Organizations/New-ITGlueOrganization.html
 
     .LINK
-        https://api.itglue.com/developer/#organizations-create
+        https://api.itglue.com/developer/#organizations
 #>
 
     [CmdletBinding(DefaultParameterSetName = 'Create', SupportsShouldProcess, ConfirmImpact = 'Low')]

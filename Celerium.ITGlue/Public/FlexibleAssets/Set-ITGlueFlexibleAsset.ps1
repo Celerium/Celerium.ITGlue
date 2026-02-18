@@ -9,9 +9,6 @@ function Set-ITGlueFlexibleAsset {
         Any traits you don't specify will be deleted
         Passing a null value will also delete a trait's value
 
-        Examples of JSON objects can be found under ITGlues developer documentation
-            https://api.itglue.com/developer
-
     .PARAMETER ID
         The flexible asset id to update
 
@@ -33,7 +30,7 @@ function Set-ITGlueFlexibleAsset {
         https://celerium.github.io/Celerium.ITGlue/site/FlexibleAssets/Set-ITGlueFlexibleAsset.html
 
     .LINK
-        https://api.itglue.com/developer/#flexible-assets-update
+        https://api.itglue.com/developer/#flexible-assets
 #>
 
     [CmdletBinding(DefaultParameterSetName = 'BulkUpdate', SupportsShouldProcess, ConfirmImpact = 'Medium')]

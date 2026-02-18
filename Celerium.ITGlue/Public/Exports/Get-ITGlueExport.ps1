@@ -7,11 +7,6 @@ function Get-ITGlueExport {
         The Get-ITGlueExport cmdlet returns a list of exports
         or the details of a single export in your account
 
-        This function can call the following endpoints:
-            Index = /exports
-
-            Show =  /exports/:id
-
     .PARAMETER FilterID
         Filter by a export id
 
@@ -69,7 +64,7 @@ function Get-ITGlueExport {
         https://celerium.github.io/Celerium.ITGlue/site/Exports/Get-ITGlueExport.html
 
     .LINK
-        https://api.itglue.com/developer/#exports-index
+        https://api.itglue.com/developer/#exports
 #>
 
     [CmdletBinding(DefaultParameterSetName = 'Index')]

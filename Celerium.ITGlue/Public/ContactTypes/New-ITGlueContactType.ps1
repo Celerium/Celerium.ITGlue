@@ -7,9 +7,6 @@ function New-ITGlueContactType {
         The New-ITGlueContactType cmdlet creates a new contact type in
         your account
 
-        Examples of JSON objects can be found under ITGlues developer documentation
-            https://api.itglue.com/developer
-
     .PARAMETER Data
         JSON body depending on bulk changes or not
 
@@ -28,7 +25,7 @@ function New-ITGlueContactType {
         https://celerium.github.io/Celerium.ITGlue/site/ContactTypes/New-ITGlueContactType.html
 
     .LINK
-        https://api.itglue.com/developer/#contact-types-create
+        https://api.itglue.com/developer/#contact-types
 #>
 
     [CmdletBinding(DefaultParameterSetName = 'Create', SupportsShouldProcess, ConfirmImpact = 'Low')]
