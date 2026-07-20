@@ -60,6 +60,9 @@ Returns a list of supported countries
 ### [Get-ITGlueDocument](site/Documents/Get-ITGlueDocument.md)
 Returns a list of documents
 
+### [Get-ITGlueDocumentFolder](site/DocumentFolders/Get-ITGlueDocumentFolder.md)
+Returns a list of document folders
+
 ### [Get-ITGlueDocumentImage](site/DocumentImages/Get-ITGlueDocumentImage.md)
 Returns details of a specific document image including URLs
 for all size variants
@@ -166,6 +169,9 @@ Create a new contact type
 ### [New-ITGlueDocument](site/Documents/New-ITGlueDocument.md)
 Creates a new document
 
+### [New-ITGlueDocumentFolder](site/DocumentFolders/New-ITGlueDocumentFolder.md)
+Creates a new document folder
+
 ### [New-ITGlueDocumentImage](site/DocumentImages/New-ITGlueDocumentImage.md)
 Creates a new document image
 
@@ -217,6 +223,9 @@ Creates a new password folder
 ### [New-ITGlueRelatedItem](site/RelatedItems/New-ITGlueRelatedItem.md)
 Creates one or more related items
 
+### [New-ITGlueResourceAccess](site/ResourceAccesses/New-ITGlueResourceAccess.md)
+Create resource accesses for a defined resource
+
 ### [Publish-ITGlueDocument](site/Documents/Publish-ITGlueDocument.md)
 Publishes a document
 
@@ -240,6 +249,9 @@ Deletes one or more contacts
 
 ### [Remove-ITGlueDocument](site/Documents/Remove-ITGlueDocument.md)
 Deletes a new document
+
+### [Remove-ITGlueDocumentFolder](site/DocumentFolders/Remove-ITGlueDocumentFolder.md)
+Deletes a document folder
 
 ### [Remove-ITGlueDocumentImage](site/DocumentImages/Remove-ITGlueDocumentImage.md)
 Deletes the specified document image and all its size variants
@@ -268,6 +280,9 @@ Removes the stored ITGlue configuration folder
 ### [Remove-ITGlueOrganization](site/Organizations/Remove-ITGlueOrganization.md)
 Deletes one or more organizations
 
+### [Remove-ITGlueOrganizationStatus](site/OrganizationStatuses/Remove-ITGlueOrganizationStatus.md)
+Deletes an organization status
+
 ### [Remove-ITGluePassword](site/Passwords/Remove-ITGluePassword.md)
 Deletes one or more passwords
 
@@ -276,6 +291,9 @@ Delete multiple password folders for a particular organization
 
 ### [Remove-ITGlueRelatedItem](site/RelatedItems/Remove-ITGlueRelatedItem.md)
 Deletes one or more related items
+
+### [Remove-ITGlueResourceAccess](site/ResourceAccesses/Remove-ITGlueResourceAccess.md)
+Deletes a document folder
 
 ### [Set-ITGlueAttachment](site/Attachments/Set-ITGlueAttachment.md)
 Updates the details of an existing attachment
@@ -303,6 +321,9 @@ Updates a contact type
 
 ### [Set-ITGlueDocument](site/Documents/Set-ITGlueDocument.md)
 Updates one or more documents
+
+### [Set-ITGlueDocumentFolder](site/DocumentFolders/Set-ITGlueDocumentFolder.md)
+Updates one or more document folders
 
 ### [Set-ITGlueDocumentSection](site/DocumentSections/Set-ITGlueDocumentSection.md)
 Updates an existing section
@@ -348,6 +369,9 @@ Updates the details of an existing or list of password folders
 
 ### [Set-ITGlueRelatedItem](site/RelatedItems/Set-ITGlueRelatedItem.md)
 Updates a related item for a particular resource
+
+### [Set-ITGlueResourceAccess](site/ResourceAccesses/Set-ITGlueResourceAccess.md)
+Updates resource accesses for a defined resource
 
 ### [Set-ITGlueUser](site/Users/Set-ITGlueUser.md)
 Updates the name or profile picture of an existing user

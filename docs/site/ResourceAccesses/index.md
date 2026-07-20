@@ -1,9 +1,9 @@
 ---
-title: OrganizationStatuses
+title: ResourceAccesses
 has_children: true
 ---
 
-## OrganizationStatuses - endpoint help & documentation
+## ResourceAccesses - endpoint help & documentation
 
 {: .highlight }
 Some functions will handle more than one endpoint and the numbers below show the total endpoints **not** the total functions
@@ -11,7 +11,7 @@ Some functions will handle more than one endpoint and the numbers below show the
 | **Method** | **Endpoint Count**  |
 |------------|---------------------|
 | DELETE     | 1       |
-| GET        | 2          |
+| GET        | 0          |
 | PATCH      | 1        |
 | POST       | 1         |
 | PUT        | 0          |

@@ -64,6 +64,12 @@ CopilotSmartAssist,/copilot_smart_assist/documents,DELETE,Bulk_destroy,Remove-IT
 CopilotSmartAssist,/organizations/:organization_id/copilot_smart_assist/documents,DELETE,Bulk_destroy,Remove-ITGlueCopilotSmartAssistDocument,Remove-ITGlueCopilotSmartAssistDocument,No,"As of 2025-02-23, this endpoint returns a 500 error"
 Countries,/countries,GET,Index,Get-ITGlueCountry,Invoke-ExampleITGlueCountry,YES,
 Countries,/countries/:id,GET,Show,Get-ITGlueCountry,Invoke-ExampleITGlueCountry,YES,
+DocumentFolders,/organizations/:organization_id/relationships/document_folders,GET,Index,Get-ITGlueDocumentFolder,Invoke-ExampleITGlueDocumentFolder,YES,
+DocumentFolders,/organizations/:organization_id/relationships/document_folders/:id,GET,Show,Get-ITGlueDocumentFolder,Invoke-ExampleITGlueDocumentFolder,YES,
+DocumentFolders,/organizations/:organization_id/relationships/document_folders,POST,Create,New-ITGlueDocumentFolder,Invoke-ExampleITGlueDocumentFolder,YES,
+DocumentFolders,/organizations/:organization_id/relationships/document_folders/:id,PATCH,Update,Set-ITGlueDocumentFolder,Invoke-ExampleITGlueDocumentFolder,YES,
+DocumentFolders,/document_folders,PATCH,Update,Set-ITGlueDocumentFolder,Invoke-ExampleITGlueDocumentFolder,YES,
+DocumentFolders,/organizations/:organization_id/relationships/document_folders,DELETE,Destroy,Remove-ITGlueDocumentFolder,Invoke-ExampleITGlueDocumentFolder,YES,
 DocumentImages,/document_images/:id,GET,Show,Get-ITGlueDocumentImage,Invoke-ExampleITGlueDocumentImage,YES,
 DocumentImages,/document_images,POST,Create,New-ITGlueDocumentImage,Invoke-ExampleITGlueDocumentImage,YES,
 DocumentImages,/document_images/:id,DELETE,Destroy,Remove-ITGlueDocumentImage,Invoke-ExampleITGlueDocumentImage,YES,
@@ -175,6 +181,7 @@ OrganizationStatuses,/organization_statuses,GET,Index,Get-ITGlueOrganizationStat
 OrganizationStatuses,/organization_statuses/:id,GET,Show,Get-ITGlueOrganizationStatus,Invoke-ExampleITGlueOrganizationStatus,YES,
 OrganizationStatuses,/organization_statuses,POST,Create,New-ITGlueOrganizationStatus,Invoke-ExampleITGlueOrganizationStatus,YES,
 OrganizationStatuses,/organization_statuses/:id,PATCH,Update,Set-ITGlueOrganizationStatus,Invoke-ExampleITGlueOrganizationStatus,YES,
+OrganizationStatuses,/organization_statuses/:id,DELETE,Destroy,Remove-ITGlueOrganizationStatus,Invoke-ExampleITGlueOrganizationStatus,YES,
 OrganizationTypes,/organization_types,GET,Index,Get-ITGlueOrganizationType,Invoke-ExampleITGlueOrganizationType,YES,
 OrganizationTypes,/organization_types/:id,GET,Show,Get-ITGlueOrganizationType,Invoke-ExampleITGlueOrganizationType,YES,
 OrganizationTypes,/organization_types,POST,Create,New-ITGlueOrganizationType,Invoke-ExampleITGlueOrganizationType,YES,
@@ -189,18 +196,18 @@ PasswordFolders,/organizations/:organization_id/relationships/password_folders,P
 PasswordFolders,/organizations/:organization_id/relationships/password_folders/:id,PATCH,Update,Set-ITGluePasswordFolder,Invoke-ExampleITGluePasswordFolder,Yes,
 PasswordFolders,/password_folders,PATCH,Bulk_update,Set-ITGluePasswordFolder,Invoke-ExampleITGluePasswordFolder,Yes,
 PasswordFolders,/organizations/:organization_id/relationships/password_folders,DELETE,Bulk_destroy,Remove-ITGluePasswordFolder,Invoke-ExampleITGluePasswordFolder,Yes,
-Passwords,/passwords,GET,Index,Get-ITGluePassword,Invoke-ITGluePassword,YES,Need to validate
-Passwords,/organizations/:organization_id/relationships/passwords,GET,Index,Get-ITGluePassword,Invoke-ITGluePassword,YES,Need to validate
-Passwords,/passwords/:id,GET,Show,Get-ITGluePassword,Invoke-ITGluePassword,YES,Need to validate
-Passwords,/organizations/:organization_id/relationships/passwords/:id,GET,Show,Get-ITGluePassword,Invoke-ITGluePassword,YES,Need to validate
-Passwords,/passwords,POST,Create,New-ITGluePassword,Invoke-ITGluePassword,YES,Need to validate
-Passwords,/organizations/:organization_id/relationships/passwords,POST,Create,New-ITGluePassword,Invoke-ITGluePassword,YES,Need to validate
-Passwords,/passwords/:id,PATCH,Update,Set-ITGluePassword,Invoke-ITGluePassword,YES,Need to validate
-Passwords,/organizations/:organization_id/relationships/passwords/:id,PATCH,Update,Set-ITGluePassword,Invoke-ITGluePassword,YES,Need to validate
-Passwords,/passwords,PATCH,Bulk_update,Set-ITGluePassword,Invoke-ITGluePassword,YES,Need to validate
-Passwords,/passwords,DELETE,Bulk_destroy,Remove-ITGluePassword,Invoke-ITGluePassword,YES,Need to validate
-Passwords,/organizations/:organization_id/relationships/passwords/:id,DELETE,Bulk_destroy,Remove-ITGluePassword,Invoke-ITGluePassword,YES,Need to validate
-Passwords,/passwords/:id,DELETE,Destroy,Remove-ITGluePassword,Invoke-ITGluePassword,YES,Need to validate
+Passwords,/passwords,GET,Index,Get-ITGluePassword,Invoke-ITGluePassword,YES,
+Passwords,/organizations/:organization_id/relationships/passwords,GET,Index,Get-ITGluePassword,Invoke-ITGluePassword,YES,
+Passwords,/passwords/:id,GET,Show,Get-ITGluePassword,Invoke-ITGluePassword,YES,
+Passwords,/organizations/:organization_id/relationships/passwords/:id,GET,Show,Get-ITGluePassword,Invoke-ITGluePassword,YES,
+Passwords,/passwords,POST,Create,New-ITGluePassword,Invoke-ITGluePassword,YES,
+Passwords,/organizations/:organization_id/relationships/passwords,POST,Create,New-ITGluePassword,Invoke-ITGluePassword,YES,
+Passwords,/passwords/:id,PATCH,Update,Set-ITGluePassword,Invoke-ITGluePassword,YES,
+Passwords,/organizations/:organization_id/relationships/passwords/:id,PATCH,Update,Set-ITGluePassword,Invoke-ITGluePassword,YES,
+Passwords,/passwords,PATCH,Bulk_update,Set-ITGluePassword,Invoke-ITGluePassword,YES,
+Passwords,/passwords,DELETE,Bulk_destroy,Remove-ITGluePassword,Invoke-ITGluePassword,YES,
+Passwords,/organizations/:organization_id/relationships/passwords/:id,DELETE,Bulk_destroy,Remove-ITGluePassword,Invoke-ITGluePassword,YES,
+Passwords,/passwords/:id,DELETE,Destroy,Remove-ITGluePassword,Invoke-ITGluePassword,YES,
 Platforms,/platforms,GET,Index,Get-ITGluePlatform,Invoke-ExampleITGluePlatform,YES,
 Platforms,/platforms/:id,GET,Show,Get-ITGluePlatform,Invoke-ExampleITGluePlatform,YES,
 Regions,/regions,GET,Index,Get-ITGlueRegion,Invoke-ExampleITGlueRegion,YES,
@@ -210,6 +217,9 @@ Regions,/countries/:country_id/relationships/regions/:id,GET,Show,Get-ITGlueRegi
 RelatedItems,/:resource_type/:resource_id/relationships/related_items,POST,Create,New-ITGlueRelatedItem,Invoke-ExampleITGlueRelatedItem,YES,
 RelatedItems,/:resource_type/:resource_id/relationships/related_items/:id,PATCH,Update,Set-ITGlueRelatedItem,Invoke-ExampleITGlueRelatedItem,YES,
 RelatedItems,/:resource_type/:resource_id/relationships/related_items,DELETE,Bulk_destroy,Remove-ITGlueRelatedItem,Invoke-ExampleITGlueRelatedItem,YES,
+ResourceAccesses,/:resource_type/:resource_id/relationships/resource_accesses,POST,Create,New-ITGlueResourceAccess,N/A,YES,
+ResourceAccesses,/:resource_type/:resource_id/relationships/resource_accesses,PATCH,Update,Set-ITGlueResourceAccess,N/A,YES,
+ResourceAccesses,/:resource_type/:resource_id/relationships/resource_accesses,DELETE,Destroy,Remove-ITGlueResourceAccess,N/A,YES,
 UserMetrics,/user_metrics,GET,Index,Get-ITGlueUserMetric,Invoke-ExampleITGlueUserMetric,YES,
 Users,/users,GET,Index,Get-ITGlueUser,Invoke-ExampleITGlueUser,YES,
 Users,/users/:id,GET,Show,Get-ITGlueUser,Invoke-ExampleITGlueUser,YES,

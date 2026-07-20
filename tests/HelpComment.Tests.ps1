@@ -75,7 +75,10 @@ param (
 
     [Parameter(Mandatory=$true)]
     [ValidateSet('built','notBuilt')]
-    [string]$buildTarget
+    [string]$buildTarget,
+
+    [Parameter()]
+    [switch]$SkipUrlCheck
 )
 
 #EndRegion  [ Parameters ]
@@ -209,23 +212,26 @@ Describe "Testing the [ $buildTarget ] version of [ $moduleName ] with [ $pester
                 $help_Function.relatedLinks.navigationLink.uri| Should -Not -BeNullOrEmpty
             }
 
-            It "[ $functionName ] link should return 200" {
+            if ($SkipUrlCheck -eq $false) {
 
-                $FunctionUris = $help_Function.relatedLinks.navigationLink.uri
+                It "[ $functionName ] link should return 200" {
 
-                foreach ($Uri in $FunctionUris) {
+                    $FunctionUris = $help_Function.relatedLinks.navigationLink.uri
 
-                    try {
-                        $Link = Invoke-WebRequest -Uri $Uri -UseBasicParsing -ErrorAction SilentlyContinue
+                    foreach ($Uri in $FunctionUris) {
+
+                        try {
+                            $Link = Invoke-WebRequest -Uri $Uri -UseBasicParsing -ErrorAction SilentlyContinue
+                        }
+                        catch [System.Net.WebException] {
+                            Write-Warning "Bad Uri - [ $Uri ]"
+                            $Link = $_.Exception.Response.StatusCode.Value__
+                        }
+
+                        $Link.StatusCode | Should -Be '200'
                     }
-                    catch [System.Net.WebException] {
-                        Write-Warning "Bad Uri - [ $Uri ]"
-                        $Link = $_.Exception.Response.StatusCode.Value__
-                    }
 
-                    $Link.StatusCode | Should -Be '200'
                 }
-
             }
 
         <#

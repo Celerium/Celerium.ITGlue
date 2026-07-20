@@ -1,9 +1,9 @@
 ---
-title: OrganizationStatuses
+title: DocumentFolders
 has_children: true
 ---
 
-## OrganizationStatuses - endpoint help & documentation
+## DocumentFolders - endpoint help & documentation
 
 {: .highlight }
 Some functions will handle more than one endpoint and the numbers below show the total endpoints **not** the total functions
@@ -12,7 +12,7 @@ Some functions will handle more than one endpoint and the numbers below show the
 |------------|---------------------|
 | DELETE     | 1       |
 | GET        | 2          |
-| PATCH      | 1        |
+| PATCH      | 2        |
 | POST       | 1         |
 | PUT        | 0          |
 

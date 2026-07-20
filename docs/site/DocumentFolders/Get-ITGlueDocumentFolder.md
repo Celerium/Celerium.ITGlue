@@ -1,60 +1,57 @@
 ---
 external help file: Celerium.ITGlue-help.xml
-grand_parent: Documents
+grand_parent: DocumentFolders
 Module Name: Celerium.ITGlue
-online version: https://celerium.github.io/Celerium.ITGlue/site/Documents/Get-ITGlueDocument.html
+online version: https://celerium.github.io/Celerium.ITGlue/site/DocumentFolders/Get-ITGlueDocumentFolder.html
 parent: GET
 schema: 2.0.0
-title: Get-ITGlueDocument
+title: Get-ITGlueDocumentFolder
 ---
 
-# Get-ITGlueDocument
+# Get-ITGlueDocumentFolder
 
 ## SYNOPSIS
-Returns a list of documents
+Returns a list of document folders
 
 ## SYNTAX
 
 ### Index (Default)
 ```powershell
-Get-ITGlueDocument -OrganizationID <Int64> [-FilterDocumentFolderId <Int64>] [-PageNumber <Int64>]
- [-PageSize <Int32>] [-AllResults] [<CommonParameters>]
+Get-ITGlueDocumentFolder -OrganizationID <Int64> [-FilterId <Int64>] [-FilterParentId <Int64>] [-Sort <String>]
+ [-PageNumber <Int64>] [-PageSize <Int32>] [-AllResults] [<CommonParameters>]
 ```
 
 ### Show
 ```powershell
-Get-ITGlueDocument [-OrganizationID <Int64>] -ID <Int64> [-Include <String>] [<CommonParameters>]
+Get-ITGlueDocumentFolder -OrganizationID <Int64> -ID <Int64> [-Include <String>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
-The Get-ITGlueDocument cmdlet returns a list of documents
-or return complete information of a document including its sections
-
-Index
-Returns only root level documents when document_folder_id is not specified
+The Get-ITGlueDocumentFolder cmdlet returns a list of
+document folders
 
 ## EXAMPLES
 
 ### EXAMPLE 1
 ```powershell
-Get-ITGlueDocument
+Get-ITGlueDocumentFolder -OrganizationID 8675309
 ```
 
-Returns the first 50 document results from your ITGlue account
+Returns the first 50 document folder results from your ITGlue account
 
 ### EXAMPLE 2
 ```powershell
-Get-ITGlueDocument -ID 8765309
+Get-ITGlueDocumentFolder -OrganizationID 8675309 -ID 8765309
 ```
 
-Returns the document with the defined id
+Returns the document folder with the defined id
 
 ### EXAMPLE 3
 ```powershell
-Get-ITGlueDocument -PageNumber 2 -PageSize 10
+Get-ITGlueDocumentFolder -OrganizationID 8675309 -PageNumber 2 -PageSize 10
 ```
 
-Returns the first 10 results from the second page for documents
+Returns the first 10 results from the second page for document folders
 in your ITGlue account
 
 ## PARAMETERS
@@ -64,7 +61,7 @@ A valid organization Id in your account
 
 ```yaml
 Type: Int64
-Parameter Sets: Index
+Parameter Sets: (All)
 Aliases:
 
 Required: True
@@ -74,19 +71,7 @@ Accept pipeline input: True (ByValue)
 Accept wildcard characters: False
 ```
 
-```yaml
-Type: Int64
-Parameter Sets: Show
-Aliases:
-
-Required: False
-Position: Named
-Default value: 0
-Accept pipeline input: True (ByValue)
-Accept wildcard characters: False
-```
-
-### -FilterDocumentFolderId
+### -FilterId
 Filter document folder id
 
 ```yaml
@@ -97,6 +82,40 @@ Aliases:
 Required: False
 Position: Named
 Default value: 0
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -FilterParentId
+Filter document folder parent id
+
+```yaml
+Type: Int64
+Parameter Sets: Index
+Aliases:
+
+Required: False
+Position: Named
+Default value: 0
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Sort
+Sort results by a defined value
+
+Allowed values:
+'name', 'created_at', 'updated_at'
+'-name', '-created_at', '-updated_at'
+
+```yaml
+Type: String
+Parameter Sets: Index
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
@@ -135,7 +154,7 @@ Accept wildcard characters: False
 ```
 
 ### -ID
-Get a document by id
+Get a document folder by id
 
 ```yaml
 Type: Int64
@@ -145,7 +164,7 @@ Aliases:
 Required: True
 Position: Named
 Default value: 0
-Accept pipeline input: True (ByValue)
+Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
@@ -153,7 +172,7 @@ Accept wildcard characters: False
 Include additional values
 
 Allowed values:
-'attachments', 'related_items'
+'user_resource_accesses', 'group_resource_accesses', 'authorized_users', 'ancestors'
 
 ```yaml
 Type: String
@@ -197,7 +216,7 @@ N/A
 
 ## RELATED LINKS
 
-[https://celerium.github.io/Celerium.ITGlue/site/Documents/Get-ITGlueDocument.html](https://celerium.github.io/Celerium.ITGlue/site/Documents/Get-ITGlueDocument.html)
+[https://celerium.github.io/Celerium.ITGlue/site/DocumentFolders/Get-ITGlueDocumentFolder.html](https://celerium.github.io/Celerium.ITGlue/site/DocumentFolders/Get-ITGlueDocumentFolder.html)
 
-[https://api.itglue.com/developer/#documents](https://api.itglue.com/developer/#documents)
+[https://api.itglue.com/developer/#document-folders](https://api.itglue.com/developer/#document-folders)
 

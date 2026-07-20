@@ -18,7 +18,7 @@
     # -- MINOR version when you add functionality in a backwards-compatible manner, and
     # -- PATCH version when you make backwards-compatible bug fixes.
 
-    ModuleVersion = '1.2.0'
+    ModuleVersion = '1.3.0'
 
     # ID used to uniquely identify this module
     GUID = 'ce707f0f-1969-4192-a08b-80f62be28f2f'
@@ -124,6 +124,11 @@
 
                     'Public/Countries/Get-ITGlueCountry.ps1',
 
+                    'Public/DocumentFolders/Get-ITGlueDocumentFolder.ps1',
+                    'Public/DocumentFolders/New-ITGlueDocumentFolder.ps1',
+                    'Public/DocumentFolders/Remove-ITGlueDocumentFolder.ps1',
+                    'Public/DocumentFolders/Set-ITGlueDocumentFolder.ps1',
+
                     'Public/Documents/Get-ITGlueDocument.ps1',
                     'Public/Documents/New-ITGlueDocument.ps1',
                     'Public/Documents/Publish-ITGlueDocument.ps1',
@@ -185,6 +190,7 @@
 
                     'Public/OrganizationStatuses/Get-ITGlueOrganizationStatus.ps1',
                     'Public/OrganizationStatuses/New-ITGlueOrganizationStatus.ps1',
+                    'Public/OrganizationStatuses/Remove-ITGlueOrganizationStatus.ps1',
                     'Public/OrganizationStatuses/Set-ITGlueOrganizationStatus.ps1',
 
                     'Public/OrganizationTypes/Get-ITGlueOrganizationType.ps1',
@@ -217,6 +223,10 @@
                     'Public/RelatedItems/New-ITGlueRelatedItem.ps1',
                     'Public/RelatedItems/Remove-ITGlueRelatedItem.ps1',
                     'Public/RelatedItems/Set-ITGlueRelatedItem.ps1',
+
+                    'Public/ResourceAccesses/New-ITGlueResourceAccess.ps1',
+                    'Public/ResourceAccesses/Remove-ITGlueResourceAccess.ps1',
+                    'Public/ResourceAccesses/Set-ITGlueResourceAccess.ps1',
 
                     'Public/UserMetrics/Get-ITGlueUserMetric.ps1',
 

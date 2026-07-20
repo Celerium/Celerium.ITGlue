@@ -87,7 +87,7 @@ function Get-ITGlueDocument {
 
         [Parameter(ParameterSetName = 'Show')]
         [ValidateSet('attachments', 'related_items')]
-        [int64]$Include,
+        [string]$Include,
 
         [Parameter(ParameterSetName = 'Index')]
         [switch]$AllResults

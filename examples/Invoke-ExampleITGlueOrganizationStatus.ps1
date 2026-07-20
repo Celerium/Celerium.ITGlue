@@ -11,10 +11,6 @@
 
         If a organization status already exists then it name is updated
 
-        As of 2024-09-28, the organization status endpoint does not support
-        deletion so you will have to manually delete the organization
-        status from ITGlue
-
         Unless the -Verbose parameter is used, no output is displayed while the script runs
 
     .PARAMETER APIKey
@@ -25,6 +21,12 @@
 
     .PARAMETER ExamplesToMake
         Defines how many examples to make
+
+    .PARAMETER RemoveExamples
+        Defines if the example data should be deleted
+
+    .PARAMETER RemoveExamplesConfirm
+        Defines if the example data should be deleted only when prompted
 
     .EXAMPLE
         .\Invoke-ExampleITGlueOrganizationStatus.ps1 -Verbose
@@ -69,8 +71,14 @@
         [string]$APIUri,
 
         [Parameter()]
-        [ValidateRange(1, 5)]
-        [int64]$ExamplesToMake = 3
+        [switch]$RemoveExamples,
+
+        [Parameter()]
+        [switch]$RemoveExamplesConfirm,
+
+        [Parameter()]
+        [ValidateRange(1, 100)]
+        [int64]$ExamplesToMake = 5
 
     )
 
@@ -187,7 +195,31 @@ $StepNumber++
 
 #EndRegion  [ Example Code ]
 
-    Write-Warning " -       - $(Get-Date -Format MM-dd-HH:mm) - You will have to manually delete [ $(($ExampleReturnData.data | Measure-Object).Count) ] organization Statuses from ITGlue"
+#Region     [ Example Cleanup ]
+
+if ($RemoveExamples -and $ExampleReturnData) {
+
+    Write-Verbose " - ($StepNumber/4) - $(Get-Date -Format MM-dd-HH:mm) - Deleting examples"
+    $StepNumber++
+
+    if ($RemoveExamplesConfirm) { Read-Host "Press enter to delete [ $( ($ExampleReturnData.data | Measure-Object).Count) ] statues" }
+
+            foreach ($OrganizationStatus in $ExampleReturnData) {
+                Write-Verbose " -       - $(Get-Date -Format MM-dd-HH:mm) - Deleting organization status [ $($OrganizationStatus.data.attributes.name) ]"
+                $DeletedData = Remove-ITGlueOrganizationStatus -ID $OrganizationStatus.data.id -Confirm:$false
+            }
+
+}
+
+    #Helpful global troubleshooting variable
+    Set-Variable -Name "$($FunctionName)_Return" -Value $ExampleReturnData -Scope Global -Force
+
+    $ExampleReturnData
+
+    Write-Verbose " - ($StepNumber/4) - $(Get-Date -Format MM-dd-HH:mm) - Done"
+
+
+#EndRegion  [ Example Cleanup ]
 
     #Helpful global troubleshooting variable
     Set-Variable -Name "$($FunctionName)_Return" -Value $ExampleReturnData -Scope Global -Force
